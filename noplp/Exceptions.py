@@ -9,5 +9,8 @@ class ScrapperGetPageError(ScrapperError):
 class ScrapperProcessingLyrics(ScrapperError):
     """Error when processing the source to extract the lyrics."""
 
+class ScrapperProcessingDates(ScrapperError):
+    """Error when processing the source to extract the occurence dates."""
+
 class SongError(Exception):
     """Generic Song error."""
