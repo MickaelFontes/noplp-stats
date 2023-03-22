@@ -15,7 +15,10 @@ class Song:
     def __init__(self, title: str = '', lyrics: str = '', dates: Union[list[date], None] = None):
         self.title = title
         self.lyrics = lyrics
-        self.dates  = dates
+        if dates is None:
+            self.dates = []
+        else:
+            self.dates = dates
 
     def __str__(self) -> str:
         return f"Song instance of the title '{self.title}'"

@@ -1,13 +1,15 @@
 """Definition of the Scrapper class."""
 
 from datetime import date
+from typing import Union
 import json
 import re
 import requests
 
 import dateparser
 
-from Exceptions import ScrapperGetPageError, ScrapperProcessingLyrics, ScrapperProcessingDates
+from Exceptions import (ScrapperGetPageError, ScrapperProcessingLyrics,
+    ScrapperProcessingDates, ScrapperTypePageError)
 from Song import Song
 
 class Scrapper:
@@ -20,8 +22,29 @@ class Scrapper:
 
     API_PAGE_ENDPOINT = "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
 
-    def __init__(self) -> None:
-        self.data = None
+    def __init__(self, data: Union[dict, None] = None) -> None:
+        if data is None:
+            self.data = {}
+        else:
+            self.data = data
+
+    def checkRelevantSongPage(self) -> bool:
+        """Perform some check to see if the page is a song page we want.
+
+        Returns:
+            bool: True if relevant, else False
+        """
+        searched_words = ["[[Liste des chansons existantes|Retour à la liste des chansons]]",
+                          "Interprète",
+                          "== Paroles ==",
+                          "== Dates de sortie =="]
+
+        if "Chanson non proposée" in self.data["source"]:
+            title = self.data.get("title")
+            print(f"The song '{title}' never appeared on the show.")
+            return False
+
+        return all(word in self.data["source"] for word in searched_words)
 
     def getSong(self, page :str) -> Song:
         """get the song page from the wiki API.
@@ -31,17 +54,24 @@ class Scrapper:
             page (str): JSON response of the API
 
         Raises:
-            ScrapperError: if no page is found
+            ScrapperGetPageError: Error when requesting the page.
+            ScrapperGetPageError: The downloaded page is not a song page.
             
         Returns:
             song (Song): Song instance with the data obtained from the API
         """
         r = requests.get(Scrapper.API_PAGE_ENDPOINT + page)
         if r.status_code == 200:
-            print("API response: HTTP 200")
+            #print("API response: HTTP 200")
             self.data = json.loads(r.text)
         else:
-            raise ScrapperGetPageError(r.status_code)
+            raise ScrapperGetPageError(f"name: {r.url} ; {r.status_code}")
+
+        # Check this is a relevant song page
+        if not self.checkRelevantSongPage():
+            raise ScrapperTypePageError("The downloaded page source may not be a song page.")
+
+        # Then extract and parse relevant data
         title = self.data['title']
         lyrics = self.extractLyrics()
         dates = self.extractDates()
@@ -51,7 +81,7 @@ class Scrapper:
         """method used to extract the lyrcis from the source field obtained from the API.
 
         Raises:
-            ScrapperProcessingLyrics: Error when applying the regex to extract
+            ScrapperProcessingLyrics: Error when applying the regex to extract lyrics.
 
         Returns:
             str: lyrics
@@ -120,9 +150,9 @@ class Scrapper:
         Returns:
             date: Date of song occurence.
         """
-        regex_date = re.search(r"\|(\w* \w* \w* \w*)( ;|])", line)
+        regex_date = re.search(r"\w+ \d+\w* \w+ \d+", line)
         if regex_date:
-            date_text = regex_date.group(1)
+            date_text = regex_date.group()
             # # Then remove eventual letter in date number (eg: 1er, 2e, etc.)
             # date = re.sub(r"(\d+)[a-zA-Z]+",r"\1", date)
             # -> No need, dateparser does the job
