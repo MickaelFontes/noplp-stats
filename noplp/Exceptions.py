@@ -3,6 +3,9 @@
 class ScrapperError(Exception):
     """Generic Scrapper error."""
 
+class ScrapperTypePageError(ScrapperError):
+    """The requested page is not a song page."""
+
 class ScrapperGetPageError(ScrapperError):
     """Error when reaching the API to get the song page."""
 
