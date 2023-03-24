@@ -9,11 +9,17 @@ class ScrapperTypePageError(ScrapperError):
 class ScrapperGetPageError(ScrapperError):
     """Error when reaching the API to get the song page."""
 
+class ScrapperProcessingSinger(ScrapperError):
+    """Error when processing the source to extract the lyrics."""
+
 class ScrapperProcessingLyrics(ScrapperError):
     """Error when processing the source to extract the lyrics."""
 
 class ScrapperProcessingDates(ScrapperError):
     """Error when processing the source to extract the occurence dates."""
+
+class ScrapperProcessingPoints(ScrapperError):
+    """Error when processing the source to extract the points category."""
 
 class SongError(Exception):
     """Generic Song error."""

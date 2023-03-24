@@ -1,7 +1,7 @@
 """Definition of the Scrapper class."""
 
 from datetime import date
-from typing import Union
+from typing import Tuple
 import json
 import re
 import requests
@@ -9,7 +9,8 @@ import requests
 import dateparser
 
 from Exceptions import (ScrapperGetPageError, ScrapperProcessingLyrics,
-    ScrapperProcessingDates, ScrapperTypePageError)
+    ScrapperProcessingDates, ScrapperTypePageError, ScrapperProcessingPoints,
+    ScrapperProcessingSinger)
 from Song import Song
 
 class Scrapper:
@@ -22,11 +23,8 @@ class Scrapper:
 
     API_PAGE_ENDPOINT = "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
 
-    def __init__(self, data: Union[dict, None] = None) -> None:
-        if data is None:
-            self.data = {}
-        else:
-            self.data = data
+    def __init__(self) -> None:
+        self._data = {}
 
     def checkRelevantSongPage(self) -> bool:
         """Perform some check to see if the page is a song page we want.
@@ -39,12 +37,10 @@ class Scrapper:
                           "== Paroles ==",
                           "== Dates de sortie =="]
 
-        if "Chanson non proposée" in self.data["source"]:
-            title = self.data.get("title")
-            print(f"The song '{title}' never appeared on the show.")
+        if "Chanson non proposée" in self._data["source"]:
             return False
 
-        return all(word in self.data["source"] for word in searched_words)
+        return all(word in self._data["source"] for word in searched_words)
 
     def getSong(self, page :str) -> Song:
         """get the song page from the wiki API.
@@ -62,20 +58,47 @@ class Scrapper:
         """
         r = requests.get(Scrapper.API_PAGE_ENDPOINT + page)
         if r.status_code == 200:
-            #print("API response: HTTP 200")
-            self.data = json.loads(r.text)
+            self._data = json.loads(r.text)
         else:
             raise ScrapperGetPageError(f"name: {r.url} ; {r.status_code}")
 
+        # clean up source from problematic html tag
+        self._data["source"] = self._data["source"].replace("<u>", "").replace("</u>", "")
         # Check this is a relevant song page
         if not self.checkRelevantSongPage():
             raise ScrapperTypePageError("The downloaded page source may not be a song page.")
 
         # Then extract and parse relevant data
-        title = self.data['title']
+        title = self._data['title']
+        singer = self.extractSinger()
         lyrics = self.extractLyrics()
-        dates = self.extractDates()
-        return Song(title=title, lyrics=lyrics, dates=dates)
+        dates, categories, points = self.extractDates()
+        return Song(title=title, singer=singer, lyrics=lyrics,
+                    dates=dates, categories=categories, points=points)
+
+    def extractSinger(self) -> str:
+        """Extracts the singer name from the source.
+
+        Raises:
+            ScrapperProcessingSinger: source is not available.
+            ScrapperProcessingSinger: regex for singer failed.
+
+        Returns:
+            str: Name of the singer.
+        """
+        if self._data:
+            source = self._data['source']
+        else:
+            raise ScrapperProcessingSinger('data property empty.')
+
+        #Extract singer from the source field
+        regex_search = re.search(r"Interprète\w* : (.*)",
+                                 source)
+        if regex_search is not None:
+            singer = regex_search.group(1)
+            return singer
+        else:
+            raise ScrapperProcessingSinger('No singer found by the regex.')
 
     def extractLyrics(self) -> str:
         """method used to extract the lyrcis from the source field obtained from the API.
@@ -86,8 +109,8 @@ class Scrapper:
         Returns:
             str: lyrics
         """
-        if self.data:
-            source = self.data['source']
+        if self._data:
+            source = self._data['source']
         else:
             raise ScrapperProcessingLyrics('data property empty.')
 
@@ -102,7 +125,7 @@ class Scrapper:
         else:
             raise ScrapperProcessingLyrics('No lyrics found by the regex.')
 
-    def extractDates(self) -> list[date]:
+    def extractDates(self) -> Tuple[list[date], list[str], list[int]]:
         """Method to extract the occurence dates of the song from the page source.
         
         Extract the relevant section from source, then matches each relevant line and calls
@@ -118,8 +141,10 @@ class Scrapper:
         """
         # First, select only the target section
         dates: list[date] = []
-        if self.data:
-            source: str = self.data['source']
+        categories: list[str] = []
+        points: list[int] = []
+        if self._data:
+            source: str = self._data['source']
         else:
             raise ScrapperProcessingDates('data property empty.')
         regex_section = re.search(r"== Dates de sortie ==[\S\s]*?== Trous ==", source)
@@ -130,11 +155,15 @@ class Scrapper:
         # Then extract each line with an occurence date
         regex_each_date = re.findall(r"#.*", section)
         if regex_each_date:
-            for song_date in regex_each_date:
-                dates.append(self.processDateLine(song_date))
+            for song_date_line in regex_each_date:
+                song_date_line = song_date_line.replace("'", "")
+                dates.append(self.processDateLine(song_date_line))
+                cat, pt = self.processPointsLine(song_date_line)
+                categories.append(cat)
+                points.append(pt)
         else:
             raise ScrapperProcessingDates('No date lines found by the regex.')
-        return dates
+        return dates, categories, points
 
     @staticmethod
     def processDateLine(line: str) -> date:
@@ -163,4 +192,33 @@ class Scrapper:
                 raise ScrapperProcessingDates('Did not manage to parse the date.\n\n' + date_text)
         else:
             raise ScrapperProcessingDates('No date found in the provided line\n\n' + line)
-        
+
+    @staticmethod
+    def processPointsLine(line: str) -> Tuple[str, int]:
+        """Processes a date line to extract points category.
+
+        Args:
+            line (str): line of a date occurence.
+
+        Raises:
+            ScrapperProcessingPoints: No category have been extracted.
+
+        Returns:
+            Tuple[str, int]: category name, nb of points if any.
+        """
+        regex = re.search(
+            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou)", line)
+        if regex:
+            points_text = regex.group(1)
+            checks = ["point", "prise"]
+            if any([x in points_text for x in checks]):
+                return "Points", int(points_text[0]+"0") # manual fix for found typos
+            else:
+                return points_text, -1
+        else:
+            regex_extract = re.search(
+                r"\s*((\w+\s)*\w+)\s*:", line)
+            if regex_extract:
+                return regex_extract.group(1), -1
+            else:
+                raise ScrapperProcessingPoints('No points category found in the line\n\n' + line)
