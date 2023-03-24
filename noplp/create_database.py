@@ -10,7 +10,7 @@ from Scrapper import Scrapper
 
 def main():
     full_page_list = get_all_page_list(test=True)
-    full_song_list = []
+    all_songs = []
     scrap = Scrapper()
     nb_song = 0
     nb_lyrics = 0
@@ -18,6 +18,7 @@ def main():
     for title in full_page_list:
         try:
             page_url = parse.quote(title, safe="")
+            print(title)
             song = scrap.getSong(page_url)
         except ScrapperTypePageError:
             #print(f"'{title}' is NOT a relevant song page.")
@@ -32,7 +33,7 @@ def main():
             #print()
             pass
         else:
-            full_song_list.append(song)
+            all_songs.append(song)
             #print(f"'{title}' is a GOOD song page.")
             nb_song += 1
         print("==========")
@@ -40,10 +41,13 @@ def main():
         print("No dates: ", nb_dates)
         print("No lyrics: ", nb_lyrics)
     print("=====END=====")
-    df = pd.DataFrame({'name': [song.title for song in full_song_list for _ in range(len(song.dates))],
-                 'date': [date for song in full_song_list for date in song.dates]})
+    df = pd.DataFrame({'name': [song.title for song in all_songs for _ in range(len(song.dates))],
+                 'singer': [song.singer for song in all_songs for _ in range(len(song.dates))],
+                 'date': [date for song in all_songs for date in song.dates],
+                 'category': [category for song in all_songs for category in song.categories],
+                 'points': [point for song in all_songs for point in song.points]})
     df['date'] = pd.to_datetime(df['date'])
-    df.to_csv('data/db_test.csv', index=False)
+    df.to_csv('data/db_test_full.csv', index=False)
 
 def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
     return ("https://n-oubliez-pas-les-paroles.fandom.com/fr/api.php?"
@@ -55,9 +59,9 @@ def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
 def get_all_page_list(test: bool = True) -> list[str]:
     url: str
     if test:
-        url = generate_url(0, 25, 25)
+        url = generate_url(0, 0, 500)
     else:
-        url = generate_url(0, 500)
+        url = generate_url(0, 0, 500)
     r: requests.Response = requests.get(url)
     data: dict = json.loads(r.text)
     pages_list: list[str] = [row['title'] for row in data['query']['backlinks']]
@@ -70,7 +74,7 @@ def get_all_page_list(test: bool = True) -> list[str]:
         r = requests.get(url)
         data = json.loads(r.text)
         pages_list += [row['title'] for row in data['query']['backlinks']]
-        
+
 
     print(len(pages_list))
     return pages_list
