@@ -1,44 +1,37 @@
-import datetime
-
 from dash import Dash, dcc, html, Input, Output
-import pandas as pd
 import plotly.express as px
+
+from pages.utils import (getCategoryOpts,
+                   getPointsOpts,
+                   getDateRangeObject,
+                   filter_date,
+                   unixToDatetime)
 
 app = Dash(__name__)
 
-df = pd.read_csv('data/db_test.csv', index_col=None)
-df['date'] = pd.to_datetime(df['date'])
 
 app.layout = html.Div([
     html.H4('Popular songs of NOPLP'),
     dcc.Graph(id="graph"),
-    dcc.RangeSlider(
-        id = 'datetime_RangeSlider',
-        updatemode = 'mouseup', #don't let it update till mouse released
-        min = 0,
-        max = 200,
-        value = [0,200],
-        tooltip={"placement": "bottom", "always_visible": True}
-    ),
+    getDateRangeObject(),
     html.H4('Most popular songs by category'),
     html.Div([dcc.Dropdown(
-            df['category'].unique(),
-            'Points',
+            options=getCategoryOpts(),
+            value='Points',
             id='category-selector'
             )], style={'width': '48%', 'display': 'inline-block'}),
     html.Div([dcc.Dropdown(
-            sorted(df['points'].unique())[1:],
-            [50,40,30,20,10],
+            options=getPointsOpts(),
+            value=[50,40,30,20,10],
             id='points-selector',
             multi=True
             )], style={'width': '48%', 'float': 'right', 'display': 'inline-block'}),
     dcc.Graph(id="sorted-graph")
-
 ])
 
 @app.callback(
     Output('graph', 'figure'),
-    Input('datetime_RangeSlider', 'value')
+    Input('year_slider', 'value')
     )
 def update_figure(date_range):
     graph_df = filter_date(date_range)
@@ -54,7 +47,7 @@ def update_figure(date_range):
 
 @app.callback(
     Output('sorted-graph', 'figure'),
-    Input('datetime_RangeSlider', 'value'),
+    Input('year_slider', 'value'),
     Input('category-selector', 'value'),
     Input('points-selector', 'value')
     )
@@ -80,12 +73,12 @@ def update_figure2(date_range, category_value, points_selector):
     fig2.update_layout(height=500, xaxis={'categoryorder':'total descending'})
     return fig2
 
-def filter_date(date_range):
-    now = datetime.datetime.now()
-    small, big = date_range
-    graph_df = df[now - df['date'] <= datetime.timedelta(days=30*big)] # type: ignore
-    graph_df = graph_df[now - graph_df['date'] >= datetime.timedelta(days=30*small)]
-    return graph_df
+@app.callback(
+    Output('time-range-label', 'children'),
+    Input('year_slider', 'value'))
+def _update_time_range_label(year_range):
+    return (f'From {unixToDatetime(year_range[0]).date()} '
+           f'to {unixToDatetime(year_range[1]).date()}')
 
 
 if __name__ == "__main__":
