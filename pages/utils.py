@@ -65,3 +65,9 @@ def getDateRangeObject():
         ],
         style={'margin-top': '20'}
     )
+
+def getSongs():
+    return df['name'].unique()
+
+def filter_song(song_name):
+    return df[df['name'] == song_name]
