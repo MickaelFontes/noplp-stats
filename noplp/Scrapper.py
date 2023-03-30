@@ -24,6 +24,7 @@ class Scrapper:
     API_PAGE_ENDPOINT = "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
 
     def __init__(self) -> None:
+        self._title = ""
         self._data = {}
 
     def checkRelevantSongPage(self) -> bool:
@@ -34,8 +35,8 @@ class Scrapper:
         """
         searched_words = ["[[Liste des chansons existantes|Retour à la liste des chansons]]",
                           "Interprète",
-                          "== Paroles ==",
-                          "== Dates de sortie =="]
+                          "Paroles",
+                          "Dates de sortie"]
 
         if "Chanson non proposée" in self._data["source"]:
             return False
@@ -69,11 +70,11 @@ class Scrapper:
             raise ScrapperTypePageError("The downloaded page source may not be a song page.")
 
         # Then extract and parse relevant data
-        title = self._data['title']
+        self._title = self._data['title']
         singer = self.extractSinger()
         lyrics = self.extractLyrics()
         dates, categories, points = self.extractDates()
-        return Song(title=title, singer=singer, lyrics=lyrics,
+        return Song(title=self._title, singer=singer, lyrics=lyrics,
                     dates=dates, categories=categories, points=points)
 
     def extractSinger(self) -> str:
@@ -115,9 +116,9 @@ class Scrapper:
             raise ScrapperProcessingLyrics('data property empty.')
 
         #Extract lyrics from the source field
-        regex_search = re.search(r"== Paroles ==[\s\S]*?(''[\s\S]*'')[\s\S]*?== Dates de sortie ==",
+        regex_search = re.search(r"==\s{0,5}Paroles\s{0,5}==[\s\S]*?(''[\s\S]*'')[\s\S]*?==\s{0,5}Dates de sortie\s{0,5}==",
                                  source)
-        if regex_search is not None:
+        if regex_search:
             lyrics = regex_search.group(1)
             lyrics = lyrics.replace("'\n\n'", "'\n'").replace("\n\n", "\n")
             lyrics = lyrics.replace("'''", "").replace("''", "").replace("’", "'")
@@ -147,7 +148,7 @@ class Scrapper:
             source: str = self._data['source']
         else:
             raise ScrapperProcessingDates('data property empty.')
-        regex_section = re.search(r"== Dates de sortie ==[\S\s]*?== Trous ==", source)
+        regex_section = re.search(r"==\s{0,5}Dates de sortie\s{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==", source)
         if regex_section:
             section = regex_section.group(0)
         else:
@@ -156,11 +157,14 @@ class Scrapper:
         regex_each_date = re.findall(r"#.*", section)
         if regex_each_date:
             for song_date_line in regex_each_date:
-                song_date_line = song_date_line.replace("'", "")
-                dates.append(self.processDateLine(song_date_line))
-                cat, pt = self.processPointsLine(song_date_line)
-                categories.append(cat)
-                points.append(pt)
+                if re.match(r"^#\S*$", song_date_line): # empty line
+                    continue
+                else:
+                    song_date_line = song_date_line.replace("'", "")
+                    dates.append(self.processDateLine(song_date_line))
+                    cat, pt = self.processPointsLine(song_date_line)
+                    categories.append(cat)
+                    points.append(pt)
         else:
             raise ScrapperProcessingDates('No date lines found by the regex.')
         return dates, categories, points
