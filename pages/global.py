@@ -121,9 +121,9 @@ def update_coverage_figure(date_range):
         data_frame=graph_all,
         x="nb",
         y="date",
-        color="category"
+        color="category",
+        hover_data={"name": True, "nb": True, "date": False, "category": True}
     )
-    # fig.update_layout(height=500, xaxis={'categoryorder':'total descending'})
     return fig
 
 def return_df_cumsum_category(df, cat):
