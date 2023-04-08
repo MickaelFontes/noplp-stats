@@ -5,7 +5,7 @@ from dash import dcc, html
 import pandas as pd
 
 
-df = pd.read_csv('data/db_test.csv', index_col=None)
+df = pd.read_csv('data/db_test_full.csv', index_col=None)
 df['date'] = pd.to_datetime(df['date'])
 
 def unixTimeMillis(dt):
