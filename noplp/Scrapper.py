@@ -70,7 +70,7 @@ class Scrapper:
             raise ScrapperTypePageError("The downloaded page source may not be a song page.")
 
         # Then extract and parse relevant data
-        self._title = self._data['title']
+        self._title = self._data['title'].replace('"', "")
         singer = self.extractSinger()
         lyrics = self.extractLyrics()
         dates, categories, points = self.extractDates()
@@ -97,6 +97,7 @@ class Scrapper:
                                  source)
         if regex_search is not None:
             singer = regex_search.group(1)
+            singer = singer.replace('"', "")
             return singer
         else:
             if self._singer_required:
@@ -212,7 +213,7 @@ class Scrapper:
             Tuple[str, int]: category name, nb of points if any.
         """
         regex = re.search(
-            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou)", line)
+            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi)", line)
         if regex:
             points_text = regex.group(1)
             checks = ["point", "prise"]
