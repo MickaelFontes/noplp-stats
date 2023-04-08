@@ -4,7 +4,7 @@ import dash
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = Dash(__name__, use_pages=True,
            external_stylesheets=external_stylesheets)
-
+server = app.server
 app.title = "NOPLP stats - Statistics of occurences on NOPLP"
 
 
