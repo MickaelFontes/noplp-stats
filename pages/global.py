@@ -111,15 +111,12 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
 def update_coverage_figure(date_range):
     graph_df = filter_date(date_range)
     graph_df['category'] = graph_df['points'].astype(str) + " " + graph_df['category']
-    # print(graph_df)
     graph_maestro = return_df_cumsum_category(graph_df, '-1 Maestro')
-    # print(graph_maestro)
     graph_50 = return_df_cumsum_category(graph_df, '50 Points')
     graph_40 = return_df_cumsum_category(graph_df, '40 Points')
     graph_30 = return_df_cumsum_category(graph_df, '30 Points')
     graph_meme = return_df_cumsum_category(graph_df, '-1 Même chanson')
     graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
-    print(graph_all)
     fig = px.line(
         data_frame=graph_all,
         x="nb",
@@ -130,17 +127,12 @@ def update_coverage_figure(date_range):
     return fig
 
 def return_df_cumsum_category(df, cat):
-    # print(df)
-    # print('df--------------')
     graph_df = df[df['category'] == cat]
-    # print(graph_df)
     graph_df = graph_df.groupby(by=["name"], as_index=False)['date'].count()
     graph_df = graph_df.sort_values(ascending=False, by=['date'])
-    # print('graph_df --------------')
     graph_df['date'] = graph_df['date'].cumsum()
     graph_df['date'] = graph_df['date']/graph_df['date'].max()
     graph_df['nb'] = 1
     graph_df['nb'] = graph_df['nb'].cumsum()
     graph_df['category'] = cat
-    # print(graph_df)
     return graph_df
