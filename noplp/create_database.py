@@ -1,53 +1,56 @@
+from functools import partial
 from urllib import parse
 import json
+import multiprocessing
 import requests
 
 
 import pandas as pd
 
-from Exceptions import ScrapperTypePageError, ScrapperProcessingLyrics, ScrapperProcessingDates
+from Exceptions import (ScrapperTypePageError, ScrapperProcessingLyrics,
+                        ScrapperProcessingDates, ScrapperProcessingPoints)
 from Scrapper import Scrapper
 
 def main():
-    full_page_list = get_all_page_list(test=True)
+    full_page_list = get_all_page_list(test=False)
     all_songs = []
-    scrap = Scrapper()
-    nb_song = 0
-    nb_lyrics = 0
-    nb_dates = 0
-    for title in full_page_list:
-        try:
-            page_url = parse.quote(title, safe="")
-            print(title)
-            song = scrap.getSong(page_url)
-        except ScrapperTypePageError:
-            #print(f"'{title}' is NOT a relevant song page.")
-            pass
-        except ScrapperProcessingLyrics:
-            #print(f"'{title}' has no lyrics.")
-            nb_lyrics += 1
-        except ScrapperProcessingDates:
-            #print(f"'{title}' has no dates.")
-            nb_dates += 1
-        except requests.exceptions.ConnectionError:
-            #print()
-            pass
-        else:
-            all_songs.append(song)
-            #print(f"'{title}' is a GOOD song page.")
-            nb_song += 1
-        print("==========")
-        print("Full songs: ", nb_song)
-        print("No dates: ", nb_dates)
-        print("No lyrics: ", nb_lyrics)
-    print("=====END=====")
-    df = pd.DataFrame({'name': [song.title for song in all_songs for _ in range(len(song.dates))],
-                 'singer': [song.singer for song in all_songs for _ in range(len(song.dates))],
-                 'date': [date for song in all_songs for date in song.dates],
-                 'category': [category for song in all_songs for category in song.categories],
-                 'points': [point for song in all_songs for point in song.points]})
+    scrap = Scrapper(singer_required=False)
+    pd.DataFrame({'title': full_page_list}).to_csv("data/songs.csv")
+    individual_song_partial = partial(individual_song_scrap, scrap)
+    with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
+        all_songs = p.map(individual_song_partial, full_page_list)
+    real_songs = []
+    for song_maybe in all_songs:
+        if song_maybe:
+            real_songs.append(song_maybe)
+    df = pd.DataFrame({'name': [song.title for song in real_songs for _ in range(len(song.dates))],
+                 'singer': [song.singer for song in real_songs for _ in range(len(song.dates))],
+                 'date': [date for song in real_songs for date in song.dates],
+                 'category': [category for song in real_songs for category in song.categories],
+                 'points': [point for song in real_songs for point in song.points]})
     df['date'] = pd.to_datetime(df['date'])
     df.to_csv('data/db_test_full.csv', index=False)
+
+def individual_song_scrap(scrap, title):
+    page_url = parse.quote(title, safe="")
+    # print(title)
+    try:
+        song = scrap.getSong(page_url)
+    except ScrapperTypePageError:
+        print(f"'{title}' is NOT a relevant song page.")
+        pass
+    except ScrapperProcessingLyrics:
+        print(f"'{title}' has no lyrics.")
+    except ScrapperProcessingDates:
+        print(f"'{title}' has no dates.")
+    except ScrapperProcessingPoints:
+        print(f"'{title}' has no POINTS.")
+    except requests.exceptions.ConnectionError:
+        #print()
+        pass
+    else:
+        return song
+        #print(f"'{title}' is a GOOD song page.")
 
 def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
     return ("https://n-oubliez-pas-les-paroles.fandom.com/fr/api.php?"
