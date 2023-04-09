@@ -2,9 +2,9 @@ name: Deploy to App Engine
 
 on:
   push:
-    branches: [ main, 11-add-cd ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, 11-add-cd ]
+    branches: [ main ]
 
 jobs:
   deploy-app-engine:
