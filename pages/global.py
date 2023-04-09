@@ -25,10 +25,10 @@ layout = html.Div([
                id='nb-songs',
                tooltip={"placement": "bottom", "always_visible": True}
     )]),
-    dcc.Markdown('rien', id="test"),
+    dcc.Markdown('rien', id="stats-global"),
     html.H4('Most popular songs of NOPLP'),
     dcc.Graph(id="graph"),
-    getDateRangeObject(),
+    getDateRangeObject(id='global-'),
     html.H4('Most popular songs by category'),
     html.Div([dcc.Dropdown(
             options=getCategoryOpts(),
@@ -42,15 +42,27 @@ layout = html.Div([
             multi=True
             )], style={'width': '48%', 'float': 'right', 'display': 'inline-block'}),
     dcc.Graph(id="sorted-graph"),
-    dcc.Markdown('rien', id="test-second"),
+    dcc.Markdown('rien', id="stats-category"),
     html.H4('Coverage of categories by number of songs'),
-    dcc.Graph(id="coverage-graph")
+    dcc.Graph(id="coverage-graph"),
+    getDateRangeObject(id='coverage-')
 ])
 
 @callback(
+    Output("points-selector", "options"),
+    Output("points-selector", "value"),
+    Input("category-selector", "value")
+    )
+def update_options_category(category):
+    if category == "Points":
+        return getPointsOpts(), [50,40,30,20,10]
+    else:
+        return [], None
+
+@callback(
     Output('graph', 'figure'),
-    Output('test', 'children'),
-    Input('year_slider', 'value'),
+    Output('stats-global', 'children'),
+    Input('global-year_slider', 'value'),
     Input('nb-songs', 'value')
     )
 def update_figure(date_range, nb_songs):
@@ -71,8 +83,8 @@ def update_figure(date_range, nb_songs):
 
 @callback(
     Output('sorted-graph', 'figure'),
-    Output('test-second','children'),
-    Input('year_slider', 'value'),
+    Output('stats-category','children'),
+    Input('global-year_slider', 'value'),
     Input('category-selector', 'value'),
     Input('points-selector', 'value'),
     Input('nb-songs', 'value')
@@ -106,7 +118,7 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
 
 @callback(
     Output('coverage-graph', 'figure'),
-    Input('year_slider', 'value')
+    Input('coverage-year_slider', 'value')
     )
 def update_coverage_figure(date_range):
     graph_df = filter_date(date_range)
@@ -122,7 +134,7 @@ def update_coverage_figure(date_range):
         x="nb",
         y="date",
         color="category",
-        hover_data={"name": True, "nb": True, "date": False, "category": True}
+        hover_data={"name": True, "nb": True, "date": True, "category": True}
     )
     return fig
 

@@ -59,8 +59,12 @@ def update_timeline(song_name):
     return fig
 
 @callback(
-    Output('time-range-label', 'children'),
-    Input('year_slider', 'value'))
-def _update_time_range_label(year_range):
-    return (f'From {unixToDatetime(year_range[0]).date()} '
-           f'to {unixToDatetime(year_range[1]).date()}')
+    Output('global-time-range-label', 'children'),
+    Output('coverage-time-range-label', 'children'),
+    Input('global-year_slider', 'value'),
+    Input('coverage-year_slider', 'value'))
+def _update_time_range_label(year_range_global, year_range_coverage):
+    return (f'From {unixToDatetime(year_range_global[0]).date()} '
+           f'to {unixToDatetime(year_range_global[1]).date()}', 
+           f'From {unixToDatetime(year_range_coverage[0]).date()} '
+           f'to {unixToDatetime(year_range_coverage[1]).date()}')
