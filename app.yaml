@@ -1,0 +1,6 @@
+runtime: python39
+instance_class: F1
+automatic_scaling:
+  max_instances: 1
+service_account: app-engine-instance@noplp-stats.iam.gserviceaccount.com
+entrypoint: gunicorn -b :8080 -w 2 app:server # See here https://cloud.google.com/appengine/docs/standard/python3/runtime#entrypoint_best_practices

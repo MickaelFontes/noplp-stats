@@ -1,0 +1,23 @@
+name: Deploy to App Engine
+
+on:
+  push:
+    branches: [ main, 11-add-cd ]
+  pull_request:
+    branches: [ main, 11-add-cd ]
+
+jobs:
+  job_id:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/473129746304/locations/global/workloadIdentityPools/github-pool/providers/github-action-provider'
+        service_account: 'app-engine-github-action@noplp-stats.iam.gserviceaccount.com'
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v1'
