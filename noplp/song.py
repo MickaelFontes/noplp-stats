@@ -1,9 +1,15 @@
 """Definition of the Song class."""
 
+from dataclasses import dataclass
 from datetime import date
+<<<<<<< HEAD:noplp/song.py
 from typing import Union
 
 
+=======
+
+@dataclass
+>>>>>>> c5dcb20 (♻️ Switch Song for dataclass and add show number):noplp/Song.py
 class Song:
     # pylint: disable=too-few-public-methods
     """Class used to manage song instances imported from API data.
@@ -14,6 +20,7 @@ class Song:
         title: A string with the title of the song.
         lyrics: An string with the lyrics obtained from the Wiki API.
     """
+<<<<<<< HEAD:noplp/song.py
 
     def __init__(
         self,
@@ -40,6 +47,15 @@ class Song:
             self.points = []
         else:
             self.points = points
+=======
+    title: str
+    singer: str
+    lyrics: str
+    dates: list[date]
+    categories: list[str]
+    points: list[int]
+    emissions: list[int]
+>>>>>>> c5dcb20 (♻️ Switch Song for dataclass and add show number):noplp/Song.py
 
     def __str__(self) -> str:
         return f"Song instance of the title '{self.title}'"
