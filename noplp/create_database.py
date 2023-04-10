@@ -13,6 +13,7 @@ from noplp.exceptions import (
     ScrapperProcessingLyrics,
     ScrapperProcessingDates,
     ScrapperProcessingPoints,
+    ScrapperProcessingEmissions,
 )
 from noplp.scrapper import Scrapper
 from noplp.song import Song
@@ -27,6 +28,8 @@ def main():
     scrap = Scrapper(singer_required=False)
     pd.DataFrame({"title": full_page_list}).to_csv("data/songs.csv")
     individual_song_partial = partial(individual_song_scrap, scrap)
+    # Remove problematic and unrelevant songs
+    full_page_list.remove('Les feuilles mortes')
     with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
         all_songs = p.map(individual_song_partial, full_page_list)
     real_songs = []
@@ -44,6 +47,9 @@ def main():
                 category for song in real_songs for category in song.categories
             ],
             "points": [point for song in real_songs for point in song.points],
+            "emissions": [
+                emission for song in real_songs for emission in song.emissions
+            ]
         }
     )
     songs_df["date"] = pd.to_datetime(songs_df["date"])
@@ -68,13 +74,18 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
         print(f"'{title}' is NOT a relevant song page.")
     except ScrapperProcessingLyrics:
         print(f"'{title}' has no lyrics.")
+        # pass
     except ScrapperProcessingDates:
         print(f"'{title}' has no dates.")
+        # pass
     except ScrapperProcessingPoints:
         print(f"'{title}' has no POINTS.")
+        # pass
     except requests.exceptions.ConnectionError:
         # print()
         pass
+    except ScrapperProcessingEmissions:
+        print(f"'{title}' has no SHOW NUMBER.")
     else:
         # print(f"'{title}' is a GOOD song page.")
         return song

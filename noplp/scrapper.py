@@ -15,6 +15,7 @@ from noplp.exceptions import (
     ScrapperTypePageError,
     ScrapperProcessingPoints,
     ScrapperProcessingSinger,
+    ScrapperProcessingEmissions,
 )
 from noplp.song import Song
 
@@ -87,7 +88,7 @@ class Scrapper:
         self._title = self._data["title"].replace('"', "")
         singer = self.extract_singer()
         lyrics = self.extract_lyrics()
-        dates, categories, points = self.extract_dates()
+        dates, categories, points, emissions = self.extract_dates()
         return Song(
             title=self._title,
             singer=singer,
@@ -95,6 +96,7 @@ class Scrapper:
             dates=dates,
             categories=categories,
             points=points,
+            emissions=emissions,
         )
 
     def extract_singer(self) -> str:
@@ -152,7 +154,7 @@ class Scrapper:
         lyrics = lyrics.replace("'''", "").replace("''", "").replace("’", "'")
         return lyrics
 
-    def extract_dates(self) -> Tuple[list[date], list[str], list[int]]:
+    def extract_dates(self) -> Tuple[list[date], list[str], list[int], list[int]]:
         """Method to extract the occurence dates of the song from the page source.
 
         Extract the relevant section from source, then matches each relevant line and calls
@@ -170,6 +172,7 @@ class Scrapper:
         dates: list[date] = []
         categories: list[str] = []
         points: list[int] = []
+        emissions: list[int] = []
         if self._data:
             source: str = self._data["source"]
         else:
@@ -192,13 +195,18 @@ class Scrapper:
                 song_date_line = song_date_line.replace("'", "")
                 dates.append(self.process_date_line(song_date_line))
                 category, point = self.process_points_line(song_date_line)
+                if category == "Points":  # for "émission"
+                    emission = self.process_emission_line(song_date_line)
+                else:
+                    emission = 0
                 categories.append(category)
                 points.append(point)
+                emissions.append(emission)
         else:
             raise ScrapperProcessingDates(
                 "No date lines found by the regex." + f"\n{self._title}"
             )
-        return dates, categories, points
+        return dates, categories, points, emissions
 
     def process_date_line(self, line: str) -> date:
         """Process a string line date to return the occurence date.
@@ -258,3 +266,51 @@ class Scrapper:
                 "No points category found in the line\n\n" + line + f"\n{self._title}"
             )
         return regex_extract.group(1), -1
+
+    def process_emission_line(self, line: str) -> int:
+        """Return the show/emission number.
+        Strictly positive if usual emission.
+
+        Args:
+            line (str): line of date occurrence
+
+        Raises:
+            ScrapperProcessingEmissions: line contains "émission"
+            or "rencontre" but no number found.
+
+        Returns:
+            int: occurence number
+        """
+        regex_numero = re.search(
+            r"(?:;|:|-|,|)\s{,3}(\d)\w{,4}\s{,4}\w{,7}(?:sion|ontre)", line
+        )
+        factor = 1
+        # if not usual emission
+        if any(
+            [
+                word in line.lower()
+                for word in [
+                    "tournoi",
+                    "ligue",
+                    "spécial",
+                    "prime",
+                    "ontre",
+                    "master",
+                    "enfants",
+                ]
+            ]
+        ):
+            factor = -1
+
+        if regex_numero:
+            emission = int(regex_numero.group(1))
+            return emission * factor
+        elif "unique" in line:
+            return 0
+        else:
+            if "sion" in line or "ontre" in line:
+                raise ScrapperProcessingEmissions(
+                    "No show number found in the line\n\n" + line + f"\n{self._title}"
+                )
+            else:
+                return 0
