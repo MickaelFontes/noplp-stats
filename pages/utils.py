@@ -56,13 +56,13 @@ def getCategoryOpts():
 def getPointsOpts():
     return sorted(df['points'].unique())[1:]
 
-def getDateRangeObject():
+def getDateRangeObject(id=''):
     begin, end = getTimeLimits()
     return html.Div(
         [
-            html.Label('From 2008 to 2023', id='time-range-label'),
+            html.Label('From 2008 to 2023', id=id+'time-range-label'),
             dcc.RangeSlider(
-                id='year_slider',
+                id=id+'year_slider',
                 min=begin,
                 max=end,
                 value=[begin, end],
