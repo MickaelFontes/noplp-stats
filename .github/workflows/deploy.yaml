@@ -3,8 +3,6 @@ name: Deploy to App Engine
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   deploy-app-engine:
@@ -12,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
-      id-token: 'write'
+      id-token: 'write' # for OpenID Connect JWT Token
 
     steps:
     - name: Checkout
@@ -21,8 +19,8 @@ jobs:
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
-        workload_identity_provider: 'projects/473129746304/locations/global/workloadIdentityPools/github-pool/providers/github-action-provider'
-        service_account: 'app-engine-github-action@noplp-stats.iam.gserviceaccount.com'
+        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+        service_account: ${{ secrets.GCP_SA }}
 
     - id: 'deploy'
       uses: 'google-github-actions/deploy-appengine@v1'
