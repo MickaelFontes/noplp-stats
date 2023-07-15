@@ -1,6 +1,2 @@
-#Data manipulation
-pandas
-nbformat
-#Data viz
 dash
-gunicorn
+pandas
