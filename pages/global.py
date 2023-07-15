@@ -39,7 +39,7 @@ layout = html.Div(
         dcc.Markdown("rien", id="stats-global"),
         html.H4("Most popular songs of NOPLP"),
         dcc.Graph(id="graph"),
-        get_date_range_object(id="global-"),
+        get_date_range_object(prefix_component_id="global-"),
         html.H4("Most popular songs by category"),
         html.Div(
             [
@@ -64,7 +64,7 @@ layout = html.Div(
         dcc.Markdown("", id="stats-category"),
         html.H4("Coverage of categories by number of songs"),
         dcc.Graph(id="coverage-graph"),
-        get_date_range_object(id="coverage-"),
+        get_date_range_object(prefix_component_id="coverage-"),
     ]
 )
 

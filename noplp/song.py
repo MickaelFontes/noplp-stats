@@ -2,6 +2,8 @@
 
 from datetime import date
 from typing import Union
+
+
 class Song:
     """Class used to manage song instances imported from API data.
     Data recuperation is done byt the Scrapper class.
@@ -12,12 +14,15 @@ class Song:
         lyrics: An string with the lyrics obtained from the Wiki API.
     """
 
-    def __init__(self, title: str = '',
-                 singer: str = '',
-                 lyrics: str = '',
-                 dates: Union[list[date], None] = None,
-                 categories: Union[list[str], None] = None,
-                 points: Union[list[int], None] = None):
+    def __init__(
+        self,
+        title: str = "",
+        singer: str = "",
+        lyrics: str = "",
+        dates: Union[list[date], None] = None,
+        categories: Union[list[str], None] = None,
+        points: Union[list[int], None] = None,
+    ):
         self.title = title
         self.singer = singer
         self.lyrics = lyrics
@@ -33,7 +38,6 @@ class Song:
             self.points = []
         else:
             self.points = points
-
 
     def __str__(self) -> str:
         return f"Song instance of the title '{self.title}'"
