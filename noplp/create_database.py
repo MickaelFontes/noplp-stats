@@ -15,6 +15,7 @@ from noplp.exceptions import (
     ScrapperProcessingPoints,
 )
 from noplp.scrapper import Scrapper
+from noplp.song import Song
 
 
 def main():
@@ -49,7 +50,7 @@ def main():
     songs_df.to_csv("data/db_test_full.csv", index=False)
 
 
-def individual_song_scrap(scrap: Scrapper, title: str):
+def individual_song_scrap(scrap: Scrapper, title: str) -> Song:
     """scrap a song page to create a Song
 
     Args:
@@ -117,7 +118,7 @@ def get_all_page_list(test: bool = True) -> list[str]:
     data: dict = json.loads(r.text)
     pages_list: list[str] = [row["title"] for row in data["query"]["backlinks"]]
     while "continue" in data:
-        if test:
+        if test: # we do not query the whole songs list
             break
         start, end = data["continue"]["blcontinue"].split("|", 1)
         print("while loop: ", start, end)

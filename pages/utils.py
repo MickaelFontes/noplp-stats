@@ -20,9 +20,9 @@ daterange_marks = pd.date_range(
 )
 
 
-def datetime_to_unix(dt):
+def datetime_to_unix(datetime_instance):
     """Convert datetime to unix timestamp"""
-    return int(time.mktime(dt.timetuple()))
+    return int(time.mktime(datetime_instance.timetuple()))
 
 
 def unix_to_datetime(unix):
