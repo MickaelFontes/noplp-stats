@@ -1,3 +1,4 @@
+"""Statistics page for singer speific stats."""
 import dash
 from dash import dcc, html, callback, Input, Output
 import plotly.express as px
@@ -33,6 +34,15 @@ layout = html.Div(
     Input("year_slider", "value"),
 )
 def update_figure(song_name, date_range):
+    """Update the graph with the singer's songs stats.
+
+    Args:
+        song_name (str): Song title.
+        date_range (int): date range in Unix format.
+
+    Returns:
+        figure: songs graph for selected singer.
+    """
     graph_df = filter_date(date_range)
     graph_df = graph_df[graph_df["singer"] == song_name]
     graph_df = graph_df.astype({"points": "string"})
@@ -45,8 +55,16 @@ def update_figure(song_name, date_range):
 
 
 @callback(Output("timeline-graph-singer", "figure"), Input("dropdown-singer", "value"))
-def update_timeline(song_name):
-    graph_df = filter_singer(song_name)
+def update_timeline(singer_name):
+    """Update the timeline graph of the singer
+
+    Args:
+        singer_name (str): Singer's name.
+
+    Returns:
+        fig: Graph with the songs occurences.
+    """
+    graph_df = filter_singer(singer_name)
     graph_df.insert(5, "nb", 1)
     # fix view VS copy
     graph_df = graph_df.astype({"points": "string"})

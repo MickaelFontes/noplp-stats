@@ -75,9 +75,8 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> Song:
     except requests.exceptions.ConnectionError:
         # print()
         pass
-    else:
-        return song
-        # print(f"'{title}' is a GOOD song page.")
+    # print(f"'{title}' is a GOOD song page.")
+    return song
 
 
 def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
@@ -118,7 +117,7 @@ def get_all_page_list(test: bool = True) -> list[str]:
     data: dict = json.loads(r.text)
     pages_list: list[str] = [row["title"] for row in data["query"]["backlinks"]]
     while "continue" in data:
-        if test: # we do not query the whole songs list
+        if test:  # we do not query the whole songs list
             break
         start, end = data["continue"]["blcontinue"].split("|", 1)
         print("while loop: ", start, end)

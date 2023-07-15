@@ -152,7 +152,6 @@ class Scrapper:
         lyrics = lyrics.replace("'''", "").replace("''", "").replace("’", "'")
         return lyrics
 
-
     def extract_dates(self) -> Tuple[list[date], list[str], list[int]]:
         """Method to extract the occurence dates of the song from the page source.
 
@@ -226,9 +225,7 @@ class Scrapper:
         date_object = dateparser.parse(date_text)
         if not date_object:
             raise ScrapperProcessingDates(
-                "Did not manage to parse the date.\n\n"
-                + date_text
-                + f"\n{self._title}"
+                "Did not manage to parse the date.\n\n" + date_text + f"\n{self._title}"
             )
         return date_object.date()  # We only care about the date
 
@@ -258,8 +255,6 @@ class Scrapper:
         regex_extract = re.search(r"\s*((\w+\s)*\w+)\s*:", line)
         if not regex_extract:
             raise ScrapperProcessingPoints(
-                "No points category found in the line\n\n"
-                + line
-                + f"\n{self._title}"
+                "No points category found in the line\n\n" + line + f"\n{self._title}"
             )
         return regex_extract.group(1), -1
