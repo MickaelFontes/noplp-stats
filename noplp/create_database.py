@@ -1,3 +1,4 @@
+"""Script to create the songs database used for data visualization."""
 from functools import partial
 from urllib import parse
 import json
@@ -7,15 +8,24 @@ import requests
 
 import pandas as pd
 
-from Exceptions import (ScrapperTypePageError, ScrapperProcessingLyrics,
-                        ScrapperProcessingDates, ScrapperProcessingPoints)
-from Scrapper import Scrapper
+from noplp.exceptions import (
+    ScrapperTypePageError,
+    ScrapperProcessingLyrics,
+    ScrapperProcessingDates,
+    ScrapperProcessingPoints,
+)
+from noplp.scrapper import Scrapper
+from noplp.song import Song
+
 
 def main():
+    """Performs the whole Scrapper logic to download all songs information
+    from the Fandom Wiki.
+    """
     full_page_list = get_all_page_list(test=False)
     all_songs = []
     scrap = Scrapper(singer_required=False)
-    pd.DataFrame({'title': full_page_list}).to_csv("data/songs.csv")
+    pd.DataFrame({"title": full_page_list}).to_csv("data/songs.csv")
     individual_song_partial = partial(individual_song_scrap, scrap)
     with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
         all_songs = p.map(individual_song_partial, full_page_list)
@@ -23,22 +33,39 @@ def main():
     for song_maybe in all_songs:
         if song_maybe:
             real_songs.append(song_maybe)
-    df = pd.DataFrame({'name': [song.title for song in real_songs for _ in range(len(song.dates))],
-                 'singer': [song.singer for song in real_songs for _ in range(len(song.dates))],
-                 'date': [date for song in real_songs for date in song.dates],
-                 'category': [category for song in real_songs for category in song.categories],
-                 'points': [point for song in real_songs for point in song.points]})
-    df['date'] = pd.to_datetime(df['date'])
-    df.to_csv('data/db_test_full.csv', index=False)
+    songs_df = pd.DataFrame(
+        {
+            "name": [song.title for song in real_songs for _ in range(len(song.dates))],
+            "singer": [
+                song.singer for song in real_songs for _ in range(len(song.dates))
+            ],
+            "date": [date for song in real_songs for date in song.dates],
+            "category": [
+                category for song in real_songs for category in song.categories
+            ],
+            "points": [point for song in real_songs for point in song.points],
+        }
+    )
+    songs_df["date"] = pd.to_datetime(songs_df["date"])
+    songs_df.to_csv("data/db_test_full.csv", index=False)
 
-def individual_song_scrap(scrap, title):
+
+def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
+    """scrap a song page to create a Song
+
+    Args:
+        scrap (Scrapper): Scrapper object
+        title (str): name of the song page URL
+
+    Returns:
+        None | song: Song object or nothing.
+    """
     page_url = parse.quote(title, safe="")
     # print(title)
     try:
-        song = scrap.getSong(page_url)
+        song = scrap.get_song(page_url)
     except ScrapperTypePageError:
         print(f"'{title}' is NOT a relevant song page.")
-        pass
     except ScrapperProcessingLyrics:
         print(f"'{title}' has no lyrics.")
     except ScrapperProcessingDates:
@@ -46,41 +73,64 @@ def individual_song_scrap(scrap, title):
     except ScrapperProcessingPoints:
         print(f"'{title}' has no POINTS.")
     except requests.exceptions.ConnectionError:
-        #print()
+        # print()
         pass
     else:
+        # print(f"'{title}' is a GOOD song page.")
         return song
-        #print(f"'{title}' is a GOOD song page.")
+    return None
+
 
 def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
-    return ("https://n-oubliez-pas-les-paroles.fandom.com/fr/api.php?"
-           "action=query&"
-           "format=json&"
-           "prop=&list=backlinks&iwurl=1&ascii=1&bltitle=Liste_des_chansons_existantes&"
-           f"blcontinue={start}%7C{end}&blnamespace=&bllimit={limit}")
+    """Generate URL to requests list of songs from the Fandom API.
+
+    Args:
+        start (int, optional): index start. Defaults to 0.
+        end (int, optional): index end. Defaults to 500.
+        limit (int, optional): maximum number of songs returned by the request. From 1 to 500. Defaults to 500.
+
+    Returns:
+        str: URL for request with all parameters.
+    """
+    return (
+        "https://n-oubliez-pas-les-paroles.fandom.com/fr/api.php?"
+        "action=query&"
+        "format=json&"
+        "prop=&list=backlinks&iwurl=1&ascii=1&bltitle=Liste_des_chansons_existantes&"
+        f"blcontinue={start}%7C{end}&blnamespace=&bllimit={limit}"
+    )
+
 
 def get_all_page_list(test: bool = True) -> list[str]:
+    """Generate a list of all songs pages to download.
+
+    Args:
+        test (bool, optional): If the call is a short test. Defaults to True.
+
+    Returns:
+        list[str]: List of all songs title to request.
+    """
     url: str
     if test:
         url = generate_url(0, 0, 500)
     else:
         url = generate_url(0, 0, 500)
-    r: requests.Response = requests.get(url)
+    r: requests.Response = requests.get(url, timeout=5)
     data: dict = json.loads(r.text)
-    pages_list: list[str] = [row['title'] for row in data['query']['backlinks']]
+    pages_list: list[str] = [row["title"] for row in data["query"]["backlinks"]]
     while "continue" in data:
-        if test:
+        if test:  # we do not query the whole songs list
             break
-        start, end = data['continue']['blcontinue'].split('|', 1)
+        start, end = data["continue"]["blcontinue"].split("|", 1)
         print("while loop: ", start, end)
         url = generate_url(start=start, end=end)
-        r = requests.get(url)
+        r = requests.get(url, timeout=5)
         data = json.loads(r.text)
-        pages_list += [row['title'] for row in data['query']['backlinks']]
-
+        pages_list += [row["title"] for row in data["query"]["backlinks"]]
 
     print(len(pages_list))
     return pages_list
+
 
 if __name__ == "__main__":
     main()
