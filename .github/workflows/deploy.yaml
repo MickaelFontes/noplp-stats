@@ -1,0 +1,26 @@
+name: Deploy to App Engine
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-app-engine:
+    name: Deploy on App Engine
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write' # for OpenID Connect JWT Token
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+        service_account: ${{ secrets.GCP_SA }}
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v1'
