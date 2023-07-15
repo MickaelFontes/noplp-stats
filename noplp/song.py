@@ -5,6 +5,7 @@ from typing import Union
 
 
 class Song:
+    # pylint: disable=too-few-public-methods
     """Class used to manage song instances imported from API data.
     Data recuperation is done byt the Scrapper class.
     Here, we simply define how data about each song is stored.
@@ -23,6 +24,7 @@ class Song:
         categories: Union[list[str], None] = None,
         points: Union[list[int], None] = None,
     ):
+        # pylint: disable=too-many-arguments
         self.title = title
         self.singer = singer
         self.lyrics = lyrics

@@ -50,7 +50,7 @@ def main():
     songs_df.to_csv("data/db_test_full.csv", index=False)
 
 
-def individual_song_scrap(scrap: Scrapper, title: str) -> Song:
+def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
     """scrap a song page to create a Song
 
     Args:
@@ -58,7 +58,7 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> Song:
         title (str): name of the song page URL
 
     Returns:
-        song: Song object
+        None | song: Song object or nothing.
     """
     page_url = parse.quote(title, safe="")
     # print(title)
@@ -75,8 +75,10 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> Song:
     except requests.exceptions.ConnectionError:
         # print()
         pass
-    # print(f"'{title}' is a GOOD song page.")
-    return song
+    else:
+        # print(f"'{title}' is a GOOD song page.")
+        return song
+    return None
 
 
 def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:

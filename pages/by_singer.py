@@ -1,4 +1,4 @@
-"""Statistics page for singer speific stats."""
+"""Statistics page for singer specific stats."""
 import dash
 from dash import dcc, html, callback, Input, Output
 import plotly.express as px

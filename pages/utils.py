@@ -41,6 +41,14 @@ def get_marks():
 
 
 def filter_date(date_range):
+    """Return a complete songs Dataframe for the data_range argument
+
+    Args:
+        date_range (list[int]): date range in Unix format
+
+    Returns:
+        Dataframe: songs Dataframe of input data_range
+    """
     small, big = date_range
     graph_df = df[df["date"] <= unix_to_datetime(big)]  # type: ignore
     graph_df = graph_df[graph_df["date"] >= unix_to_datetime(small)]
@@ -48,6 +56,15 @@ def filter_date(date_range):
 
 
 def filter_date_totals(date_range):
+    """Return a complete songs Dataframe for the data_range argument.
+    No individuals values by totals by each category.
+
+    Args:
+        date_range (list[int]): date range in Unix format
+
+    Returns:
+        Dataframe: songs Dataframe of input data_range
+    """
     graph_df = filter_date(date_range)
     graph_df = graph_df.groupby(by=["category", "points"], as_index=False)[
         "date"
@@ -57,20 +74,43 @@ def filter_date_totals(date_range):
 
 
 def get_time_limits():
+    """Return the time limits of full songs Dataframe.
+
+    Returns:
+        list[Unix]: [begin, end] in Unix format
+    """
     begin = datetime_to_unix(df["date"].min().date().replace(day=1))
     end = datetime_to_unix(df["date"].max().date() + datetime.timedelta(days=31))
     return begin, end
 
 
 def get_category_options():
+    """Return all categories of full songs Dataframe.
+
+    Returns:
+        ndarray: unique values of category
+    """
     return df["category"].unique()
 
 
 def get_points_options():
+    """Return points options of full songs Dataframe.
+
+    Returns:
+        list[int]: list of existing points categories
+    """
     return sorted(df["points"].unique())[1:]
 
 
 def get_date_range_object(prefix_component_id=""):
+    """Returns layout objects to add a data_range slider.
+
+    Args:
+        prefix_component_id (str, optional): prefix string for component names. Defaults to "".
+
+    Returns:
+        html.Div: layout component with a date slider
+    """
     begin, end = get_time_limits()
     return html.Div(
         [
@@ -90,22 +130,53 @@ def get_date_range_object(prefix_component_id=""):
 
 
 def get_songs():
+    """Return all songs names of full songs Dataframe.
+
+    Returns:
+        ndarray: unique values of songs name
+    """
     return df["name"].unique()
 
 
 def filter_song(song_name):
+    """Return full songs Dataframe for selected song.
+    No date_range restriction is applied.
+
+    Returns:
+        Dataframe: all rows about the selected song
+    """
     return df[df["name"] == song_name]
 
 
 def get_singers():
+    """Return all singers names of full songs Dataframe.
+
+    Returns:
+        ndarray: unique values of singers name
+    """
     return df["singer"].unique()
 
 
 def filter_singer(singer_name):
+    """Return full songs Dataframe for selected singer.
+    No date_range restriction is applied.
+
+    Returns:
+        Dataframe: all rows about the selected singer
+    """
     return df[df["singer"] == singer_name]
 
 
 def filter_top_songs(songs_df, nb_songs):
+    """Return subset Dataframe wit only the most viewed songs.
+
+    Args:
+        songs_df (Dataframe): a songs Dataframe
+        nb_songs (int): number of top songs to return
+
+    Returns:
+        Dataframe: Dataframe with only the top songs
+    """
     filter_top = (
         songs_df.groupby(by=["name"])["date"]
         .sum()
@@ -117,6 +188,15 @@ def filter_top_songs(songs_df, nb_songs):
 
 
 def compare_to_global(date_range, list_songs):
+    """Compute global coverage of provided songs, for the provided date_range.
+
+    Args:
+        date_range (list[int]): begin, end of the timeframe
+        list_songs (list[str]): list of songs for which coverage is computed
+
+    Returns:
+        str: list of song with coverage scores, in Markdown
+    """
     table_totals = filter_date_totals(date_range)
     table_individual_songs = filter_date(date_range)
     table_individual_songs = table_individual_songs[

@@ -1,10 +1,10 @@
+"""Statistics page for song specific stats."""
 import dash
 from dash import dcc, html, callback, Input, Output
 import plotly.express as px
 
 from pages.utils import (
     get_date_range_object,
-    unix_to_datetime,
     get_songs,
     filter_date,
     filter_song,
@@ -34,6 +34,15 @@ layout = html.Div(
     Input("year_slider", "value"),
 )
 def update_figure(song_name, date_range):
+    """Update the categories graph for selected song.
+
+    Args:
+        song_name (str): song title
+        date_range (list[int]): data range, in Unix format
+
+    Returns:
+        fig: chart graph by value
+    """
     graph_df = filter_date(date_range)
     graph_df = graph_df[graph_df["name"] == song_name]
     graph_df = graph_df.groupby(by=["name", "category", "points"], as_index=False)[
@@ -46,6 +55,14 @@ def update_figure(song_name, date_range):
 
 @callback(Output("timeline-graph-song", "figure"), Input("dropdown-song", "value"))
 def update_timeline(song_name):
+    """Update the timeline graph of selected song.
+
+    Args:
+        song_name (str): song title
+
+    Returns:
+        fig: timeline graph
+    """
     graph_df = filter_song(song_name)
     graph_df.insert(5, "nb", 1)
     # fix view VS copy
@@ -60,18 +77,3 @@ def update_timeline(song_name):
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
     return fig
-
-
-@callback(
-    Output("global-time-range-label", "children"),
-    Output("coverage-time-range-label", "children"),
-    Input("global-year_slider", "value"),
-    Input("coverage-year_slider", "value"),
-)
-def _update_time_range_label(year_range_global, year_range_coverage):
-    return (
-        f"From {unix_to_datetime(year_range_global[0]).date()} "
-        f"to {unix_to_datetime(year_range_global[1]).date()}",
-        f"From {unix_to_datetime(year_range_coverage[0]).date()} "
-        f"to {unix_to_datetime(year_range_coverage[1]).date()}",
-    )

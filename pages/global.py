@@ -44,7 +44,9 @@ layout = html.Div(
         html.Div(
             [
                 dcc.Dropdown(
-                    options=get_category_options(), value="Points", id="category-selector"
+                    options=get_category_options(),
+                    value="Points",
+                    id="category-selector",
                 )
             ],
             style={"width": "48%", "display": "inline-block"},
@@ -75,10 +77,19 @@ layout = html.Div(
     Input("category-selector", "value"),
 )
 def update_options_category(category):
+    """Update available category options.
+    Remove options according to selected category.
+
+    Args:
+        category (str): song category
+
+    Returns:
+        list_options, selected_options: list, list
+    """
     if category == "Points":
         return get_points_options(), [50, 40, 30, 20, 10]
-    else:
-        return [], None
+    # for other categories (Même chanson, Maestro, etc.), no option is available
+    return [], None
 
 
 @callback(
@@ -88,6 +99,15 @@ def update_options_category(category):
     Input("nb-songs", "value"),
 )
 def update_figure(date_range, nb_songs):
+    """Update global graph ranking.
+
+    Args:
+        date_range (list[int]): date range in Unix format
+        nb_songs (int): Number of top songs to display
+
+    Returns:
+        fig: Top songs graph, accross all categories
+    """
     graph_df = filter_date(date_range)
     graph_df = graph_df.groupby(by=["name", "category"], as_index=False)["date"].count()
     graph_df = graph_df.sort_values(by=["date"], ascending=False)
@@ -108,6 +128,17 @@ def update_figure(date_range, nb_songs):
     Input("nb-songs", "value"),
 )
 def update_figure2(date_range, category_value, points_selector, nb_songs):
+    """Update global ranking graph on selected categories.
+
+    Args:
+        date_range (list[int]): date range in Unix format
+        category_value (str): Selected category
+        points_selector (list[int]): Points categories selected (if main category is Points)
+        nb_songs (int): Number of top songs to display
+
+    Returns:
+        fig: Top songs graph on selected category
+    """
     graph2_df = filter_date(date_range)
     graph2_df = graph2_df[graph2_df["category"] == category_value]
     if category_value == "Points":
@@ -130,6 +161,14 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
 
 @callback(Output("coverage-graph", "figure"), Input("coverage-year_slider", "value"))
 def update_coverage_figure(date_range):
+    """Update coverage figure.
+
+    Args:
+        date_range (list[int]): date range in Unix format
+
+    Returns:
+        fig: coverage graph
+    """
     graph_df = filter_date(date_range)
     graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
     graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
@@ -148,8 +187,17 @@ def update_coverage_figure(date_range):
     return fig
 
 
-def return_df_cumsum_category(df, cat):
-    graph_df = df[df["category"] == cat]
+def return_df_cumsum_category(songs_df, cat):
+    """Compute cumulative sum for songs coverage.
+
+    Args:
+        songs_df (Dataframe): songs dataframe of selected timeframe
+        cat (str): Song category
+
+    Returns:
+        Dataframe: Dataframe with "nb" column as cumulative sum
+    """
+    graph_df = songs_df[songs_df["category"] == cat]
     graph_df = graph_df.groupby(by=["name"], as_index=False)["date"].count()
     graph_df = graph_df.sort_values(ascending=False, by=["date"])
     graph_df["date"] = graph_df["date"].cumsum()
