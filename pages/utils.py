@@ -66,10 +66,12 @@ def filter_date_totals(date_range):
         Dataframe: songs Dataframe of input data_range
     """
     graph_df = filter_date(date_range)
-    graph_df = graph_df.groupby(by=["category", "points"], as_index=False)[
-        "date"
-    ].count()
-    graph_df = graph_df.rename(columns={"date": "total"})
+    graph_df = graph_df.groupby(
+        by=["category", "points", "date", "emissions"], as_index=False
+    ).count()
+    graph_df = graph_df.drop(["name", "singer"], axis=1)
+    graph_df["to_count"] = 0
+    graph_df = graph_df.drop_duplicates()
     return graph_df
 
 
@@ -99,7 +101,7 @@ def get_points_options():
     Returns:
         list[int]: list of existing points categories
     """
-    return sorted(df["points"].unique())[1:]
+    return sorted(filter(lambda x: x < 100, df["points"].unique()))[1:]
 
 
 def get_date_range_object(prefix_component_id=""):
@@ -202,18 +204,24 @@ def compare_to_global(date_range, list_songs):
     table_individual_songs = table_individual_songs[
         table_individual_songs["name"].isin(list_songs)
     ]
+    table_individual_songs = table_individual_songs.drop(["name", "singer"], axis=1)
     table_individual_songs = table_individual_songs.groupby(
-        by=["name", "category", "points"], as_index=False
-    )["date"].count()
-    table_individual_songs = table_individual_songs.groupby(
-        by=["category", "points"], as_index=False
-    ).sum(numeric_only=True)
-    table_totals = table_totals.merge(
-        table_individual_songs,
-        left_on=["category", "points"],
-        right_on=["category", "points"],
+        by=["category", "points", "date", "emissions"], as_index=False
+    ).count()
+    table_individual_songs["present"] = 1
+    table_individual_songs = table_individual_songs.drop_duplicates()
+    table_totals = (
+        table_totals.merge(
+            table_individual_songs,
+            left_on=["category", "points", "date", "emissions"],
+            right_on=["category", "points", "date", "emissions"],
+            how="left",
+        )
+        .fillna(0)
+        .groupby(by=["category", "points"], as_index=False)
+        .agg({"to_count": "count", "present": "sum"})
     )
-    table_totals["percent"] = table_totals["date"] / table_totals["total"]
+    table_totals["percent"] = table_totals["present"] / table_totals["to_count"]
     table_totals = table_totals[
         table_totals["points"].isin([10, 20, 30, 40, 50])
         | table_totals["category"].isin(["Même chanson", "Maestro"])

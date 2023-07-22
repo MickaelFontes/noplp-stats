@@ -44,7 +44,8 @@ class Scrapper:
             bool: True if relevant, else False
         """
         searched_words = [
-            "[[Liste des chansons existantes|Retour à la liste des chansons]]",
+            "[[Liste des chansons existantes",
+            "|Retour à la liste des chansons]]",
             "Paroles",
             "Dates de sortie",
         ]
@@ -195,10 +196,7 @@ class Scrapper:
                 song_date_line = song_date_line.replace("'", "")
                 dates.append(self.process_date_line(song_date_line))
                 category, point = self.process_points_line(song_date_line)
-                if category == "Points":  # for "émission"
-                    emission = self.process_emission_line(song_date_line)
-                else:
-                    emission = 0
+                emission = self.process_emission_line(song_date_line)
                 categories.append(category)
                 points.append(point)
                 emissions.append(emission)
@@ -259,6 +257,12 @@ class Scrapper:
             if not any(x in points_text for x in checks):
                 return points_text, -1
             return "Points", int(points_text[0] + "0")  # manual fix for found typos
+        regex_money = re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line)
+        if regex_money:
+            gain = regex_money.group(1)
+            gain = re.sub(r"[^\d]", "", gain)
+            gain = int(gain)
+            return "Ancienne formule", gain
         # No most exepected category found
         regex_extract = re.search(r"\s*((\w+\s)*\w+)\s*:", line)
         if not regex_extract:
@@ -287,17 +291,15 @@ class Scrapper:
         factor = 1
         # if not usual emission
         if any(
-            [
-                word in line.lower()
-                for word in [
-                    "tournoi",
-                    "ligue",
-                    "spécial",
-                    "prime",
-                    "ontre",
-                    "master",
-                    "enfants",
-                ]
+            word in line.lower()
+            for word in [
+                "tournoi",
+                "ligue",
+                "spécial",
+                "prime",
+                "ontre",
+                "master",
+                "enfants",
             ]
         ):
             factor = -1
@@ -308,7 +310,7 @@ class Scrapper:
         elif "unique" in line:
             return 0
         else:
-            if "sion" in line or "ontre" in line:
+            if ("mi" in line and "sion" in line) or "ontre" in line:
                 raise ScrapperProcessingEmissions(
                     "No show number found in the line\n\n" + line + f"\n{self._title}"
                 )
