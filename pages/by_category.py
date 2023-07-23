@@ -1,8 +1,9 @@
 """Statistics page for category specific stats."""
 
 import dash
+import pandas as pd
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, ctx, dcc, html
 
 from pages.utils import (
     compare_to_global,
@@ -53,7 +54,13 @@ layout = html.Div(
             tooltip={"placement": "bottom", "always_visible": True},
         ),
         get_date_range_object(prefix_component_id="category-"),
+        html.Div(
+            "Coverage stats of the selected date range by the sogs present in the graph:"
+        ),
         dcc.Markdown("", id="stats-category"),
+        html.Button("Download the displayed top songs", id="btn-category-songs"),
+        dcc.Download(id="download-category"),
+        dcc.Store(id="store-category-top-songs"),
     ]
 )
 
@@ -75,14 +82,16 @@ def update_options_category(category):
     """
     if category == "Points":
         return get_points_options(), [50, 40, 30, 20, 10]
-    elif category == "Ancienne formule":
-        return get_ancienne_formule_options(), [500, 1000, 2500]
+    if category == "Ancienne formule":
+        return get_ancienne_formule_options(), [250, 500, 1000, 2500]
     # for other categories (Même chanson, Maestro, etc.), no option is available
     return [], None
+
 
 @callback(
     Output("sorted-graph", "figure"),
     Output("stats-category", "children"),
+    Output("store-category-top-songs", "data"),
     Input("category-year_slider", "value"),
     Input("category-selector", "value"),
     Input("points-selector", "value"),
@@ -102,19 +111,56 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
     """
     graph2_df = filter_date(date_range)
     graph2_df = graph2_df[graph2_df["category"] == category_value]
-    if category_value == "Points":
+    if category_value in ["Points", "Ancienne formule"]:
         graph2_df = graph2_df[graph2_df["points"].isin(points_selector)]
         graph2_df = graph2_df.groupby(by=["name", "points"], as_index=False)[
             "date"
         ].count()
         # get only highest songs
         graph2_df = filter_top_songs(graph2_df, nb_songs)
+        to_store = graph2_df.to_csv(index=False, sep=";")
         fig2 = px.histogram(data_frame=graph2_df, x="name", y="date", color="points")
     else:
         graph2_df = graph2_df.groupby(by=["name"], as_index=False)["date"].count()
         graph2_df = filter_top_songs(graph2_df, nb_songs)
+        to_store = graph2_df.to_csv(index=False, sep=";")
         fig2 = px.histogram(data_frame=graph2_df, x="name", y="date")
     list_songs = graph2_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
     fig2.update_layout(height=500, xaxis={"categoryorder": "total descending"})
-    return fig2, out_child
+    return fig2, out_child, to_store
+
+
+@callback(
+    Output("download-category", "data"),
+    Input("btn-category-songs", "n_clicks"),
+    Input("store-category-top-songs", "data"),
+    prevent_initial_call=True,
+)
+def download_songs_list(_, data_stored):
+    """Download function to save top songs
+
+    Args:
+        _ (int): nb of clicks
+        data_stored (str): content of dcc.Store (Dataframe)
+
+    Returns:
+        dict: downloaded content
+    """
+    if ctx.triggered_id == "btn-category-songs":
+        export_df = pd.DataFrame(
+            [row.split(";") for row in data_stored.split("\n")][1:-1],
+            columns=list(data_stored.split("\n")[0].split(";")),
+        )
+        export_df = export_df.astype({"name": "str", "date": "int"})
+        export_df = export_df.groupby(by=["name"], as_index=False)["date"].sum()
+        export_df.rename({"date": "nb_occurences"}, inplace=True, axis="columns")
+        export_df.sort_values(
+            by="nb_occurences", ascending=False, inplace=True, ignore_index=True
+        )
+        export_df.index += 1
+        return {
+            "content": export_df.to_csv(),
+            "filename": "category-top-songs-NOPLP.csv",
+        }
+    return None

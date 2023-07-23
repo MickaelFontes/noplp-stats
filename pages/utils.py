@@ -8,6 +8,8 @@ import pandas as pd
 
 df = pd.read_csv("data/db_test_full.csv", index_col=None)
 df["date"] = pd.to_datetime(df["date"])
+df["singer"] = df["singer"].astype("str")
+df["name"] = df["name"].astype("str")
 
 daterange = pd.date_range(
     start=df["date"].min().date(),
@@ -109,7 +111,7 @@ def get_ancienne_formule_options():
     Returns:
         list[int]: list of existing ancienne formule gains
     """
-    return sorted(filter(lambda x: x > 100, df["points"].unique()))[1:]
+    return sorted(filter(lambda x: x > 100, df["points"].unique()))
 
 
 def get_date_range_object(prefix_component_id=""):

@@ -68,9 +68,8 @@ def update_timeline(singer_name):
     fig = px.scatter(
         graph_df,
         x=graph_df["date"],
-        y=graph_df["category"],
-        color=graph_df["name"],
-        symbol=graph_df["name"],
+        y=graph_df["name"],
+        color=graph_df["category"],
         hover_data={
             "date": "|%B %d, %Y",
             "nb": False,
@@ -78,7 +77,7 @@ def update_timeline(singer_name):
             "category": True,
         },
     )
-    # fig.update_traces(width=0.2)
+    fig.update_xaxes(showgrid=True, ticklabelmode="instant", dtick="M12")
     fig.update_layout(
         height=500,
         yaxis={
