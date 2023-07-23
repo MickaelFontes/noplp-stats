@@ -1,14 +1,9 @@
 """Statistics page for song specific stats."""
 import dash
-from dash import dcc, html, callback, Input, Output
 import plotly.express as px
+from dash import Input, Output, callback, dcc, html
 
-from pages.utils import (
-    get_date_range_object,
-    get_songs,
-    filter_date,
-    filter_song,
-)
+from pages.utils import filter_date, filter_song, get_date_range_object, get_songs
 
 dash.register_page(__name__, path="/song")
 

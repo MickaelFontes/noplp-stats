@@ -103,6 +103,14 @@ def get_points_options():
     """
     return sorted(filter(lambda x: x < 100, df["points"].unique()))[1:]
 
+def get_ancienne_formule_options():
+    """Return ancienne formule options of full songs Dataframe.
+
+    Returns:
+        list[int]: list of existing ancienne formule gains
+    """
+    return sorted(filter(lambda x: x > 100, df["points"].unique()))[1:]
+
 
 def get_date_range_object(prefix_component_id=""):
     """Returns layout objects to add a data_range slider.

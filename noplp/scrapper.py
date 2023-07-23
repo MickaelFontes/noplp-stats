@@ -1,21 +1,21 @@
 """Definition of the Scrapper class."""
 
-from datetime import date
-from typing import Tuple
 import json
 import re
-import requests
+from datetime import date
+from typing import Tuple
 
 import dateparser
+import requests
 
 from noplp.exceptions import (
     ScrapperGetPageError,
-    ScrapperProcessingLyrics,
     ScrapperProcessingDates,
-    ScrapperTypePageError,
+    ScrapperProcessingEmissions,
+    ScrapperProcessingLyrics,
     ScrapperProcessingPoints,
     ScrapperProcessingSinger,
-    ScrapperProcessingEmissions,
+    ScrapperTypePageError,
 )
 from noplp.song import Song
 
