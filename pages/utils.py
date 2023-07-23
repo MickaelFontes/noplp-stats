@@ -105,6 +105,7 @@ def get_points_options():
     """
     return sorted(filter(lambda x: x < 100, df["points"].unique()))[1:]
 
+
 def get_ancienne_formule_options():
     """Return ancienne formule options of full songs Dataframe.
 

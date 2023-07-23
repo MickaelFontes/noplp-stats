@@ -49,4 +49,4 @@ jobs:
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
       - name: Analysing the code with pylint
         run: |
-          pylint $(git ls-files '*.py') --max-line-length=127 --good-names=r,p
+          pylint $(git ls-files '*.py') --max-line-length=127 --good-names=r,p,i

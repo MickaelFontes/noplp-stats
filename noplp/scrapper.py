@@ -307,12 +307,11 @@ class Scrapper:
         if regex_numero:
             emission = int(regex_numero.group(1))
             return emission * factor
-        elif "unique" in line:
+        if "unique" in line:
             return 0
-        else:
-            if ("mi" in line and "sion" in line) or "ontre" in line:
-                raise ScrapperProcessingEmissions(
-                    "No show number found in the line\n\n" + line + f"\n{self._title}"
-                )
-            else:
-                return 0
+        if ("mi" in line and "sion" in line) or "ontre" in line:
+            raise ScrapperProcessingEmissions(
+                "No show number found in the line\n\n" + line + f"\n{self._title}"
+            )
+        # else, default number
+        return 0
