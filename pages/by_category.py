@@ -49,7 +49,7 @@ layout = html.Div(
             max=1000,
             step=10,
             value=10,
-            marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 1000]},
+            marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
             id="nb-songs",
             tooltip={"placement": "bottom", "always_visible": True},
         ),

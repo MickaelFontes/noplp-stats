@@ -28,7 +28,7 @@ layout = html.Div(
             max=1000,
             step=10,
             value=10,
-            marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 1000]},
+            marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
             id="nb-songs",
             tooltip={"placement": "bottom", "always_visible": True},
         ),
@@ -96,10 +96,10 @@ def update_coverage_figure(date_range):
     graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
     fig = px.line(
         data_frame=graph_all,
-        x="nb",
-        y="date",
+        x="rank",
+        y="coverage",
         color="category",
-        hover_data={"name": True, "nb": True, "date": True, "category": True},
+        hover_data={"name": True, "rank": True, "coverage": True, "category": True},
     )
     return fig
 
@@ -114,15 +114,41 @@ def return_df_cumsum_category(songs_df, cat):
     Returns:
         Dataframe: Dataframe with "nb" column as cumulative sum
     """
-    graph_df = songs_df[songs_df["category"] == cat]
-    graph_df = graph_df.groupby(by=["name"], as_index=False)["date"].count()
-    graph_df = graph_df.sort_values(ascending=False, by=["date"])
-    graph_df["date"] = graph_df["date"].cumsum()
-    graph_df["date"] = graph_df["date"] / graph_df["date"].max()
-    graph_df["nb"] = 1
-    graph_df["nb"] = graph_df["nb"].cumsum()
-    graph_df["category"] = cat
-    return graph_df
+    same_base_df = songs_df[songs_df["category"] == cat]
+    # 1: Order songs by descending (after groupby(date, emissions))
+    songs_ranking = (
+        same_base_df.groupby(by=["name"], as_index=False)[["date"]]
+        .count()
+        .sort_values(by=["date"], ascending=False)
+    )
+    songs_ranking.drop_duplicates(inplace=True)
+    # 1.1: Calculate denopminator (date, emissions)
+    denominator_df = same_base_df.groupby(by=["date", "emissions"], as_index=False)[
+        "singer"
+    ].count()
+    denominator_df.drop_duplicates(inplace=True)
+    denominator = len(denominator_df)
+    # 2: For each song, merge first selected songs (remove duplicates)
+    #    and compute coverage against all other songs
+    iter_coverage = []
+    selected_songs = []
+    for song_name, _ in songs_ranking.itertuples(name=None, index=False):
+        selected_songs += [song_name]
+        selection_df = same_base_df[same_base_df["name"].isin(selected_songs)]
+        numerator = songs_ranking[songs_ranking["name"].isin(selected_songs)][
+            "date"
+        ].sum()
+        selection_df = selection_df.groupby(
+            by=["name", "date", "emissions"], as_index=False
+        ).count()
+        selection_df = selection_df.drop(["name"], axis=1)
+        nb_dupli = selection_df.duplicated().astype(int).sum()
+        iter_coverage += [(numerator - nb_dupli) / denominator * 100]
+    songs_ranking["rank"] = 1
+    songs_ranking["rank"] = songs_ranking["rank"].cumsum()
+    songs_ranking["category"] = cat.split(" ", 1)[1] if "-1" in cat else cat
+    songs_ranking["coverage"] = iter_coverage
+    return songs_ranking
 
 
 @callback(
