@@ -181,6 +181,18 @@ def filter_singer(singer_name):
     return df[df["singer"] == singer_name]
 
 
+def find_singer(song_title):
+    """For provided song, return the singer's name
+
+    Args:
+        song_title (str): song title
+
+    Returns:
+        str: singer name of the song
+    """
+    return df[df["name"] == song_title]["singer"].values[0]
+
+
 def filter_top_songs(songs_df, nb_songs):
     """Return subset Dataframe wit only the most viewed songs.
 
@@ -261,3 +273,11 @@ def return_coverage_figure():
         hover_data={"name": True, "rank": True, "coverage": True, "category": True},
     )
     return fig
+
+
+def return_cat_rankings_df():
+    return pd.read_csv("data/coverage_graph.csv")
+
+
+def return_global_ranking_df():
+    return pd.read_csv("data/global_ranking.csv")

@@ -1,5 +1,6 @@
 """Script to create the songs database used for data visualization."""
 from functools import partial
+from typing import Optional
 from urllib import parse
 import json
 import multiprocessing
@@ -165,7 +166,11 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
     Returns:
         Dataframe: Dataframe with "nb" column as cumulative sum
     """
-    same_base_df = songs_df[songs_df["category"] == cat]
+    if cat == "TOUT":
+        same_base_df = songs_df
+        same_base_df["category"] = "TOUT"
+    else:
+        same_base_df = songs_df[songs_df["category"] == cat]
     # 1: Order songs by descending (after groupby(date, emissions))
     songs_ranking = (
         same_base_df.groupby(by=["name"], as_index=False)[["date"]]
@@ -212,10 +217,11 @@ def compute_cumulative_graph() -> None:
     graph_40 = return_df_cumsum_category(graph_df, "40 Points")
     graph_30 = return_df_cumsum_category(graph_df, "30 Points")
     graph_meme = return_df_cumsum_category(graph_df, "-1 Même chanson")
+    return_df_cumsum_category(graph_df, "TOUT").to_csv("data/global_ranking.csv")
     graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
     graph_all.to_csv("data/coverage_graph.csv")
 
 
 if __name__ == "__main__":
-    main()
+    # main()
     compute_cumulative_graph()

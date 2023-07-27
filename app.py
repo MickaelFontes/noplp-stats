@@ -1,29 +1,30 @@
 """Application file for noplp-stats"""
-from dash import Dash, dcc, html
+from dash import Dash, html
 import dash
+import dash_bootstrap_components as dbc
 
-external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
-app = Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets)
+app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.title = "NOPLP stats - Statistics of occurences on NOPLP"
 
 
 app.layout = html.Div(
     [
-        html.H1("NOLPL stats - Search, learn, sing."),
-        html.Div(
-            [
-                html.Div(
-                    dcc.Link(
-                        f"{page['name']} - {page['path']}", href=page["relative_path"]
-                    )
-                )
-                for page in dash.page_registry.values()
-            ]
+        dbc.NavbarSimple(
+            children=[
+                dbc.NavLink("Home", href="/", active="exact"),
+                dbc.NavLink("Global", href="/global", active="exact"),
+                dbc.NavLink("Category", href="/category", active="exact"),
+                dbc.NavLink("Song", href="/song", active="exact"),
+                dbc.NavLink("Singer", href="/singer", active="exact"),
+            ],
+            brand="NOPLP Stats",
+            color="primary",
+            dark=True,
         ),
         dash.page_container,
     ]
 )
 
 if __name__ == "__main__":
-    app.run_server(port=8080, debug=None)
+    app.run(port="8080", debug=True)
