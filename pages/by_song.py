@@ -125,13 +125,13 @@ def update_song_details(song_title: str) -> list[html.P]:
         else "NA"
     )
     fifty_points_rank = (
-        cats_df[cats_df["category"] == "Maestro"]["rank"].values[0]
-        if not cats_df[cats_df["category"] == "Maestro"].empty
+        cats_df[cats_df["category"] == "50 points"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "50 points"].empty
         else "NA"
     )
     maestro_rank = (
-        cats_df[cats_df["category"] == "50 points"]["rank"].values[0]
-        if not cats_df[cats_df["category"] == "50 points"].empty
+        cats_df[cats_df["category"] == "Maestro"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "Maestro"].empty
         else "NA"
     )
     return [
