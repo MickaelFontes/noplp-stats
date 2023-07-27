@@ -4,7 +4,6 @@ Layout of the global statistics page, with graphs callbacks
 and some data manipulation.
 """
 import dash
-import pandas as pd
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
@@ -13,6 +12,8 @@ from pages.utils import (
     filter_date,
     filter_top_songs,
     get_date_range_object,
+    get_download_content_from_store,
+    get_nb_songs_slider,
     return_coverage_figure,
 )
 
@@ -24,15 +25,7 @@ layout = html.Div(
         html.H4("Most popular songs of NOPLP"),
         dcc.Graph(id="graph"),
         html.Div("Number of top songs to display"),
-        dcc.Slider(
-            min=5,
-            max=1000,
-            step=10,
-            value=10,
-            marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
-            id="nb-songs",
-            tooltip={"placement": "bottom", "always_visible": True},
-        ),
+        get_nb_songs_slider(),
         get_date_range_object(prefix_component_id="global-"),
         html.Div(
             "Coverage stats of the selected date range by the sogs present in the graph:"
@@ -93,16 +86,6 @@ def download_songs_list(_, data_stored):
         dict: downloaded content
     """
     if ctx.triggered_id == "btn-global-songs":
-        export_df = pd.DataFrame(
-            [row.split(";") for row in data_stored.split("\n")][1:-1],
-            columns=list(data_stored.split("\n")[0].split(";")),
-        )
-        export_df = export_df.astype({"name": "str", "date": "int"})
-        export_df = export_df.groupby(by=["name"], as_index=False)["date"].sum()
-        export_df.rename({"date": "nb_occurences"}, inplace=True, axis="columns")
-        export_df.sort_values(
-            by="nb_occurences", ascending=False, inplace=True, ignore_index=True
-        )
-        export_df.index += 1
+        export_df = get_download_content_from_store(data_stored)
         return {"content": export_df.to_csv(), "filename": "global-top-songs-NOPLP.csv"}
     return None

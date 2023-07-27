@@ -276,8 +276,58 @@ def return_coverage_figure():
 
 
 def return_cat_rankings_df():
+    """Return categories rankings and coverage.
+
+    Returns:
+        Dataframe: coverage Dataframe
+    """
     return pd.read_csv("data/coverage_graph.csv")
 
 
 def return_global_ranking_df():
+    """Return global ranking.
+
+    Returns:
+        Dataframe: global ranking Dataframe
+    """
     return pd.read_csv("data/global_ranking.csv")
+
+
+def get_nb_songs_slider():
+    """Return Dash nb_songs slider
+
+    Returns:
+        dcc.Slider: Dash component
+    """
+    return dcc.Slider(
+        min=5,
+        max=1000,
+        step=10,
+        value=10,
+        marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
+        id="nb-songs",
+        tooltip={"placement": "bottom", "always_visible": True},
+    )
+
+
+def get_download_content_from_store(data_stored):
+    """Return the download content for all buttons
+
+    Args:
+        data_stored (str): Export of Dataframe as tring
+
+    Returns:
+        Dataframe: Reformatted Dataframe
+    """
+    export_df = pd.DataFrame(
+        [row.split(";") for row in data_stored.split("\n")][1:-1],
+        columns=list(data_stored.split("\n")[0].split(";")),
+    )
+    export_df = export_df.astype({"name": "str", "date": "int"})
+    export_df = export_df.groupby(by=["name"], as_index=False)["date"].sum()
+    export_df.rename({"date": "nb_occurences"}, inplace=True, axis="columns")
+    export_df.sort_values(
+        by="nb_occurences", ascending=False, inplace=True, ignore_index=True
+    )
+    export_df.index += 1
+    return export_df

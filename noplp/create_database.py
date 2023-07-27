@@ -1,6 +1,5 @@
 """Script to create the songs database used for data visualization."""
 from functools import partial
-from typing import Optional
 from urllib import parse
 import json
 import multiprocessing
