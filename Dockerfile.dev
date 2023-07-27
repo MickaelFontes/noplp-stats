@@ -2,8 +2,11 @@ FROM python:3.10
 
 ENV HOST 0.0.0.0
 ENV DASH_DEBUG_MODE True
-COPY ./ /app
 WORKDIR /app
+COPY data/ ./data
+COPY app.py ./
+COPY requirements.txt ./
+COPY pages/ ./pages
 RUN set -ex && \
     pip install -r requirements.txt
 EXPOSE 8080

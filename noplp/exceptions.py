@@ -29,5 +29,9 @@ class ScrapperProcessingPoints(ScrapperError):
     """Error when processing the source to extract the points category."""
 
 
+class ScrapperProcessingEmissions(ScrapperError):
+    """Error when processing the source to extract the show number."""
+
+
 class SongError(Exception):
     """Generic Song error."""

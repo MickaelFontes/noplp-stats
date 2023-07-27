@@ -4,10 +4,13 @@ import time
 
 from dash import dcc, html
 import pandas as pd
+import plotly.express as px
 
 
 df = pd.read_csv("data/db_test_full.csv", index_col=None)
 df["date"] = pd.to_datetime(df["date"])
+df["singer"] = df["singer"].astype("str")
+df["name"] = df["name"].astype("str")
 
 daterange = pd.date_range(
     start=df["date"].min().date(),
@@ -40,7 +43,7 @@ def get_marks():
     return result
 
 
-def filter_date(date_range):
+def filter_date(date_range: tuple[int, int]) -> pd.DataFrame:
     """Return a complete songs Dataframe for the data_range argument
 
     Args:
@@ -66,10 +69,12 @@ def filter_date_totals(date_range):
         Dataframe: songs Dataframe of input data_range
     """
     graph_df = filter_date(date_range)
-    graph_df = graph_df.groupby(by=["category", "points"], as_index=False)[
-        "date"
-    ].count()
-    graph_df = graph_df.rename(columns={"date": "total"})
+    graph_df = graph_df.groupby(
+        by=["category", "points", "date", "emissions"], as_index=False
+    ).count()
+    graph_df = graph_df.drop(["name", "singer"], axis=1)
+    graph_df["to_count"] = 0
+    graph_df = graph_df.drop_duplicates()
     return graph_df
 
 
@@ -99,7 +104,16 @@ def get_points_options():
     Returns:
         list[int]: list of existing points categories
     """
-    return sorted(df["points"].unique())[1:]
+    return sorted(filter(lambda x: x < 100, df["points"].unique()))[1:]
+
+
+def get_ancienne_formule_options():
+    """Return ancienne formule options of full songs Dataframe.
+
+    Returns:
+        list[int]: list of existing ancienne formule gains
+    """
+    return sorted(filter(lambda x: x > 100, df["points"].unique()))
 
 
 def get_date_range_object(prefix_component_id=""):
@@ -167,6 +181,18 @@ def filter_singer(singer_name):
     return df[df["singer"] == singer_name]
 
 
+def find_singer(song_title):
+    """For provided song, return the singer's name
+
+    Args:
+        song_title (str): song title
+
+    Returns:
+        str: singer name of the song
+    """
+    return df[df["name"] == song_title]["singer"].values[0]
+
+
 def filter_top_songs(songs_df, nb_songs):
     """Return subset Dataframe wit only the most viewed songs.
 
@@ -202,18 +228,24 @@ def compare_to_global(date_range, list_songs):
     table_individual_songs = table_individual_songs[
         table_individual_songs["name"].isin(list_songs)
     ]
+    table_individual_songs = table_individual_songs.drop(["name", "singer"], axis=1)
     table_individual_songs = table_individual_songs.groupby(
-        by=["name", "category", "points"], as_index=False
-    )["date"].count()
-    table_individual_songs = table_individual_songs.groupby(
-        by=["category", "points"], as_index=False
-    ).sum(numeric_only=True)
-    table_totals = table_totals.merge(
-        table_individual_songs,
-        left_on=["category", "points"],
-        right_on=["category", "points"],
+        by=["category", "points", "date", "emissions"], as_index=False
+    ).count()
+    table_individual_songs["present"] = 1
+    table_individual_songs = table_individual_songs.drop_duplicates()
+    table_totals = (
+        table_totals.merge(
+            table_individual_songs,
+            left_on=["category", "points", "date", "emissions"],
+            right_on=["category", "points", "date", "emissions"],
+            how="left",
+        )
+        .fillna(0)
+        .groupby(by=["category", "points"], as_index=False)
+        .agg({"to_count": "count", "present": "sum"})
     )
-    table_totals["percent"] = table_totals["date"] / table_totals["total"]
+    table_totals["percent"] = table_totals["present"] / table_totals["to_count"]
     table_totals = table_totals[
         table_totals["points"].isin([10, 20, 30, 40, 50])
         | table_totals["category"].isin(["Même chanson", "Maestro"])
@@ -224,3 +256,78 @@ def compare_to_global(date_range, list_songs):
         display = f" {row.points}" if row.points != -1 else ""
         string_d += f"* {row.category}{display}: {row.percent*100:.1f}%\n"
     return string_d
+
+
+def return_coverage_figure():
+    """Return coverage figure.
+
+    Returns:
+        fig: coverage graph
+    """
+    graph_df = pd.read_csv("data/coverage_graph.csv")
+    fig = px.line(
+        data_frame=graph_df,
+        x="rank",
+        y="coverage",
+        color="category",
+        hover_data={"name": True, "rank": True, "coverage": True, "category": True},
+    )
+    return fig
+
+
+def return_cat_rankings_df():
+    """Return categories rankings and coverage.
+
+    Returns:
+        Dataframe: coverage Dataframe
+    """
+    return pd.read_csv("data/coverage_graph.csv")
+
+
+def return_global_ranking_df():
+    """Return global ranking.
+
+    Returns:
+        Dataframe: global ranking Dataframe
+    """
+    return pd.read_csv("data/global_ranking.csv")
+
+
+def get_nb_songs_slider():
+    """Return Dash nb_songs slider
+
+    Returns:
+        dcc.Slider: Dash component
+    """
+    return dcc.Slider(
+        min=5,
+        max=1000,
+        step=10,
+        value=10,
+        marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
+        id="nb-songs",
+        tooltip={"placement": "bottom", "always_visible": True},
+    )
+
+
+def get_download_content_from_store(data_stored):
+    """Return the download content for all buttons
+
+    Args:
+        data_stored (str): Export of Dataframe as tring
+
+    Returns:
+        Dataframe: Reformatted Dataframe
+    """
+    export_df = pd.DataFrame(
+        [row.split(";") for row in data_stored.split("\n")][1:-1],
+        columns=list(data_stored.split("\n")[0].split(";")),
+    )
+    export_df = export_df.astype({"name": "str", "date": "int"})
+    export_df = export_df.groupby(by=["name"], as_index=False)["date"].sum()
+    export_df.rename({"date": "nb_occurences"}, inplace=True, axis="columns")
+    export_df.sort_values(
+        by="nb_occurences", ascending=False, inplace=True, ignore_index=True
+    )
+    export_df.index += 1
+    return export_df

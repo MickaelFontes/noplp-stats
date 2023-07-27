@@ -1,27 +1,47 @@
 """Statistics page for song specific stats."""
 import dash
-from dash import dcc, html, callback, Input, Output
+import dash_bootstrap_components as dbc
 import plotly.express as px
+from dash import Input, Output, callback, dcc, html
 
 from pages.utils import (
-    get_date_range_object,
-    get_songs,
     filter_date,
     filter_song,
+    find_singer,
+    get_date_range_object,
+    get_songs,
+    return_cat_rankings_df,
+    return_global_ranking_df,
 )
 
 dash.register_page(__name__, path="/song")
 
+first_card = dbc.Card(
+    dbc.CardBody(
+        [
+            html.H5("Statistics about one song", className="card-title"),
+            html.P("Sélectionner le titre de la chanson"),
+            dcc.Dropdown(
+                id="dropdown-song",
+                value="2 be 3",
+                options=[{"label": i, "value": i} for i in get_songs()],
+            ),
+            html.Hr(),
+            html.Div(id="song-details"),
+        ]
+    )
+)
+
+
 layout = html.Div(
     [
-        html.H4("Satistics about one song"),
-        dcc.Dropdown(
-            id="dropdown-song",
-            value="2 be 3",
-            options=[{"label": i, "value": i} for i in get_songs()],
+        dbc.Row(
+            [
+                dbc.Col(first_card),
+                dbc.Col(dcc.Graph(id="categories-graph-song")),
+            ]
         ),
         get_date_range_object(),
-        dcc.Graph(id="categories-graph-song"),
         html.H4("Song occurence in time"),
         dcc.Graph(id="timeline-graph-song"),
     ]
@@ -77,3 +97,49 @@ def update_timeline(song_name):
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
     return fig
+
+
+@callback(
+    Output("song-details", "children"),
+    Input("dropdown-song", "value"),
+)
+def update_song_details(song_title: str) -> list[html.P]:
+    """Query and return song details.
+
+    Args:
+        song_title (str): song title
+
+    Returns:
+        list[html.P]: Dash elements with the details
+    """
+    global_df = return_global_ranking_df()
+    global_df = global_df[global_df["name"] == song_title]
+    singer = find_singer(song_title)
+    global_rank = global_df["rank"].values[0]
+    cats_df = return_cat_rankings_df()
+    cats_df = cats_df[cats_df["name"] == song_title]
+
+    meme_chanson_rank = (
+        cats_df[cats_df["category"] == "Même chanson"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "Même chanson"].empty
+        else "NA"
+    )
+    fifty_points_rank = (
+        cats_df[cats_df["category"] == "Maestro"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "Maestro"].empty
+        else "NA"
+    )
+    maestro_rank = (
+        cats_df[cats_df["category"] == "50 points"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "50 points"].empty
+        else "NA"
+    )
+    return [
+        html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
+        html.P("Classement global: " + str(global_rank), id="global-rank"),
+        html.P(
+            "Classement Même chanson: " + str(meme_chanson_rank), id="meme-chanson-rank"
+        ),
+        html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
+        html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
+    ]

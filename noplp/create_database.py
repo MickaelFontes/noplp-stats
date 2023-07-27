@@ -13,20 +13,33 @@ from noplp.exceptions import (
     ScrapperProcessingLyrics,
     ScrapperProcessingDates,
     ScrapperProcessingPoints,
+    ScrapperProcessingEmissions,
 )
 from noplp.scrapper import Scrapper
 from noplp.song import Song
+from pages.utils import filter_date, get_time_limits
 
 
 def main():
     """Performs the whole Scrapper logic to download all songs information
     from the Fandom Wiki.
     """
-    full_page_list = get_all_page_list(test=False)
+    full_page_list: list[str] = []
+    common_song_pages = [
+        "Liste_des_chansons_existantes",
+        "Liste_des_chansons_existantes_(de_la_lettre_A_à_la_lettre_M)",
+        "Liste_des_chansons_existantes_(de_la_lettre_N_à_la_lettre_Z)",
+    ]
+    for common_song_page in common_song_pages:
+        full_page_list += get_all_page_list(common_song_page, test=False)
+    full_page_list = list(set(full_page_list))
     all_songs = []
     scrap = Scrapper(singer_required=False)
     pd.DataFrame({"title": full_page_list}).to_csv("data/songs.csv")
     individual_song_partial = partial(individual_song_scrap, scrap)
+    # Remove problematic and unrelevant songs
+    if "Les feuilles mortes" in full_page_list:
+        full_page_list.remove("Les feuilles mortes")
     with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
         all_songs = p.map(individual_song_partial, full_page_list)
     real_songs = []
@@ -44,6 +57,9 @@ def main():
                 category for song in real_songs for category in song.categories
             ],
             "points": [point for song in real_songs for point in song.points],
+            "emissions": [
+                emission for song in real_songs for emission in song.emissions
+            ],
         }
     )
     songs_df["date"] = pd.to_datetime(songs_df["date"])
@@ -68,20 +84,27 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
         print(f"'{title}' is NOT a relevant song page.")
     except ScrapperProcessingLyrics:
         print(f"'{title}' has no lyrics.")
+        # pass
     except ScrapperProcessingDates:
         print(f"'{title}' has no dates.")
+        # pass
     except ScrapperProcessingPoints:
         print(f"'{title}' has no POINTS.")
+        # pass
     except requests.exceptions.ConnectionError:
         # print()
         pass
+    except ScrapperProcessingEmissions:
+        print(f"'{title}' has no SHOW NUMBER.")
     else:
         # print(f"'{title}' is a GOOD song page.")
         return song
     return None
 
 
-def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
+def generate_url(
+    common_page: str, start: int = 0, end: int = 500, limit: int = 500
+) -> str:
     """Generate URL to requests list of songs from the Fandom API.
 
     Args:
@@ -96,12 +119,12 @@ def generate_url(start: int = 0, end: int = 500, limit: int = 500) -> str:
         "https://n-oubliez-pas-les-paroles.fandom.com/fr/api.php?"
         "action=query&"
         "format=json&"
-        "prop=&list=backlinks&iwurl=1&ascii=1&bltitle=Liste_des_chansons_existantes&"
+        f"prop=&list=backlinks&iwurl=1&ascii=1&bltitle={common_page}&"
         f"blcontinue={start}%7C{end}&blnamespace=&bllimit={limit}"
     )
 
 
-def get_all_page_list(test: bool = True) -> list[str]:
+def get_all_page_list(common_songs_page: str, test: bool = True) -> list[str]:
     """Generate a list of all songs pages to download.
 
     Args:
@@ -112,9 +135,9 @@ def get_all_page_list(test: bool = True) -> list[str]:
     """
     url: str
     if test:
-        url = generate_url(0, 0, 500)
+        url = generate_url(common_songs_page, 0, 0, 500)
     else:
-        url = generate_url(0, 0, 500)
+        url = generate_url(common_songs_page, 0, 0, 500)
     r: requests.Response = requests.get(url, timeout=5)
     data: dict = json.loads(r.text)
     pages_list: list[str] = [row["title"] for row in data["query"]["backlinks"]]
@@ -123,7 +146,7 @@ def get_all_page_list(test: bool = True) -> list[str]:
             break
         start, end = data["continue"]["blcontinue"].split("|", 1)
         print("while loop: ", start, end)
-        url = generate_url(start=start, end=end)
+        url = generate_url(common_songs_page, start=start, end=end)
         r = requests.get(url, timeout=5)
         data = json.loads(r.text)
         pages_list += [row["title"] for row in data["query"]["backlinks"]]
@@ -132,5 +155,72 @@ def get_all_page_list(test: bool = True) -> list[str]:
     return pages_list
 
 
+def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
+    """Compute cumulative sum for songs coverage.
+
+    Args:
+        songs_df (Dataframe): songs dataframe of selected timeframe
+        cat (str): Song category
+
+    Returns:
+        Dataframe: Dataframe with "nb" column as cumulative sum
+    """
+    if cat == "TOUT":
+        same_base_df = songs_df
+        same_base_df["category"] = "TOUT"
+    else:
+        same_base_df = songs_df[songs_df["category"] == cat]
+    # 1: Order songs by descending (after groupby(date, emissions))
+    songs_ranking = (
+        same_base_df.groupby(by=["name"], as_index=False)[["date"]]
+        .count()
+        .sort_values(by=["date"], ascending=False)
+    )
+    songs_ranking.drop_duplicates(inplace=True)
+    # 2: Calculate denopminator (date, emissions)
+    denominator_df = same_base_df.groupby(by=["date", "emissions"], as_index=False)[
+        "singer"
+    ].count()
+    denominator_df.drop_duplicates(inplace=True)
+    denominator = len(denominator_df)
+    # 3: For each song, merge first selected songs (remove duplicates)
+    #    and compute coverage against all other songs
+    iter_coverage = []
+    selected_songs = []
+    for song_name, _ in songs_ranking.itertuples(name=None, index=False):
+        selected_songs += [song_name]
+        selection_df = same_base_df[same_base_df["name"].isin(selected_songs)]
+        numerator = songs_ranking[songs_ranking["name"].isin(selected_songs)][
+            "date"
+        ].sum()
+        selection_df = selection_df.groupby(
+            by=["name", "date", "emissions"], as_index=False
+        ).count()
+        selection_df = selection_df.drop(["name"], axis=1)
+        nb_dupli = selection_df.duplicated().astype(int).sum()
+        iter_coverage += [(numerator - nb_dupli) / denominator * 100]
+    songs_ranking["rank"] = 1
+    songs_ranking["rank"] = songs_ranking["rank"].cumsum()
+    songs_ranking["category"] = cat.split(" ", 1)[1] if "-1" in cat else cat
+    songs_ranking["coverage"] = iter_coverage
+    return songs_ranking
+
+
+def compute_cumulative_graph() -> None:
+    """Computes and saves the global coverage graph data."""
+    date_range = get_time_limits()
+    graph_df = filter_date(date_range)
+    graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
+    graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
+    graph_50 = return_df_cumsum_category(graph_df, "50 Points")
+    graph_40 = return_df_cumsum_category(graph_df, "40 Points")
+    graph_30 = return_df_cumsum_category(graph_df, "30 Points")
+    graph_meme = return_df_cumsum_category(graph_df, "-1 Même chanson")
+    return_df_cumsum_category(graph_df, "TOUT").to_csv("data/global_ranking.csv")
+    graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
+    graph_all.to_csv("data/coverage_graph.csv")
+
+
 if __name__ == "__main__":
-    main()
+    # main()
+    compute_cumulative_graph()

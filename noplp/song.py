@@ -1,11 +1,11 @@
 """Definition of the Song class."""
 
+from dataclasses import dataclass
 from datetime import date
-from typing import Union
 
 
+@dataclass
 class Song:
-    # pylint: disable=too-few-public-methods
     """Class used to manage song instances imported from API data.
     Data recuperation is done byt the Scrapper class.
     Here, we simply define how data about each song is stored.
@@ -15,31 +15,13 @@ class Song:
         lyrics: An string with the lyrics obtained from the Wiki API.
     """
 
-    def __init__(
-        self,
-        title: str = "",
-        singer: str = "",
-        lyrics: str = "",
-        dates: Union[list[date], None] = None,
-        categories: Union[list[str], None] = None,
-        points: Union[list[int], None] = None,
-    ):
-        # pylint: disable=too-many-arguments
-        self.title = title
-        self.singer = singer
-        self.lyrics = lyrics
-        if dates is None:
-            self.dates = []
-        else:
-            self.dates = dates
-        if categories is None:
-            self.categories = []
-        else:
-            self.categories = categories
-        if points is None:
-            self.points = []
-        else:
-            self.points = points
+    title: str
+    singer: str
+    lyrics: str
+    dates: list[date]
+    categories: list[str]
+    points: list[int]
+    emissions: list[int]
 
     def __str__(self) -> str:
         return f"Song instance of the title '{self.title}'"
