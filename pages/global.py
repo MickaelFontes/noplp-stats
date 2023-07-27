@@ -13,6 +13,7 @@ from pages.utils import (
     filter_date,
     filter_top_songs,
     get_date_range_object,
+    return_coverage_figure,
 )
 
 dash.register_page(__name__, path="/global")
@@ -40,8 +41,7 @@ layout = html.Div(
         html.Button("Download the displayed top songs", id="btn-global-songs"),
         dcc.Download(id="download-global"),
         html.H4("Coverage of categories by number of songs"),
-        dcc.Graph(id="coverage-graph"),
-        get_date_range_object(prefix_component_id="coverage-"),
+        dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
         dcc.Store(id="store-global-top-songs"),
     ],
 )
@@ -74,81 +74,6 @@ def update_figure(date_range, nb_songs):
     list_songs = graph_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
     return fig, out_child, to_store
-
-
-@callback(Output("coverage-graph", "figure"), Input("coverage-year_slider", "value"))
-def update_coverage_figure(date_range):
-    """Update coverage figure.
-
-    Args:
-        date_range (list[int]): date range in Unix format
-
-    Returns:
-        fig: coverage graph
-    """
-    graph_df = filter_date(date_range)
-    graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
-    graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
-    graph_50 = return_df_cumsum_category(graph_df, "50 Points")
-    graph_40 = return_df_cumsum_category(graph_df, "40 Points")
-    graph_30 = return_df_cumsum_category(graph_df, "30 Points")
-    graph_meme = return_df_cumsum_category(graph_df, "-1 Même chanson")
-    graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
-    fig = px.line(
-        data_frame=graph_all,
-        x="rank",
-        y="coverage",
-        color="category",
-        hover_data={"name": True, "rank": True, "coverage": True, "category": True},
-    )
-    return fig
-
-
-def return_df_cumsum_category(songs_df, cat):
-    """Compute cumulative sum for songs coverage.
-
-    Args:
-        songs_df (Dataframe): songs dataframe of selected timeframe
-        cat (str): Song category
-
-    Returns:
-        Dataframe: Dataframe with "nb" column as cumulative sum
-    """
-    same_base_df = songs_df[songs_df["category"] == cat]
-    # 1: Order songs by descending (after groupby(date, emissions))
-    songs_ranking = (
-        same_base_df.groupby(by=["name"], as_index=False)[["date"]]
-        .count()
-        .sort_values(by=["date"], ascending=False)
-    )
-    songs_ranking.drop_duplicates(inplace=True)
-    # 1.1: Calculate denopminator (date, emissions)
-    denominator_df = same_base_df.groupby(by=["date", "emissions"], as_index=False)[
-        "singer"
-    ].count()
-    denominator_df.drop_duplicates(inplace=True)
-    denominator = len(denominator_df)
-    # 2: For each song, merge first selected songs (remove duplicates)
-    #    and compute coverage against all other songs
-    iter_coverage = []
-    selected_songs = []
-    for song_name, _ in songs_ranking.itertuples(name=None, index=False):
-        selected_songs += [song_name]
-        selection_df = same_base_df[same_base_df["name"].isin(selected_songs)]
-        numerator = songs_ranking[songs_ranking["name"].isin(selected_songs)][
-            "date"
-        ].sum()
-        selection_df = selection_df.groupby(
-            by=["name", "date", "emissions"], as_index=False
-        ).count()
-        selection_df = selection_df.drop(["name"], axis=1)
-        nb_dupli = selection_df.duplicated().astype(int).sum()
-        iter_coverage += [(numerator - nb_dupli) / denominator * 100]
-    songs_ranking["rank"] = 1
-    songs_ranking["rank"] = songs_ranking["rank"].cumsum()
-    songs_ranking["category"] = cat.split(" ", 1)[1] if "-1" in cat else cat
-    songs_ranking["coverage"] = iter_coverage
-    return songs_ranking
 
 
 @callback(

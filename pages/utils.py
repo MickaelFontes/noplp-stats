@@ -4,6 +4,7 @@ import time
 
 from dash import dcc, html
 import pandas as pd
+import plotly.express as px
 
 
 df = pd.read_csv("data/db_test_full.csv", index_col=None)
@@ -42,7 +43,7 @@ def get_marks():
     return result
 
 
-def filter_date(date_range):
+def filter_date(date_range: tuple[int, int]) -> pd.DataFrame:
     """Return a complete songs Dataframe for the data_range argument
 
     Args:
@@ -243,3 +244,20 @@ def compare_to_global(date_range, list_songs):
         display = f" {row.points}" if row.points != -1 else ""
         string_d += f"* {row.category}{display}: {row.percent*100:.1f}%\n"
     return string_d
+
+
+def return_coverage_figure():
+    """Return coverage figure.
+
+    Returns:
+        fig: coverage graph
+    """
+    graph_df = pd.read_csv("data/coverage_graph.csv")
+    fig = px.line(
+        data_frame=graph_df,
+        x="rank",
+        y="coverage",
+        color="category",
+        hover_data={"name": True, "rank": True, "coverage": True, "category": True},
+    )
+    return fig
