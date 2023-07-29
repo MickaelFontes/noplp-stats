@@ -35,7 +35,9 @@ def main():
     full_page_list = list(set(full_page_list))
     all_songs = []
     scrap = Scrapper(singer_required=False)
-    pd.DataFrame({"title": full_page_list}).to_csv("data/songs.csv")
+    pd.DataFrame({"title": full_page_list}).sort_values(by="title").to_csv(
+        "data/songs.csv", index=False
+    )
     individual_song_partial = partial(individual_song_scrap, scrap)
     # Remove problematic and unrelevant songs
     if "Les feuilles mortes" in full_page_list:
@@ -63,7 +65,17 @@ def main():
         }
     )
     songs_df["date"] = pd.to_datetime(songs_df["date"])
+    songs_df.sort_values(ascending=True, by=["name", "singer", "date"], inplace=True)
     songs_df.to_csv("data/db_test_full.csv", index=False)
+    lyrics_df = pd.DataFrame(
+        {
+            "name": [song.title for song in real_songs],
+            "singer": [song.singer for song in real_songs],
+            "lyrics": [song.lyrics.replace("\n", "\\n") for song in real_songs],
+        }
+    )
+    lyrics_df.sort_values(ascending=True, by=["name", "singer"], inplace=True)
+    lyrics_df.to_csv("data/db_lyrics.csv", index=False)
 
 
 def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
@@ -216,11 +228,14 @@ def compute_cumulative_graph() -> None:
     graph_40 = return_df_cumsum_category(graph_df, "40 Points")
     graph_30 = return_df_cumsum_category(graph_df, "30 Points")
     graph_meme = return_df_cumsum_category(graph_df, "-1 Même chanson")
-    return_df_cumsum_category(graph_df, "TOUT").to_csv("data/global_ranking.csv")
+    return_df_cumsum_category(graph_df, "TOUT").sort_values(
+        by=["name", "category"]
+    ).to_csv("data/global_ranking.csv", index=False)
     graph_all = pd.concat([graph_maestro, graph_50, graph_40, graph_30, graph_meme])
-    graph_all.to_csv("data/coverage_graph.csv")
+    graph_all.sort_values(by=["category", "rank"], inplace=True)
+    graph_all.to_csv("data/coverage_graph.csv", index=False)
 
 
 if __name__ == "__main__":
-    # main()
+    main()
     compute_cumulative_graph()
