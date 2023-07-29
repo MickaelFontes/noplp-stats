@@ -1,6 +1,9 @@
 """Statistics page for song specific stats."""
+from functools import reduce
+
 import dash
 import dash_bootstrap_components as dbc
+import pandas as pd
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
@@ -15,6 +18,8 @@ from pages.utils import (
 )
 
 dash.register_page(__name__, path="/song")
+
+lyrics_df = pd.read_csv("data/db_lyrics.csv")
 
 first_card = dbc.Card(
     dbc.CardBody(
@@ -44,6 +49,13 @@ layout = html.Div(
         get_date_range_object(),
         html.H4("Song occurence in time"),
         dcc.Graph(id="timeline-graph-song"),
+        html.Hr(),
+        html.Div(
+            [
+                html.H4("Lyrics"),
+                html.Div(id="song-lyrics"),
+            ], style={"textAlign": "center"}
+        ),
     ]
 )
 
@@ -101,6 +113,7 @@ def update_timeline(song_name):
 
 @callback(
     Output("song-details", "children"),
+    Output("song-lyrics", "children"),
     Input("dropdown-song", "value"),
 )
 def update_song_details(song_title: str) -> list[html.P]:
@@ -125,15 +138,27 @@ def update_song_details(song_title: str) -> list[html.P]:
         else "NA"
     )
     fifty_points_rank = (
-        cats_df[cats_df["category"] == "50 points"]["rank"].values[0]
-        if not cats_df[cats_df["category"] == "50 points"].empty
+        cats_df[cats_df["category"] == "50 Points"]["rank"].values[0]
+        if not cats_df[cats_df["category"] == "50 Points"].empty
         else "NA"
     )
+
     maestro_rank = (
         cats_df[cats_df["category"] == "Maestro"]["rank"].values[0]
         if not cats_df[cats_df["category"] == "Maestro"].empty
         else "NA"
     )
+
+    lyrics = []
+    for text_paragraph in (
+        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0].split("\\n\\n")
+    ):
+        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
+        paragraph = html.P(
+            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
+        )
+        lyrics.append(paragraph)
+
     return [
         html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
         html.P("Classement global: " + str(global_rank), id="global-rank"),
@@ -142,4 +167,4 @@ def update_song_details(song_title: str) -> list[html.P]:
         ),
         html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
         html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
-    ]
+    ], lyrics
