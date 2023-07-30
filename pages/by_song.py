@@ -3,7 +3,6 @@ from functools import reduce
 
 import dash
 import dash_bootstrap_components as dbc
-import pandas as pd
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
@@ -12,25 +11,20 @@ from pages.utils import (
     filter_song,
     find_singer,
     get_date_range_object,
-    get_songs,
+    get_song_dropdown_menu,
     return_cat_rankings_df,
     return_global_ranking_df,
+    return_lyrics_df,
 )
 
 dash.register_page(__name__, path="/song")
-
-lyrics_df = pd.read_csv("data/db_lyrics.csv")
 
 first_card = dbc.Card(
     dbc.CardBody(
         [
             html.H5("Statistics about one song", className="card-title"),
             html.P("Sélectionner le titre de la chanson"),
-            dcc.Dropdown(
-                id="dropdown-song",
-                value="2 be 3",
-                options=[{"label": i, "value": i} for i in get_songs()],
-            ),
+            get_song_dropdown_menu(),
             html.Hr(),
             html.Div(id="song-details"),
         ]
@@ -149,6 +143,7 @@ def update_song_details(song_title: str) -> list[html.P]:
         else "NA"
     )
 
+    lyrics_df = return_lyrics_df()
     lyrics = []
     for text_paragraph in (
         lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0].split("\\n\\n")
