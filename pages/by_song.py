@@ -48,7 +48,8 @@ layout = html.Div(
             [
                 html.H4("Lyrics"),
                 html.Div(id="song-lyrics"),
-            ], style={"textAlign": "center"}
+            ],
+            style={"textAlign": "center"},
         ),
     ]
 )
@@ -95,13 +96,14 @@ def update_timeline(song_name):
     graph_df = graph_df.astype({"points": "string"})
     graph_df["category"] = graph_df.category + " " + graph_df.points
     graph_df["category"] = graph_df["category"].str.replace(" -1", "")
-    fig = px.bar(
+    fig = px.scatter(
         graph_df,
         x=graph_df["date"],
-        y=graph_df["nb"],
+        y=graph_df["category"],
         color=graph_df["category"],
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
+    fig.update_layout(showlegend=False)
     return fig
 
 
@@ -145,10 +147,12 @@ def update_song_details(song_title: str) -> list[html.P]:
 
     lyrics_df = return_lyrics_df()
     lyrics = []
+
     for text_paragraph in (
         lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0].split("\\n\\n")
     ):
         text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
+        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
         paragraph = html.P(
             list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
         )
@@ -163,3 +167,17 @@ def update_song_details(song_title: str) -> list[html.P]:
         html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
         html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
     ], lyrics
+
+
+def bold_for_verified(text):
+    """Put verified lyrics in bold.
+
+    Args:
+        text (str): song lyrics
+
+    Returns:
+        list[html]: list of Dash HTML components
+    """
+    if text[0][0] == "¤":
+        return [html.B(text[0][1:])]
+    return text

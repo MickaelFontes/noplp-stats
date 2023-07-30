@@ -14,7 +14,7 @@ layout = html.Div(
     [
         html.H5("Zone d'entraînement pour apprendre les paroles"),
         html.P(
-            "Choisissez uen chanson et tapez ses paroles pour vérifier si vous les connaissez !"
+            "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
         ),
         get_song_dropdown_menu(),
         html.Hr(),
@@ -46,16 +46,27 @@ def compare_text_and_lyrics(user_text, song_title):
     """
     if user_text:
         lyrics_df = return_lyrics_df()
-        lyrics = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
+        lyrics = (
+            lyrics_df[lyrics_df["name"] == song_title]["lyrics"]
+            .values[0]
+            .replace("¤", "")
+        )
+        lyrics = re.sub(r"\(.*\)", r"", lyrics, flags=re.MULTILINE)
 
-        user_words = [x for x in re.split(r" |'", user_text.replace("\n", " ")) if x != ""]
-        lyrics_words = [x for x in re.split(r" |'", lyrics.replace("\\n", " ")) if x != ""]
+        user_words = [
+            x for x in re.split(r" |'", user_text.replace("\n", " ")) if x != ""
+        ]
+        lyrics_words = [
+            x for x in re.split(r" |'", lyrics.replace("\\n", " ")) if x != ""
+        ]
 
         for i, word in enumerate(user_words):
             if unidecode(word.lower()) == unidecode(lyrics_words[i].lower()):
                 continue
-            else:
-                return [html.P("Mistake after: " + " ".join(user_words[: i + 1][-5:])), html.Br(),
-                        html.P("Expected words: " + " ".join(lyrics_words[: i + 1][-5:]))]
+            return [
+                html.P("Mistake after: " + " ".join(user_words[: i + 1][-5:])),
+                html.Br(),
+                html.P("Expected words: " + " ".join(lyrics_words[: i + 1][-5:])),
+            ]
         return "All user words are valid"
     return ""
