@@ -146,17 +146,9 @@ def update_song_details(song_title: str) -> list[html.P]:
     )
 
     lyrics_df = return_lyrics_df()
-    lyrics = []
-
-    for text_paragraph in (
-        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0].split("\\n\\n")
-    ):
-        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
-        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
-        paragraph = html.P(
-            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
-        )
-        lyrics.append(paragraph)
+    lyrics = extract_and_format_lyrics(
+        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
+    )
 
     return [
         html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
@@ -178,6 +170,28 @@ def bold_for_verified(text):
     Returns:
         list[html]: list of Dash HTML components
     """
-    if text[0][0] == "¤":
-        return [html.B(text[0][1:])]
+    if text[0] != "":
+        if text[0][0] == "¤":
+            return [html.B(text[0][1:])]
     return text
+
+
+def extract_and_format_lyrics(lyrics_string: str):
+    """Extract and foramt lyrics for quality
+
+    Args:
+        lyrics_string (str): Raw lyrics from database
+
+    Returns:
+        list[html]: list of Dash html components
+    """
+    lyrics = []
+
+    for text_paragraph in lyrics_string.split("\\n\\n"):
+        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
+        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
+        paragraph = html.P(
+            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
+        )
+        lyrics.append(paragraph)
+    return lyrics
