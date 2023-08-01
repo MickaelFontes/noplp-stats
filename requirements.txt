@@ -1,6 +1,6 @@
 # for dash and pandas
 ansi2html==1.8.0
-certifi==2023.5.7
+certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.5
 dash==2.11.1
