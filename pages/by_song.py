@@ -3,7 +3,6 @@ from functools import reduce
 
 import dash
 import dash_bootstrap_components as dbc
-import pandas as pd
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
@@ -12,25 +11,20 @@ from pages.utils import (
     filter_song,
     find_singer,
     get_date_range_object,
-    get_songs,
+    get_song_dropdown_menu,
     return_cat_rankings_df,
     return_global_ranking_df,
+    return_lyrics_df,
 )
 
 dash.register_page(__name__, path="/song")
-
-lyrics_df = pd.read_csv("data/db_lyrics.csv")
 
 first_card = dbc.Card(
     dbc.CardBody(
         [
             html.H5("Statistics about one song", className="card-title"),
             html.P("Sélectionner le titre de la chanson"),
-            dcc.Dropdown(
-                id="dropdown-song",
-                value="2 be 3",
-                options=[{"label": i, "value": i} for i in get_songs()],
-            ),
+            get_song_dropdown_menu(),
             html.Hr(),
             html.Div(id="song-details"),
         ]
@@ -54,7 +48,8 @@ layout = html.Div(
             [
                 html.H4("Lyrics"),
                 html.Div(id="song-lyrics"),
-            ], style={"textAlign": "center"}
+            ],
+            style={"textAlign": "center"},
         ),
     ]
 )
@@ -101,13 +96,14 @@ def update_timeline(song_name):
     graph_df = graph_df.astype({"points": "string"})
     graph_df["category"] = graph_df.category + " " + graph_df.points
     graph_df["category"] = graph_df["category"].str.replace(" -1", "")
-    fig = px.bar(
+    fig = px.scatter(
         graph_df,
         x=graph_df["date"],
-        y=graph_df["nb"],
+        y=graph_df["category"],
         color=graph_df["category"],
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
+    fig.update_layout(showlegend=False)
     return fig
 
 
@@ -116,7 +112,7 @@ def update_timeline(song_name):
     Output("song-lyrics", "children"),
     Input("dropdown-song", "value"),
 )
-def update_song_details(song_title: str) -> list[html.P]:
+def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     """Query and return song details.
 
     Args:
@@ -149,15 +145,10 @@ def update_song_details(song_title: str) -> list[html.P]:
         else "NA"
     )
 
-    lyrics = []
-    for text_paragraph in (
-        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0].split("\\n\\n")
-    ):
-        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
-        paragraph = html.P(
-            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
-        )
-        lyrics.append(paragraph)
+    lyrics_df = return_lyrics_df()
+    lyrics = extract_and_format_lyrics(
+        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
+    )
 
     return [
         html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
@@ -168,3 +159,39 @@ def update_song_details(song_title: str) -> list[html.P]:
         html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
         html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
     ], lyrics
+
+
+def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
+    """Put verified lyrics in bold.
+
+    Args:
+        text (str): song lyrics
+
+    Returns:
+        list[html]: list of Dash HTML components
+    """
+    if text[0] != "":
+        if text[0][0] == "¤":
+            return [html.B(text[0][1:])]
+    return text
+
+
+def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
+    """Extract and foramt lyrics for quality
+
+    Args:
+        lyrics_string (str): Raw lyrics from database
+
+    Returns:
+        list[html]: list of Dash html components
+    """
+    lyrics = []
+
+    for text_paragraph in lyrics_string.split("\\n\\n"):
+        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
+        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
+        paragraph = html.P(
+            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
+        )
+        lyrics.append(paragraph)
+    return lyrics

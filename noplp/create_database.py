@@ -1,19 +1,20 @@
 """Script to create the songs database used for data visualization."""
-from functools import partial
-from urllib import parse
 import json
 import multiprocessing
-import requests
-
+import time
+from functools import partial
+from urllib import parse
 
 import pandas as pd
+import requests
+from requests.exceptions import ReadTimeout
 
 from noplp.exceptions import (
-    ScrapperTypePageError,
-    ScrapperProcessingLyrics,
     ScrapperProcessingDates,
-    ScrapperProcessingPoints,
     ScrapperProcessingEmissions,
+    ScrapperProcessingLyrics,
+    ScrapperProcessingPoints,
+    ScrapperTypePageError,
 )
 from noplp.scrapper import Scrapper
 from noplp.song import Song
@@ -89,7 +90,6 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
         None | song: Song object or nothing.
     """
     page_url = parse.quote(title, safe="")
-    # print(title)
     try:
         song = scrap.get_song(page_url)
     except ScrapperTypePageError:
@@ -108,6 +108,9 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
         pass
     except ScrapperProcessingEmissions:
         print(f"'{title}' has no SHOW NUMBER.")
+    except ReadTimeout:
+        time.sleep(30)
+        return individual_song_scrap(scrap, title)
     else:
         # print(f"'{title}' is a GOOD song page.")
         return song

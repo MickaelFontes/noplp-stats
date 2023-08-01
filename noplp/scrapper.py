@@ -150,10 +150,57 @@ class Scrapper:
             raise ScrapperProcessingLyrics(
                 "No lyrics found by the regex." + f"\n{self._title}"
             )
-        lyrics = regex_search.group(1)
+
+        def multiple_inline_parenthesis(text):
+            """Replace inline repetition parenthesis by the repeated lyrics."""
+
+            def replace_line(matchobj):
+                i = int(matchobj.group(2))
+                string_multiplied = (matchobj.group(1) + matchobj.group(3)) + (
+                    i - 1
+                ) * ("\n" + matchobj.group(1) + matchobj.group(3))
+                return string_multiplied
+
+            find_multiply = re.sub(
+                r"^(.{3,})\(\s{,2}[x*X]\s{,2}([0-9]+)\s{,2}\)(.*)$",
+                replace_line,
+                text,
+                flags=re.MULTILINE,
+            )
+            return find_multiply
+
+        def multiply_paragraph_prefix(text):
+            """Replace paragaph repetition parenthesis by the repeated lyrics."""
+
+            def replace_paragraph(matchobj):
+                i = int(matchobj.group(1))
+                string_multiplied = (
+                    matchobj.group(2) + (i - 1) * ("\n" + matchobj.group(2)) + "\n\n"
+                )
+                return string_multiplied
+
+            find_multiply_p = re.sub(
+                r"^[' ]{,5}\(.{,2}[x*X].{,2}([0-9]+).{,2}\)[' ]{,4}$\n([\s\S]*?)(?:\n\n)",
+                replace_paragraph,
+                text,
+                flags=re.MULTILINE,
+            )
+            return find_multiply_p
+
+        def process_raw_lyrics(lyrics):
+            """Expand repititions patterns in lyrics."""
+            lyrics = multiply_paragraph_prefix(lyrics)
+            lyrics = multiple_inline_parenthesis(lyrics)
+            return lyrics
+
+        lyrics = regex_search.group(1) + "\n\n\n"
         lyrics = lyrics.replace("'\n\n'", "'\n'").replace("\n\n", "\n")
-        lyrics = lyrics.replace("'''", "").replace("''", "").replace("’", "'")
-        return lyrics
+        lyrics = re.sub(r"'{2,3}<br />'{2,3}\n", "", lyrics, flags=re.MULTILINE)
+        lyrics = re.sub(r"<br />\n", "", lyrics, flags=re.MULTILINE)
+        lyrics = process_raw_lyrics(lyrics)
+        lyrics = re.sub(r"'''(.*)'''", r"¤\1", lyrics)
+        lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
+        return lyrics.strip()
 
     def extract_dates(self) -> Tuple[list[date], list[str], list[int], list[int]]:
         """Method to extract the occurence dates of the song from the page source.

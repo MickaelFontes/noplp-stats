@@ -17,6 +17,7 @@ app.layout = html.Div(
                 dbc.NavLink("Category", href="/category", active="exact"),
                 dbc.NavLink("Song", href="/song", active="exact"),
                 dbc.NavLink("Singer", href="/singer", active="exact"),
+                dbc.NavLink("Training", href="/training", active="exact"),
             ],
             brand="NOPLP Stats",
             color="primary",

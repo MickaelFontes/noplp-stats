@@ -22,6 +22,8 @@ daterange_marks = pd.date_range(
     start=df["date"].min().date(), end=df["date"].max().date(), freq="AS"
 )
 
+lyrics_df = pd.read_csv("data/db_lyrics.csv")
+
 
 def datetime_to_unix(datetime_instance):
     """Convert datetime to unix timestamp"""
@@ -310,6 +312,19 @@ def get_nb_songs_slider():
     )
 
 
+def get_song_dropdown_menu():
+    """Return the song Dropdown menu.
+
+    Returns:
+        dcc.Dropdown: Selector menu for song title
+    """
+    return dcc.Dropdown(
+        id="dropdown-song",
+        value="2 be 3",
+        options=[{"label": i, "value": i} for i in get_songs()],
+    )
+
+
 def get_download_content_from_store(data_stored):
     """Return the download content for all buttons
 
@@ -331,3 +346,12 @@ def get_download_content_from_store(data_stored):
     )
     export_df.index += 1
     return export_df
+
+
+def return_lyrics_df():
+    """Return the lyrics Dataframe.
+
+    Returns:
+        Dataframe: lyrics Dataframe
+    """
+    return lyrics_df
