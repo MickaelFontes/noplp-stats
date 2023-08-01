@@ -112,7 +112,7 @@ def update_timeline(song_name):
     Output("song-lyrics", "children"),
     Input("dropdown-song", "value"),
 )
-def update_song_details(song_title: str) -> list[html.P]:
+def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     """Query and return song details.
 
     Args:
@@ -161,7 +161,7 @@ def update_song_details(song_title: str) -> list[html.P]:
     ], lyrics
 
 
-def bold_for_verified(text):
+def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
     """Put verified lyrics in bold.
 
     Args:
@@ -176,7 +176,7 @@ def bold_for_verified(text):
     return text
 
 
-def extract_and_format_lyrics(lyrics_string: str):
+def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
     """Extract and foramt lyrics for quality
 
     Args:

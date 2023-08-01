@@ -195,7 +195,8 @@ class Scrapper:
 
         lyrics = regex_search.group(1) + "\n\n\n"
         lyrics = lyrics.replace("'\n\n'", "'\n'").replace("\n\n", "\n")
-        lyrics = re.sub(r"<br />'{,3}\n", "", lyrics, flags=re.MULTILINE)
+        lyrics = re.sub(r"'{2,3}<br />'{2,3}\n", "", lyrics, flags=re.MULTILINE)
+        lyrics = re.sub(r"<br />\n", "", lyrics, flags=re.MULTILINE)
         lyrics = process_raw_lyrics(lyrics)
         lyrics = re.sub(r"'''(.*)'''", r"¤\1", lyrics)
         lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
