@@ -1,21 +1,20 @@
 """Script to create the songs database used for data visualization."""
-from functools import partial
-from urllib import parse
 import json
 import multiprocessing
-import requests
 import time
-from requests.exceptions import ReadTimeout
-
+from functools import partial
+from urllib import parse
 
 import pandas as pd
+import requests
+from requests.exceptions import ReadTimeout
 
 from noplp.exceptions import (
-    ScrapperTypePageError,
-    ScrapperProcessingLyrics,
     ScrapperProcessingDates,
-    ScrapperProcessingPoints,
     ScrapperProcessingEmissions,
+    ScrapperProcessingLyrics,
+    ScrapperProcessingPoints,
+    ScrapperTypePageError,
 )
 from noplp.scrapper import Scrapper
 from noplp.song import Song

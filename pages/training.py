@@ -48,17 +48,17 @@ layout = html.Div(
     [Input("collapse-button", "n_clicks")],
     [State("collapse", "is_open")],
 )
-def toggle_collapse(n: int, is_open: bool):
+def toggle_collapse(nb_clicks: int, is_open: bool):
     """Collapse or expand when button is clicked.
 
     Args:
-        n (int): number of clicks
+        nb_clicks (int): number of clicks
         is_open (bool): State boolean for collapse State
 
     Returns:
         bool: New state boolean for collapse State
     """
-    if n:
+    if nb_clicks:
         return not is_open
     return is_open
 
