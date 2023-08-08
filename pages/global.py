@@ -4,6 +4,7 @@ Layout of the global statistics page, with graphs callbacks
 and some data manipulation.
 """
 import dash
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
@@ -20,7 +21,7 @@ from pages.utils import (
 dash.register_page(__name__, path="/global")
 
 
-layout = html.Div(
+layout = dbc.Container(
     [
         html.H4("Most popular songs of NOPLP"),
         dcc.Graph(id="graph"),

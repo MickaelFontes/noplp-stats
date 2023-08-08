@@ -11,7 +11,7 @@ from pages.utils import get_song_dropdown_menu, return_lyrics_df
 
 dash.register_page(__name__, path="/training")
 
-layout = html.Div(
+layout = dbc.Container(
     [
         html.H5("Zone d'entraînement pour apprendre les paroles"),
         html.P(

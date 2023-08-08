@@ -1,7 +1,7 @@
 """Application file for noplp-stats"""
-from dash import Dash, html
 import dash
 import dash_bootstrap_components as dbc
+from dash import Dash, html
 
 app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
@@ -28,4 +28,4 @@ app.layout = html.Div(
 )
 
 if __name__ == "__main__":
-    app.run(port="8080", debug=False)
+    app.run(port="8080", debug=True)

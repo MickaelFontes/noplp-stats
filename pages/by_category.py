@@ -1,6 +1,7 @@
 """Statistics page for category specific stats."""
 
 import dash
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
@@ -19,7 +20,7 @@ from pages.utils import (
 dash.register_page(__name__, path="/category")
 
 
-layout = html.Div(
+layout = dbc.Container(
     [
         html.H4("Most popular songs by category"),
         html.Div(

@@ -32,7 +32,7 @@ first_card = dbc.Card(
 )
 
 
-layout = html.Div(
+layout = dbc.Container(
     [
         dbc.Row(
             [
