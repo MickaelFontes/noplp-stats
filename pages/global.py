@@ -29,15 +29,18 @@ layout = dbc.Container(
         get_nb_songs_slider(),
         get_date_range_object(prefix_component_id="global-"),
         html.Div(
-            "Coverage stats of the selected date range by the sogs present in the graph:"
+            "Coverage stats of the selected date range by the sogs present in the graph:",
+            style={"marginTop": 20},
         ),
         dcc.Markdown("rien", id="stats-global"),
         dbc.Button("Download the displayed top songs", id="btn-global-songs"),
         dcc.Download(id="download-global"),
+        html.Hr(),
         html.H4("Coverage of categories by number of songs"),
         dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
         dcc.Store(id="store-global-top-songs"),
     ],
+    style={"marginTop": 20},
 )
 
 

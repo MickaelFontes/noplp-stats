@@ -39,7 +39,8 @@ layout = dbc.Container(
             id="collapse",
             is_open=False,
         ),
-    ]
+    ],
+    style={"marginTop": 20}
 )
 
 

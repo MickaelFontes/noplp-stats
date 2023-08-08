@@ -13,5 +13,6 @@ layout = dbc.Container(
         This is our Home page content.
     """
         ),
-    ]
+    ],
+    style={"marginTop": 20},
 )

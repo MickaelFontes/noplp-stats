@@ -10,17 +10,20 @@ dash.register_page(__name__, path="/singer")
 
 layout = dbc.Container(
     [
-        html.H4("Singer's songs statistsics"),
+        html.H4("Singer's songs statistsics", style={"marginBottom": 10}),
         dcc.Dropdown(
             id="dropdown-singer",
             value="Céline Dion",
             options=[{"label": i, "value": i} for i in get_singers()],
+            style={"marginBottom": 10},
         ),
         get_date_range_object(),
         dcc.Graph(id="categories-graph-singer"),
+        html.Hr(),
         html.H4("Singer occurence in time"),
         dcc.Graph(id="timeline-graph-singer"),
-    ]
+    ],
+    style={"marginTop": 20},
 )
 
 

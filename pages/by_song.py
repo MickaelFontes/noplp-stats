@@ -22,8 +22,7 @@ dash.register_page(__name__, path="/song")
 first_card = dbc.Card(
     dbc.CardBody(
         [
-            html.H5("Statistics about one song", className="card-title"),
-            html.P("Sélectionner le titre de la chanson"),
+            html.H5("Sélectionner le titre de la chanson", className="card-title"),
             get_song_dropdown_menu(),
             html.Hr(),
             html.Div(id="song-details"),
@@ -34,24 +33,25 @@ first_card = dbc.Card(
 
 layout = dbc.Container(
     [
+        html.H4("Statistics about one song"),
         dbc.Row(
             [
                 dbc.Col(first_card),
                 dbc.Col(dcc.Graph(id="categories-graph-song")),
-            ]
+            ],
+            align="center",
+            justify="center",
+            style={"height": "100%"},
         ),
         get_date_range_object(),
+        html.Hr(),
         html.H4("Song occurence in time"),
         dcc.Graph(id="timeline-graph-song"),
         html.Hr(),
-        html.Div(
-            [
-                html.H4("Lyrics"),
-                html.Div(id="song-lyrics"),
-            ],
-            style={"textAlign": "center"},
-        ),
-    ]
+        html.H4("Lyrics"),
+        html.Div(id="song-lyrics", style={"textAlign": "center"}),
+    ],
+    style={"marginTop": 20},
 )
 
 
