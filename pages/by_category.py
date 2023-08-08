@@ -1,6 +1,7 @@
 """Statistics page for category specific stats."""
 
 import dash
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
@@ -19,42 +20,46 @@ from pages.utils import (
 dash.register_page(__name__, path="/category")
 
 
-layout = html.Div(
+layout = dbc.Container(
     [
-        html.H4("Most popular songs by category"),
-        html.Div(
+        html.H4("Most popular songs by category", style={"marginBottom": 10}),
+        dbc.Row(
             [
-                dcc.Dropdown(
-                    options=get_category_options(),
-                    value="Points",
-                    id="category-selector",
-                )
-            ],
-            style={"width": "48%", "display": "inline-block"},
-        ),
-        html.Div(
-            [
-                dcc.Dropdown(
-                    options=get_points_options(),
-                    value=[50, 40, 30, 20, 10],
-                    id="points-selector",
-                    multi=True,
-                )
-            ],
-            style={"width": "48%", "float": "right", "display": "inline-block"},
+                dbc.Col(
+                    [
+                        dcc.Dropdown(
+                            options=get_category_options(),
+                            value="Points",
+                            id="category-selector",
+                        )
+                    ]
+                ),
+                dbc.Col(
+                    [
+                        dcc.Dropdown(
+                            options=get_points_options(),
+                            value=[50, 40, 30, 20, 10],
+                            id="points-selector",
+                            multi=True,
+                        )
+                    ]
+                ),
+            ]
         ),
         dcc.Graph(id="sorted-graph"),
         html.Div("Number of top songs to display"),
         get_nb_songs_slider(),
         get_date_range_object(prefix_component_id="category-"),
         html.Div(
-            "Coverage stats of the selected date range by the sogs present in the graph:"
+            "Coverage stats of the selected date range by the sogs present in the graph:",
+            style={"marginTop": 20},
         ),
         dcc.Markdown("", id="stats-category"),
-        html.Button("Download the displayed top songs", id="btn-category-songs"),
+        dbc.Button("Download the displayed top songs", id="btn-category-songs"),
         dcc.Download(id="download-category"),
         dcc.Store(id="store-category-top-songs"),
-    ]
+    ],
+    style={"marginTop": 20},
 )
 
 

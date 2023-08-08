@@ -4,6 +4,7 @@ Layout of the global statistics page, with graphs callbacks
 and some data manipulation.
 """
 import dash
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
@@ -20,7 +21,7 @@ from pages.utils import (
 dash.register_page(__name__, path="/global")
 
 
-layout = html.Div(
+layout = dbc.Container(
     [
         html.H4("Most popular songs of NOPLP"),
         dcc.Graph(id="graph"),
@@ -28,15 +29,18 @@ layout = html.Div(
         get_nb_songs_slider(),
         get_date_range_object(prefix_component_id="global-"),
         html.Div(
-            "Coverage stats of the selected date range by the sogs present in the graph:"
+            "Coverage stats of the selected date range by the sogs present in the graph:",
+            style={"marginTop": 20},
         ),
         dcc.Markdown("rien", id="stats-global"),
-        html.Button("Download the displayed top songs", id="btn-global-songs"),
+        dbc.Button("Download the displayed top songs", id="btn-global-songs"),
         dcc.Download(id="download-global"),
+        html.Hr(),
         html.H4("Coverage of categories by number of songs"),
         dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
         dcc.Store(id="store-global-top-songs"),
     ],
+    style={"marginTop": 20},
 )
 
 

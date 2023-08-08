@@ -1,5 +1,6 @@
 """Statistics page for singer specific stats."""
 import dash
+import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
@@ -7,19 +8,22 @@ from pages.utils import filter_date, filter_singer, get_date_range_object, get_s
 
 dash.register_page(__name__, path="/singer")
 
-layout = html.Div(
+layout = dbc.Container(
     [
-        html.H4("Singer's songs statistsics"),
+        html.H4("Singer's songs statistsics", style={"marginBottom": 10}),
         dcc.Dropdown(
             id="dropdown-singer",
             value="Céline Dion",
             options=[{"label": i, "value": i} for i in get_singers()],
+            style={"marginBottom": 10},
         ),
         get_date_range_object(),
         dcc.Graph(id="categories-graph-singer"),
+        html.Hr(),
         html.H4("Singer occurence in time"),
         dcc.Graph(id="timeline-graph-singer"),
-    ]
+    ],
+    style={"marginTop": 20},
 )
 
 
