@@ -52,7 +52,7 @@ layout = dbc.Container(
             "Coverage stats of the selected date range by the sogs present in the graph:"
         ),
         dcc.Markdown("", id="stats-category"),
-        html.Button("Download the displayed top songs", id="btn-category-songs"),
+        dbc.Button("Download the displayed top songs", id="btn-category-songs"),
         dcc.Download(id="download-category"),
         dcc.Store(id="store-category-top-songs"),
     ]

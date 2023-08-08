@@ -32,7 +32,7 @@ layout = dbc.Container(
             "Coverage stats of the selected date range by the sogs present in the graph:"
         ),
         dcc.Markdown("rien", id="stats-global"),
-        html.Button("Download the displayed top songs", id="btn-global-songs"),
+        dbc.Button("Download the displayed top songs", id="btn-global-songs"),
         dcc.Download(id="download-global"),
         html.H4("Coverage of categories by number of songs"),
         dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
