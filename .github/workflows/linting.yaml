@@ -19,9 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: |
           poetry install
@@ -37,9 +41,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: |
           poetry install
