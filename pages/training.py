@@ -3,7 +3,7 @@ import re
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, callback, html, State
+from dash import Input, Output, State, callback, html
 from unidecode import unidecode
 
 from pages.by_song import extract_and_format_lyrics
@@ -40,7 +40,7 @@ layout = dbc.Container(
             is_open=False,
         ),
     ],
-    style={"marginTop": 20}
+    style={"marginTop": 20},
 )
 
 

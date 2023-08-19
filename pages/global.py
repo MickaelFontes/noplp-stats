@@ -80,6 +80,7 @@ def update_figure(date_range, nb_songs):
     prevent_initial_call=True,
 )
 def download_songs_list(_, data_stored):
+    # pylint: disable=useless-type-doc, useless-param-doc
     """Download function to save top songs
 
     Args:
