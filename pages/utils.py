@@ -2,10 +2,9 @@
 import datetime
 import time
 
-from dash import dcc, html
 import pandas as pd
 import plotly.express as px
-
+from dash import dcc, html
 
 df = pd.read_csv("data/db_test_full.csv", index_col=None)
 df["date"] = pd.to_datetime(df["date"])
@@ -306,7 +305,7 @@ def get_nb_songs_slider():
         max=1000,
         step=10,
         value=10,
-        marks={i: f"{i}" for i in [5, 10, 50, 100, 300, 500, 1000]},
+        marks={i: f"{i}" for i in (5, 10, 50, 100, 300, 500, 1000)},
         id="nb-songs",
         tooltip={"placement": "bottom", "always_visible": True},
     )

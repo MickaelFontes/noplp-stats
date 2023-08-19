@@ -3,7 +3,6 @@
 import json
 import re
 from datetime import date
-from typing import Tuple
 
 import dateparser
 import requests
@@ -65,6 +64,7 @@ class Scrapper:
         Raises:
             ScrapperGetPageError: Error when requesting the page.
             ScrapperGetPageError: The downloaded page is not a song page.
+            ScrapperTypePageError: The page does not appear to be a song page.
 
         Returns:
             song (Song): Song instance with the data obtained from the API
@@ -116,8 +116,7 @@ class Scrapper:
             raise ScrapperProcessingSinger("data property empty.")
 
         # Extract singer from the source field
-        regex_search = re.search(r"Interprète\w* : (.*)", source)
-        if regex_search is not None:
+        if (regex_search := re.search(r"Interprète\w* : (.*)", source)) is not None:
             singer = regex_search.group(1)
             singer = singer.replace('"', "")
             return singer
@@ -202,7 +201,7 @@ class Scrapper:
         lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
         return lyrics.strip()
 
-    def extract_dates(self) -> Tuple[list[date], list[str], list[int], list[int]]:
+    def extract_dates(self) -> tuple[list[date], list[str], list[int], list[int]]:
         """Method to extract the occurence dates of the song from the page source.
 
         Extract the relevant section from source, then matches each relevant line and calls
@@ -235,8 +234,7 @@ class Scrapper:
                 "No dates section found by the regex." + f"\n{self._title}"
             )
         # Then extract each line with an occurence date
-        regex_each_date = re.findall(r"#.*", section)
-        if regex_each_date:
+        if regex_each_date := re.findall(r"#.*", section):
             for song_date_line in regex_each_date:
                 if re.match(r"^#\S*$", song_date_line):  # empty line
                     continue
@@ -266,8 +264,7 @@ class Scrapper:
         Returns:
             date: Date of song occurence.
         """
-        regex_date = re.search(r"\w+\s+\d+\w*\s+\w+\s+\d+", line)
-        if not regex_date:
+        if not (regex_date := re.search(r"\w+\s+\d+\w*\s+\w+\s+\d+", line)):
             raise ScrapperProcessingDates(
                 "No date found in the provided line\n\n" + line + f"\n{self._title}"
             )
@@ -275,14 +272,13 @@ class Scrapper:
         # # Then remove eventual letter in date number (eg: 1er, 2e, etc.)
         # date = re.sub(r"(\d+)[a-zA-Z]+",r"\1", date)
         # -> No need, dateparser does the job
-        date_object = dateparser.parse(date_text)
-        if not date_object:
+        if not (date_object := dateparser.parse(date_text)):
             raise ScrapperProcessingDates(
                 "Did not manage to parse the date.\n\n" + date_text + f"\n{self._title}"
             )
         return date_object.date()  # We only care about the date
 
-    def process_points_line(self, line: str) -> Tuple[str, int]:
+    def process_points_line(self, line: str) -> tuple[str, int]:
         """Processes a date line to extract points category.
 
         Args:
@@ -304,15 +300,13 @@ class Scrapper:
             if not any(x in points_text for x in checks):
                 return points_text, -1
             return "Points", int(points_text[0] + "0")  # manual fix for found typos
-        regex_money = re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line)
-        if regex_money:
+        if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line):
             gain = regex_money.group(1)
             gain = re.sub(r"[^\d]", "", gain)
             gain = int(gain)
             return "Ancienne formule", gain
         # No most exepected category found
-        regex_extract = re.search(r"\s*((\w+\s)*\w+)\s*:", line)
-        if not regex_extract:
+        if not (regex_extract := re.search(r"\s*((\w+\s)*\w+)\s*:", line)):
             raise ScrapperProcessingPoints(
                 "No points category found in the line\n\n" + line + f"\n{self._title}"
             )
@@ -339,7 +333,7 @@ class Scrapper:
         # if not usual emission
         if any(
             word in line.lower()
-            for word in [
+            for word in (
                 "tournoi",
                 "ligue",
                 "spécial",
@@ -347,7 +341,7 @@ class Scrapper:
                 "ontre",
                 "master",
                 "enfants",
-            ]
+            )
         ):
             factor = -1
 

@@ -123,6 +123,7 @@ def generate_url(
     """Generate URL to requests list of songs from the Fandom API.
 
     Args:
+        common_page (str): page used to look for backlinks.
         start (int, optional): index start. Defaults to 0.
         end (int, optional): index end. Defaults to 500.
         limit (int, optional): maximum number of songs returned by the request. From 1 to 500. Defaults to 500.
@@ -143,6 +144,7 @@ def get_all_page_list(common_songs_page: str, test: bool = True) -> list[str]:
     """Generate a list of all songs pages to download.
 
     Args:
+        common_songs_page (str): page used to look for backlinks.
         test (bool, optional): If the call is a short test. Defaults to True.
 
     Returns:
