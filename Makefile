@@ -32,16 +32,13 @@ lint-black: #Doc: run black in linting mode
 lint-isort: #Doc: run isort in linting mode
 	isort . --check
 
-.PHONY: pylint
-pylint: #Doc: run pylint (code linter)
-	pylint app.py noplp pages --max-line-length=127 --good-names=r,p,i
+.PHONY: lint-pylint
+lint-pylint: #Doc: run pylint (code linter)
+	pylint app.py noplp pages
 
 .PHONY: lint-flake8
 lint-flake8: #Doc: run flake8 (code linter)
-	# stop the build if there are Python syntax errors or undefined names
-	flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-	# exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-	flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+	flake8 --config=.flake8
 
 ##
 ## Test & scripts
