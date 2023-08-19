@@ -234,7 +234,7 @@ class Scrapper:
                 "No dates section found by the regex." + f"\n{self._title}"
             )
         # Then extract each line with an occurence date
-        if (regex_each_date := re.findall(r"#.*", section)):
+        if regex_each_date := re.findall(r"#.*", section):
             for song_date_line in regex_each_date:
                 if re.match(r"^#\S*$", song_date_line):  # empty line
                     continue
@@ -300,7 +300,7 @@ class Scrapper:
             if not any(x in points_text for x in checks):
                 return points_text, -1
             return "Points", int(points_text[0] + "0")  # manual fix for found typos
-        if (regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line)):
+        if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line):
             gain = regex_money.group(1)
             gain = re.sub(r"[^\d]", "", gain)
             gain = int(gain)
