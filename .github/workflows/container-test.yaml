@@ -21,6 +21,6 @@ jobs:
 
     - name: Test image
       run: |
-        docker run --rm -d --name test_container -p 8080:8080 noplp-stats
+        docker run --rm -d --name test_container -p 8080:8080 noplp-stats:dev
         docker run --link test_container:test_container waisbrot/wait
         curl --fail -v -o /dev/null http://localhost:8080/global
