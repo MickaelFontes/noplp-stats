@@ -1,3 +1,9 @@
+SHELL=/bin/bash -o pipefail
+
+# version settings
+COMMIT?=$(shell git rev-parse HEAD)
+DOCKER_IMAGE="noplp-stats"
+
 .DEFAULT_GOAL := help
 
 .PHONY: help
@@ -18,7 +24,7 @@ format-isort: #Doc: run isort (imports formatter)
 
 .PHONY: format
 format: #Doc: run all formatters
-	format-black format-isort
+	make format-isort && make format-black
 
 ##
 ## Linters
@@ -51,3 +57,12 @@ app-debug: #Doc: run Dash app in debug mode
 .PHONY: app
 app: #Doc: run Dash app in production mode
 	gunicorn -b :8080 -w 1 app:server
+
+##
+## Image & deployment
+##
+
+.PHONY: docker
+docker: #Doc: build Docker image
+	DOCKER_BUILDKIT=1 docker build . --target=runtime -f Dockerfile.dev --tag "$(DOCKER_IMAGE):$(COMMIT)"
+	docker tag $(DOCKER_IMAGE):$(COMMIT) $(DOCKER_IMAGE):dev
