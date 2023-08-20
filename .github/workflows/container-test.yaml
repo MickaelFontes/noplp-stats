@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  deploy-app-engine:
+  deploy-test-container:
     name: Test app in container
     runs-on: ubuntu-latest
     permissions:
@@ -24,3 +24,30 @@ jobs:
         docker run --rm -d --name test_container -p 8080:8080 noplp-stats:dev
         docker run --link test_container:test_container waisbrot/wait
         curl --fail -v -o /dev/null http://localhost:8080/global
+
+  dash-testing:
+    name: Run end-to-end Dash tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        poetry install
+
+    - name: Launch tests
+      run: |
+        poetry run pytest
