@@ -23,6 +23,7 @@ layout = dbc.Container(
             id="user-lyrics",
             className="mb-3",
             placeholder="Tapez les paroles de la chanson...",
+            style={"height": 200},
         ),
         html.Div(id="verified-lyrics"),
         dbc.Progress(id="user-lyrics-progress", value=0),
@@ -106,14 +107,14 @@ def compare_text_and_lyrics(user_text, song_title):
                 continue
             return (
                 [
-                    html.P("Mistake after: " + " ".join(user_words[: i + 1][-5:])),
+                    html.P("⛔ Mistake after: " + " ".join(user_words[: i + 1][-5:])),
                     html.Br(),
                     html.P("Expected words: " + " ".join(lyrics_words[: i + 1][-5:])),
                 ],
                 verified_lyrics,
                 user_progress,
             )
-        return "All user words are valid", verified_lyrics, user_progress
+        return "✅ All user words are valid", verified_lyrics, user_progress
     return "", "", 0
 
 

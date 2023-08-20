@@ -109,7 +109,7 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
     """
     graph2_df = filter_date(date_range)
     graph2_df = graph2_df[graph2_df["category"] == category_value]
-    if category_value in set("Points", "Ancienne formule"):
+    if category_value in set({"Points", "Ancienne formule"}):
         graph2_df = graph2_df[graph2_df["points"].isin(points_selector)]
         graph2_df = graph2_df.groupby(by=["name", "points"], as_index=False)[
             "date"
