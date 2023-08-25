@@ -1,4 +1,4 @@
-name: Test app in container
+name: Test app
 
 on:
   pull_request:
