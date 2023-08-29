@@ -1,0 +1,42 @@
+name: Update NOLPL database
+
+on:
+  schedule:
+  - cron: 0 0 * * 3
+  workflow_dispatch:
+
+jobs:
+  scrappping:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+    - name: Install dependencies
+      run: |
+        poetry install
+
+    - name: Launch scrapping
+      run: |
+        poetry run python noplp/create_database.py
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5.0.2
+      with:
+        base: main
+        title: "chore(database): update database"
+        commit-message: Perform scrapping to get last database version*
+        branch: update-noplp-database
