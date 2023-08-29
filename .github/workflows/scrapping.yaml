@@ -40,3 +40,8 @@ jobs:
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5.0.2
+      with:
+        base: main
+        title: "chore(database): update database"
+        commit-message: Perform scrapping to get last database version*
+        branch: update-noplp-database
