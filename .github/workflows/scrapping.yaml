@@ -1,15 +1,9 @@
 name: Update NOLPL database
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-# on:
-#   schedule:
-#   - cron: 0 0 * * 1
-#   workflow_dispatch:
+  schedule:
+  - cron: 0 0 * * 3
+  workflow_dispatch:
 
 jobs:
   scrappping:
@@ -37,7 +31,7 @@ jobs:
 
     - name: Launch scrapping
       run: |
-        touch ./noplp/tester
+        poetry run python noplp/create_database.py
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5.0.2
