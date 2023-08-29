@@ -36,7 +36,7 @@ jobs:
 
     - name: Launch scrapping
       run: |
-        echo test > ~noplp/test
+        echo test > ~/noplp/test
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5.0.2
