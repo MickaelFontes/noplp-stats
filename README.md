@@ -18,4 +18,4 @@ Incoming:
 * Next song prediction
 * Last words to guess
 
-Using Python 3.9.
+Using Python 3.10.

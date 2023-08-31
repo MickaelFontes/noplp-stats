@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: read
 
     steps:
     - name: Checkout
@@ -37,6 +38,6 @@ jobs:
       uses: peter-evans/create-pull-request@v5.0.2
       with:
         base: main
-        title: "chore(database): update database"
-        commit-message: Perform scrapping to get last database version*
+        commit-message: "chore(database): update database"
+        title: Perform scrapping to get last database version
         branch: update-noplp-database
