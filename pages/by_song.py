@@ -17,7 +17,7 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/song")
+dash.register_page(__name__, path="/song", title="Par chanson - NOLPL stats")
 
 first_card = dbc.Card(
     dbc.CardBody(
@@ -33,7 +33,7 @@ first_card = dbc.Card(
 
 layout = dbc.Container(
     [
-        html.H4("Statistics about one song"),
+        html.H4("Statistiques sur la chanson sélectionnée"),
         dbc.Row(
             [
                 dbc.Col(first_card),
@@ -45,10 +45,10 @@ layout = dbc.Container(
         ),
         get_date_range_object(),
         html.Hr(),
-        html.H4("Song occurence in time"),
+        html.H4("Apparitions de la chanson sur l'émission"),
         dcc.Graph(id="timeline-graph-song"),
         html.Hr(),
-        html.H4("Lyrics"),
+        html.H4("Paroles"),
         html.Div(id="song-lyrics", style={"textAlign": "center"}),
     ],
     style={"marginTop": 20},

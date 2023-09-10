@@ -17,12 +17,12 @@ from pages.utils import (
     get_points_options,
 )
 
-dash.register_page(__name__, path="/category")
+dash.register_page(__name__, path="/category", title="Par catégorie - NOLPL stats")
 
 
 layout = dbc.Container(
     [
-        html.H4("Most popular songs by category", style={"marginBottom": 10}),
+        html.H4("Chansons les plus populaires par catégorie", style={"marginBottom": 10}),
         dbc.Row(
             [
                 dbc.Col(
@@ -47,15 +47,15 @@ layout = dbc.Container(
             ]
         ),
         dcc.Graph(id="sorted-graph"),
-        html.Div("Number of top songs to display"),
+        html.Div("Nombre de chansons à afficher"),
         get_nb_songs_slider(),
         get_date_range_object(prefix_component_id="category-"),
         html.Div(
-            "Coverage stats of the selected date range by the sogs present in the graph:",
+            "Statistiques de couverture des catégories avec la sélection actuelle:",
             style={"marginTop": 20},
         ),
         dcc.Markdown("", id="stats-category"),
-        dbc.Button("Download the displayed top songs", id="btn-category-songs"),
+        dbc.Button("Télécharger la sélection actuelle", id="btn-category-songs"),
         dcc.Download(id="download-category"),
         dcc.Store(id="store-category-top-songs"),
     ],
