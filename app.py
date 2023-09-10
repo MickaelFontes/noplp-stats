@@ -3,6 +3,8 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html
 
+from pages.bottom import bottom
+
 app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP], update_title="")
 server = app.server
 app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"
@@ -24,6 +26,7 @@ app.layout = html.Div(
             dark=True,
         ),
         dash.page_container,
+        bottom
     ]
 )
 
