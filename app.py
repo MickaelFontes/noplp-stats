@@ -3,21 +3,21 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html
 
-app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP], update_title="")
 server = app.server
-app.title = "NOPLP stats - Statistics of occurences on NOPLP"
+app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"
 
 
 app.layout = html.Div(
     [
         dbc.NavbarSimple(
             children=[
-                dbc.NavLink("Home", href="/", active="exact"),
+                dbc.NavLink("Accueil", href="/", active="exact"),
                 dbc.NavLink("Global", href="/global", active="exact"),
-                dbc.NavLink("Category", href="/category", active="exact"),
-                dbc.NavLink("Song", href="/song", active="exact"),
-                dbc.NavLink("Singer", href="/singer", active="exact"),
-                dbc.NavLink("Training", href="/training", active="exact"),
+                dbc.NavLink("Par catégorie", href="/category", active="exact"),
+                dbc.NavLink("Par chanson", href="/song", active="exact"),
+                dbc.NavLink("Par interprète", href="/singer", active="exact"),
+                dbc.NavLink("Entraînement", href="/training", active="exact"),
             ],
             brand="NOPLP Stats",
             color="primary",
