@@ -6,11 +6,11 @@ from dash import Input, Output, callback, dcc, html
 
 from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers
 
-dash.register_page(__name__, path="/singer")
+dash.register_page(__name__, path="/singer", title="Par interprète - NOLPL stats")
 
 layout = dbc.Container(
     [
-        html.H4("Singer's songs statistsics", style={"marginBottom": 10}),
+        html.H4("Statistiques sur les chansons d'un.e interprète", style={"marginBottom": 10}),
         dcc.Dropdown(
             id="dropdown-singer",
             value="Céline Dion",
@@ -20,7 +20,7 @@ layout = dbc.Container(
         get_date_range_object(),
         dcc.Graph(id="categories-graph-singer"),
         html.Hr(),
-        html.H4("Singer occurence in time"),
+        html.H4("Apparitions de ses chansons dans l'émission"),
         dcc.Graph(id="timeline-graph-singer"),
     ],
     style={"marginTop": 20},

@@ -9,7 +9,7 @@ from unidecode import unidecode
 from pages.by_song import extract_and_format_lyrics
 from pages.utils import get_song_dropdown_menu, return_lyrics_df
 
-dash.register_page(__name__, path="/training")
+dash.register_page(__name__, path="/training", title="Entraînemnt - NOLPL stats")
 
 layout = dbc.Container(
     [
@@ -107,14 +107,14 @@ def compare_text_and_lyrics(user_text, song_title):
                 continue
             return (
                 [
-                    html.P("⛔ Mistake after: " + " ".join(user_words[: i + 1][-5:])),
+                    html.P("⛔ Erreur, paroles tapées incorrectes: " + " ".join(user_words[: i + 1][-5:])),
                     html.Br(),
-                    html.P("Expected words: " + " ".join(lyrics_words[: i + 1][-5:])),
+                    html.P("Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])),
                 ],
                 verified_lyrics,
                 user_progress,
             )
-        return "✅ All user words are valid", verified_lyrics, user_progress
+        return "✅ Tous les mots tapés sont valides !", verified_lyrics, user_progress
     return "", "", 0
 
 

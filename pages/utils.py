@@ -130,7 +130,7 @@ def get_date_range_object(prefix_component_id=""):
     return html.Div(
         [
             html.Label(
-                "From 2008 to 2023", id=prefix_component_id + "time-range-label"
+                "Intervalle de temps pris en compte", id=prefix_component_id + "time-range-label"
             ),
             dcc.RangeSlider(
                 id=prefix_component_id + "year_slider",
