@@ -140,7 +140,7 @@ def get_date_range_object(prefix_component_id=""):
                 marks=get_marks(),
             ),
         ],
-        style={"margin-top": "20"},
+        style={"marginTop": "20"},
     )
 
 
