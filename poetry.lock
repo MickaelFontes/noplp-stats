@@ -354,13 +354,13 @@ test-randomorder = ["pytest-randomly"]
 
 [[package]]
 name = "dash"
-version = "2.14.0"
+version = "2.14.1"
 description = "A Python framework for building reactive web-apps. Developed by Plotly."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "dash-2.14.0-py3-none-any.whl", hash = "sha256:b88ffb53cb1bf54c12780ecf89943bb901c8914b3c075002e46519c9b17d7a72"},
-    {file = "dash-2.14.0.tar.gz", hash = "sha256:bd28be70be24ae1d1f764b8217a03da35e9ed895406686d24dfb6ed4e331e5a9"},
+    {file = "dash-2.14.1-py3-none-any.whl", hash = "sha256:ce440ef7416945c9daa8274948483a0aac928a4fec768c0384fd4e9a6196eaf2"},
+    {file = "dash-2.14.1.tar.gz", hash = "sha256:93dc9d665ec5d3720647d4cef4520a1c7cd1bde57e893ffeb7e6cd59781d3294"},
 ]
 
 [package.dependencies]
@@ -370,7 +370,7 @@ dash-core-components = "2.0.0"
 dash-html-components = "2.0.0"
 dash-table = "5.0.0"
 dash-testing-stub = {version = ">=0.0.2", optional = true, markers = "extra == \"testing\""}
-Flask = ">=1.0.4,<2.3.0"
+Flask = ">=1.0.4,<3.1"
 importlib-metadata = {version = "*", markers = "python_version >= \"3.7\""}
 lxml = {version = ">=4.6.2", optional = true, markers = "extra == \"testing\""}
 multiprocess = {version = ">=0.70.12", optional = true, markers = "extra == \"testing\""}
@@ -388,7 +388,7 @@ selenium = {version = ">=3.141.0,<=4.2.0", optional = true, markers = "extra == 
 setuptools = "*"
 typing-extensions = ">=4.1.1"
 waitress = {version = ">=1.4.4", optional = true, markers = "extra == \"testing\""}
-Werkzeug = "<2.3.0"
+Werkzeug = "<3.1"
 
 [package.extras]
 celery = ["celery[redis] (>=5.1.2)", "importlib-metadata (<5)", "redis (>=3.5.3)"]
@@ -1932,4 +1932,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2e77be1ad6a99dcb5c30fd17e0e6deb0a010135047e81651fa4ed7db5c045e61"
+content-hash = "afa3813f6c9e5afbfb4e02db4aca513a4c825856cc04dac1046dd5ddfec82e1f"
