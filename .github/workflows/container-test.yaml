@@ -44,6 +44,10 @@ jobs:
         curl -sSL https://install.python-poetry.org | python
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+    - uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+
     - name: setup-chromedriver
       uses: nanasess/setup-chromedriver@v2.2.0
 
