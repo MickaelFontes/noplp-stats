@@ -54,6 +54,7 @@ jobs:
     - name: Install dependencies
       run: |
         poetry install
+        sudo apt install xvfb -y
 
     - name: Launch tests
       run: |
