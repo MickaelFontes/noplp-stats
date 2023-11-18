@@ -27,7 +27,7 @@ jobs:
 
   dash-testing:
     name: Run end-to-end Dash tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     permissions:
       contents: 'read'
 
