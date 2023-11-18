@@ -118,6 +118,8 @@ class Scrapper:
         # Extract singer from the source field
         if (regex_search := re.search(r"Interprète\w* : (.*)", source)) is not None:
             singer = regex_search.group(1)
+            # discard potential following brackets
+            singer = re.search(r"([^\[]*)", singer).group(1)
             singer = singer.replace('"', "")
             return singer
         if self._singer_required:
