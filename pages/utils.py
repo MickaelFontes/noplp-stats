@@ -79,14 +79,14 @@ def filter_date_totals(date_range):
     return graph_df
 
 
-def get_time_limits():
+def get_time_limits(data_frame=df):
     """Return the time limits of full songs Dataframe.
 
     Returns:
         list[Unix]: [begin, end] in Unix format
     """
-    begin = datetime_to_unix(df["date"].min().date().replace(day=1))
-    end = datetime_to_unix(df["date"].max().date() + datetime.timedelta(days=31))
+    begin = datetime_to_unix(data_frame["date"].min().date().replace(day=1))
+    end = datetime_to_unix(data_frame["date"].max().date() + datetime.timedelta(days=31))
     return begin, end
 
 
