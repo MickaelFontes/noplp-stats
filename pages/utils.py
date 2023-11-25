@@ -79,7 +79,7 @@ def filter_date_totals(date_range):
     return graph_df
 
 
-def get_time_limits():
+def get_time_limits(df=df):
     """Return the time limits of full songs Dataframe.
 
     Returns:

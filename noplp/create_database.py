@@ -225,7 +225,14 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
 
 def compute_cumulative_graph() -> None:
     """Computes and saves the global coverage graph data."""
-    date_range = get_time_limits()
+    # 1. Read new CSV versions
+    df_new = pd.read_csv("data/db_test_full.csv", index_col=None)
+    df_new["date"] = pd.to_datetime(df_new["date"])
+    df_new["singer"] = df_new["singer"].astype("str")
+    df_new["name"] = df_new["name"].astype("str")
+
+    # Filters and compute graphs
+    date_range = get_time_limits(df=df_new)
     graph_df = filter_date(date_range)
     graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
     graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
@@ -233,6 +240,8 @@ def compute_cumulative_graph() -> None:
     graph_40 = return_df_cumsum_category(graph_df, "40 Points")
     graph_30 = return_df_cumsum_category(graph_df, "30 Points")
     graph_meme = return_df_cumsum_category(graph_df, "-1 Même chanson")
+
+    # 3. Export results
     return_df_cumsum_category(graph_df, "TOUT").sort_values(
         by=["name", "category"]
     ).to_csv("data/global_ranking.csv", index=False)
