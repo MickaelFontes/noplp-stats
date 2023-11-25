@@ -232,7 +232,7 @@ def compute_cumulative_graph() -> None:
     df_new["name"] = df_new["name"].astype("str")
 
     # Filters and compute graphs
-    date_range = get_time_limits(df=df_new)
+    date_range = get_time_limits(data_frame=df_new)
     graph_df = filter_date(date_range)
     graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
     graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
