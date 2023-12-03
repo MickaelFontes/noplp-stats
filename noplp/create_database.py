@@ -21,7 +21,7 @@ from noplp.song import Song
 from pages.utils import filter_date, get_time_limits
 
 
-def main():
+def global_scrapping() -> pd.DataFrame:
     """Performs the whole Scrapper logic to download all songs information
     from the Fandom Wiki.
     """
@@ -77,6 +77,7 @@ def main():
     )
     lyrics_df.sort_values(ascending=True, by=["name", "singer"], inplace=True)
     lyrics_df.to_csv("data/db_lyrics.csv", index=False)
+    return songs_df
 
 
 def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
@@ -223,10 +224,9 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
     return songs_ranking
 
 
-def compute_cumulative_graph() -> None:
+def compute_cumulative_graph(df_new: pd.DataFrame) -> None:
     """Computes and saves the global coverage graph data."""
-    # 1. Read new CSV versions
-    df_new = pd.read_csv("data/db_test_full.csv", index_col=None)
+    # 1. Read new CSV version
     df_new["date"] = pd.to_datetime(df_new["date"])
     df_new["singer"] = df_new["singer"].astype("str")
     df_new["name"] = df_new["name"].astype("str")
@@ -250,6 +250,11 @@ def compute_cumulative_graph() -> None:
     graph_all.to_csv("data/coverage_graph.csv", index=False)
 
 
+def main():
+    """Run the whole scrapping and computations logic."""
+    new_songs_df = global_scrapping()
+    compute_cumulative_graph(new_songs_df)
+
+
 if __name__ == "__main__":
     main()
-    compute_cumulative_graph()
