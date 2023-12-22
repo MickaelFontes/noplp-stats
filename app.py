@@ -15,11 +15,11 @@ app.layout = html.Div(
         dbc.NavbarSimple(
             children=[
                 dbc.NavLink("Accueil", href="/", active="exact"),
-                dbc.NavLink("Global", href="/global", active="exact"),
-                dbc.NavLink("Par catégorie", href="/category", active="exact"),
-                dbc.NavLink("Par chanson", href="/song", active="exact"),
-                dbc.NavLink("Par interprète", href="/singer", active="exact"),
-                dbc.NavLink("Entraînement", href="/training", active="exact"),
+                # dbc.NavLink("Global", href="/global", active="exact"),
+                # dbc.NavLink("Par catégorie", href="/category", active="exact"),
+                # dbc.NavLink("Par chanson", href="/song", active="exact"),
+                # dbc.NavLink("Par interprète", href="/singer", active="exact"),
+                # dbc.NavLink("Entraînement", href="/training", active="exact"),
             ],
             brand="NOPLP Stats",
             color="primary",
