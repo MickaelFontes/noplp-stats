@@ -44,7 +44,7 @@ def get_marks():
     return result
 
 
-def filter_date(date_range: tuple[int, int]) -> pd.DataFrame:
+def filter_date(date_range: tuple[int, int], data_frame: pd.DataFrame=df) -> pd.DataFrame:
     """Return a complete songs Dataframe for the data_range argument
 
     Args:
@@ -54,7 +54,7 @@ def filter_date(date_range: tuple[int, int]) -> pd.DataFrame:
         Dataframe: songs Dataframe of input data_range
     """
     small, big = date_range
-    graph_df = df[df["date"] <= unix_to_datetime(big)]  # type: ignore
+    graph_df = data_frame[data_frame["date"] <= unix_to_datetime(big)]  # type: ignore
     graph_df = graph_df[graph_df["date"] >= unix_to_datetime(small)]
     return graph_df
 
