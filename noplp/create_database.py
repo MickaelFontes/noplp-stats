@@ -233,7 +233,7 @@ def compute_cumulative_graph(df_new: pd.DataFrame) -> None:
 
     # Filters and compute graphs
     date_range = get_time_limits(data_frame=df_new)
-    graph_df = filter_date(date_range)
+    graph_df = filter_date(date_range, data_frame=df_new)
     graph_df["category"] = graph_df["points"].astype(str) + " " + graph_df["category"]
     graph_maestro = return_df_cumsum_category(graph_df, "-1 Maestro")
     graph_50 = return_df_cumsum_category(graph_df, "50 Points")
