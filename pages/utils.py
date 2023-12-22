@@ -44,11 +44,12 @@ def get_marks():
     return result
 
 
-def filter_date(date_range: tuple[int, int], data_frame: pd.DataFrame=df) -> pd.DataFrame:
+def filter_date(date_range: tuple[int, int], data_frame: pd.DataFrame = df) -> pd.DataFrame:
     """Return a complete songs Dataframe for the data_range argument
 
     Args:
         date_range (list[int]): date range in Unix format
+        data_frame (pd.Dataframe): Dataframe to filter on
 
     Returns:
         Dataframe: songs Dataframe of input data_range
