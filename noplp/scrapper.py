@@ -5,7 +5,7 @@ import re
 from datetime import date
 
 import dateparser
-import requests
+import aiohttp
 
 from noplp.exceptions import (
     ScrapperGetPageError,
@@ -31,6 +31,8 @@ class Scrapper:
         "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
     )
 
+    # CLIENT_SESSION = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
+
     def __init__(self, singer_required: bool = False) -> None:
         self._title = ""
         self._data = {}
@@ -54,7 +56,7 @@ class Scrapper:
 
         return all(word in self._data["source"] for word in searched_words)
 
-    def get_song(self, page: str) -> Song:
+    async def get_song(self, page: str, session: aiohttp.ClientSession) -> Song:
         """get the song page from the wiki API.
         Stores the response in the class instance.
 
@@ -69,11 +71,13 @@ class Scrapper:
         Returns:
             song (Song): Song instance with the data obtained from the API
         """
-        r = requests.get(Scrapper.API_PAGE_ENDPOINT + page, timeout=5)
-        if r.status_code == 200:
-            self._data = json.loads(r.text)
-        else:
-            raise ScrapperGetPageError(f"name: {r.url} ; {r.status_code}")
+        async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
+            status_code = response.status
+            if status_code == 200:
+                text = await response.text()
+                self._data = json.loads(text)
+            else:
+                raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
 
         # clean up source from problematic html tag
         self._data["source"] = (
