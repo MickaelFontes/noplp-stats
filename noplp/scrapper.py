@@ -4,8 +4,9 @@ import json
 import re
 from datetime import date
 
-import dateparser
 import aiohttp
+import dateparser
+from aiolimiter import AsyncLimiter
 
 from noplp.exceptions import (
     ScrapperGetPageError,
@@ -31,12 +32,13 @@ class Scrapper:
         "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
     )
 
-    # CLIENT_SESSION = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
+    
 
-    def __init__(self, singer_required: bool = False) -> None:
+    def __init__(self, singer_required: bool = False, ratelimit: AsyncLimiter = AsyncLimiter(1, 0.01)) -> None:
         self._title = ""
         self._data = {}
         self._singer_required = singer_required
+        self._ratelimit = ratelimit
 
     def check_relevant_song_page(self) -> bool:
         """Perform some check to see if the page is a song page we want.
@@ -62,6 +64,7 @@ class Scrapper:
 
         Args:
             page (str): JSON response of the API
+            session (aiohttp.ClientSession): HTTP client session
 
         Raises:
             ScrapperGetPageError: Error when requesting the page.
@@ -71,13 +74,13 @@ class Scrapper:
         Returns:
             song (Song): Song instance with the data obtained from the API
         """
-        async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
-            status_code = response.status
-            if status_code == 200:
-                text = await response.text()
-                self._data = json.loads(text)
-            else:
-                raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
+        async with self._ratelimit:
+            async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
+                if (status_code := response.status) == 200:
+                    text = await response.text()
+                    self._data = json.loads(text)
+                else:
+                    raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
 
         # clean up source from problematic html tag
         self._data["source"] = (
