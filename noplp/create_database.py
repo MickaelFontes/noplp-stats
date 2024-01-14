@@ -1,10 +1,10 @@
 """Script to create the songs database used for data visualization."""
+import asyncio
 import json
-import multiprocessing
 import time
-from functools import partial
 from urllib import parse
 
+import aiohttp
 import pandas as pd
 import requests
 from requests.exceptions import ReadTimeout
@@ -17,11 +17,10 @@ from noplp.exceptions import (
     ScrapperTypePageError,
 )
 from noplp.scrapper import Scrapper
-from noplp.song import Song
 from pages.utils import filter_date, get_time_limits
 
 
-def global_scrapping() -> pd.DataFrame:
+async def global_scrapping() -> pd.DataFrame:
     """Performs the whole Scrapper logic to download all songs information
     from the Fandom Wiki.
     """
@@ -39,12 +38,22 @@ def global_scrapping() -> pd.DataFrame:
     pd.DataFrame({"title": full_page_list}).sort_values(by="title").to_csv(
         "data/songs.csv", index=False
     )
-    individual_song_partial = partial(individual_song_scrap, scrap)
     # Remove problematic and unrelevant songs
     if "Les feuilles mortes" in full_page_list:
         full_page_list.remove("Les feuilles mortes")
-    with multiprocessing.Pool(multiprocessing.cpu_count()) as p:
-        all_songs = p.map(individual_song_partial, full_page_list)
+
+    # Scrapping all.
+    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
+    tasks = []
+    for page in full_page_list:
+        task = asyncio.create_task(
+            individual_song_scrap(scrap, page, session, all_songs)
+        )
+        tasks.append(task)
+    await asyncio.gather(*tasks)
+    await session.close()
+
+    # Saving scrapped data.
     real_songs = []
     for song_maybe in all_songs:
         if song_maybe:
@@ -77,22 +86,25 @@ def global_scrapping() -> pd.DataFrame:
     )
     lyrics_df.sort_values(ascending=True, by=["name", "singer"], inplace=True)
     lyrics_df.to_csv("data/db_lyrics.csv", index=False)
-    return songs_df
 
 
-def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
+async def individual_song_scrap(
+    scrap: Scrapper, title: str, session: aiohttp.ClientSession, all_songs: pd.DataFrame
+) -> None:
     """scrap a song page to create a Song
 
     Args:
         scrap (Scrapper): Scrapper object
         title (str): name of the song page URL
+        session (aiohttp.ClientSession): HTTP client session
+        all_songs (pd.Dataframe): Dtaframe where song is added
 
     Returns:
-        None | song: Song object or nothing.
+        None: nothing.
     """
     page_url = parse.quote(title, safe="")
     try:
-        song = scrap.get_song(page_url)
+        song = await scrap.get_song(page_url, session)
     except ScrapperTypePageError:
         print(f"'{title}' is NOT a relevant song page.")
     except ScrapperProcessingLyrics:
@@ -111,10 +123,10 @@ def individual_song_scrap(scrap: Scrapper, title: str) -> None | Song:
         print(f"'{title}' has no SHOW NUMBER.")
     except ReadTimeout:
         time.sleep(30)
-        return individual_song_scrap(scrap, title)
+        return individual_song_scrap(scrap, title, session, all_songs)
     else:
         # print(f"'{title}' is a GOOD song page.")
-        return song
+        all_songs.append(song)
     return None
 
 
@@ -224,9 +236,10 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
     return songs_ranking
 
 
-def compute_cumulative_graph(df_new: pd.DataFrame) -> None:
+def compute_cumulative_graph() -> None:
     """Computes and saves the global coverage graph data."""
     # 1. Read new CSV version
+    df_new = pd.read_csv("data/db_test_full.csv", index_col=None)
     df_new["date"] = pd.to_datetime(df_new["date"])
     df_new["singer"] = df_new["singer"].astype("str")
     df_new["name"] = df_new["name"].astype("str")
@@ -250,11 +263,11 @@ def compute_cumulative_graph(df_new: pd.DataFrame) -> None:
     graph_all.to_csv("data/coverage_graph.csv", index=False)
 
 
-def main():
+async def main():
     """Run the whole scrapping and computations logic."""
-    new_songs_df = global_scrapping()
-    compute_cumulative_graph(new_songs_df)
+    await global_scrapping()
+    compute_cumulative_graph()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
