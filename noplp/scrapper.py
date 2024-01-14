@@ -32,8 +32,6 @@ class Scrapper:
         "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
     )
 
-    
-
     def __init__(self, singer_required: bool = False, ratelimit: AsyncLimiter = AsyncLimiter(1, 0.01)) -> None:
         self._title = ""
         self._data = {}
