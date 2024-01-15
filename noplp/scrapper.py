@@ -4,8 +4,9 @@ import json
 import re
 from datetime import date
 
+import aiohttp
 import dateparser
-import requests
+from aiolimiter import AsyncLimiter
 
 from noplp.exceptions import (
     ScrapperGetPageError,
@@ -31,10 +32,11 @@ class Scrapper:
         "https://n-oubliez-pas-les-paroles.fandom.com/fr/rest.php/v1/page/"
     )
 
-    def __init__(self, singer_required: bool = False) -> None:
+    def __init__(self, singer_required: bool = False, ratelimit: AsyncLimiter = AsyncLimiter(1, 0.01)) -> None:
         self._title = ""
         self._data = {}
         self._singer_required = singer_required
+        self._ratelimit = ratelimit
 
     def check_relevant_song_page(self) -> bool:
         """Perform some check to see if the page is a song page we want.
@@ -54,12 +56,13 @@ class Scrapper:
 
         return all(word in self._data["source"] for word in searched_words)
 
-    def get_song(self, page: str) -> Song:
+    async def get_song(self, page: str, session: aiohttp.ClientSession) -> Song:
         """get the song page from the wiki API.
         Stores the response in the class instance.
 
         Args:
             page (str): JSON response of the API
+            session (aiohttp.ClientSession): HTTP client session
 
         Raises:
             ScrapperGetPageError: Error when requesting the page.
@@ -69,11 +72,13 @@ class Scrapper:
         Returns:
             song (Song): Song instance with the data obtained from the API
         """
-        r = requests.get(Scrapper.API_PAGE_ENDPOINT + page, timeout=5)
-        if r.status_code == 200:
-            self._data = json.loads(r.text)
-        else:
-            raise ScrapperGetPageError(f"name: {r.url} ; {r.status_code}")
+        async with self._ratelimit:
+            async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
+                if (status_code := response.status) == 200:
+                    text = await response.text()
+                    self._data = json.loads(text)
+                else:
+                    raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
 
         # clean up source from problematic html tag
         self._data["source"] = (
