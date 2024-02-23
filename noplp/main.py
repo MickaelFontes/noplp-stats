@@ -22,18 +22,20 @@ async def main():
         "Lola",
         "Il avait les mots",
     )
-    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
+    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15))
 
     for song in songs:
         task = asyncio.create_task(scrap.get_song(page=song, session=session))
         tasks.append(task)
     await asyncio.gather(*tasks)
-    await session.close()
 
     time_difference = time.time() - start_time
     print(f"Scraping time: {time_difference:.2f} seconds.")
-    # for i, cat in enumerate(song_api.categories):
-    #     print(cat, ": ", song_api.emissions[i], song_api.dates[i], song_api.points[i])
+
+    song_api = await scrap.get_song(page="Il suffira d'un signe", session=session)
+    for i, cat in enumerate(song_api.categories):
+        print(cat, ": ", song_api.emissions[i], song_api.dates[i], song_api.points[i])
+    await session.close()
 
 
 if __name__ == "__main__":
