@@ -18,7 +18,7 @@ daterange = pd.date_range(
 )
 
 daterange_marks = pd.date_range(
-    start=df["date"].min().date(), end=df["date"].max().date(), freq="AS"
+    start=df["date"].min().date(), end=df["date"].max().date(), freq="YS"
 )
 
 lyrics_df = pd.read_csv("data/db_lyrics.csv")
