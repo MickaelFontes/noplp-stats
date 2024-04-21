@@ -11,7 +11,7 @@ packages = [{include = "noplp"},{include = "pages"}]
 python = "^3.10"
 gunicorn = "^22.0.0"
 dash = "^2.16.1"
-dash-bootstrap-components = "^1.4.2"
+dash-bootstrap-components = "^1.6.0"
 pandas = "^2.2.2"
 unidecode = "^1.3.8"
 
