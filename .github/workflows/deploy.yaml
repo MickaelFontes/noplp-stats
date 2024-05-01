@@ -3,15 +3,13 @@ name: Deploy to App Engine
 on:
   push:
     branches: [ main ]
+  pull_request: 
+    branches: [ "main" ]
 
 jobs:
-  deploy-app-engine:
-    name: Deploy on App Engine
+  setup-app-engine:
+    name: Prepare for App Engine
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write' # for OpenID Connect JWT Token
-
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -28,6 +26,13 @@ jobs:
       run: |
         poetry export -f requirements.txt --output requirements.txt --only main
 
+  deploy-production-app-engine:
+    name: Auth for App Engine
+    permissions:
+    contents: 'read'
+    id-token: 'write' # for OpenID Connect JWT Token
+    needs: setup-app-engine
+    if: github.ref == 'refs/heads/main'
     - id: 'auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -39,9 +44,31 @@ jobs:
       with:
         flags: '--no-cache'
 
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v2'
+  deploy-pr-app-engine:
+    name: Auth for App Engine
+    permissions:
+    contents: 'read'
+    id-token: 'write' # for OpenID Connect JWT Token
+    needs: setup-app-engine
+    environment: pull_request
+    if: github.event_name == 'pull_request'
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+        service_account: ${{ secrets.GCP_SA }}
 
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v2'
+      with:
+        flags: '--no-cache'
+        promote: false
+
+  post-app-engine:
+    name: Cleanup App Engine
+    needs: setup-app-engine
+    if: ${{ always() }}
+    needs: [deploy-pr-app-engine, deploy-production-app-engine]
     - name: 'Clean temporary container images'
       run: |-
         gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
