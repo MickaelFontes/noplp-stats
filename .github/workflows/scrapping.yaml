@@ -2,7 +2,7 @@ name: Update NOLPL database
 
 on:
   schedule:
-  - cron: 0 0 * * 3
+    - cron: 0 0 * * 3
   workflow_dispatch:
 
 jobs:
@@ -14,30 +14,30 @@ jobs:
       actions: read
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
-    - name: Install poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-    - name: Install dependencies
-      run: |
-        poetry install
+      - name: Install dependencies
+        run: |
+          poetry install
 
-    - name: Launch scrapping
-      run: |
-        poetry run python noplp/create_database.py
+      - name: Launch scrapping
+        run: |
+          poetry run python noplp/create_database.py
 
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v6
-      with:
-        base: main
-        commit-message: "chore(database): update database"
-        title: Perform scrapping to get last database version
-        branch: update-noplp-database
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          base: main
+          commit-message: "chore(database): update database"
+          title: Perform scrapping to get last database version
+          branch: update-noplp-database
