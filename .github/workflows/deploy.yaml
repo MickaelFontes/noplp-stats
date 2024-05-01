@@ -63,7 +63,6 @@ jobs:
           gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
             --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
 
-
   deploy-pr-app-engine:
     name: Deploy App Engine (dev PR)
     runs-on: ubuntu-latest
@@ -95,7 +94,7 @@ jobs:
           promote: false
 
       - name: Show PR environment URL
-        run: 'echo "${{ steps.deploy.outputs.version_url }}"'+
+        run: 'echo "${{ steps.deploy.outputs.version_url }}"'
 
       - name: "Clean temporary container images"
         run: |-
