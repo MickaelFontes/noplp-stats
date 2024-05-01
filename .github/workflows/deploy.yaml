@@ -39,14 +39,14 @@ jobs:
     needs: setup-app-engine
     if: github.ref == 'refs/heads/main'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Get requirements.txt
         uses: actions/download-artifact@v4
