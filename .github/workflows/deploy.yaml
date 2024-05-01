@@ -83,7 +83,7 @@ jobs:
           flags: "--no-cache"
           promote: false
 
-      - id: "Show Pr env URL"
+      - id: "show_pr_env_url"
         run: 'echo "${{ steps.deploy.outputs.version_url }}"'
 
   post-app-engine:
