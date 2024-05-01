@@ -29,10 +29,13 @@ jobs:
         poetry export -f requirements.txt --output requirements.txt --only main
 
     - id: 'auth'
-      uses: 'google-github-actions/auth@v1'
+      uses: 'google-github-actions/auth@v2'
       with:
         workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
         service_account: ${{ secrets.GCP_SA }}
 
     - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v1'
+      uses: 'google-github-actions/deploy-appengine@v2'
+      with:
+        flags: '--no-cache'
+      
