@@ -2,40 +2,101 @@ name: Deploy to App Engine
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-  deploy-app-engine:
-    name: Deploy on App Engine
+  setup-app-engine:
+    name: Prepare for App Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          poetry export -f requirements.txt --output requirements.txt --only main
+      - uses: actions/upload-artifact@v4
+        with:
+          name: requirements
+          path: requirements.txt
+
+  deploy-production-app-engine:
+    name: Deploy App Engine (production)
     runs-on: ubuntu-latest
     permissions:
-      contents: 'read'
-      id-token: 'write' # for OpenID Connect JWT Token
-
+      contents: "read"
+      id-token: "write" # for OpenID Connect JWT Token
+    needs: setup-app-engine
+    if: github.ref == 'refs/heads/main'
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA }}
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
-    - name: Install poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        poetry export -f requirements.txt --output requirements.txt --only main
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
-        service_account: ${{ secrets.GCP_SA }}
+      - name: Get requirements.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: requirements
 
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v2'
-      with:
-        flags: '--no-cache'
-      
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          flags: "--no-cache"
+
+      - name: "Clean temporary container images"
+        run: |-
+          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
+            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+
+  deploy-pr-app-engine:
+    name: Deploy App Engine (dev PR)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write" # for OpenID Connect JWT Token
+    needs: setup-app-engine
+    environment: pull_request
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA }}
+
+      - name: Get requirements.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: requirements
+
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          flags: "--no-cache"
+          promote: false
+
+      - name: Show PR environment URL
+        run: 'echo "${{ steps.deploy.outputs.version_url }}"'
+
+      - name: "Clean temporary container images"
+        run: |-
+          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
+            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
