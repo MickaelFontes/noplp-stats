@@ -27,10 +27,11 @@ jobs:
           poetry export -f requirements.txt --output requirements.txt --only main
       - uses: actions/upload-artifact@v4
         with:
+          name: requirements
           path: requirements.txt
 
   deploy-production-app-engine:
-    name: Auth for App Engine
+    name: Deploy App Engine (production)
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
@@ -49,6 +50,8 @@ jobs:
 
       - name: Get requirements.txt
         uses: actions/download-artifact@v4
+        with:
+          name: requirements
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
@@ -56,7 +59,7 @@ jobs:
           flags: "--no-cache"
 
   deploy-pr-app-engine:
-    name: Auth for App Engine
+    name: Deploy App Engine (dev PR)
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
@@ -65,14 +68,14 @@ jobs:
     environment: pull_request
     if: github.event_name == 'pull_request'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Get requirements.txt
         uses: actions/download-artifact@v4
@@ -89,6 +92,9 @@ jobs:
   post-app-engine:
     name: Cleanup App Engine
     runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write" # for OpenID Connect JWT Token
     if: ${{ always() }}
     needs: [deploy-pr-app-engine, deploy-production-app-engine]
     steps:
