@@ -38,4 +38,12 @@ jobs:
       uses: 'google-github-actions/deploy-appengine@v2'
       with:
         flags: '--no-cache'
-      
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: 'Clean temporary container images'
+      run: |-
+        gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
+          --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+       
