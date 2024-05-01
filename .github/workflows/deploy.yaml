@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: |
           poetry export -f requirements.txt --output requirements.txt --only main
+      - uses: actions/upload-artifact@v4
+        with:
+          path: requirements.txt
 
   deploy-production-app-engine:
     name: Auth for App Engine
@@ -40,6 +43,12 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get requirements.txt
+        uses: actions/download-artifact@v4
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
@@ -62,11 +71,20 @@ jobs:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get requirements.txt
+        uses: actions/download-artifact@v4
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
           flags: "--no-cache"
           promote: false
+
+      - id: "Show Pr env URL"
+        run: 'echo "${{ steps.deploy.outputs.version_url }}"'
 
   post-app-engine:
     name: Cleanup App Engine
@@ -74,6 +92,12 @@ jobs:
     if: ${{ always() }}
     needs: [deploy-pr-app-engine, deploy-production-app-engine]
     steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA }}
+
       - name: "Clean temporary container images"
         run: |-
           gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
