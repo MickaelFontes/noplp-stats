@@ -58,6 +58,12 @@ jobs:
         with:
           flags: "--no-cache"
 
+      - name: "Clean temporary container images"
+        run: |-
+          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
+            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+
+
   deploy-pr-app-engine:
     name: Deploy App Engine (dev PR)
     runs-on: ubuntu-latest
@@ -79,6 +85,8 @@ jobs:
 
       - name: Get requirements.txt
         uses: actions/download-artifact@v4
+        with:
+          name: requirements
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
@@ -86,23 +94,8 @@ jobs:
           flags: "--no-cache"
           promote: false
 
-      - id: "show_pr_env_url"
-        run: 'echo "${{ steps.deploy.outputs.version_url }}"'
-
-  post-app-engine:
-    name: Cleanup App Engine
-    runs-on: ubuntu-latest
-    permissions:
-      contents: "read"
-      id-token: "write" # for OpenID Connect JWT Token
-    if: ${{ always() }}
-    needs: [deploy-pr-app-engine, deploy-production-app-engine]
-    steps:
-      - id: "auth"
-        uses: "google-github-actions/auth@v2"
-        with:
-          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
-          service_account: ${{ secrets.GCP_SA }}
+      - name: Show PR environment URL
+        run: 'echo "${{ steps.deploy.outputs.version_url }}"'+
 
       - name: "Clean temporary container images"
         run: |-
