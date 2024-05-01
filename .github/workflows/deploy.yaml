@@ -2,75 +2,79 @@ name: Deploy to App Engine
 
 on:
   push:
-    branches: [ main ]
-  pull_request: 
-    branches: [ "main" ]
+    branches: [main]
+  pull_request:
+    branches: ["main"]
 
 jobs:
   setup-app-engine:
     name: Prepare for App Engine
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
-    - name: Install poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        poetry export -f requirements.txt --output requirements.txt --only main
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          poetry export -f requirements.txt --output requirements.txt --only main
 
   deploy-production-app-engine:
     name: Auth for App Engine
+    runs-on: ubuntu-latest
     permissions:
-    contents: 'read'
-    id-token: 'write' # for OpenID Connect JWT Token
+      contents: "read"
+      id-token: "write" # for OpenID Connect JWT Token
     needs: setup-app-engine
     if: github.ref == 'refs/heads/main'
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
-        service_account: ${{ secrets.GCP_SA }}
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA }}
 
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v2'
-      with:
-        flags: '--no-cache'
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          flags: "--no-cache"
 
   deploy-pr-app-engine:
     name: Auth for App Engine
+    runs-on: ubuntu-latest
     permissions:
-    contents: 'read'
-    id-token: 'write' # for OpenID Connect JWT Token
+      contents: "read"
+      id-token: "write" # for OpenID Connect JWT Token
     needs: setup-app-engine
     environment: pull_request
     if: github.event_name == 'pull_request'
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v2'
-      with:
-        workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
-        service_account: ${{ secrets.GCP_SA }}
+    steps:
+      - id: "auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA }}
 
-    - id: 'deploy'
-      uses: 'google-github-actions/deploy-appengine@v2'
-      with:
-        flags: '--no-cache'
-        promote: false
+      - id: "deploy"
+        uses: "google-github-actions/deploy-appengine@v2"
+        with:
+          flags: "--no-cache"
+          promote: false
 
   post-app-engine:
     name: Cleanup App Engine
-    needs: setup-app-engine
+    runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [deploy-pr-app-engine, deploy-production-app-engine]
-    - name: 'Clean temporary container images'
-      run: |-
-        gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
-          --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
-       
+    steps:
+      - name: "Clean temporary container images"
+        run: |-
+          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
+            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
