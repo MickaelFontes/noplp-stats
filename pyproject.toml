@@ -25,7 +25,7 @@ dash = {extras = ["testing"], version = "^2.17.0"}
 urllib3 = "^1.26.18"
 aiohttp = "^3.9.5"
 aiolimiter = "^1.1.0"
-pytest = "^8.2.1"
+pytest = "^8.2.2"
 
 [build-system]
 requires = ["poetry-core"]
