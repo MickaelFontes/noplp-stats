@@ -57,4 +57,4 @@ jobs:
 
       - name: Launch tests
         run: |
-          poetry run pytest
+          poetry run pytest -vv
