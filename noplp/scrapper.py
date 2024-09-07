@@ -91,7 +91,7 @@ class Scrapper:
             )
 
         # Then extract and parse relevant data
-        self._title = self._data["title"].replace('"', "")
+        self._title = self._data["title"].replace('"', "").strip()
         singer = self.extract_singer()
         lyrics = self.extract_lyrics()
         dates, categories, points, emissions = self.extract_dates()
@@ -126,7 +126,7 @@ class Scrapper:
             # discard potential following brackets
             singer = re.search(r"([^\[]*)", singer).group(1)
             singer = singer.replace('"', "")
-            return singer
+            return singer.strip()
         if self._singer_required:
             raise ScrapperProcessingSinger(
                 "No singer found by the regex." + f"\n{self._title}"
