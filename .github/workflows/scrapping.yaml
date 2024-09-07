@@ -34,6 +34,12 @@ jobs:
         run: |
           poetry run python noplp/create_database.py
 
+      - name: Update last scrapping date
+        run: |
+          new_line=$( echo "  LAST_UPDATE: '$(date +%d/%m/%Y)'" )
+          old_line=$( grep LAST_UPDATE app.yaml --color=never )
+          sed -i -e "s@${old_line}@${new_line}@g" app.yaml
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
