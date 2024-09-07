@@ -57,4 +57,4 @@ jobs:
 
       - name: Launch tests
         run: |
-          poetry run pytest --log-cli-level DEBUG -vv
+          poetry run pytest
