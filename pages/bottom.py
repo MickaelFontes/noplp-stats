@@ -15,7 +15,7 @@ bottom = html.Div(
                 " ![Github](https://github.githubassets.com/favicons/favicon.svg#thumbnail) ",
                 "[noplp-stats](https://github.com/MickaelFontes/noplp-stats) sous ",
                 "[MIT License](https://github.com/MickaelFontes/noplp-stats/blob/main/LICENSE) - ",  # noqa: E501
-                "Dernière mise à jour: le " + os.environ.get("LAST_UPDATE"),
+                "Dernière mise à jour: le " + os.getenv("LAST_UPDATE", "XXXXXXXX"),
             ]
         ),
     ],
