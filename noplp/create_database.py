@@ -97,7 +97,7 @@ async def individual_song_scrap(
         scrap (Scrapper): Scrapper object
         title (str): name of the song page URL
         session (aiohttp.ClientSession): HTTP client session
-        all_songs (pd.Dataframe): Dtaframe where song is added
+        all_songs (pd.Dataframe): Dataframe where song is added
 
     Returns:
         None: nothing.
