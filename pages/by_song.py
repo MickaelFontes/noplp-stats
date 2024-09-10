@@ -1,4 +1,5 @@
 """Statistics page for song specific stats."""
+
 from functools import reduce
 
 import dash
@@ -36,8 +37,8 @@ layout = dbc.Container(
         html.H4("Statistiques sur la chanson sélectionnée"),
         dbc.Row(
             [
-                dbc.Col(first_card),
-                dbc.Col(dcc.Graph(id="categories-graph-song")),
+                dbc.Col(first_card, lg=6, xs=0),
+                dbc.Col(dcc.Graph(id="categories-graph-song"), lg=6, xs=0),
             ],
             align="center",
             justify="center",
