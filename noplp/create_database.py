@@ -51,6 +51,8 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     if test:
         full_page_list = sample(full_page_list, 150)
         full_page_list += ["2 be 3", "Je sais pas"]
+        full_page_list = list(set(full_page_list))
+
     for page in full_page_list:
         task = asyncio.create_task(
             individual_song_scrap(scrap, page, session, all_songs)
