@@ -278,7 +278,7 @@ async def main(test: bool):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Perform srapping for NOPLP database.")
+    parser = argparse.ArgumentParser(description="Perform scrapping for NOPLP database.")
     parser.add_argument(
         "--test", "-t", action=argparse.BooleanOptionalAction, default=False
     )
