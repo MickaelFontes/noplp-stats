@@ -141,7 +141,7 @@ async def individual_song_scrap(
 def generate_url(
     common_page: str, start: int = 0, end: int = 500, limit: int = 500
 ) -> str:
-    """Generate URL to requests list of songs from the Fandom API.
+    """Generate URL to request list of songs from the Fandom API.
 
     Args:
         common_page (str): page used to look for backlinks.
@@ -161,12 +161,12 @@ def generate_url(
     )
 
 
-def get_all_page_list(common_songs_page: str, test: bool = True) -> list[str]:
+def get_all_page_list(common_songs_page: str, test: bool = False) -> list[str]:
     """Generate a list of all songs pages to download.
 
     Args:
         common_songs_page (str): page used to look for backlinks.
-        test (bool, optional): If the call is a short test. Defaults to True.
+        test (bool, optional): If the call is a short test. Defaults to False.
 
     Returns:
         list[str]: List of all songs title to request.
