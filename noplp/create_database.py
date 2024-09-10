@@ -50,6 +50,9 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     tasks = []
     if test:
         full_page_list = sample(full_page_list, 150)
+        full_page_list += ["2 be 3", "Je sais pas"]
+        full_page_list = list(set(full_page_list))
+
     for page in full_page_list:
         task = asyncio.create_task(
             individual_song_scrap(scrap, page, session, all_songs)
@@ -102,7 +105,7 @@ async def individual_song_scrap(
         scrap (Scrapper): Scrapper object
         title (str): name of the song page URL
         session (aiohttp.ClientSession): HTTP client session
-        all_songs (pd.Dataframe): Dtaframe where song is added
+        all_songs (pd.Dataframe): Dataframe where song is added
 
     Returns:
         None: nothing.
