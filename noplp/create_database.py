@@ -23,7 +23,7 @@ from noplp.scrapper import Scrapper
 from pages.utils import filter_date, get_time_limits
 
 
-async def global_scrapping(test: bool = False) -> pd.DataFrame:
+async def global_scrapping(test: bool) -> pd.DataFrame:
     """Performs the whole Scrapper logic to download all songs information
     from the Fandom Wiki.
     """
@@ -48,13 +48,13 @@ async def global_scrapping(test: bool = False) -> pd.DataFrame:
     # Scrapping all.
     session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
     tasks = []
+    if test:
+        full_page_list = sample(full_page_list, 150)
     for page in full_page_list:
         task = asyncio.create_task(
             individual_song_scrap(scrap, page, session, all_songs)
         )
         tasks.append(task)
-    if test:
-        tasks = sample(tasks, 30)
     await asyncio.gather(*tasks)
     await session.close()
 
@@ -268,7 +268,7 @@ def compute_cumulative_graph() -> None:
     graph_all.to_csv("data/coverage_graph.csv", index=False)
 
 
-async def main(test: bool = False):
+async def main(test: bool):
     """Run the whole scrapping and computations logic."""
     await global_scrapping(test=test)
     compute_cumulative_graph()
