@@ -1,7 +1,10 @@
 """Script to create the songs database used for data visualization."""
+
+import argparse
 import asyncio
 import json
 import time
+from random import sample
 from urllib import parse
 
 import aiohttp
@@ -20,7 +23,7 @@ from noplp.scrapper import Scrapper
 from pages.utils import filter_date, get_time_limits
 
 
-async def global_scrapping() -> pd.DataFrame:
+async def global_scrapping(test: bool = False) -> pd.DataFrame:
     """Performs the whole Scrapper logic to download all songs information
     from the Fandom Wiki.
     """
@@ -50,6 +53,8 @@ async def global_scrapping() -> pd.DataFrame:
             individual_song_scrap(scrap, page, session, all_songs)
         )
         tasks.append(task)
+    if test:
+        tasks = sample(tasks, 30)
     await asyncio.gather(*tasks)
     await session.close()
 
@@ -263,11 +268,16 @@ def compute_cumulative_graph() -> None:
     graph_all.to_csv("data/coverage_graph.csv", index=False)
 
 
-async def main():
+async def main(test: bool = False):
     """Run the whole scrapping and computations logic."""
-    await global_scrapping()
+    await global_scrapping(test=test)
     compute_cumulative_graph()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="Perform srapping for NOPLP database.")
+    parser.add_argument(
+        "--test", "-t", action=argparse.BooleanOptionalAction, default=False
+    )
+    args = parser.parse_args()
+    asyncio.run(main(test=args.test))
