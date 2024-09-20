@@ -61,6 +61,7 @@ name,singer,date,category,points,emissions
 1990,Jean Leloup,2009-03-30,Ancienne formule,2500,0
 1990,Jean Leloup,2009-05-07,Ancienne formule,35000,0
 1990,Jean Leloup,2009-08-27,Ancienne formule,250,0
+1990,Jean Leloup,2009-10-01,Ancienne formule,10000,0
 1990,Jean Leloup,2015-01-08,Points,10,-2
 1990,Jean Leloup,2015-07-14,Points,20,2
 1990,Jean Leloup,2018-04-26,Points,20,1
@@ -183,6 +184,7 @@ name,singer,date,category,points,emissions
 7 heures du matin,Jacqueline Taïeb,2022-03-10,Points,30,2
 7 heures du matin,Jacqueline Taïeb,2023-03-20,Points,30,2
 7 heures du matin,Jacqueline Taïeb,2023-10-25,Points,20,2
+7 heures du matin,Jacqueline Taïeb,2024-09-11,Points,20,2
 ABC pour casser,Peter Kitsch et Olivia,2021-09-16,Points,20,2
 Adam et Ève,Sheila,2013-02-05,Points,40,0
 Adam et Ève,Sheila,2016-06-27,Points,20,1
@@ -379,6 +381,7 @@ Africa (Rose Laurens),Rose Laurens,2023-04-21,Même chanson,-1,-2
 Africa (Rose Laurens),Rose Laurens,2023-07-15,Points,50,1
 Africa (Rose Laurens),Rose Laurens,2024-03-08,Points,30,1
 Africa (Rose Laurens),Rose Laurens,2024-04-24,Même chanson,-1,1
+Africa (Rose Laurens),Rose Laurens,2024-09-12,Points,40,2
 Afrique adieu,Michel Sardou,2009-04-03,Ancienne formule,500,0
 Afrique adieu,Michel Sardou,2009-05-08,Ancienne formule,10000,0
 Afrique adieu,Michel Sardou,2009-06-15,Ancienne formule,10000,0
@@ -621,6 +624,7 @@ Aimer jusqu'à l'impossible,Tina Arena,2023-11-17,Points,50,1
 Aimer jusqu'à l'impossible,Tina Arena,2024-01-16,Points,50,2
 Aimer jusqu'à l'impossible,Tina Arena,2024-04-17,Maestro,-1,2
 Aimer jusqu'à l'impossible,Tina Arena,2024-05-23,Points,50,2
+Aimer jusqu'à l'impossible,Tina Arena,2024-09-12,Même chanson,-1,1
 Aimer à mort,Louane,2021-10-21,Points,30,2
 Aimer à mort,Louane,2022-03-28,Points,20,2
 Aimer à mort,Louane,2022-10-29,Points,40,-1
@@ -690,6 +694,7 @@ Ainsi soit je,Mylène Farmer,2023-09-01,Points,30,-2
 Ainsi soit-il,Louis Chedid,2008-07-17,Ancienne formule,500,0
 Ainsi soit-il,Louis Chedid,2009-05-04,Ancienne formule,250,0
 Ainsi soit-il,Louis Chedid,2009-09-14,Ancienne formule,500,0
+Ainsi soit-il,Louis Chedid,2009-09-29,Ancienne formule,10000,0
 Ainsi soit-il,Louis Chedid,2015-01-27,Points,10,1
 Ainsi soit-il,Louis Chedid,2015-07-22,Maestro,-1,2
 Ainsi soit-il,Louis Chedid,2015-10-08,Maestro,-1,1
@@ -1106,6 +1111,7 @@ Allô le monde,Pauline,2008-12-13,Ancienne formule,2500,0
 Allô le monde,Pauline,2009-03-04,Ancienne formule,5000,0
 Allô le monde,Pauline,2009-04-28,Ancienne formule,35000,0
 Allô le monde,Pauline,2009-05-13,Ancienne formule,500,0
+Allô le monde,Pauline,2009-10-01,Ancienne formule,20000,0
 Allô le monde,Pauline,2014-05-05,Maestro,-1,1
 Allô le monde,Pauline,2014-07-31,Points,30,1
 Allô le monde,Pauline,2014-09-11,Maestro,-1,1
@@ -1327,6 +1333,7 @@ Alors regarde,Patrick Bruel,2008-04-13,Ancienne formule,250,0
 Alors regarde,Patrick Bruel,2008-07-18,Ancienne formule,500,0
 Alors regarde,Patrick Bruel,2009-02-23,Ancienne formule,250,0
 Alors regarde,Patrick Bruel,2009-04-28,Ancienne formule,35000,0
+Alors regarde,Patrick Bruel,2009-09-29,Ancienne formule,250,0
 Alors regarde,Patrick Bruel,2013-03-06,Maestro,-1,0
 Alors regarde,Patrick Bruel,2013-11-28,Maestro,-1,2
 Alors regarde,Patrick Bruel,2014-01-08,Maestro,-1,1
@@ -1799,6 +1806,7 @@ Angela (Hatik),Hatik,2022-11-04,Points,30,-1
 Angela (Hatik),Hatik,2023-03-16,Maestro,-1,2
 Angela (Hatik),Hatik,2023-12-16,Points,20,2
 Angela (Hatik),Hatik,2024-02-26,Points,20,1
+Angela (Hatik),Hatik,2024-09-14,Points,20,2
 Angela (Saïan Supa Crew),Saïan Supa Crew,2019-08-02,Maestro,-1,2
 Angela (Saïan Supa Crew),Saïan Supa Crew,2019-12-16,Points,20,1
 Angela (Saïan Supa Crew),Saïan Supa Crew,2020-11-21,Points,30,-4
@@ -1865,6 +1873,7 @@ Animaux fragiles,Ycare et Zaz,2023-04-13,Points,20,1
 Animaux fragiles,Ycare et Zaz,2023-06-19,Points,20,1
 Animaux fragiles,Ycare et Zaz,2023-10-10,Points,50,2
 Animaux fragiles,Ycare et Zaz,2024-04-13,Tournoi,-1,-1
+Animaux fragiles,Ycare et Zaz,2024-09-17,Points,30,1
 Anissa,Wejdene,2020-10-13,Points,30,2
 Anissa,Wejdene,2020-11-21,Points,40,-2
 Anissa,Wejdene,2021-02-08,Points,50,2
@@ -2896,6 +2905,7 @@ Avant toi (Vitaa & Slimane),Vitaa & Slimane,2023-03-28,Points,30,2
 Avant toi (Vitaa & Slimane),Vitaa & Slimane,2023-05-18,Même chanson,-1,1
 Avant toi (Vitaa & Slimane),Vitaa & Slimane,2023-11-25,Points,30,2
 Avant toi (Vitaa & Slimane),Vitaa & Slimane,2024-05-24,Points,20,1
+Avant toi (Vitaa & Slimane),Vitaa & Slimane,2024-09-12,Points,50,2
 Avec classe,Corneille,2019-11-13,Points,20,2
 Avec classe,Corneille,2020-02-05,Points,20,2
 Avec classe,Corneille,2020-05-25,Maestro,-1,1
@@ -3272,6 +3282,7 @@ Bambina,Lara Fabian,2023-07-07,Points,50,2
 Bambina,Lara Fabian,2023-09-29,Points,30,-1
 Bambina,Lara Fabian,2024-03-08,Maestro,-1,2
 Bambina,Lara Fabian,2024-05-03,Points,30,2
+Bambina,Lara Fabian,2024-09-16,Points,50,2
 Bambino,Dalida,2008-01-26,Ancienne formule,250,0
 Bambino,Dalida,2009-01-01,Ancienne formule,250,0
 Bambino,Dalida,2009-04-13,Ancienne formule,500,0
@@ -3339,6 +3350,7 @@ Bambou,Alain Chamfort,2024-02-26,Points,40,1
 Bang bang,Sheila dans ''Bang Bang'',2009-01-02,Ancienne formule,1000,0
 Bang bang,Sheila dans ''Bang Bang'',2009-03-30,Ancienne formule,500,0
 Bang bang,Sheila dans ''Bang Bang'',2009-05-07,Ancienne formule,250,0
+Bang bang,Sheila dans ''Bang Bang'',2009-09-25,Ancienne formule,250,0
 Bang bang,Sheila dans ''Bang Bang'',2015-01-15,Points,20,-2
 Bang bang,Sheila dans ''Bang Bang'',2015-05-19,Points,20,2
 Bang bang,Sheila dans ''Bang Bang'',2017-07-18,Points,30,1
@@ -3691,6 +3703,7 @@ Bella (Maître Gims),Maître Gims,2023-11-20,Points,50,2
 Bella (Maître Gims),Maître Gims,2024-01-25,Points,40,2
 Bella (Maître Gims),Maître Gims,2024-03-12,Points,30,1
 Bella (Maître Gims),Maître Gims,2024-06-10,Points,40,2
+Bella (Maître Gims),Maître Gims,2024-09-16,Points,20,1
 Bella Ciao,"Vitaa, Dadju, Maître Gims, Naestro et Slimane",2018-08-21,Points,20,2
 Bella Ciao,"Vitaa, Dadju, Maître Gims, Naestro et Slimane",2018-12-27,Points,20,2
 Bella Ciao,"Vitaa, Dadju, Maître Gims, Naestro et Slimane",2019-04-06,Points,50,1
@@ -3781,6 +3794,7 @@ Belle demoiselle,Christophe Maé,2008-12-12,Ancienne formule,20000,0
 Belle demoiselle,Christophe Maé,2009-03-02,Ancienne formule,500,0
 Belle demoiselle,Christophe Maé,2009-03-25,Ancienne formule,5000,0
 Belle demoiselle,Christophe Maé,2009-06-02,Ancienne formule,250,0
+Belle demoiselle,Christophe Maé,2009-10-01,Ancienne formule,500,0
 Belle demoiselle,Christophe Maé,2013-02-25,Points,50,0
 Belle demoiselle,Christophe Maé,2013-09-09,Points,40,0
 Belle demoiselle,Christophe Maé,2014-04-16,Maestro,-1,2
@@ -4550,6 +4564,7 @@ Boule de flipper (Corynne Charby),Corynne Charby,2024-07-20,Même chanson,-1,2
 Boum,Charles Trenet,2008-01-01,Ancienne formule,10000,0
 Boum,Charles Trenet,2008-08-25,Ancienne formule,250,0
 Boum,Charles Trenet,2009-02-11,Ancienne formule,250,0
+Boum,Charles Trenet,2009-09-30,Ancienne formule,2500,0
 Boum,Charles Trenet,2015-11-30,Points,30,2
 Boum,Charles Trenet,2016-12-16,Points,20,1
 Boum,Charles Trenet,2018-04-11,Points,10,1
@@ -4645,6 +4660,7 @@ Brest,Miossec,2023-03-28,Maestro,-1,1
 Brest,Miossec,2023-10-18,Points,40,1
 Brest,Miossec,2024-02-23,Maestro,-1,2
 Brest,Miossec,2024-04-05,Points,50,1
+Brest,Miossec,2024-09-11,Maestro,-1,2
 Brigitte Bardot,Dario Moreno,2019-06-10,Points,20,1
 Brigitte Bardot,Dario Moreno,2019-07-18,Points,20,2
 Brigitte Bardot,Dario Moreno,2019-10-04,Points,30,1
@@ -4817,6 +4833,7 @@ Bye-bye,Ménélik,2015-11-16,Points,30,2
 Bye-bye,Ménélik,2015-12-17,Points,20,1
 Bye-bye,Ménélik,2016-02-18,Points,20,2
 Bye-bye,Ménélik,2016-09-01,Points,30,-2
+Bye-bye,Ménélik,2016-09-28,Points,40,2
 Bye-bye,Ménélik,2016-12-09,Points,40,2
 Bye-bye,Ménélik,2017-02-21,Points,30,2
 Bye-bye,Ménélik,2017-03-21,Points,40,2
@@ -5150,6 +5167,7 @@ C'est de l'or,Jenifer,2023-09-21,Points,30,-2
 C'est de l'or,Jenifer,2024-04-24,Points,50,1
 C'est de l'or,Jenifer,2024-07-19,Points,30,1
 C'est dit,Calogero,2009-09-08,Ancienne formule,5000,0
+C'est dit,Calogero,2009-09-30,Ancienne formule,1000,0
 C'est dit,Calogero,2013-03-05,Points,20,0
 C'est dit,Calogero,2014-04-24,Maestro,-1,1
 C'est dit,Calogero,2014-05-16,Maestro,-1,1
@@ -5314,6 +5332,7 @@ C'est la fête,Daniel Beretta et Lucie Dolène dans La Belle et la Bête de Disn
 C'est la fête,Daniel Beretta et Lucie Dolène dans La Belle et la Bête de Disney,2024-02-13,Points,30,2
 C'est la même chanson,Claude François,2008-01-19,Ancienne formule,1000,0
 C'est la même chanson,Claude François,2008-06-07,Ancienne formule,250,0
+C'est la même chanson,Claude François,2009-09-30,Ancienne formule,2500,0
 C'est la même chanson,Claude François,2013-04-01,Points,30,0
 C'est la même chanson,Claude François,2014-04-25,Points,50,1
 C'est la même chanson,Claude François,2014-07-01,Même chanson,-1,2
@@ -5358,6 +5377,7 @@ C'est la même chanson,Claude François,2024-03-13,Points,50,1
 C'est la ouate,Caroline Loeb,2008-04-05,Ancienne formule,50000,0
 C'est la ouate,Caroline Loeb,2009-03-09,Ancienne formule,5000,0
 C'est la ouate,Caroline Loeb,2009-04-08,Ancienne formule,1000,0
+C'est la ouate,Caroline Loeb,2009-09-25,Ancienne formule,35000,0
 C'est la ouate,Caroline Loeb,2014-06-13,Points,30,2
 C'est la ouate,Caroline Loeb,2014-12-18,Maestro,-1,1
 C'est la ouate,Caroline Loeb,2015-03-12,Points,40,2
@@ -5415,6 +5435,7 @@ C'est long c'est court,Véronique Sanson,2020-10-02,Points,20,1
 C'est long c'est court,Véronique Sanson,2022-11-23,Maestro,-1,-2
 C'est long c'est court,Véronique Sanson,2023-01-07,Points,40,-6
 C'est long c'est court,Véronique Sanson,2023-12-15,Maestro,-1,2
+C'est long c'est court,Véronique Sanson,2024-09-16,Maestro,-1,1
 C'est lundi,Jesse Garon,2008-07-24,Ancienne formule,1000,0
 C'est lundi,Jesse Garon,2009-04-02,Ancienne formule,2500,0
 C'est lundi,Jesse Garon,2009-08-24,Ancienne formule,1000,0
@@ -5596,6 +5617,7 @@ C'est quand le bonheur,Cali,2008-07-18,Ancienne formule,1000,0
 C'est quand le bonheur,Cali,2009-02-25,Ancienne formule,500,0
 C'est quand le bonheur,Cali,2009-04-03,Ancienne formule,500,0
 C'est quand le bonheur,Cali,2009-09-17,Ancienne formule,10000,0
+C'est quand le bonheur,Cali,2009-09-29,Ancienne formule,2500,0
 C'est quand le bonheur,Cali,2013-05-17,Maestro,-1,0
 C'est quand le bonheur,Cali,2013-12-27,Maestro,-1,0
 C'est quand le bonheur,Cali,2014-10-07,Points,10,1
@@ -5734,6 +5756,7 @@ C'est une chanson,Claudio Capéo,2023-01-17,Points,20,2
 C'est une chanson,Claudio Capéo,2023-06-14,Points,40,1
 C'est une chanson,Claudio Capéo,2023-08-13,Maestro,-1,1
 C'est une chanson,Claudio Capéo,2023-11-22,Points,50,2
+C'est une chanson,Claudio Capéo,2024-09-16,Points,50,1
 C'est ça la France,Marc Lavoine,2009-04-22,Ancienne formule,20000,0
 C'est ça la France,Marc Lavoine,2009-09-10,Ancienne formule,20000,0
 C'est ça la France,Marc Lavoine,2013-02-18,Points,50,0
@@ -6434,6 +6457,7 @@ Catchu Catchu,Lartiste,2023-07-18,Points,50,1
 Catchu Catchu,Lartiste,2023-09-25,Points,30,-2
 Catchu Catchu,Lartiste,2024-02-22,Points,30,2
 Catchu Catchu,Lartiste,2024-06-11,Maestro,-1,2
+Catchu Catchu,Lartiste,2024-09-14,Points,50,1
 Ce matin,Axelle Red,2013-01-09,Points,20,0
 Ce matin,Axelle Red,2014-04-21,Maestro,-1,1
 Ce matin,Axelle Red,2015-01-02,Points,20,1
@@ -6490,6 +6514,7 @@ Ce n'est rien,Julien Clerc,2022-10-21,Points,50,-1
 Ce n'est rien,Julien Clerc,2023-03-15,Points,40,2
 Ce n'est rien,Julien Clerc,2023-12-04,Points,30,1
 Ce n'est rien,Julien Clerc,2024-05-15,Points,30,1
+Ce petit chemin,Mireille,2024-06-24,Points,30,1
 Ce que l'on s'aime,Tryo,2009-09-01,Ancienne formule,5000,0
 Ce que l'on s'aime,Tryo,2009-09-18,Ancienne formule,500,0
 Ce que l'on s'aime,Tryo,2020-11-13,Points,40,-1
@@ -6615,6 +6640,7 @@ Celui qui chante (Michel Berger),Michel Berger,2016-06-11,Points,40,-1
 Celui qui chante (Michel Berger),Michel Berger,2016-09-12,Points,50,2
 Celui qui chante (Michel Berger),Michel Berger,2016-11-17,Points,50,1
 Celui qui chante (Michel Berger),Michel Berger,2017-03-29,Points,50,1
+Celui qui chante (Michel Berger),Michel Berger,2017-05-02,Points,50,1
 Celui qui chante (Michel Berger),Michel Berger,2017-06-13,Points,50,2
 Celui qui chante (Michel Berger),Michel Berger,2017-12-16,Points,30,2
 Celui qui chante (Michel Berger),Michel Berger,2018-04-07,Points,30,2
@@ -6929,6 +6955,7 @@ Cette année-là (M. Pokora),M. Pokora,2023-01-27,Points,40,1
 Cette année-là (M. Pokora),M. Pokora,2023-04-28,Points,40,-2
 Cette année-là (M. Pokora),M. Pokora,2023-12-24,Points,20,-2
 Cette année-là (M. Pokora),M. Pokora,2024-04-06,Même chanson,-1,-3
+Cette année-là (M. Pokora),M. Pokora,2024-09-12,Points,40,1
 Ceux qu'on était,Pierre Garnier,2024-05-03,Points,20,1
 Ceux qu'on était,Pierre Garnier,2024-07-18,Points,30,1
 Chacun de son côté,L'Affaire Louis Trio,2016-11-18,Points,40,2
@@ -7657,6 +7684,7 @@ Chez Laurette,Michel Delpech,2023-11-25,Points,40,1
 Chez Laurette,Michel Delpech,2024-02-19,Points,20,1
 Chez Laurette,Michel Delpech,2024-04-06,Même chanson,-1,2
 Chez Laurette,Michel Delpech,2024-06-13,Points,40,2
+Chez Laurette,Michel Delpech,2024-09-11,Points,30,1
 Chez moi,Serge Lama,2017-01-27,Points,30,1
 Chez moi,Serge Lama,2018-02-15,Points,30,2
 Chez moi,Serge Lama,2018-11-24,Points,40,1
@@ -7698,6 +7726,7 @@ Chicago,Frédéric François,2019-04-29,Points,20,2
 Chicago,Frédéric François,2021-11-16,Points,10,-1
 Chicago,Frédéric François,2022-03-07,Points,30,1
 Chienne d'idée,Maxime Le Forestier,2020-01-23,Points,20,1
+Cho ka ka o,Annie Cordy,2009-09-25,Ancienne formule,500,0
 Cho ka ka o,Annie Cordy,2015-06-24,Points,10,2
 Cho ka ka o,Annie Cordy,2016-01-12,Points,20,-2
 Cho ka ka o,Annie Cordy,2016-04-08,Points,20,2
@@ -7728,6 +7757,7 @@ Cho ka ka o,Annie Cordy,2023-07-31,Points,40,2
 Cho ka ka o,Annie Cordy,2023-11-03,Maestro,-1,1
 Cho ka ka o,Annie Cordy,2024-03-05,Maestro,-1,1
 Cho ka ka o,Annie Cordy,2024-04-23,Maestro,-1,1
+Cho ka ka o,Annie Cordy,2024-09-17,Points,50,1
 Chocolat,Lartiste feat. Awa Imani,2017-11-01,Points,30,1
 Chocolat,Lartiste feat. Awa Imani,2017-11-20,Points,30,2
 Chocolat,Lartiste feat. Awa Imani,2018-01-29,Points,30,2
@@ -8413,6 +8443,7 @@ Comme un boomerang,Étienne Daho et Dani,2008-07-11,Ancienne formule,5000,0
 Comme un boomerang,Étienne Daho et Dani,2008-12-13,Ancienne formule,500,0
 Comme un boomerang,Étienne Daho et Dani,2009-06-10,Ancienne formule,10000,0
 Comme un boomerang,Étienne Daho et Dani,2009-09-14,Ancienne formule,1000,0
+Comme un boomerang,Étienne Daho et Dani,2009-10-01,Ancienne formule,250,0
 Comme un boomerang,Étienne Daho et Dani,2013-01-15,Points,30,0
 Comme un boomerang,Étienne Daho et Dani,2013-10-11,Maestro,-1,0
 Comme un boomerang,Étienne Daho et Dani,2014-04-17,Points,30,2
@@ -8555,6 +8586,7 @@ Comme un hic,Jenifer,2022-12-21,Points,40,1
 Comme un hic,Jenifer,2023-06-19,Points,20,2
 Comme un hic,Jenifer,2023-12-28,Points,50,1
 Comme un hic,Jenifer,2024-05-07,Points,30,1
+Comme un hic,Jenifer,2024-09-16,Points,40,1
 Comme un homme,Mulan (Patrick Fiori),2018-11-17,Points,50,2
 Comme un homme,Mulan (Patrick Fiori),2020-01-08,Points,40,1
 Comme un homme,Mulan (Patrick Fiori),2020-06-13,Points,50,2
@@ -8587,6 +8619,7 @@ Comme un igloo,Étienne Daho,2024-01-20,Maestro,-1,2
 Comme un igloo,Étienne Daho,2024-03-14,Points,50,2
 Comme un igloo,Étienne Daho,2024-05-16,Maestro,-1,2
 Comme un manouche sans guitare,Thomas Dutronc,2009-08-26,Ancienne formule,20000,0
+Comme un manouche sans guitare,Thomas Dutronc,2009-10-01,Ancienne formule,20000,0
 Comme un manouche sans guitare,Thomas Dutronc,2013-01-31,Maestro,-1,0
 Comme un manouche sans guitare,Thomas Dutronc,2013-06-12,Maestro,-1,0
 Comme un manouche sans guitare,Thomas Dutronc,2014-05-22,Maestro,-1,2
@@ -8846,6 +8879,7 @@ Conmigo,Kendji Girac,2016-09-29,Points,50,1
 Conmigo,Kendji Girac,2016-12-24,Maestro,-1,2
 Conmigo,Kendji Girac,2017-01-20,Maestro,-1,2
 Conmigo,Kendji Girac,2017-02-20,Maestro,-1,2
+Conmigo,Kendji Girac,2017-05-02,Points,30,2
 Conmigo,Kendji Girac,2017-06-19,Points,50,2
 Conmigo,Kendji Girac,2017-07-12,Points,50,2
 Conmigo,Kendji Girac,2017-12-19,Points,20,1
@@ -9077,6 +9111,7 @@ Couleur café,Serge Gainsbourg,2023-07-31,Points,40,2
 Couleur café,Serge Gainsbourg,2024-01-05,Points,20,2
 Couleur café,Serge Gainsbourg,2024-03-07,Points,30,2
 Couleur café,Serge Gainsbourg,2024-04-24,Points,30,1
+Couleur café,Serge Gainsbourg,2024-09-14,Points,30,2
 Couleur menthe à l'eau (Eddy Mitchell),Eddy Mitchell,2007-12-15,Ancienne formule,500,0
 Couleur menthe à l'eau (Eddy Mitchell),Eddy Mitchell,2009-04-02,Ancienne formule,500,0
 Couleur menthe à l'eau (Eddy Mitchell),Eddy Mitchell,2013-02-06,Maestro,-1,0
@@ -9264,6 +9299,7 @@ Célimène,David Martial,2022-01-21,Points,20,2
 Célimène,David Martial,2022-05-16,Maestro,-1,2
 Célimène,David Martial,2023-03-21,Maestro,-1,2
 Célimène,David Martial,2023-09-16,Maestro,-1,-2
+Célimène,David Martial,2024-09-12,Points,50,1
 Céline (Hugues Aufray),Hugues Aufray,2008-01-01,Ancienne formule,500,0
 Céline (Hugues Aufray),Hugues Aufray,2008-07-25,Ancienne formule,500,0
 Céline (Hugues Aufray),Hugues Aufray,2009-01-02,Ancienne formule,2500,0
@@ -9696,6 +9732,7 @@ Dans la rue,Michel Polnareff,2020-03-05,Points,40,1
 Dans la rue,Michel Polnareff,2022-01-25,Points,30,1
 Dans la vie faut pas s'en faire,Maurice Chevalier dans ''Dédé'',2019-02-16,Points,20,1
 Dans la vie faut pas s'en faire,Maurice Chevalier dans ''Dédé'',2024-04-13,Points,20,-4
+Dans la vie faut pas s'en faire,Maurice Chevalier dans ''Dédé'',2024-09-13,Points,40,1
 Dans les yeux d'Émilie,Joe Dassin,2008-07-11,Ancienne formule,500,0
 Dans les yeux d'Émilie,Joe Dassin,2009-03-05,Ancienne formule,5000,0
 Dans les yeux d'Émilie,Joe Dassin,2009-09-11,Ancienne formule,500,0
@@ -9909,6 +9946,7 @@ Dans un vieux rock'n'roll,William Sheller,2023-07-12,Points,50,1
 Dans un vieux rock'n'roll,William Sheller,2023-11-04,Points,40,2
 Dans un vieux rock'n'roll,William Sheller,2024-02-17,Points,20,2
 Dans un vieux rock'n'roll,William Sheller,2024-05-24,Points,40,1
+Dans un vieux rock'n'roll,William Sheller,2024-09-14,Points,40,1
 Dans une larme,Gérald de Palmas,2013-01-14,Maestro,-1,0
 Dans une larme,Gérald de Palmas,2013-09-18,Maestro,-1,0
 Dans une larme,Gérald de Palmas,2014-04-08,Maestro,-1,2
@@ -9966,6 +10004,7 @@ Danse,Grégoire,2016-07-15,Points,20,2
 Danse,Grégoire,2016-09-05,Points,40,-1
 Danse,Grégoire,2017-01-24,Points,40,2
 Danse,Grégoire,2017-03-28,Points,20,1
+Danse,Grégoire,2017-05-02,Points,30,2
 Danse,Grégoire,2017-06-21,Points,20,2
 Danse,Grégoire,2018-01-05,Points,50,2
 Danse,Grégoire,2018-03-05,Points,20,2
@@ -10132,6 +10171,7 @@ Demain (Big Flo et Oli & P'tit Biscuit),Bigflo & Oli feat. P'tit Biscuit,2023-06
 Demain (Big Flo et Oli & P'tit Biscuit),Bigflo & Oli feat. P'tit Biscuit,2023-08-01,Points,40,1
 Demain (Big Flo et Oli & P'tit Biscuit),Bigflo & Oli feat. P'tit Biscuit,2023-12-27,Points,40,1
 Demain (Big Flo et Oli & P'tit Biscuit),Bigflo & Oli feat. P'tit Biscuit,2024-02-20,Maestro,-1,2
+Demain (Big Flo et Oli & P'tit Biscuit),Bigflo & Oli feat. P'tit Biscuit,2024-09-14,Maestro,-1,1
 Demain (Thomas Dutronc),Thomas Dutronc,2017-05-19,Maestro,-1,1
 Demain (Thomas Dutronc),Thomas Dutronc,2017-06-22,Maestro,-1,2
 Demain (Thomas Dutronc),Thomas Dutronc,2017-07-16,Maestro,-1,2
@@ -10292,6 +10332,7 @@ Dernière danse (Kyo),Kyo,2016-11-25,Même chanson,-1,2
 Dernière danse (Kyo),Kyo,2017-01-20,Points,40,2
 Dernière danse (Kyo),Kyo,2017-02-27,Même chanson,-1,2
 Dernière danse (Kyo),Kyo,2017-03-28,Points,40,2
+Dernière danse (Kyo),Kyo,2017-05-02,Points,40,1
 Dernière danse (Kyo),Kyo,2017-06-19,Points,30,1
 Dernière danse (Kyo),Kyo,2017-07-20,Points,40,1
 Dernière danse (Kyo),Kyo,2017-10-13,Même chanson,-1,1
@@ -10507,6 +10548,7 @@ Des mots qui résonnent,Jenifer,2023-08-28,Points,40,-2
 Des mots qui résonnent,Jenifer,2023-11-27,Points,20,1
 Des mots qui résonnent,Jenifer,2024-01-23,Points,40,1
 Des mots qui résonnent,Jenifer,2024-03-22,Points,40,1
+Des mots qui résonnent,Jenifer,2024-09-16,Points,40,1
 Des rails,Zazie,2016-06-27,Points,50,1
 Des rails,Zazie,2016-08-02,Points,50,2
 Des rails,Zazie,2016-09-06,Points,40,-1
@@ -10581,6 +10623,7 @@ Destin,Céline Dion,2023-10-10,Maestro,-1,2
 Destin,Céline Dion,2023-11-30,Points,20,2
 Destin,Céline Dion,2024-01-29,Points,50,2
 Destin,Céline Dion,2024-06-12,Maestro,-1,1
+Destin,Céline Dion,2024-09-17,Même chanson,-1,2
 Destination ailleurs,Yannick Noah,2008-07-07,Ancienne formule,2500,0
 Destination ailleurs,Yannick Noah,2010-01-25,Ancienne formule,20000,0
 Destination ailleurs,Yannick Noah,2014-09-11,Points,30,1
@@ -10604,6 +10647,7 @@ Destinée (Guy Marchand),Guy Marchand,2008-06-21,Ancienne formule,1000,0
 Destinée (Guy Marchand),Guy Marchand,2009-02-09,Ancienne formule,5000,0
 Destinée (Guy Marchand),Guy Marchand,2016-01-14,Points,50,-2
 Destinée (Guy Marchand),Guy Marchand,2016-12-31,Points,50,2
+Destinée (Guy Marchand),Guy Marchand,2017-05-22,Points,20,1
 Destinée (Guy Marchand),Guy Marchand,2018-05-25,Points,20,2
 Destinée (Guy Marchand),Guy Marchand,2018-07-13,Points,20,1
 Destinée (Guy Marchand),Guy Marchand,2019-06-26,Points,20,2
@@ -10999,6 +11043,7 @@ Dis-moi,BB Brunes,2008-07-23,Ancienne formule,1000,0
 Dis-moi,BB Brunes,2009-03-24,Ancienne formule,1000,0
 Dis-moi,BB Brunes,2009-05-22,Ancienne formule,5000,0
 Dis-moi,BB Brunes,2009-09-14,Ancienne formule,2500,0
+Dis-moi,BB Brunes,2009-09-28,Ancienne formule,500,0
 Dis-moi,BB Brunes,2013-07-05,Ancienne formule,250,0
 Dis-moi,BB Brunes,2013-09-27,Points,40,0
 Dis-moi,BB Brunes,2013-12-31,Points,30,0
@@ -11258,6 +11303,7 @@ Divine idylle,Vanessa Paradis,2016-10-26,Points,50,1
 Divine idylle,Vanessa Paradis,2017-01-03,Maestro,-1,1
 Divine idylle,Vanessa Paradis,2017-02-14,Maestro,-1,1
 Divine idylle,Vanessa Paradis,2017-04-08,Points,40,1
+Divine idylle,Vanessa Paradis,2017-05-02,Points,50,2
 Divine idylle,Vanessa Paradis,2017-06-20,Points,40,2
 Divine idylle,Vanessa Paradis,2017-09-28,Maestro,-1,-1
 Divine idylle,Vanessa Paradis,2017-11-13,Points,40,2
@@ -11515,6 +11561,7 @@ Donne-moi ton cœur,Louane,2023-02-15,Points,30,2
 Donne-moi ton cœur,Louane,2023-07-07,Maestro,-1,1
 Donne-moi ton cœur,Louane,2023-11-15,Points,20,1
 Donne-moi ton cœur,Louane,2024-06-21,Maestro,-1,1
+Donne-moi ton cœur,Louane,2024-09-11,Points,10,1
 Donne-moi une vie,Yannick Noah,2009-03-02,Ancienne formule,5000,0
 Donne-moi une vie,Yannick Noah,2009-05-13,Ancienne formule,2500,0
 Donne-moi une vie,Yannick Noah,2009-09-07,Ancienne formule,1000,0
@@ -11757,6 +11804,7 @@ Du bonheur,Jean-Louis Aubert,2021-11-11,Points,50,-1
 Du bonheur,Jean-Louis Aubert,2023-10-03,Points,30,-2
 Du bout des lèvres,Barbara,2023-12-18,Points,40,1
 Du bout des lèvres,Barbara,2024-05-10,Maestro,-1,2
+Du bout des lèvres,Barbara,2024-09-16,Points,20,2
 Du courage,La Grande Sophie,2013-12-30,Points,40,0
 Du courage,La Grande Sophie,2017-01-24,Points,20,1
 Du courage,La Grande Sophie,2017-06-19,Points,40,2
@@ -12450,6 +12498,7 @@ Désormais (Charles Aznavour),Charles Aznavour,2016-07-19,Maestro,-1,2
 Désormais (Charles Aznavour),Charles Aznavour,2016-09-13,Points,40,1
 Désormais (Charles Aznavour),Charles Aznavour,2017-01-13,Points,50,2
 Désormais (Charles Aznavour),Charles Aznavour,2017-02-16,Points,50,2
+Désormais (Charles Aznavour),Charles Aznavour,2017-05-22,Points,20,1
 Désormais (Charles Aznavour),Charles Aznavour,2017-08-12,Maestro,-1,1
 Désormais (Charles Aznavour),Charles Aznavour,2018-02-05,Points,30,2
 Désormais (Charles Aznavour),Charles Aznavour,2018-02-26,Points,40,2
@@ -12478,6 +12527,7 @@ Désormais (Charles Aznavour),Charles Aznavour,2023-05-27,Points,20,1
 Désormais (Charles Aznavour),Charles Aznavour,2023-09-25,Points,40,-1
 Désormais (Charles Aznavour),Charles Aznavour,2023-12-26,Même chanson,-1,2
 Désormais (Charles Aznavour),Charles Aznavour,2024-04-01,Points,30,2
+E viva España,Georgette Plana,2024-09-10,Points,20,2
 Ecce homo,Serge Gainsbourg,2018-03-15,Points,20,1
 Ecce homo,Serge Gainsbourg,2021-02-19,Points,20,1
 Elaeudanla Téitéia,Serge Gainsbourg,2009-02-18,Ancienne formule,20000,0
@@ -12536,6 +12586,7 @@ Elle (Didier Barbelivien),Didier Barbelivien,2022-10-21,Points,40,-1
 Elle (Didier Barbelivien),Didier Barbelivien,2023-09-23,Points,10,-1
 Elle (Didier Barbelivien),Didier Barbelivien,2023-12-22,Maestro,-1,2
 Elle (Didier Barbelivien),Didier Barbelivien,2024-04-29,Maestro,-1,1
+Elle (Didier Barbelivien),Didier Barbelivien,2024-09-12,Points,40,2
 Elle (Mélissa M),Mélissa M,2008-05-10,Ancienne formule,1000,0
 Elle (Mélissa M),Mélissa M,2009-02-16,Ancienne formule,20000,0
 Elle (Mélissa M),Mélissa M,2009-06-24,Ancienne formule,35000,0
@@ -12571,6 +12622,7 @@ Elle a fait un bébé toute seule,Jean-Jacques Goldman,2016-09-29,Même chanson,
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2016-12-24,Points,40,2
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2017-02-18,Points,30,2
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2017-03-15,Même chanson,-1,1
+Elle a fait un bébé toute seule,Jean-Jacques Goldman,2017-05-22,Points,40,1
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2018-04-18,Points,40,2
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2018-05-18,Points,50,2
 Elle a fait un bébé toute seule,Jean-Jacques Goldman,2018-08-21,Même chanson,-1,1
@@ -13082,6 +13134,7 @@ Elle préfère l'amour en mer,Philippe Lavil,2023-04-21,Points,40,-1
 Elle préfère l'amour en mer,Philippe Lavil,2023-07-24,Points,50,1
 Elle préfère l'amour en mer,Philippe Lavil,2023-09-30,Points,20,-1
 Elle préfère l'amour en mer,Philippe Lavil,2024-03-29,Points,30,1
+Elle s'ennuie,Gérald de Palmas,2009-09-25,Ancienne formule,2500,0
 Elle s'ennuie,Gérald de Palmas,2013-03-22,Points,30,0
 Elle s'ennuie,Gérald de Palmas,2013-06-10,Points,20,0
 Elle s'ennuie,Gérald de Palmas,2014-06-10,Maestro,-1,1
@@ -13170,6 +13223,7 @@ Elle voulait qu'on l'appelle Venise,Julien Clerc,2023-01-19,Maestro,-1,1
 Elle voulait qu'on l'appelle Venise,Julien Clerc,2023-02-22,Points,30,2
 Elle voulait qu'on l'appelle Venise,Julien Clerc,2023-04-29,Points,50,2
 Elle voulait qu'on l'appelle Venise,Julien Clerc,2024-06-11,Maestro,-1,1
+Elle voulait qu'on l'appelle Venise,Julien Clerc,2024-09-13,Points,30,2
 Elle voulait revoir sa Normandie,Gérard Blanchard,2018-12-21,Points,30,1
 Elle était si jolie,Alain Barrière,2008-12-20,Ancienne formule,5000,0
 Elle était si jolie,Alain Barrière,2009-06-12,Ancienne formule,1000,0
@@ -13206,6 +13260,7 @@ Elle était si jolie,Alain Barrière,2024-08-27,Maestro,-1,1
 "Elle, tu l'aimes",Hélène Ségara,2016-05-02,Même chanson,-1,1
 "Elle, tu l'aimes",Hélène Ségara,2016-08-31,Points,40,-1
 "Elle, tu l'aimes",Hélène Ségara,2017-02-02,Même chanson,-1,2
+"Elle, tu l'aimes",Hélène Ségara,2017-05-02,Points,20,2
 "Elle, tu l'aimes",Hélène Ségara,2017-11-07,Même chanson,-1,2
 "Elle, tu l'aimes",Hélène Ségara,2018-01-13,Même chanson,-1,2
 "Elle, tu l'aimes",Hélène Ségara,2018-04-13,Points,30,2
@@ -13301,6 +13356,7 @@ Emmanuelle (Pierre Bachelet),Pierre Bachelet dans le film Emmanuelle,2021-12-30,
 Emmanuelle (Pierre Bachelet),Pierre Bachelet dans le film Emmanuelle,2022-06-25,Maestro,-1,2
 Emmanuelle (Pierre Bachelet),Pierre Bachelet dans le film Emmanuelle,2022-10-06,Points,20,1
 Emmanuelle (Pierre Bachelet),Pierre Bachelet dans le film Emmanuelle,2023-04-18,Maestro,-1,1
+Emmanuelle (Pierre Bachelet),Pierre Bachelet dans le film Emmanuelle,2024-09-16,Maestro,-1,1
 Emmenez-moi (Charles Aznavour),Charles Aznavour,2008-07-16,Ancienne formule,20000,0
 Emmenez-moi (Charles Aznavour),Charles Aznavour,2008-12-29,Ancienne formule,5000,0
 Emmenez-moi (Charles Aznavour),Charles Aznavour,2009-02-14,Ancienne formule,10000,0
@@ -14633,6 +14689,7 @@ Et même après je t'aimerai,Hoshi,2023-01-21,Maestro,-1,1
 Et même après je t'aimerai,Hoshi,2023-07-11,Maestro,-1,1
 Et même après je t'aimerai,Hoshi,2024-01-12,Points,20,1
 Et même après je t'aimerai,Hoshi,2024-03-30,Points,40,-2
+Et même après je t'aimerai,Hoshi,2024-09-12,Points,50,2
 Et pourtant,Charles Aznavour dans ''Cherchez l'idole'',2009-02-26,Ancienne formule,2500,0
 Et pourtant,Charles Aznavour dans ''Cherchez l'idole'',2009-04-30,Ancienne formule,1000,0
 Et pourtant,Charles Aznavour dans ''Cherchez l'idole'',2015-09-15,Points,40,2
@@ -14745,6 +14802,7 @@ Et un jour une femme,Florent Pagny,2016-05-03,Points,40,2
 Et un jour une femme,Florent Pagny,2016-08-31,Même chanson,-1,-1
 Et un jour une femme,Florent Pagny,2016-10-28,Maestro,-1,1
 Et un jour une femme,Florent Pagny,2017-02-21,Même chanson,-1,2
+Et un jour une femme,Florent Pagny,2017-05-22,Maestro,-1,2
 Et un jour une femme,Florent Pagny,2017-07-07,Même chanson,-1,2
 Et un jour une femme,Florent Pagny,2018-01-06,Maestro,-1,2
 Et un jour une femme,Florent Pagny,2018-02-19,Points,40,1
@@ -14904,6 +14962,7 @@ Faire un pont,Dick Rivers,2023-03-16,Maestro,-1,1
 Faire un pont,Dick Rivers,2023-10-16,Points,40,2
 Faire un pont,Dick Rivers,2023-12-29,Maestro,-1,1
 Faire un pont,Dick Rivers,2024-03-19,Points,40,1
+Faire un pont,Dick Rivers,2024-09-12,Maestro,-1,2
 Faire à nouveau connaissance,Diane Tell,2008-07-11,Ancienne formule,20000,0
 Faire à nouveau connaissance,Diane Tell,2008-12-19,Ancienne formule,5000,0
 Faire à nouveau connaissance,Diane Tell,2009-02-12,Ancienne formule,2500,0
@@ -14972,9 +15031,10 @@ Fais des bébés,Jean-Jacques Goldman,2024-01-04,Maestro,-1,2
 "Fais pas ci, fais pas ça",Jacques Dutronc,2023-11-08,Maestro,-1,2
 "Fais pas ci, fais pas ça",Jacques Dutronc,2024-01-29,Points,30,1
 "Fais pas ci, fais pas ça",Jacques Dutronc,2024-05-17,Points,30,2
+"Fais pas ci, fais pas ça",Jacques Dutronc,2024-09-13,Maestro,-1,1
 Fais-le,Jérémy Frérot,2021-11-01,Points,20,-1
 Fais-le,Jérémy Frérot,2022-01-19,Points,20,2
-"Fais-moi mal, Johnny !",Magali Noël (chœurs de Boris Vian),2010-04-13,Ancienne formule,2500,0
+"Fais-moi mal, Johnny !",Magali Noël (chœurs de Boris Vian),2009-09-29,Ancienne formule,20000,0
 "Fais-moi mal, Johnny !",Magali Noël (chœurs de Boris Vian),2016-07-18,Points,40,2
 "Fais-moi mal, Johnny !",Magali Noël (chœurs de Boris Vian),2018-10-12,Points,10,2
 "Fais-moi mal, Johnny !",Magali Noël (chœurs de Boris Vian),2020-06-22,Points,10,1
@@ -15296,6 +15356,7 @@ Femme de couleur,Shy'm,2023-12-30,Même chanson,-1,2
 Femme de couleur,Shy'm,2024-02-20,Points,40,1
 Femme de couleur,Shy'm,2024-04-08,Même chanson,-1,2
 Femme de couleur,Shy'm,2024-06-12,Points,30,1
+Femme de couleur,Shy'm,2024-09-16,Même chanson,-1,1
 Femme femme femme,Serge Lama,2008-05-31,Ancienne formule,10000,0
 Femme femme femme,Serge Lama,2008-08-01,Ancienne formule,10000,0
 Femme femme femme,Serge Lama,2009-01-02,Ancienne formule,10000,0
@@ -15775,6 +15836,7 @@ For me formidable (Charles Aznavour),Charles Aznavour,2023-11-01,Points,50,1
 For me formidable (Charles Aznavour),Charles Aznavour,2024-02-09,Points,50,1
 For me formidable (Charles Aznavour),Charles Aznavour,2024-04-30,Points,50,1
 For me formidable (Charles Aznavour),Charles Aznavour,2024-05-18,Maestro,-1,0
+For me formidable (Charles Aznavour),Charles Aznavour,2024-09-11,Points,20,2
 Formidable,Stromae,2013-10-02,Points,40,0
 Formidable,Stromae,2014-05-08,Points,40,2
 Formidable,Stromae,2014-08-25,Maestro,-1,2
@@ -15844,6 +15906,7 @@ Formidable,Stromae,2023-10-21,Points,30,2
 Formidable,Stromae,2023-12-25,Points,50,2
 Formidable,Stromae,2024-02-09,Points,50,1
 Formidable,Stromae,2024-06-11,Points,50,2
+Formidable,Stromae,2024-09-13,Points,50,2
 Forrest,Soprano,2022-03-24,Points,20,2
 Forrest,Soprano,2022-10-25,Points,50,-2
 Forrest,Soprano,2023-04-05,Maestro,-1,2
@@ -16032,6 +16095,7 @@ Fruit de la passion,Francky Vincent,2023-02-27,Points,30,1
 Fruit de la passion,Francky Vincent,2023-06-23,Points,20,2
 Fruit de la passion,Francky Vincent,2023-12-28,Points,20,1
 Fruit de la passion,Francky Vincent,2024-04-19,Points,50,2
+Fruit de la passion,Francky Vincent,2024-09-17,Points,40,2
 Frérot,Black M et Soprano,2017-12-26,Points,20,2
 Frérot,Black M et Soprano,2018-03-01,Points,30,2
 Frérot,Black M et Soprano,2018-05-16,Points,20,1
@@ -16187,6 +16251,7 @@ Gabrielle,Johnny Hallyday,2024-06-18,Points,40,1
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2007-12-15,Ancienne formule,1000,0
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2008-05-31,Ancienne formule,5000,0
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2009-04-01,Ancienne formule,20000,0
+Gaby oh Gaby (Alain Bashung),Alain Bashung,2009-09-28,Ancienne formule,250,0
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2013-02-08,Maestro,-1,0
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2013-12-23,Points,50,0
 Gaby oh Gaby (Alain Bashung),Alain Bashung,2014-04-24,Points,20,2
@@ -16277,6 +16342,7 @@ Garçon,Koxie,2016-09-01,Maestro,-1,-1
 Garçon,Koxie,2016-11-23,Points,10,2
 Garçon,Koxie,2017-02-16,Points,20,1
 Garçon,Koxie,2017-03-29,Points,20,1
+Garçon,Koxie,2017-05-02,Points,40,1
 Garçon,Koxie,2017-06-16,Points,40,1
 Garçon,Koxie,2017-08-17,Points,20,1
 Garçon,Koxie,2018-01-05,Points,20,1
@@ -16534,6 +16600,7 @@ Géant,Alain Chamfort,2023-09-04,Points,40,-1
 Géant,Alain Chamfort,2023-11-02,Maestro,-1,2
 Géant,Alain Chamfort,2024-01-06,Points,20,2
 Géant,Alain Chamfort,2024-05-07,Maestro,-1,1
+Géant,Alain Chamfort,2024-09-12,Points,20,1
 Göttingen,Barbara,2008-12-29,Ancienne formule,250,0
 Göttingen,Barbara,2020-12-16,Points,20,1
 Göttingen,Barbara,2021-03-23,Maestro,-1,2
@@ -16717,6 +16784,7 @@ Henri porte des lilas,Philippe Timsit,2008-06-07,Ancienne formule,1000,0
 Henri porte des lilas,Philippe Timsit,2008-07-31,Ancienne formule,2500,0
 Henri porte des lilas,Philippe Timsit,2009-03-02,Ancienne formule,250,0
 Henri porte des lilas,Philippe Timsit,2009-03-27,Ancienne formule,1000,0
+Henri porte des lilas,Philippe Timsit,2009-10-01,Ancienne formule,2500,0
 Henri porte des lilas,Philippe Timsit,2020-11-12,Points,20,-1
 Henri porte des lilas,Philippe Timsit,2021-11-30,Points,30,2
 Henri porte des lilas,Philippe Timsit,2022-10-18,Points,40,2
@@ -17077,6 +17145,7 @@ Hélène (Roch Voisine),Roch Voisine,2024-05-16,Points,50,2
 Hélène (Roch Voisine),Roch Voisine,2024-07-11,Points,50,2
 I love you,Dadju & Tayc,2024-08-26,Points,40,2
 Ici les Enfoirés,Les Enfoirés,2009-08-27,Ancienne formule,500,0
+Ici les Enfoirés,Les Enfoirés,2009-09-28,Ancienne formule,1000,0
 Ici les Enfoirés,Les Enfoirés,2013-01-25,Points,50,0
 Ici les Enfoirés,Les Enfoirés,2013-06-26,Points,30,0
 Ici les Enfoirés,Les Enfoirés,2013-11-26,Maestro,-1,1
@@ -17176,59 +17245,59 @@ Il a neigé sur Yesterday,Marie Laforêt,2022-03-24,Points,40,1
 Il a neigé sur Yesterday,Marie Laforêt,2022-10-07,Maestro,-1,1
 Il a neigé sur Yesterday,Marie Laforêt,2022-12-26,Points,30,2
 Il a neigé sur Yesterday,Marie Laforêt,2023-10-05,Points,20,-1
-Il avait les mots,Sheryfa Luna,2008-08-28,Ancienne formule,10000,0
-Il avait les mots,Sheryfa Luna,2008-12-22,Ancienne formule,5000,0
-Il avait les mots,Sheryfa Luna,2009-04-14,Ancienne formule,5000,0
-Il avait les mots,Sheryfa Luna,2014-04-30,Points,20,1
-Il avait les mots,Sheryfa Luna,2016-01-11,Points,30,-2
-Il avait les mots,Sheryfa Luna,2016-06-11,Points,30,-6
-Il avait les mots,Sheryfa Luna,2016-10-25,Points,30,2
-Il avait les mots,Sheryfa Luna,2017-04-01,Points,30,2
-Il avait les mots,Sheryfa Luna,2017-09-05,Points,20,2
-Il avait les mots,Sheryfa Luna,2017-11-10,Maestro,-1,2
-Il avait les mots,Sheryfa Luna,2018-03-07,Points,20,1
-Il avait les mots,Sheryfa Luna,2018-04-23,Points,30,1
-Il avait les mots,Sheryfa Luna,2018-05-31,Points,30,1
-Il avait les mots,Sheryfa Luna,2018-08-05,Points,50,1
-Il avait les mots,Sheryfa Luna,2018-10-09,Maestro,-1,1
-Il avait les mots,Sheryfa Luna,2018-11-23,Points,50,1
-Il avait les mots,Sheryfa Luna,2019-01-04,Points,50,1
-Il avait les mots,Sheryfa Luna,2019-03-13,Points,20,1
-Il avait les mots,Sheryfa Luna,2019-04-11,Points,40,2
-Il avait les mots,Sheryfa Luna,2019-06-19,Points,40,1
-Il avait les mots,Sheryfa Luna,2019-07-20,Points,50,1
-Il avait les mots,Sheryfa Luna,2019-09-03,Points,30,2
-Il avait les mots,Sheryfa Luna,2019-09-21,Maestro,-1,0
-Il avait les mots,Sheryfa Luna,2019-10-21,Points,50,1
-Il avait les mots,Sheryfa Luna,2019-11-16,Points,40,1
-Il avait les mots,Sheryfa Luna,2020-01-25,Points,30,2
-Il avait les mots,Sheryfa Luna,2020-06-04,Points,30,1
-Il avait les mots,Sheryfa Luna,2020-06-27,Maestro,-1,2
-Il avait les mots,Sheryfa Luna,2020-08-14,Points,50,1
-Il avait les mots,Sheryfa Luna,2020-09-25,Points,30,2
-Il avait les mots,Sheryfa Luna,2020-11-05,Points,50,-1
-Il avait les mots,Sheryfa Luna,2021-01-21,Points,50,2
-Il avait les mots,Sheryfa Luna,2021-03-04,Points,40,2
-Il avait les mots,Sheryfa Luna,2021-03-31,Points,30,1
-Il avait les mots,Sheryfa Luna,2021-05-15,Points,30,2
-Il avait les mots,Sheryfa Luna,2021-07-03,Points,50,1
-Il avait les mots,Sheryfa Luna,2021-08-26,Points,40,2
-Il avait les mots,Sheryfa Luna,2021-10-01,Points,50,1
-Il avait les mots,Sheryfa Luna,2021-12-16,Points,50,1
-Il avait les mots,Sheryfa Luna,2021-12-25,Points,50,-4
-Il avait les mots,Sheryfa Luna,2022-03-04,Points,40,1
-Il avait les mots,Sheryfa Luna,2022-05-10,Points,30,1
-Il avait les mots,Sheryfa Luna,2022-09-12,Points,40,2
-Il avait les mots,Sheryfa Luna,2022-12-19,Points,40,1
-Il avait les mots,Sheryfa Luna,2023-02-27,Points,50,2
-Il avait les mots,Sheryfa Luna,2023-04-26,Points,50,2
-Il avait les mots,Sheryfa Luna,2023-06-22,Points,30,2
-Il avait les mots,Sheryfa Luna,2023-09-08,Points,50,-1
-Il avait les mots,Sheryfa Luna,2023-11-17,Points,50,2
-Il avait les mots,Sheryfa Luna,2024-01-11,Points,50,2
-Il avait les mots,Sheryfa Luna,2024-02-27,Points,40,1
-Il avait les mots,Sheryfa Luna,2024-04-06,Points,20,-1
-Il avait les mots,Sheryfa Luna,2024-06-27,Maestro,-1,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2008-08-28,Ancienne formule,10000,0
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2008-12-22,Ancienne formule,5000,0
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2009-04-14,Ancienne formule,5000,0
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2014-04-30,Points,20,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2016-01-11,Points,30,-2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2016-06-11,Points,30,-6
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2016-10-25,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2017-04-01,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2017-09-05,Points,20,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2017-11-10,Maestro,-1,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-03-07,Points,20,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-04-23,Points,30,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-05-31,Points,30,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-08-05,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-10-09,Maestro,-1,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2018-11-23,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-01-04,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-03-13,Points,20,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-04-11,Points,40,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-06-19,Points,40,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-07-20,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-09-03,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-09-21,Maestro,-1,0
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-10-21,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2019-11-16,Points,40,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-01-25,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-06-04,Points,30,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-06-27,Maestro,-1,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-08-14,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-09-25,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2020-11-05,Points,50,-1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-01-21,Points,50,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-03-04,Points,40,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-03-31,Points,30,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-05-15,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-07-03,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-08-26,Points,40,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-10-01,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-12-16,Points,50,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2021-12-25,Points,50,-4
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2022-03-04,Points,40,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2022-05-10,Points,30,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2022-09-12,Points,40,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2022-12-19,Points,40,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2023-02-27,Points,50,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2023-04-26,Points,50,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2023-06-22,Points,30,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2023-09-08,Points,50,-1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2023-11-17,Points,50,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2024-01-11,Points,50,2
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2024-02-27,Points,40,1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2024-04-06,Points,20,-1
+Il avait les mots (Sheryfa Luna),Sheryfa Luna,2024-06-27,Maestro,-1,2
 Il changeait la vie,Jean-Jacques Goldman,2009-04-06,Ancienne formule,250,0
 Il changeait la vie,Jean-Jacques Goldman,2009-05-13,Ancienne formule,2500,0
 Il changeait la vie,Jean-Jacques Goldman,2015-02-27,Points,40,1
@@ -17257,59 +17326,59 @@ Il changeait la vie,Jean-Jacques Goldman,2023-02-06,Même chanson,-1,1
 Il changeait la vie,Jean-Jacques Goldman,2023-09-13,Points,50,-1
 Il changeait la vie,Jean-Jacques Goldman,2023-12-13,Points,50,1
 Il changeait la vie,Jean-Jacques Goldman,2024-05-18,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2007-12-15,Ancienne formule,10000,0
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2008-12-29,Ancienne formule,20000,0
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2009-09-22,Ancienne formule,250,0
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2014-08-27,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2014-09-19,Points,20,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2014-10-02,Points,20,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2014-11-27,Points,20,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2015-04-09,Points,30,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2015-05-09,Points,30,-4
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2015-07-15,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2015-10-21,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-01-01,Points,10,-3
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-03-02,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-03-09,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-04-06,Points,20,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-08-23,Maestro,-1,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2016-12-31,Maestro,-1,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2017-02-14,Points,20,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2017-06-01,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2017-08-25,Points,30,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2017-12-24,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-01-06,Points,20,-1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-02-19,Points,30,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-04-11,Points,30,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-06-04,Points,30,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-06-09,Maestro,-1,0
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-07-15,Points,20,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2018-12-27,Points,50,-1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-04-01,Points,50,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-05-31,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-06-29,Points,20,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-08-16,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-09-28,Points,50,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-10-28,Points,50,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2019-11-28,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2020-06-10,Maestro,-1,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2020-07-07,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2020-09-01,Maestro,-1,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2020-12-14,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-01-18,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-02-24,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-04-21,Points,50,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-05-31,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-09-25,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2021-12-10,Points,50,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2022-02-08,Points,40,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2022-04-22,Points,40,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2022-10-13,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2022-12-06,Points,30,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2023-05-15,Points,20,1
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2023-06-24,Points,50,2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2023-10-02,Points,20,-2
-Il en faut peu pour être heureux,Jean Stout et Pascal Bressy dans Le Livre de la Jungle de Disney,2024-06-18,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2007-12-15,Ancienne formule,10000,0
+Il en faut peu pour être heureux,Le Livre de la Jungle,2008-12-29,Ancienne formule,20000,0
+Il en faut peu pour être heureux,Le Livre de la Jungle,2009-09-22,Ancienne formule,250,0
+Il en faut peu pour être heureux,Le Livre de la Jungle,2014-08-27,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2014-09-19,Points,20,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2014-10-02,Points,20,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2014-11-27,Points,20,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2015-04-09,Points,30,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2015-05-09,Points,30,-4
+Il en faut peu pour être heureux,Le Livre de la Jungle,2015-07-15,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2015-10-21,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-01-01,Points,10,-3
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-03-02,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-03-09,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-04-06,Points,20,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-08-23,Maestro,-1,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2016-12-31,Maestro,-1,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2017-02-14,Points,20,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2017-06-01,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2017-08-25,Points,30,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2017-12-24,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-01-06,Points,20,-1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-02-19,Points,30,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-04-11,Points,30,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-06-04,Points,30,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-06-09,Maestro,-1,0
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-07-15,Points,20,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2018-12-27,Points,50,-1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-04-01,Points,50,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-05-31,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-06-29,Points,20,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-08-16,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-09-28,Points,50,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-10-28,Points,50,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2019-11-28,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2020-06-10,Maestro,-1,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2020-07-07,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2020-09-01,Maestro,-1,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2020-12-14,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-01-18,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-02-24,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-04-21,Points,50,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-05-31,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-09-25,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2021-12-10,Points,50,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2022-02-08,Points,40,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2022-04-22,Points,40,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2022-10-13,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2022-12-06,Points,30,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2023-05-15,Points,20,1
+Il en faut peu pour être heureux,Le Livre de la Jungle,2023-06-24,Points,50,2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2023-10-02,Points,20,-2
+Il en faut peu pour être heureux,Le Livre de la Jungle,2024-06-18,Points,30,2
 "Il est cinq heures, Paris s'éveille",Jacques Dutronc,2008-01-26,Ancienne formule,100000,0
 "Il est cinq heures, Paris s'éveille",Jacques Dutronc,2008-07-08,Ancienne formule,5000,0
 "Il est cinq heures, Paris s'éveille",Jacques Dutronc,2009-01-02,Ancienne formule,500,0
@@ -17535,6 +17604,7 @@ Il faut qu'on s'batte,Gérald de Palmas,2021-12-16,Maestro,-1,1
 Il faut qu'on s'batte,Gérald de Palmas,2023-01-26,Maestro,-1,1
 Il faut qu'on s'batte,Gérald de Palmas,2023-03-10,Points,50,1
 Il faut qu'on s'batte,Gérald de Palmas,2024-06-18,Points,30,2
+Il faut qu'on s'batte,Gérald de Palmas,2024-09-16,Maestro,-1,2
 Il faut savoir,Charles Aznavour,2018-11-17,Points,30,1
 Il faut savoir,Charles Aznavour,2019-10-26,Points,30,2
 Il faut savoir,Charles Aznavour,2021-08-29,Maestro,-1,1
@@ -17969,6 +18039,7 @@ Il y a (Vanessa Paradis),Vanessa Paradis,2023-03-16,Points,50,2
 Il y a (Vanessa Paradis),Vanessa Paradis,2023-09-07,Points,20,-1
 Il y a (Vanessa Paradis),Vanessa Paradis,2023-10-25,Points,20,1
 Il y a (Vanessa Paradis),Vanessa Paradis,2024-04-30,Points,10,1
+Il y a (Vanessa Paradis),Vanessa Paradis,2024-09-16,Points,30,2
 Il y a du soleil sur la France,Stone et Charden,2008-07-30,Ancienne formule,1000,0
 Il y a du soleil sur la France,Stone et Charden,2009-04-10,Ancienne formule,250,0
 Il y a du soleil sur la France,Stone et Charden,2013-02-01,Points,30,0
@@ -18003,6 +18074,7 @@ Il y a du soleil sur la France,Stone et Charden,2023-07-20,Points,20,2
 Il y a du soleil sur la France,Stone et Charden,2023-10-14,Maestro,-1,2
 Il y a du soleil sur la France,Stone et Charden,2023-11-25,Points,20,2
 Il y a du soleil sur la France,Stone et Charden,2024-07-11,Points,40,1
+Il y a du soleil sur la France,Stone et Charden,2024-09-16,Points,30,2
 Il y a trop de gens qui t'aiment,Hélène Ségara,2008-05-17,Ancienne formule,2500,0
 Il y a trop de gens qui t'aiment,Hélène Ségara,2008-07-17,Ancienne formule,250,0
 Il y a trop de gens qui t'aiment,Hélène Ségara,2009-08-31,Ancienne formule,2500,0
@@ -18243,6 +18315,7 @@ Initials B.B.,Serge Gainsbourg,2021-07-06,Points,20,2
 Initials B.B.,Serge Gainsbourg,2023-07-01,Points,30,2
 Initials B.B.,Serge Gainsbourg,2023-10-11,Points,30,2
 Initials B.B.,Serge Gainsbourg,2024-01-05,Points,20,2
+Initials B.B.,Serge Gainsbourg,2024-09-14,Points,30,2
 Inspecteur Gadget,Apollo (Jacques Cardona),2010-01-06,Ancienne formule,10000,0
 Inspecteur Gadget,Apollo (Jacques Cardona),2018-02-27,Points,10,1
 Inventaire 66,Michel Delpech,2022-09-27,Points,20,1
@@ -18282,6 +18355,7 @@ Isabelle je t'aime,Les Poppys,2023-03-22,Points,40,1
 Isabelle je t'aime,Les Poppys,2023-08-04,Maestro,-1,1
 Isabelle je t'aime,Les Poppys,2023-10-05,Points,30,-1
 Isabelle je t'aime,Les Poppys,2024-05-13,Maestro,-1,1
+Isabelle je t'aime,Les Poppys,2024-09-16,Points,40,2
 It is not because you are,Renaud,2016-06-28,Points,20,1
 It is not because you are,Renaud,2019-01-31,Points,20,1
 It is not because you are,Renaud,2019-08-03,Points,20,2
@@ -18348,6 +18422,7 @@ Itsi bitsi petit bikini,Dalida,2023-12-15,Points,30,1
 Itsi bitsi petit bikini,Dalida,2024-01-08,Points,20,1
 Itsi bitsi petit bikini,Dalida,2024-03-05,Même chanson,-1,2
 Itsi bitsi petit bikini,Dalida,2024-06-20,Points,20,2
+Itsi bitsi petit bikini,Dalida,2024-09-16,Points,30,1
 Ivan Boris et moi,Marie Laforêt,2009-02-23,Ancienne formule,1000,0
 Ivan Boris et moi,Marie Laforêt,2016-07-20,Points,20,1
 Ivan Boris et moi,Marie Laforêt,2018-07-15,Points,20,1
@@ -18625,6 +18700,7 @@ J'ai embrassé un flic,Renaud,2016-12-31,Points,40,2
 J'ai embrassé un flic,Renaud,2017-01-21,Points,20,1
 J'ai embrassé un flic,Renaud,2017-02-17,Points,30,1
 J'ai embrassé un flic,Renaud,2017-03-23,Points,30,1
+J'ai embrassé un flic,Renaud,2017-05-22,Points,30,1
 J'ai embrassé un flic,Renaud,2018-04-21,Maestro,-1,1
 J'ai embrassé un flic,Renaud,2018-05-16,Maestro,-1,2
 J'ai embrassé un flic,Renaud,2018-06-16,Maestro,-1,2
@@ -18637,6 +18713,7 @@ J'ai embrassé un flic,Renaud,2020-12-15,Points,20,2
 J'ai embrassé un flic,Renaud,2021-06-15,Maestro,-1,1
 J'ai embrassé un flic,Renaud,2022-02-24,Points,30,1
 J'ai embrassé un flic,Renaud,2022-11-21,Points,40,-2
+J'ai embrassé un flic,Renaud,2024-09-17,Maestro,-1,1
 J'ai encore rêvé d'elle,Il était une fois,2008-01-01,Ancienne formule,2500,0
 J'ai encore rêvé d'elle,Il était une fois,2008-02-09,Ancienne formule,20000,0
 J'ai encore rêvé d'elle,Il était une fois,2008-08-04,Ancienne formule,500,0
@@ -18831,6 +18908,7 @@ J'ai perdu 25 kilos,Enrico Macias,2024-04-13,Points,30,-2
 J'ai perdu 25 kilos,Enrico Macias,2024-07-11,Maestro,-1,2
 J'ai rencontré l'homme de ma vie,Diane Dufresne,2008-05-31,Ancienne formule,2500,0
 J'ai rencontré l'homme de ma vie,Diane Dufresne,2009-02-12,Ancienne formule,2500,0
+J'ai rencontré l'homme de ma vie,Diane Dufresne,2009-10-01,Ancienne formule,10000,0
 J'ai rencontré l'homme de ma vie,Diane Dufresne,2013-03-12,Points,40,0
 J'ai rencontré l'homme de ma vie,Diane Dufresne,2013-09-17,Points,40,0
 J'ai rencontré l'homme de ma vie,Diane Dufresne,2014-05-07,Maestro,-1,2
@@ -19184,6 +19262,7 @@ J'aimerais trop,Keen'V,2023-12-25,Points,30,1
 J'aimerais trop,Keen'V,2024-01-30,Points,30,2
 J'aimerais trop,Keen'V,2024-03-06,Points,30,1
 J'aimerais trop,Keen'V,2024-05-20,Points,30,2
+J'aimerais trop,Keen'V,2024-09-13,Points,50,1
 J'attendrai (Claude François),Claude François,2008-05-17,Ancienne formule,35000,0
 J'attendrai (Claude François),Claude François,2008-12-23,Ancienne formule,250,0
 J'attendrai (Claude François),Claude François,2009-03-20,Ancienne formule,20000,0
@@ -19974,6 +20053,7 @@ J'y crois encore,Lara Fabian,2023-11-27,Points,50,2
 J'y crois encore,Lara Fabian,2024-01-10,Même chanson,-1,2
 J'y crois encore,Lara Fabian,2024-04-17,Points,40,2
 J'y crois encore,Lara Fabian,2024-06-14,Points,50,2
+J'y crois encore,Lara Fabian,2024-09-16,Points,50,2
 J'y vais,Patrick Fiori et Florent Pagny,2021-04-28,Points,30,2
 J'y vais,Patrick Fiori et Florent Pagny,2021-05-08,Points,60,-3
 J'y vais,Patrick Fiori et Florent Pagny,2021-08-19,Points,40,1
@@ -20140,6 +20220,7 @@ Jardin d'hiver,Henri Salvador,2020-09-09,Maestro,-1,1
 Jardin d'hiver,Henri Salvador,2021-12-02,Points,20,1
 Jardin d'hiver,Henri Salvador,2022-12-27,Points,20,2
 Jardin d'hiver,Henri Salvador,2024-01-05,Même chanson,-1,2
+Jardin d'hiver,Henri Salvador,2024-09-13,Points,10,2
 Je chante (Charles Trenet),Charles Trenet,2008-03-29,Ancienne formule,5000,0
 Je chante (Charles Trenet),Charles Trenet,2008-12-31,Ancienne formule,5000,0
 Je chante (Charles Trenet),Charles Trenet,2009-09-24,Ancienne formule,10000,0
@@ -20525,6 +20606,7 @@ Je fais de toi mon essentiel,Le Roi Soleil (Emmanuel Moire),2023-06-12,Même cha
 Je fais de toi mon essentiel,Le Roi Soleil (Emmanuel Moire),2023-09-06,Points,40,-2
 Je fais de toi mon essentiel,Le Roi Soleil (Emmanuel Moire),2023-12-06,Points,50,1
 Je fais de toi mon essentiel,Le Roi Soleil (Emmanuel Moire),2024-05-17,Points,50,1
+Je fais de toi mon essentiel,Le Roi Soleil (Emmanuel Moire),2024-09-12,Maestro,-1,2
 Je garde le sourire,Keen'V,2021-09-09,Points,20,2
 Je garde le sourire,Keen'V,2021-11-22,Points,30,-2
 Je garde le sourire,Keen'V,2022-01-06,Points,30,2
@@ -20595,6 +20677,7 @@ Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2015-10-05,Même chanson,-1,
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2015-12-29,Même chanson,-1,1
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2016-02-11,Même chanson,-1,2
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2016-08-04,Points,40,1
+Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2016-09-28,Points,20,2
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2016-12-05,Même chanson,-1,1
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2017-01-31,Points,40,1
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2017-03-20,Même chanson,-1,1
@@ -20629,6 +20712,7 @@ Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2023-06-29,Même chanson,-1,
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2023-09-09,Points,40,-1
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2023-12-28,Points,40,2
 Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2024-04-13,Points,30,-3
+Je l'aime à mourir (Francis Cabrel),Francis Cabrel,2024-09-17,Points,50,2
 Je l'aime à mourir (Shakira),Shakira,2022-11-17,Même chanson,-1,-1
 Je l'aime à mourir (Shakira),Shakira,2024-05-22,Points,20,2
 Je l'appelle Canelle,Antoine,2009-09-24,Ancienne formule,1000,0
@@ -20662,6 +20746,7 @@ Je m'appelle Hélène,Hélène Rollès,2015-09-09,Maestro,-1,2
 Je m'appelle Hélène,Hélène Rollès,2015-11-09,Points,40,2
 Je m'appelle Hélène,Hélène Rollès,2016-04-14,Points,20,1
 Je m'appelle Hélène,Hélène Rollès,2016-11-17,Points,20,2
+Je m'appelle Hélène,Hélène Rollès,2017-05-02,Points,20,2
 Je m'appelle Hélène,Hélène Rollès,2018-06-13,Points,10,1
 Je m'appelle Hélène,Hélène Rollès,2019-01-11,Points,10,1
 Je m'appelle Hélène,Hélène Rollès,2019-05-21,Points,10,1
@@ -21714,6 +21799,7 @@ Je suis de celles,Bénabar,2023-09-01,Points,40,-2
 Je suis de celles,Bénabar,2024-05-03,Points,20,1
 Je suis de celles,Bénabar,2024-08-17,Points,40,1
 Je suis fou,Vianney feat. Kendji Girac & Soprano,2024-04-13,Points,50,2
+Je suis fou,Vianney feat. Kendji Girac & Soprano,2024-09-12,Points,30,2
 Je suis malade (Serge Lama),Serge Lama,2008-01-01,Ancienne formule,5000,0
 Je suis malade (Serge Lama),Serge Lama,2008-04-05,Ancienne formule,2500,0
 Je suis malade (Serge Lama),Serge Lama,2008-08-05,Ancienne formule,10000,0
@@ -21760,6 +21846,7 @@ Je suis malade (Serge Lama),Serge Lama,2023-08-04,Même chanson,-1,1
 Je suis malade (Serge Lama),Serge Lama,2023-10-28,Points,40,2
 Je suis malade (Serge Lama),Serge Lama,2024-03-29,Points,30,2
 Je suis malade (Serge Lama),Serge Lama,2024-06-13,Même chanson,-1,2
+Je suis malade (Serge Lama),Serge Lama,2024-09-14,Points,40,2
 Je suis né dans la rue,Johnny Hallyday,2018-01-08,Points,10,1
 Je suis né dans la rue,Johnny Hallyday,2020-03-16,Points,50,2
 Je suis né dans la rue,Johnny Hallyday,2021-07-22,Points,40,1
@@ -22671,6 +22758,7 @@ Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2008-04-13,Anc
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2008-12-29,Ancienne formule,10000,0
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2009-03-20,Ancienne formule,500,0
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2009-05-01,Ancienne formule,2500,0
+Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2009-09-30,Ancienne formule,1000,0
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2015-01-07,Points,50,-1
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2015-04-28,Points,20,1
 Je voulais te dire que je t'attends (Michel Jonasz),Michel Jonasz,2016-09-29,Points,50,2
@@ -22702,6 +22790,7 @@ Je vous aime adieu,Hélène Ségara,2023-09-04,Points,30,-2
 Je vous aime adieu,Hélène Ségara,2023-10-27,Maestro,-1,1
 Je vous aime adieu,Hélène Ségara,2024-01-30,Points,20,1
 Je vous aime adieu,Hélène Ségara,2024-06-12,Points,50,1
+Je vous aime adieu,Hélène Ségara,2024-09-17,Maestro,-1,2
 Je vous trouve un charme fou,Hoshi et Gaëtan Roussel,2021-09-21,Points,30,2
 Je vous trouve un charme fou,Hoshi et Gaëtan Roussel,2022-03-18,Points,20,1
 Je vous trouve un charme fou,Hoshi et Gaëtan Roussel,2022-11-19,Points,20,-2
@@ -22775,6 +22864,7 @@ Jeune demoiselle,Diam's,2023-09-27,Points,40,-2
 Jeune demoiselle,Diam's,2023-12-29,Maestro,-1,1
 Jeune demoiselle,Diam's,2024-03-22,Points,30,1
 Jeune demoiselle,Diam's,2024-05-11,Maestro,-1,1
+Jeune demoiselle,Diam's,2024-09-14,Points,30,1
 Jeune et con,Damien Saez,2008-07-29,Ancienne formule,20000,0
 Jeune et con,Damien Saez,2009-03-05,Ancienne formule,20000,0
 Jeune et con,Damien Saez,2009-03-26,Ancienne formule,5000,0
@@ -23027,6 +23117,7 @@ Joue pas,François Feldman et Joniece Jamison,2023-09-04,Points,50,-2
 Joue pas,François Feldman et Joniece Jamison,2023-12-16,Points,40,2
 Joue pas,François Feldman et Joniece Jamison,2024-02-29,Points,50,1
 Joue pas,François Feldman et Joniece Jamison,2024-03-27,Points,30,1
+Joue pas,François Feldman et Joniece Jamison,2024-09-17,Points,30,1
 Joue pas de rock'n roll pour moi,Johnny Hallyday,2014-05-01,Points,50,1
 Joue pas de rock'n roll pour moi,Johnny Hallyday,2014-11-19,Points,20,2
 Joue pas de rock'n roll pour moi,Johnny Hallyday,2016-06-20,Points,30,2
@@ -23205,19 +23296,20 @@ Joy,François Feldman,2023-09-04,Points,50,-2
 Joy,François Feldman,2023-11-06,Maestro,-1,2
 Joy,François Feldman,2024-03-27,Points,30,1
 Joy,François Feldman,2024-08-22,Points,30,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2020-12-29,Points,20,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2021-02-05,Points,30,1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2021-04-19,Points,30,1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2021-07-11,Points,50,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2021-10-06,Points,40,1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2022-02-10,Points,30,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2022-04-30,Points,10,-1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2022-07-02,Points,50,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2022-11-15,Points,50,-1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2023-03-17,Points,30,1
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2023-07-28,Points,40,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2023-10-11,Points,20,2
-Jusqu'au bout (Amel Bent et Imen Es),Amel Bent et Imen Es,2024-06-13,Maestro,-1,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2020-12-29,Points,20,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2021-02-05,Points,30,1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2021-04-19,Points,30,1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2021-07-11,Points,50,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2021-10-06,Points,40,1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2022-02-10,Points,30,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2022-04-30,Points,10,-1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2022-07-02,Points,50,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2022-11-15,Points,50,-1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2023-03-17,Points,30,1
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2023-07-28,Points,40,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2023-10-11,Points,20,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2024-06-13,Maestro,-1,2
+Jusqu'au bout (Amel Bent et Imen Es),Amel Bent & Imen Es,2024-09-16,Points,20,2
 Jusqu'ici tout va bien,Gims,2021-03-31,Points,20,2
 Jusqu'ici tout va bien,Gims,2021-04-27,Points,30,2
 Jusqu'ici tout va bien,Gims,2021-07-12,Maestro,-1,2
@@ -23619,6 +23711,7 @@ L'Aziza,Daniel Balavoine,2016-10-15,Même chanson,-1,1
 L'Aziza,Daniel Balavoine,2016-11-30,Maestro,-1,2
 L'Aziza,Daniel Balavoine,2017-01-30,Même chanson,-1,1
 L'Aziza,Daniel Balavoine,2017-04-10,Même chanson,-1,1
+L'Aziza,Daniel Balavoine,2017-05-22,Points,50,2
 L'Aziza,Daniel Balavoine,2017-06-27,Points,50,2
 L'Aziza,Daniel Balavoine,2017-09-05,Points,50,2
 L'Aziza,Daniel Balavoine,2017-09-27,Même chanson,-1,-2
@@ -23818,6 +23911,7 @@ L'amitié,Françoise Hardy,2024-01-06,Points,30,1
 L'amour,Christophe Maé et Amadou & Mariam,2023-10-07,Maestro,-1,-3
 L'amour,Christophe Maé et Amadou & Mariam,2023-12-06,Points,30,2
 L'amour,Christophe Maé et Amadou & Mariam,2024-05-20,Maestro,-1,1
+L'amour,Christophe Maé et Amadou & Mariam,2024-09-11,Points,30,2
 L'amour avec toi,Michel Polnareff,2008-03-01,Ancienne formule,500,0
 L'amour avec toi,Michel Polnareff,2008-08-07,Ancienne formule,5000,0
 L'amour avec toi,Michel Polnareff,2009-04-09,Ancienne formule,250,0
@@ -23889,6 +23983,7 @@ L'amour c'est comme une cigarette,Sylvie Vartan,2022-07-05,Points,10,1
 L'amour c'est comme une cigarette,Sylvie Vartan,2023-01-31,Points,30,1
 L'amour c'est comme une cigarette,Sylvie Vartan,2023-07-02,Points,20,2
 L'amour c'est comme une cigarette,Sylvie Vartan,2023-12-20,Points,20,1
+L'amour c'est comme une cigarette,Sylvie Vartan,2024-09-13,Points,40,2
 L'amour du risque,Leroy Lionel dans Pour l'amour du risque,2009-03-25,Ancienne formule,250,0
 L'amour du risque,Leroy Lionel dans Pour l'amour du risque,2009-09-09,Ancienne formule,250,0
 L'amour du risque,Leroy Lionel dans Pour l'amour du risque,2014-01-07,Points,40,1
@@ -23942,6 +24037,7 @@ L'amour est un oiseau rebelle,,2020-07-25,Points,20,2
 L'amour est un oiseau rebelle,,2021-04-30,Points,30,2
 L'amour est un oiseau rebelle,,2022-12-14,Points,30,2
 L'amour est un oiseau rebelle,,2023-09-15,Points,20,-2
+L'amour est un oiseau rebelle,,2024-09-13,Points,40,2
 L'amour existe encore,Céline Dion,2017-10-07,Points,50,-3
 L'amour existe encore,Céline Dion,2018-10-30,Même chanson,-1,2
 L'amour existe encore,Céline Dion,2019-12-19,Maestro,-1,1
@@ -24070,6 +24166,7 @@ L'amour à la plage,Niagara,2024-07-18,Même chanson,-1,1
 "L'amour, l'amour, l'amour",Bon Entendeur VS Mouloudji,2023-10-21,Maestro,-1,1
 "L'amour, l'amour, l'amour",Bon Entendeur VS Mouloudji,2023-12-06,Points,30,2
 "L'amour, l'amour, l'amour",Bon Entendeur VS Mouloudji,2024-04-11,Points,10,1
+"L'amour, l'amour, l'amour",Bon Entendeur VS Mouloudji,2024-09-11,Points,30,2
 L'anamour,Serge Gainsbourg,2009-09-23,Ancienne formule,1000,0
 L'anamour,Serge Gainsbourg,2017-08-25,Points,30,1
 L'anamour,Serge Gainsbourg,2023-03-24,Points,30,2
@@ -24149,6 +24246,7 @@ L'assasymphonie,Mozart l'Opéra Rock (Florent Mothe),2023-11-04,Même chanson,-1
 L'assasymphonie,Mozart l'Opéra Rock (Florent Mothe),2024-01-11,Points,30,2
 L'assasymphonie,Mozart l'Opéra Rock (Florent Mothe),2024-03-25,Points,50,2
 L'assasymphonie,Mozart l'Opéra Rock (Florent Mothe),2024-05-21,Points,40,1
+L'assasymphonie,Mozart l'Opéra Rock (Florent Mothe),2024-09-11,Même chanson,-1,2
 L'autre Finistère,Les Innocents,2008-06-07,Ancienne formule,10000,0
 L'autre Finistère,Les Innocents,2008-08-04,Ancienne formule,20000,0
 L'autre Finistère,Les Innocents,2009-03-20,Ancienne formule,250,0
@@ -24786,6 +24884,7 @@ L'horloge tourne,Mickaël Miro,2023-06-30,Même chanson,-1,1
 L'horloge tourne,Mickaël Miro,2023-10-09,Points,30,1
 L'horloge tourne,Mickaël Miro,2024-02-26,Points,30,1
 L'horloge tourne,Mickaël Miro,2024-04-13,Points,20,2
+L'horloge tourne,Mickaël Miro,2024-09-14,Même chanson,-1,1
 L'hymne de la vie,Kids United Nouvelle Génération,2021-12-25,Maestro,-1,-2
 L'hymne de la vie,Kids United Nouvelle Génération,2022-04-23,Maestro,-1,2
 L'hymne de la vie,Kids United Nouvelle Génération,2022-06-28,Points,40,1
@@ -25102,10 +25201,10 @@ L'opportuniste,Jacques Dutronc,2023-05-02,Maestro,-1,2
 L'opportuniste,Jacques Dutronc,2023-09-05,Points,50,-1
 L'opportuniste,Jacques Dutronc,2023-11-18,Points,30,2
 L'opportuniste,Jacques Dutronc,2024-05-17,Points,30,2
-L'orage,Georges Brassens,2019-04-13,Points,20,2
-L'orage,Georges Brassens,2023-04-27,Points,30,1
-L'orage,Georges Brassens,2023-08-04,Points,20,2
-L'orage,Georges Brassens,2024-09-09,Points,50,2
+L'orage (Georges Brassens),Georges Brassens,2019-04-13,Points,20,2
+L'orage (Georges Brassens),Georges Brassens,2023-04-27,Points,30,1
+L'orage (Georges Brassens),Georges Brassens,2023-08-04,Points,20,2
+L'orage (Georges Brassens),Georges Brassens,2024-09-09,Points,50,2
 L'orange (Gilbert Bécaud),Gilbert Bécaud,2009-02-14,Ancienne formule,1000,0
 L'orange (Gilbert Bécaud),Gilbert Bécaud,2009-02-27,Ancienne formule,5000,0
 L'orange (Gilbert Bécaud),Gilbert Bécaud,2009-06-19,Ancienne formule,5000,0
@@ -25637,6 +25736,7 @@ La belle vie,Sacha Distel,2022-08-15,Points,20,2
 La belle vie,Sacha Distel,2022-10-21,Points,40,-2
 La belle vie,Sacha Distel,2023-05-11,Points,30,1
 La belle vie,Sacha Distel,2024-03-21,Points,30,2
+La belle vie,Sacha Distel,2024-09-14,Points,20,1
 La bicyclette,Yves Montand,2008-02-16,Ancienne formule,10000,0
 La bicyclette,Yves Montand,2008-04-26,Ancienne formule,20000,0
 La bicyclette,Yves Montand,2008-07-10,Ancienne formule,250,0
@@ -25841,6 +25941,7 @@ La boulette,Diam's,2023-07-22,Points,20,1
 La boulette,Diam's,2023-10-16,Maestro,-1,2
 La boulette,Diam's,2023-12-20,Points,20,2
 La boulette,Diam's,2024-04-24,Points,40,1
+La boulette,Diam's,2024-09-14,Points,30,1
 La boîte de jazz,Michel Jonasz,2008-02-16,Ancienne formule,250,0
 La boîte de jazz,Michel Jonasz,2008-08-08,Ancienne formule,500,0
 La boîte de jazz,Michel Jonasz,2009-03-03,Ancienne formule,2500,0
@@ -26007,6 +26108,7 @@ La cantine,Carlos,2017-06-03,Points,20,2
 La cantine,Carlos,2017-09-23,Maestro,-1,-2
 La cantine,Carlos,2018-04-21,Maestro,-1,2
 La cantine,Carlos,2018-06-11,Maestro,-1,2
+La cantine,Carlos,2018-09-04,Maestro,-1,2
 La cantine,Carlos,2018-12-19,Maestro,-1,2
 La cantine,Carlos,2019-05-17,Maestro,-1,2
 La cantine,Carlos,2019-08-06,Points,40,2
@@ -26022,6 +26124,8 @@ La cantine,Carlos,2023-08-31,Maestro,-1,-2
 La cantine,Carlos,2023-10-23,Points,20,2
 La cantine,Carlos,2023-12-25,Points,20,2
 La cantine,Carlos,2024-02-26,Points,50,1
+La cantine,Carlos,2024-09-17,Maestro,-1,1
+La carioca,Alain Chabat et Gérard Darmon dans La cité de la peur,2009-09-29,Ancienne formule,1000,0
 La carioca,Alain Chabat et Gérard Darmon dans La cité de la peur,2014-09-25,Points,30,2
 La carioca,Alain Chabat et Gérard Darmon dans La cité de la peur,2015-07-22,Points,10,2
 La carioca,Alain Chabat et Gérard Darmon dans La cité de la peur,2015-11-19,Points,10,2
@@ -26109,6 +26213,7 @@ La chanson d'Azima,France Gall,2023-05-09,Maestro,-1,1
 La chanson d'Azima,France Gall,2023-11-09,Maestro,-1,1
 La chanson de Jacky,Jacques Brel,2009-03-06,Ancienne formule,1000,0
 La chanson de Jacky,Jacques Brel,2009-05-13,Ancienne formule,5000,0
+La chanson de Jacky,Jacques Brel,2009-09-30,Ancienne formule,2500,0
 La chanson de Jacky,Jacques Brel,2015-11-20,Points,20,2
 La chanson de Jacky,Jacques Brel,2016-10-28,Points,30,2
 La chanson de Jacky,Jacques Brel,2018-08-28,Points,10,1
@@ -26153,6 +26258,7 @@ La chanson de Ziggy,Eric Estève dans Starmania,2022-11-08,Points,30,-1
 La chanson de Ziggy,Eric Estève dans Starmania,2023-01-09,Maestro,-1,1
 La chanson de Ziggy,Eric Estève dans Starmania,2023-04-20,Points,20,1
 La chanson de Ziggy,Eric Estève dans Starmania,2023-11-02,Points,50,1
+La chanson de Ziggy,Eric Estève dans Starmania,2024-09-14,Maestro,-1,2
 La chanson des restos,Les Restos du Cœur,2013-03-11,Maestro,-1,0
 La chanson des restos,Les Restos du Cœur,2013-09-09,Points,50,0
 La chanson des restos,Les Restos du Cœur,2014-07-04,Points,50,2
@@ -26194,6 +26300,7 @@ La chanson des restos,Les Restos du Cœur,2023-05-11,Même chanson,-1,2
 La chanson des restos,Les Restos du Cœur,2023-07-15,Points,40,1
 La chanson des restos,Les Restos du Cœur,2023-10-21,Points,30,1
 La chanson des restos,Les Restos du Cœur,2024-01-12,Même chanson,-1,1
+La chanson des restos,Les Restos du Cœur,2024-09-16,Points,50,1
 La chanson des vieux amants (Jacques Brel),Jacques Brel,2008-08-25,Ancienne formule,500,0
 La chanson des vieux amants (Jacques Brel),Jacques Brel,2009-02-26,Ancienne formule,5000,0
 La chanson des vieux amants (Jacques Brel),Jacques Brel,2020-11-21,Points,20,-1
@@ -26230,6 +26337,7 @@ La chasse aux papillons,Georges Brassens,2023-01-19,Points,30,1
 La chasse aux papillons,Georges Brassens,2023-07-17,Points,30,2
 La chasse aux papillons,Georges Brassens,2023-09-23,Points,30,-1
 La chasse aux papillons,Georges Brassens,2024-04-08,Maestro,-1,1
+La chasse aux papillons,Georges Brassens,2024-09-13,Points,30,1
 La chenille,La Bande à Basile,2015-11-24,Points,30,2
 La chenille,La Bande à Basile,2015-12-31,Points,30,2
 La chenille,La Bande à Basile,2016-04-29,Points,50,2
@@ -26251,6 +26359,7 @@ La chenille,La Bande à Basile,2023-01-07,Points,50,-6
 La chenille,La Bande à Basile,2023-04-10,Points,30,2
 La chenille,La Bande à Basile,2023-10-07,Points,20,-3
 La chenille,La Bande à Basile,2024-03-25,Points,20,2
+La chenille,La Bande à Basile,2024-09-13,Points,30,1
 La chenille synchro (La cheu-cheu),La Pig Chenilliste (Vincent Piguet),2024-03-25,Points,20,2
 La complainte de l'heure de pointe,Joe Dassin,2019-11-16,Points,20,1
 La complainte de l'heure de pointe,Joe Dassin,2020-06-08,Points,20,2
@@ -26596,6 +26705,7 @@ La dolce vita,Christophe,2023-09-11,Points,40,-1
 La dolce vita,Christophe,2024-01-09,Maestro,-1,1
 La dolce vita,Christophe,2024-03-22,Points,20,1
 La dolce vita,Christophe,2024-05-15,Maestro,-1,2
+La dolce vita,Christophe,2024-09-14,Points,20,1
 La drôle de fin,Sylvie Vartan,2016-06-27,Points,40,1
 La drôle de fin,Sylvie Vartan,2017-01-19,Points,30,2
 La drôle de fin,Sylvie Vartan,2017-04-24,Maestro,-1,2
@@ -26648,6 +26758,7 @@ La femme chocolat,Olivia Ruiz,2008-12-27,Ancienne formule,1000,0
 La femme chocolat,Olivia Ruiz,2009-03-05,Ancienne formule,250,0
 La femme chocolat,Olivia Ruiz,2009-03-23,Ancienne formule,2500,0
 La femme chocolat,Olivia Ruiz,2009-06-11,Ancienne formule,5000,0
+La femme chocolat,Olivia Ruiz,2009-09-25,Ancienne formule,500,0
 La femme chocolat,Olivia Ruiz,2013-01-21,Points,50,0
 La femme chocolat,Olivia Ruiz,2013-03-29,Maestro,-1,0
 La femme chocolat,Olivia Ruiz,2013-09-02,Points,50,0
@@ -27276,6 +27387,7 @@ La groupie du pianiste,Michel Berger,2017-01-09,Même chanson,-1,2
 La groupie du pianiste,Michel Berger,2017-02-28,Points,40,2
 La groupie du pianiste,Michel Berger,2017-03-24,Même chanson,-1,1
 La groupie du pianiste,Michel Berger,2017-04-12,Points,40,1
+La groupie du pianiste,Michel Berger,2017-05-02,Points,50,1
 La groupie du pianiste,Michel Berger,2017-06-21,Même chanson,-1,1
 La groupie du pianiste,Michel Berger,2017-08-05,Même chanson,-1,1
 La groupie du pianiste,Michel Berger,2017-09-21,Même chanson,-1,-1
@@ -27927,6 +28039,7 @@ La mer est calme,Ben Mazué,2022-09-02,Points,30,2
 La mer est calme,Ben Mazué,2023-11-04,Maestro,-1,2
 La mer est calme,Ben Mazué,2024-01-12,Points,40,1
 La mer est calme,Ben Mazué,2024-06-13,Maestro,-1,1
+La mer est calme,Ben Mazué,2024-09-12,Maestro,-1,1
 La montagne,Jean Ferrat,2007-12-15,Ancienne formule,2500,0
 La montagne,Jean Ferrat,2008-04-26,Ancienne formule,250,0
 La montagne,Jean Ferrat,2009-04-02,Ancienne formule,250,0
@@ -27990,6 +28103,7 @@ La mouche,Michel Polnareff,2024-07-16,Points,20,1
 La musica,Patrick Juvet,2008-07-17,Ancienne formule,2500,0
 La musica,Patrick Juvet,2008-12-12,Ancienne formule,10000,0
 La musica,Patrick Juvet,2009-04-23,Ancienne formule,20000,0
+La musica,Patrick Juvet,2009-09-29,Ancienne formule,250,0
 La musica,Patrick Juvet,2014-09-26,Points,10,2
 La musica,Patrick Juvet,2015-10-29,Points,10,2
 La musica,Patrick Juvet,2016-05-31,Points,20,1
@@ -28126,6 +28240,7 @@ La musique que j'aime,Johnny Hallyday,2023-04-26,Même chanson,-1,2
 La musique que j'aime,Johnny Hallyday,2023-07-21,Points,40,2
 La musique que j'aime,Johnny Hallyday,2023-10-27,Points,40,2
 La musique que j'aime,Johnny Hallyday,2024-06-11,Points,30,2
+La musique que j'aime,Johnny Hallyday,2024-09-14,Points,40,1
 La mère à Titi,Renaud,2021-10-18,Points,30,2
 La mère à Titi,Renaud,2022-03-08,Maestro,-1,1
 La mère à Titi,Renaud,2022-04-19,Points,40,1
@@ -28651,6 +28766,7 @@ La salsa (Bernard Lavilliers),Bernard Lavilliers,2023-07-31,Points,20,1
 La salsa (Bernard Lavilliers),Bernard Lavilliers,2023-09-28,Points,30,-1
 La salsa (Bernard Lavilliers),Bernard Lavilliers,2024-03-05,Maestro,-1,2
 La salsa (Bernard Lavilliers),Bernard Lavilliers,2024-04-29,Points,30,1
+La salsa (Bernard Lavilliers),Bernard Lavilliers,2024-09-14,Maestro,-1,1
 La salsa du démon,Le Grand Orchestre du Splendid,2008-08-08,Ancienne formule,2500,0
 La salsa du démon,Le Grand Orchestre du Splendid,2009-01-01,Ancienne formule,2500,0
 La salsa du démon,Le Grand Orchestre du Splendid,2009-01-01,Ancienne formule,2500,0
@@ -29068,6 +29184,7 @@ La vie en rose (Édith Piaf),Édith Piaf,2022-10-06,Points,40,2
 La vie en rose (Édith Piaf),Édith Piaf,2023-03-30,Points,40,2
 La vie en rose (Édith Piaf),Édith Piaf,2023-07-18,Points,40,1
 La vie en rose (Édith Piaf),Édith Piaf,2024-03-11,Points,20,2
+La vie en rose (Édith Piaf),Édith Piaf,2024-09-13,Points,40,1
 La vie est belle (Indochine),Indochine,2018-02-15,Points,20,2
 La vie est belle (Indochine),Indochine,2019-05-03,Points,10,1
 La vie est belle (Indochine),Indochine,2019-06-21,Points,30,1
@@ -29088,6 +29205,7 @@ La vie est belle (Indochine),Indochine,2023-02-03,Maestro,-1,1
 La vie est belle (Indochine),Indochine,2023-10-28,Maestro,-1,2
 La vie est belle (Indochine),Indochine,2024-01-31,Points,50,2
 La vie est belle (Indochine),Indochine,2024-04-25,Points,50,1
+La vie est belle (Indochine),Indochine,2024-09-14,Maestro,-1,2
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2007-12-15,Ancienne formule,2500,0
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2009-02-18,Ancienne formule,10000,0
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2009-08-26,Ancienne formule,5000,0
@@ -29142,6 +29260,7 @@ La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2023-06-27,Même ch
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2023-11-09,Points,40,1
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2024-02-09,Maestro,-1,2
 La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2024-04-25,Points,50,1
+La vie ne m'apprend rien (Daniel Balavoine),Daniel Balavoine,2024-09-11,Points,50,2
 La vie ne m'apprend rien (Liane Foly),Liane Foly,2022-11-12,Même chanson,-1,-2
 La vie ne vaut rien (Alain Souchon),Alain Souchon,2020-06-09,Points,40,1
 La vie ne vaut rien (Alain Souchon),Alain Souchon,2023-03-15,Points,40,2
@@ -29557,6 +29676,8 @@ Laissons entrer le soleil,Julien Clerc dans Hair,2015-05-04,Points,50,1
 Laissons entrer le soleil,Julien Clerc dans Hair,2015-06-17,Points,30,2
 Laissons entrer le soleil,Julien Clerc dans Hair,2015-08-27,Points,40,-2
 Laissons entrer le soleil,Julien Clerc dans Hair,2015-10-14,Points,20,1
+Laissons entrer le soleil,Julien Clerc dans Hair,2016-09-28,Points,30,2
+Laissons entrer le soleil,Julien Clerc dans Hair,2017-05-22,Points,50,1
 Laissons entrer le soleil,Julien Clerc dans Hair,2017-09-03,Points,50,2
 Laissons entrer le soleil,Julien Clerc dans Hair,2018-01-03,Points,30,1
 Laissons entrer le soleil,Julien Clerc dans Hair,2018-03-07,Points,40,2
@@ -29828,6 +29949,7 @@ Le Loir-et-Cher,Michel Delpech,2008-08-01,Ancienne formule,10000,0
 Le Loir-et-Cher,Michel Delpech,2009-01-01,Ancienne formule,500,0
 Le Loir-et-Cher,Michel Delpech,2009-02-12,Ancienne formule,500,0
 Le Loir-et-Cher,Michel Delpech,2009-04-30,Ancienne formule,250,0
+Le Loir-et-Cher,Michel Delpech,2009-09-28,Ancienne formule,5000,0
 Le Loir-et-Cher,Michel Delpech,2013-01-09,Même chanson,-1,0
 Le Loir-et-Cher,Michel Delpech,2013-09-12,Points,50,0
 Le Loir-et-Cher,Michel Delpech,2013-11-18,Points,50,1
@@ -29966,6 +30088,7 @@ Le bal des Laze,Michel Polnareff,2023-02-01,Points,30,1
 Le bal des Laze,Michel Polnareff,2023-07-10,Maestro,-1,2
 Le bal des Laze,Michel Polnareff,2023-09-08,Points,30,-2
 Le bal des Laze,Michel Polnareff,2024-04-24,Points,30,2
+Le bal des Laze,Michel Polnareff,2024-09-12,Points,10,2
 Le bal masqué,La Compagnie Créole,2008-07-16,Ancienne formule,5000,0
 Le bal masqué,La Compagnie Créole,2008-12-13,Ancienne formule,1000,0
 Le bal masqué,La Compagnie Créole,2009-02-14,Ancienne formule,20000,0
@@ -30260,7 +30383,7 @@ Le bon choix,Leslie,2023-12-13,Maestro,-1,2
 Le bon choix,Leslie,2024-01-23,Points,20,1
 Le bon temps du rock'n'roll,Johnny Hallyday,2008-07-18,Ancienne formule,1000,0
 Le bon temps du rock'n'roll,Johnny Hallyday,2009-04-06,Ancienne formule,2500,0
-Le bon temps du rock'n'roll,Johnny Hallyday,2010-01-26,Ancienne formule,2500,0
+Le bon temps du rock'n'roll,Johnny Hallyday,2009-09-25,Ancienne formule,250,0
 Le bon temps du rock'n'roll,Johnny Hallyday,2016-04-15,Points,50,2
 Le bon temps du rock'n'roll,Johnny Hallyday,2017-02-27,Points,50,2
 Le bon temps du rock'n'roll,Johnny Hallyday,2017-03-17,Points,20,2
@@ -32036,6 +32159,7 @@ Le mur du son,Willy Denzey,2022-11-22,Maestro,-1,-2
 Le mur du son,Willy Denzey,2023-02-02,Points,20,2
 Le mur du son,Willy Denzey,2023-05-12,Points,20,2
 Le mur du son,Willy Denzey,2024-04-13,Points,20,1
+Le mur du son,Willy Denzey,2024-09-17,Points,40,1
 Le métèque,Georges Moustaki,2008-05-10,Ancienne formule,20000,0
 Le métèque,Georges Moustaki,2009-09-03,Ancienne formule,5000,0
 Le métèque,Georges Moustaki,2014-09-17,Points,30,2
@@ -32180,6 +32304,7 @@ Le petit Gonzales,Danyel Gérard,2008-12-26,Ancienne formule,500,0
 Le petit Gonzales,Danyel Gérard,2009-02-11,Ancienne formule,20000,0
 Le petit Gonzales,Danyel Gérard,2009-06-16,Ancienne formule,20000,0
 Le petit Gonzales,Danyel Gérard,2009-09-18,Ancienne formule,10000,0
+Le petit Gonzales,Danyel Gérard,2009-09-30,Ancienne formule,250,0
 Le petit Gonzales,Danyel Gérard,2015-10-09,Points,30,1
 Le petit Gonzales,Danyel Gérard,2018-08-09,Points,10,1
 Le petit Gonzales,Danyel Gérard,2018-12-26,Points,20,1
@@ -32550,6 +32675,7 @@ Le pull-over blanc,Graziella de Michele,2023-05-25,Points,40,1
 Le pull-over blanc,Graziella de Michele,2023-09-02,Maestro,-1,-1
 Le pull-over blanc,Graziella de Michele,2023-11-02,Points,40,1
 Le pull-over blanc,Graziella de Michele,2024-05-04,Points,10,1
+Le pull-over blanc,Graziella de Michele,2024-09-12,Maestro,-1,1
 Le pénitencier,Johnny Hallyday,2008-03-08,Ancienne formule,20000,0
 Le pénitencier,Johnny Hallyday,2009-02-17,Ancienne formule,500,0
 Le pénitencier,Johnny Hallyday,2013-03-22,Même chanson,-1,0
@@ -32714,6 +32840,7 @@ Le rital,Claude Barzotti,2023-11-14,Points,20,1
 Le rital,Claude Barzotti,2024-01-11,Maestro,-1,2
 Le rital,Claude Barzotti,2024-04-15,Points,50,1
 Le rital,Claude Barzotti,2024-06-12,Points,40,1
+Le rital,Claude Barzotti,2024-09-11,Points,40,2
 Le roi des ombres,M,2011-03-03,Ancienne formule,2500,0
 Le roi des ombres,M,2013-02-28,Points,40,0
 Le roi des ombres,M,2013-12-10,Maestro,-1,1
@@ -32761,6 +32888,7 @@ Le rêve du pecheur,Laurent Voulzy,2024-07-10,Points,50,2
 Le sampa,Richard Gotainer,2008-07-08,Ancienne formule,250,0
 Le sampa,Richard Gotainer,2009-03-27,Ancienne formule,250,0
 Le sampa,Richard Gotainer,2009-05-21,Ancienne formule,2500,0
+Le sampa,Richard Gotainer,2009-09-29,Ancienne formule,1000,0
 Le sampa,Richard Gotainer,2016-11-14,Points,20,2
 Le sampa,Richard Gotainer,2017-06-21,Points,20,2
 Le sampa,Richard Gotainer,2020-03-30,Points,50,2
@@ -32910,6 +33038,7 @@ Le sud,Nino Ferrer,2016-01-01,Points,10,-5
 Le sud,Nino Ferrer,2016-01-26,Même chanson,-1,1
 Le sud,Nino Ferrer,2016-03-03,Points,30,2
 Le sud,Nino Ferrer,2016-07-15,Même chanson,-1,2
+Le sud,Nino Ferrer,2016-09-28,Maestro,-1,2
 Le sud,Nino Ferrer,2016-11-05,Même chanson,-1,1
 Le sud,Nino Ferrer,2016-12-31,Même chanson,-1,1
 Le sud,Nino Ferrer,2017-03-31,Maestro,-1,1
@@ -33031,6 +33160,7 @@ Le temps de l'amour,Françoise Hardy,2023-10-11,Points,40,1
 Le temps de l'amour,Françoise Hardy,2024-01-06,Points,30,1
 Le temps de l'amour,Françoise Hardy,2024-03-14,Même chanson,-1,1
 Le temps de l'amour,Françoise Hardy,2024-06-10,Points,50,2
+Le temps de l'amour,Françoise Hardy,2024-09-12,Même chanson,-1,2
 Le temps des cathédrales,Notre-Dame de Paris (Bruno Pelletier),2008-06-21,Ancienne formule,5000,0
 Le temps des cathédrales,Notre-Dame de Paris (Bruno Pelletier),2008-07-23,Ancienne formule,250,0
 Le temps des cathédrales,Notre-Dame de Paris (Bruno Pelletier),2008-12-13,Ancienne formule,2500,0
@@ -33257,6 +33387,7 @@ Le train,Marc Lavoine,2023-04-26,Maestro,-1,1
 Le train,Marc Lavoine,2023-09-25,Points,30,-1
 Le travail c'est la santé,Henri Salvador,2008-12-29,Ancienne formule,5000,0
 Le travail c'est la santé,Henri Salvador,2009-05-19,Ancienne formule,2500,0
+Le travail c'est la santé,Henri Salvador,2009-09-25,Ancienne formule,35000,0
 Le travail c'est la santé,Henri Salvador,2016-03-03,Points,20,1
 Le travail c'est la santé,Henri Salvador,2019-01-15,Points,10,1
 Le travail c'est la santé,Henri Salvador,2020-06-15,Points,30,2
@@ -33272,6 +33403,7 @@ Le téléfon,Nino Ferrer,2008-06-14,Ancienne formule,1000,0
 Le téléfon,Nino Ferrer,2008-07-17,Ancienne formule,1000,0
 Le téléfon,Nino Ferrer,2009-02-14,Ancienne formule,5000,0
 Le téléfon,Nino Ferrer,2009-02-23,Ancienne formule,500,0
+Le téléfon,Nino Ferrer,2009-09-30,Ancienne formule,5000,0
 Le téléfon,Nino Ferrer,2013-02-19,Points,20,0
 Le téléfon,Nino Ferrer,2013-06-10,Points,30,0
 Le téléfon,Nino Ferrer,2013-09-25,Points,30,0
@@ -33399,6 +33531,7 @@ Le zizi,Pierre Perret,2016-01-05,Points,40,-1
 Le zizi,Pierre Perret,2016-01-29,Points,30,2
 Le zizi,Pierre Perret,2016-09-09,Points,40,-2
 Le zizi,Pierre Perret,2016-11-14,Maestro,-1,1
+Le zizi,Pierre Perret,2017-05-22,Points,50,2
 Le zizi,Pierre Perret,2017-09-04,Points,20,2
 Le zizi,Pierre Perret,2018-01-03,Maestro,-1,1
 Le zizi,Pierre Perret,2018-04-14,Points,20,-3
@@ -33563,7 +33696,6 @@ Les Dalton,Joe Dassin,2008-01-01,Ancienne formule,10000,0
 Les Dalton,Joe Dassin,2009-02-19,Ancienne formule,20000,0
 Les Dalton,Joe Dassin,2009-03-17,Ancienne formule,2500,0
 Les Dalton,Joe Dassin,2009-09-24,Ancienne formule,20000,0
-Les Dalton,Joe Dassin,2009-09-24,Ancienne formule,20000,0
 Les Dalton,Joe Dassin,2013-02-28,Points,50,0
 Les Dalton,Joe Dassin,2015-07-28,Points,10,2
 Les Dalton,Joe Dassin,2016-01-13,Points,40,-2
@@ -33622,6 +33754,7 @@ Les amants d'un jour,Édith Piaf,2023-04-24,Points,40,2
 Les amants d'un jour,Édith Piaf,2023-08-31,Maestro,-1,-1
 Les amants d'un jour,Édith Piaf,2023-10-21,Points,40,2
 Les amis,Julie Zenatti,2024-03-01,Points,30,2
+Les amis,Julie Zenatti,2024-09-12,Points,30,1
 Les amoureux des bancs publics,Georges Brassens,2008-05-03,Ancienne formule,20000,0
 Les amoureux des bancs publics,Georges Brassens,2009-04-08,Ancienne formule,2500,0
 Les amoureux des bancs publics,Georges Brassens,2016-12-28,Points,30,1
@@ -33775,6 +33908,7 @@ Les bêtises (Sabine Paturel),Sabine Paturel,2008-01-12,Ancienne formule,500,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2008-04-13,Ancienne formule,2500,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2009-02-19,Ancienne formule,250,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2009-04-21,Ancienne formule,250,0
+Les bêtises (Sabine Paturel),Sabine Paturel,2009-09-30,Ancienne formule,250,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2013-03-18,Maestro,-1,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2013-05-06,Maestro,-1,0
 Les bêtises (Sabine Paturel),Sabine Paturel,2013-11-22,Maestro,-1,1
@@ -34060,6 +34194,7 @@ Les deux guitares,Charles Aznavour,2021-01-21,Points,30,2
 Les deux guitares,Charles Aznavour,2021-11-22,Points,30,-2
 Les deux guitares,Charles Aznavour,2023-01-30,Maestro,-1,2
 Les deux guitares,Charles Aznavour,2023-04-22,Points,20,1
+Les deux guitares,Charles Aznavour,2024-09-17,Maestro,-1,2
 Les divorcés,Michel Delpech,2008-08-27,Ancienne formule,1000,0
 Les divorcés,Michel Delpech,2009-04-20,Ancienne formule,5000,0
 Les divorcés,Michel Delpech,2009-06-12,Ancienne formule,2500,0
@@ -34303,6 +34438,7 @@ Les filles du bord de mer,Salvatore Adamo,2023-08-28,Maestro,-1,-1
 Les filles du bord de mer,Salvatore Adamo,2023-10-23,Points,20,1
 Les filles du bord de mer,Salvatore Adamo,2024-01-22,Maestro,-1,2
 Les filles du bord de mer,Salvatore Adamo,2024-05-22,Maestro,-1,2
+Les filles du bord de mer,Salvatore Adamo,2024-09-17,Points,10,1
 Les gens,Christophe Maé,2020-02-28,Points,30,2
 Les gens,Christophe Maé,2020-06-13,Points,40,-1
 Les gens,Christophe Maé,2020-11-13,Maestro,-1,-1
@@ -34368,6 +34504,7 @@ Les gondoles à Venise,Sheila et Ringo,2022-11-18,Points,50,-2
 Les gondoles à Venise,Sheila et Ringo,2023-06-22,Points,20,1
 Les gondoles à Venise,Sheila et Ringo,2023-10-12,Points,30,2
 Les gondoles à Venise,Sheila et Ringo,2024-05-11,Points,40,2
+Les gondoles à Venise,Sheila et Ringo,2024-09-13,Points,30,2
 Les grands boulevards,Yves Montand,2007-12-29,Ancienne formule,20000,0
 Les grands boulevards,Yves Montand,2008-07-17,Ancienne formule,1000,0
 Les grands boulevards,Yves Montand,2009-03-18,Ancienne formule,500,0
@@ -34392,6 +34529,7 @@ Les grands boulevards,Yves Montand,2023-09-19,Maestro,-1,-2
 Les grands boulevards,Yves Montand,2023-11-21,Points,30,2
 Les grands boulevards,Yves Montand,2024-01-26,Maestro,-1,1
 Les grands boulevards,Yves Montand,2024-03-15,Points,40,2
+Les grands boulevards,Yves Montand,2024-09-11,Maestro,-1,2
 Les histoires d'A,Rita Mitsouko,2008-04-12,Ancienne formule,2500,0
 Les histoires d'A,Rita Mitsouko,2008-08-01,Ancienne formule,500,0
 Les histoires d'A,Rita Mitsouko,2009-02-14,Ancienne formule,5000,0
@@ -34969,6 +35107,7 @@ Les moulins de mon cœur,Michel Legrand (L'affaire Thomas Crown),2021-01-15,Poin
 Les moulins de mon cœur,Michel Legrand (L'affaire Thomas Crown),2022-05-09,Points,50,1
 Les moulins de mon cœur,Michel Legrand (L'affaire Thomas Crown),2023-07-10,Maestro,-1,1
 Les moulins de mon cœur,Michel Legrand (L'affaire Thomas Crown),2023-12-15,Points,30,1
+Les murs de poussière,Francis Cabrel,2009-09-25,Ancienne formule,250,0
 Les murs de poussière,Francis Cabrel,2015-02-09,Points,30,2
 Les murs de poussière,Francis Cabrel,2015-03-05,Points,50,2
 Les murs de poussière,Francis Cabrel,2015-05-01,Points,40,2
@@ -35075,6 +35214,7 @@ Les oubliés,Gauvain Sers,2022-06-21,Points,20,2
 Les oubliés,Gauvain Sers,2022-11-02,Maestro,-1,-1
 Les oubliés,Gauvain Sers,2023-02-17,Points,30,1
 Les oubliés,Gauvain Sers,2023-12-04,Maestro,-1,1
+Les oubliés,Gauvain Sers,2024-09-11,Points,40,1
 Les p'tites femmes de Pigalle,Serge Lama,2008-01-01,Ancienne formule,5000,0
 Les p'tites femmes de Pigalle,Serge Lama,2008-07-23,Ancienne formule,5000,0
 Les p'tites femmes de Pigalle,Serge Lama,2008-12-31,Ancienne formule,1000,0
@@ -35103,6 +35243,7 @@ Les p'tites femmes de Pigalle,Serge Lama,2016-12-09,Même chanson,-1,2
 Les p'tites femmes de Pigalle,Serge Lama,2017-01-12,Maestro,-1,1
 Les p'tites femmes de Pigalle,Serge Lama,2017-03-21,Maestro,-1,2
 Les p'tites femmes de Pigalle,Serge Lama,2017-04-20,Points,20,2
+Les p'tites femmes de Pigalle,Serge Lama,2017-05-22,Points,30,2
 Les p'tites femmes de Pigalle,Serge Lama,2017-08-01,Même chanson,-1,1
 Les p'tites femmes de Pigalle,Serge Lama,2017-09-30,Points,50,-2
 Les p'tites femmes de Pigalle,Serge Lama,2017-11-09,Maestro,-1,2
@@ -35166,6 +35307,7 @@ Les p'tits papiers,Régine,2023-03-31,Points,20,1
 Les p'tits papiers,Régine,2023-06-24,Points,40,1
 Les p'tits papiers,Régine,2023-11-01,Points,40,2
 Les p'tits papiers,Régine,2024-03-26,Points,40,1
+Les p'tits papiers,Régine,2024-09-12,Points,20,1
 Les paradis perdus,Christophe,2020-09-11,Points,20,1
 Les paradis perdus,Christophe,2021-01-21,Points,40,2
 Les paradis perdus,Christophe,2022-11-28,Points,20,1
@@ -35211,7 +35353,7 @@ Les petites gens,Claudio Capéo,2024-05-07,Points,20,2
 Les petits boudins,Dominique Walter,2009-02-25,Ancienne formule,5000,0
 Les petits boudins,Dominique Walter,2009-04-17,Ancienne formule,1000,0
 Les petits boudins,Dominique Walter,2009-06-02,Ancienne formule,1000,0
-Les petits boudins,Dominique Walter,2010-11-09,Ancienne formule,50000,0
+Les petits boudins,Dominique Walter,2009-10-01,Ancienne formule,1000,0
 Les petits boudins,Dominique Walter,2015-10-23,Points,20,2
 Les petits lolos,Daniel Balavoine,2019-09-21,Points,30,-1
 Les petits lolos,Daniel Balavoine,2020-05-26,Points,20,1
@@ -35487,6 +35629,7 @@ Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philipp
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-01-14,Même chanson,-1,2
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-03-06,Même chanson,-1,2
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-03-25,Points,40,1
+Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-05-22,Points,40,2
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-06-22,Même chanson,-1,2
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-07-20,Points,50,2
 Les rois du monde,"Roméo et Juliette (Damien Sargue, Grégori Baquet et Philippe D'Avilla)",2017-08-20,Même chanson,-1,2
@@ -35964,6 +36107,7 @@ Les vacances au bord de la mer,Michel Jonasz,2023-01-27,Points,20,1
 Les vacances au bord de la mer,Michel Jonasz,2023-06-15,Maestro,-1,1
 Les vacances au bord de la mer,Michel Jonasz,2023-08-07,Points,20,1
 Les vacances au bord de la mer,Michel Jonasz,2024-05-23,Points,40,1
+Les vacances au bord de la mer,Michel Jonasz,2024-09-17,Points,10,1
 Les valses de Vienne,François Feldman,2008-02-09,Ancienne formule,2500,0
 Les valses de Vienne,François Feldman,2008-07-18,Ancienne formule,1000,0
 Les valses de Vienne,François Feldman,2009-04-20,Ancienne formule,250,0
@@ -36270,6 +36414,7 @@ Les élucubrations d'Antoine,Antoine,2023-09-05,Points,50,-1
 Les élucubrations d'Antoine,Antoine,2023-10-28,Points,30,2
 Les élucubrations d'Antoine,Antoine,2024-01-25,Points,30,1
 Les élucubrations d'Antoine,Antoine,2024-03-30,Chanson à trou,-1,0
+Les élucubrations d'Antoine,Antoine,2024-09-13,Maestro,-1,2
 Lettre à France,Michel Polnareff,2008-04-05,Ancienne formule,250,0
 Lettre à France,Michel Polnareff,2008-08-07,Ancienne formule,5000,0
 Lettre à France,Michel Polnareff,2009-04-22,Ancienne formule,2500,0
@@ -36332,6 +36477,7 @@ Lettre à France,Michel Polnareff,2024-08-15,Points,40,2
 Lettre à Hélène,Dave,2008-08-27,Ancienne formule,2500,0
 Lettre à Hélène,Dave,2008-12-19,Ancienne formule,35000,0
 Lettre à Hélène,Dave,2009-04-16,Ancienne formule,5000,0
+Lettre à Hélène,Dave,2009-09-30,Ancienne formule,5000,0
 Lettre à Hélène,Dave,2019-01-04,Points,40,1
 Lettre à Hélène,Dave,2019-09-17,Points,30,-2
 Lettre à Hélène,Dave,2019-11-14,Points,20,1
@@ -36357,7 +36503,9 @@ Lettre à une femme,Ninho,2023-09-09,Points,40,-1
 Lettre à une femme,Ninho,2023-12-02,Maestro,-1,1
 Lettre à une femme,Ninho,2024-01-13,Points,50,2
 Liberta,Pep's,2009-05-14,Ancienne formule,1000,0
+Liberta,Pep's,2016-06-30,Maestro,-1,1
 Liberta,Pep's,2016-11-23,Points,30,1
+Liberta,Pep's,2017-05-22,Maestro,-1,1
 Liberta,Pep's,2018-02-05,Maestro,-1,2
 Liberta,Pep's,2018-04-16,Points,30,1
 Liberta,Pep's,2018-07-08,Maestro,-1,2
@@ -36940,6 +37088,7 @@ Lucie (Pascal Obispo),Pascal Obispo,2023-10-31,Points,10,1
 Lucie (Pascal Obispo),Pascal Obispo,2024-02-12,Points,40,1
 Lucie (Pascal Obispo),Pascal Obispo,2024-04-16,Même chanson,-1,2
 Lucie (Pascal Obispo),Pascal Obispo,2024-06-11,Points,50,1
+Lucie (Pascal Obispo),Pascal Obispo,2024-09-13,Même chanson,-1,1
 Lucille,Michel Jonasz,2008-07-30,Ancienne formule,250,0
 Lucille,Michel Jonasz,2009-03-09,Ancienne formule,5000,0
 Lucille,Michel Jonasz,2016-01-01,Points,20,-2
@@ -36963,6 +37112,7 @@ Lui,Michèle Torr,2022-11-07,Points,30,-2
 Lui,Michèle Torr,2023-05-17,Maestro,-1,2
 Lui,Michèle Torr,2023-07-12,Points,20,1
 Lui,Michèle Torr,2023-10-21,Maestro,-1,2
+Lui,Michèle Torr,2024-09-14,Points,50,2
 Là où je t'emmènerai,Florent Pagny,2008-06-14,Ancienne formule,1000,0
 Là où je t'emmènerai,Florent Pagny,2008-07-18,Ancienne formule,2500,0
 Là où je t'emmènerai,Florent Pagny,2008-08-26,Ancienne formule,2500,0
@@ -37620,6 +37770,7 @@ Ma prière,Axelle Red,2008-12-22,Ancienne formule,10000,0
 Ma prière,Axelle Red,2009-02-18,Ancienne formule,1000,0
 Ma prière,Axelle Red,2009-06-02,Ancienne formule,5000,0
 Ma prière,Axelle Red,2009-08-25,Ancienne formule,250,0
+Ma prière,Axelle Red,2009-09-29,Ancienne formule,10000,0
 Ma prière,Axelle Red,2013-02-01,Points,20,0
 Ma prière,Axelle Red,2013-09-30,Points,30,0
 Ma prière,Axelle Red,2013-12-26,Points,20,0
@@ -37655,6 +37806,7 @@ Ma prière,Axelle Red,2023-08-08,Points,40,2
 Ma prière,Axelle Red,2023-10-16,Points,50,1
 Ma prière,Axelle Red,2023-11-23,Points,30,2
 Ma prière,Axelle Red,2024-04-12,Points,30,2
+Ma prière,Axelle Red,2024-09-11,Points,50,1
 Ma préférence,Julien Clerc,2008-04-05,Ancienne formule,10000,0
 Ma préférence,Julien Clerc,2008-08-07,Ancienne formule,5000,0
 Ma préférence,Julien Clerc,2009-06-25,Ancienne formule,250,0
@@ -37724,6 +37876,7 @@ Ma révolution,Jenifer,2016-03-01,Maestro,-1,2
 Ma révolution,Jenifer,2016-04-28,Maestro,-1,2
 Ma révolution,Jenifer,2016-07-04,Points,50,1
 Ma révolution,Jenifer,2016-08-29,Points,20,-2
+Ma révolution,Jenifer,2016-09-28,Points,30,2
 Ma révolution,Jenifer,2016-11-19,Points,40,2
 Ma révolution,Jenifer,2017-04-06,Même chanson,-1,1
 Ma révolution,Jenifer,2017-06-15,Points,30,2
@@ -37769,6 +37922,7 @@ Ma révolution,Jenifer,2023-10-09,Points,40,1
 Ma révolution,Jenifer,2023-12-16,Même chanson,-1,2
 Ma révolution,Jenifer,2024-02-22,Même chanson,-1,2
 Ma révolution,Jenifer,2024-05-07,Points,30,1
+Ma révérence,Véronique Sanson,2009-09-28,Ancienne formule,1000,0
 Ma révérence,Véronique Sanson,2013-03-28,Points,40,0
 Ma révérence,Véronique Sanson,2013-10-04,Points,40,0
 Ma révérence,Véronique Sanson,2013-11-19,Points,30,1
@@ -37863,6 +38017,7 @@ Ma vie (Dadju),Dadju,2022-11-09,Points,30,-2
 Ma vie (Dadju),Dadju,2023-01-25,Maestro,-1,2
 Ma vie (Dadju),Dadju,2023-08-29,Points,40,-2
 Ma vie (Dadju),Dadju,2023-11-07,Maestro,-1,1
+Ma vie (Dadju),Dadju,2024-09-17,Points,20,2
 Ma vie au soleil,Keen'V,2013-07-05,Ancienne formule,1000,0
 Ma vie au soleil,Keen'V,2013-12-25,Points,20,0
 Ma vie au soleil,Keen'V,2014-05-09,Points,30,2
@@ -37955,6 +38110,7 @@ Ma vie dans la tienne,Lara Fabian,2023-01-18,Maestro,-1,1
 Ma vie dans la tienne,Lara Fabian,2023-07-18,Maestro,-1,2
 Ma vie dans la tienne,Lara Fabian,2023-12-16,Points,30,1
 Ma vie dans la tienne,Lara Fabian,2024-05-17,Maestro,-1,1
+Ma vie dans la tienne,Lara Fabian,2024-09-11,Points,50,2
 Macao,Le Grand Orchestre du Splendid,2017-07-14,Points,40,1
 Macao,Le Grand Orchestre du Splendid,2020-09-26,Points,20,1
 Macao,Le Grand Orchestre du Splendid,2020-12-30,Maestro,-1,2
@@ -38143,6 +38299,7 @@ Madeleine,Jacques Brel,2023-07-01,Points,50,2
 Madeleine,Jacques Brel,2023-10-02,Points,50,-2
 Mademoiselle Chang,Michel Berger,2009-03-23,Ancienne formule,1000,0
 Mademoiselle Chang,Michel Berger,2009-05-04,Ancienne formule,2500,0
+Mademoiselle Chang,Michel Berger,2009-10-01,Ancienne formule,500,0
 Mademoiselle Chang,Michel Berger,2013-11-19,Maestro,-1,2
 Mademoiselle Chang,Michel Berger,2014-05-22,Maestro,-1,2
 Mademoiselle Chang,Michel Berger,2014-07-18,Points,40,1
@@ -38257,6 +38414,7 @@ Mademoiselle chante le blues,Patricia Kaas,2023-11-09,Points,30,2
 Mademoiselle chante le blues,Patricia Kaas,2024-02-05,Points,40,2
 Mademoiselle chante le blues,Patricia Kaas,2024-03-28,Même chanson,-1,1
 Mademoiselle chante le blues,Patricia Kaas,2024-06-27,Points,50,2
+Mademoiselle chante le blues,Patricia Kaas,2024-09-14,Points,50,2
 Mafiosa,Lartiste feat. Caroliina,2018-11-27,Points,30,2
 Mafiosa,Lartiste feat. Caroliina,2019-05-22,Points,20,1
 Mafiosa,Lartiste feat. Caroliina,2020-01-01,Points,20,2
@@ -38657,6 +38815,7 @@ Manhattan-Kaboul,Renaud et Axelle Red,2023-01-31,Points,40,2
 Manhattan-Kaboul,Renaud et Axelle Red,2023-08-30,Maestro,-1,-2
 Manhattan-Kaboul,Renaud et Axelle Red,2023-10-25,Points,40,1
 Manhattan-Kaboul,Renaud et Axelle Red,2024-05-16,Points,40,1
+Manhattan-Kaboul,Renaud et Axelle Red,2024-09-11,Points,50,1
 Manu,Renaud,2018-12-22,Points,20,2
 Manu,Renaud,2019-10-16,Points,40,2
 Manu,Renaud,2020-12-08,Points,40,1
@@ -38744,6 +38903,7 @@ Marche à l'ombre,Renaud,2016-01-01,Points,50,-3
 Marche à l'ombre,Renaud,2016-09-10,Points,30,-1
 Marche à l'ombre,Renaud,2017-03-11,Points,30,2
 Marche à l'ombre,Renaud,2017-04-14,Points,50,1
+Marche à l'ombre,Renaud,2017-05-22,Points,30,1
 Marche à l'ombre,Renaud,2017-09-26,Points,40,-1
 Marche à l'ombre,Renaud,2017-11-15,Points,30,1
 Marche à l'ombre,Renaud,2018-07-18,Points,50,2
@@ -38857,6 +39017,7 @@ Marcia baïla,Rita Mitsouko,2024-01-02,Points,40,2
 Marcia baïla,Rita Mitsouko,2024-02-26,Points,40,1
 Marcia baïla,Rita Mitsouko,2024-04-11,Même chanson,-1,2
 Marcia baïla,Rita Mitsouko,2024-06-11,Points,40,2
+Marcia baïla,Rita Mitsouko,2024-09-13,Même chanson,-1,2
 Marguerite,Richard Cocciante,2020-07-13,Points,30,1
 Marguerite,Richard Cocciante,2020-11-04,Points,20,-1
 Marguerite,Richard Cocciante,2021-02-19,Points,40,2
@@ -38901,6 +39062,7 @@ Marilyn & John,Vanessa Paradis,2014-10-09,Points,40,1
 Marilyn & John,Vanessa Paradis,2015-01-21,Points,30,2
 Marilyn & John,Vanessa Paradis,2015-02-16,Points,20,2
 Marilyn & John,Vanessa Paradis,2016-02-18,Points,20,1
+Marilyn & John,Vanessa Paradis,2017-05-02,Points,50,2
 Marilyn & John,Vanessa Paradis,2017-06-14,Points,30,1
 Marilyn & John,Vanessa Paradis,2018-02-21,Points,10,1
 Marilyn & John,Vanessa Paradis,2018-08-03,Points,20,2
@@ -38921,6 +39083,7 @@ Marilyn & John,Vanessa Paradis,2024-04-30,Points,10,1
 Marinella,Tino Rossi,2009-04-02,Ancienne formule,50000,0
 Marinella,Tino Rossi,2009-05-01,Ancienne formule,500,0
 Marinella,Tino Rossi,2009-08-25,Ancienne formule,1000,0
+Marinella,Tino Rossi,2009-09-28,Ancienne formule,250,0
 Marinette,Georges Brassens,2008-12-31,Ancienne formule,500,0
 Marinette,Georges Brassens,2009-04-28,Ancienne formule,2500,0
 Marionnettiste,Pierre Bachelet,2023-08-11,Points,10,1
@@ -39146,6 +39309,7 @@ Mathilde,Jacques Brel,2023-01-14,Points,20,1
 Mathilde,Jacques Brel,2023-08-12,Points,30,1
 Mathilde,Jacques Brel,2024-02-19,Maestro,-1,2
 Mathilde,Jacques Brel,2024-04-03,Points,40,2
+Mathilde,Jacques Brel,2024-09-11,Maestro,-1,1
 Mauvais rêve,Hoshi,2023-09-27,Maestro,-1,-2
 Mauvais rêve,Hoshi,2023-11-25,Points,50,2
 Mauvais rêve,Hoshi,2024-04-02,Points,50,1
@@ -39242,6 +39406,7 @@ Me quemo,Kendji Girac,2022-04-21,Points,50,2
 Me quemo,Kendji Girac,2024-03-02,Points,30,1
 Me quemo,Kendji Girac,2024-08-20,Points,20,1
 Melody tempo harmony,Bernard Lavilliers et Jimmy Cliff,2009-08-27,Ancienne formule,500,0
+Melody tempo harmony,Bernard Lavilliers et Jimmy Cliff,2017-05-02,Points,40,2
 Melody tempo harmony,Bernard Lavilliers et Jimmy Cliff,2017-06-19,Points,30,2
 Melody tempo harmony,Bernard Lavilliers et Jimmy Cliff,2021-09-30,Maestro,-1,2
 Melody tempo harmony,Bernard Lavilliers et Jimmy Cliff,2022-11-05,Points,20,-2
@@ -39640,6 +39805,7 @@ Miraculous,Lou et Lenni-Kim,2023-12-24,Maestro,-1,-1
 Mirza,Nino Ferrer,2008-07-28,Ancienne formule,1000,0
 Mirza,Nino Ferrer,2008-12-19,Ancienne formule,1000,0
 Mirza,Nino Ferrer,2009-03-24,Ancienne formule,250,0
+Mirza,Nino Ferrer,2009-09-25,Ancienne formule,1000,0
 Mirza,Nino Ferrer,2013-03-25,Points,40,0
 Mirza,Nino Ferrer,2013-11-19,Points,20,1
 Mirza,Nino Ferrer,2014-04-22,Points,40,1
@@ -39784,7 +39950,7 @@ Mme Pavoshko,Black M,2016-12-30,Maestro,-1,1
 Mme Pavoshko,Black M,2017-01-21,Maestro,-1,2
 Mme Pavoshko,Black M,2017-03-04,Maestro,-1,2
 Mme Pavoshko,Black M,2017-03-22,Maestro,-1,1
-Mme Pavoshko,Black M,2017-03-22,Maestro,-1,1
+Mme Pavoshko,Black M,2017-05-22,Points,20,2
 Mme Pavoshko,Black M,2017-09-04,Maestro,-1,2
 Mme Pavoshko,Black M,2017-12-23,Points,20,1
 Mme Pavoshko,Black M,2018-02-09,Points,20,1
@@ -40071,6 +40237,7 @@ Mon ange,Nolwenn Leroy,2023-10-03,Points,20,-2
 Mon ange,Nolwenn Leroy,2024-01-30,Maestro,-1,1
 Mon ange,Nolwenn Leroy,2024-04-03,Maestro,-1,1
 Mon ange,Nolwenn Leroy,2024-06-19,Points,50,1
+Mon ange,Nolwenn Leroy,2024-09-11,Points,30,1
 Mon beau sapin,Traditionnel,2015-12-25,Points,30,1
 Mon beau sapin,Traditionnel,2017-12-24,Points,20,2
 Mon beau sapin,Traditionnel,2018-12-24,Points,30,2
@@ -40108,6 +40275,7 @@ Mon cœur est malade,Dave,2020-02-21,Points,20,2
 Mon cœur est malade,Dave,2020-08-14,Points,20,2
 Mon cœur est malade,Dave,2023-09-19,Points,50,-2
 Mon cœur est malade,Dave,2024-05-04,Points,30,2
+Mon cœur est malade,Dave,2024-09-14,Points,40,2
 Mon cœur ne bat plus,Gérald de Palmas,2014-06-24,Points,30,1
 Mon cœur ne bat plus,Gérald de Palmas,2015-03-20,Points,40,2
 Mon cœur ne bat plus,Gérald de Palmas,2015-06-17,Points,20,1
@@ -40728,6 +40896,7 @@ Mon soleil (Dadju et Anitta),Dadju et Anitta,2022-10-03,Points,40,1
 Mon soleil (Dadju et Anitta),Dadju et Anitta,2023-02-13,Points,30,2
 Mon soleil (Dadju et Anitta),Dadju et Anitta,2023-09-07,Maestro,-1,-2
 Mon soleil (Dadju et Anitta),Dadju et Anitta,2024-02-08,Maestro,-1,2
+Mon soleil (Dadju et Anitta),Dadju et Anitta,2024-09-17,Points,20,2
 Mon truc en plumes (Zizi Jeanmaire),Zizi Jeanmaire,2014-06-27,Points,20,2
 Mon truc en plumes (Zizi Jeanmaire),Zizi Jeanmaire,2015-06-23,Points,10,2
 Mon truc en plumes (Zizi Jeanmaire),Zizi Jeanmaire,2016-12-31,Points,20,1
@@ -40922,6 +41091,7 @@ Mourir les sirènes,Canada,2022-04-08,Points,20,1
 Mourir sur scène,Dalida,2009-03-17,Ancienne formule,5000,0
 Mourir sur scène,Dalida,2009-04-16,Ancienne formule,2500,0
 Mourir sur scène,Dalida,2009-05-06,Ancienne formule,250,0
+Mourir sur scène,Dalida,2009-09-28,Ancienne formule,1000,0
 Mourir sur scène,Dalida,2013-03-28,Points,40,0
 Mourir sur scène,Dalida,2014-06-24,Points,40,1
 Mourir sur scène,Dalida,2014-10-03,Points,40,2
@@ -41173,6 +41343,7 @@ Métis(se),Yannick Noah feat. Disiz La Peste,2022-03-14,Points,30,2
 Métis(se),Yannick Noah feat. Disiz La Peste,2023-09-21,Maestro,-1,-2
 Métis(se),Yannick Noah feat. Disiz La Peste,2023-11-21,Points,20,2
 Métis(se),Yannick Noah feat. Disiz La Peste,2024-04-29,Points,50,2
+Métis(se),Yannick Noah feat. Disiz La Peste,2024-09-13,Maestro,-1,1
 Métro (c'est trop),Téléphone,2019-01-14,Points,20,1
 Même si (Grégory Lemarchal et Lucie Silvas),Grégory Lemarchal et Lucie Silvas,2022-09-06,Points,30,1
 Même si (Grégory Lemarchal et Lucie Silvas),Grégory Lemarchal et Lucie Silvas,2022-12-01,Points,50,2
@@ -41417,83 +41588,83 @@ Ne partons pas fâchés,Raphaël,2023-09-28,Points,30,-2
 Ne partons pas fâchés,Raphaël,2024-03-19,Maestro,-1,2
 Ne partons pas fâchés,Raphaël,2024-04-26,Points,30,1
 Ne partons pas fâchés,Raphaël,2024-08-19,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2008-04-26,Ancienne formule,1000,0
-Ne retiens pas tes larmes,Amel Bent,2008-07-10,Ancienne formule,5000,0
-Ne retiens pas tes larmes,Amel Bent,2009-04-01,Ancienne formule,2500,0
-Ne retiens pas tes larmes,Amel Bent,2009-04-28,Ancienne formule,20000,0
-Ne retiens pas tes larmes,Amel Bent,2009-06-09,Ancienne formule,1000,0
-Ne retiens pas tes larmes,Amel Bent,2009-09-24,Ancienne formule,5000,0
-Ne retiens pas tes larmes,Amel Bent,2013-01-15,Points,20,0
-Ne retiens pas tes larmes,Amel Bent,2013-04-03,Points,20,0
-Ne retiens pas tes larmes,Amel Bent,2013-09-23,Points,40,0
-Ne retiens pas tes larmes,Amel Bent,2013-11-26,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2014-01-08,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2014-04-24,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2014-07-07,Points,10,1
-Ne retiens pas tes larmes,Amel Bent,2014-10-02,Points,20,1
-Ne retiens pas tes larmes,Amel Bent,2014-12-16,Maestro,-1,1
-Ne retiens pas tes larmes,Amel Bent,2015-02-16,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2015-04-20,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2015-05-20,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2015-07-06,Maestro,-1,1
-Ne retiens pas tes larmes,Amel Bent,2015-08-20,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2016-02-15,Points,50,1
-Ne retiens pas tes larmes,Amel Bent,2016-03-17,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2016-05-02,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2016-09-12,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2016-12-29,Points,50,2
-Ne retiens pas tes larmes,Amel Bent,2017-03-07,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2017-04-03,Maestro,-1,1
-Ne retiens pas tes larmes,Amel Bent,2017-06-20,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2017-07-14,Points,50,2
-Ne retiens pas tes larmes,Amel Bent,2017-09-26,Maestro,-1,-2
-Ne retiens pas tes larmes,Amel Bent,2017-11-22,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2017-12-23,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2018-01-18,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2018-04-17,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2018-05-11,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2018-06-13,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2018-07-21,Même chanson,-1,1
-Ne retiens pas tes larmes,Amel Bent,2018-10-01,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2018-10-20,Maestro,-1,-2
-Ne retiens pas tes larmes,Amel Bent,2019-01-08,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2019-03-04,Points,20,2
-Ne retiens pas tes larmes,Amel Bent,2019-05-02,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2019-05-25,Points,50,-4
-Ne retiens pas tes larmes,Amel Bent,2019-08-03,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2019-09-19,Même chanson,-1,-1
-Ne retiens pas tes larmes,Amel Bent,2019-11-08,Points,30,2
-Ne retiens pas tes larmes,Amel Bent,2019-12-02,Points,30,2
-Ne retiens pas tes larmes,Amel Bent,2019-12-21,Même chanson,-1,1
-Ne retiens pas tes larmes,Amel Bent,2020-01-25,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2020-02-17,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2020-03-19,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2020-05-26,Points,20,2
-Ne retiens pas tes larmes,Amel Bent,2020-07-07,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2020-08-15,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2020-09-24,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2021-02-16,Points,50,1
-Ne retiens pas tes larmes,Amel Bent,2021-03-26,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2021-05-21,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2021-09-01,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2021-10-06,Points,40,1
-Ne retiens pas tes larmes,Amel Bent,2021-12-22,Maestro,-1,2
-Ne retiens pas tes larmes,Amel Bent,2022-01-01,Même chanson,-1,-2
-Ne retiens pas tes larmes,Amel Bent,2022-03-09,Points,30,2
-Ne retiens pas tes larmes,Amel Bent,2022-04-22,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2022-06-09,Points,40,2
-Ne retiens pas tes larmes,Amel Bent,2022-08-31,Même chanson,-1,1
-Ne retiens pas tes larmes,Amel Bent,2022-10-12,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2022-12-12,Points,20,1
-Ne retiens pas tes larmes,Amel Bent,2023-02-03,Même chanson,-1,1
-Ne retiens pas tes larmes,Amel Bent,2023-05-04,Points,50,1
-Ne retiens pas tes larmes,Amel Bent,2023-06-30,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2023-09-20,Points,40,-1
-Ne retiens pas tes larmes,Amel Bent,2023-11-14,Points,30,1
-Ne retiens pas tes larmes,Amel Bent,2024-01-09,Même chanson,-1,2
-Ne retiens pas tes larmes,Amel Bent,2024-03-07,Points,50,2
-Ne retiens pas tes larmes,Amel Bent,2024-04-22,Même chanson,-1,1
-Ne retiens pas tes larmes,Amel Bent,2024-07-13,Points,50,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2008-04-26,Ancienne formule,1000,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2008-07-10,Ancienne formule,5000,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2009-04-01,Ancienne formule,2500,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2009-04-28,Ancienne formule,20000,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2009-06-09,Ancienne formule,1000,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2009-09-24,Ancienne formule,5000,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2013-01-15,Points,20,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2013-04-03,Points,20,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2013-09-23,Points,40,0
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2013-11-26,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2014-01-08,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2014-04-24,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2014-07-07,Points,10,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2014-10-02,Points,20,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2014-12-16,Maestro,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2015-02-16,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2015-04-20,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2015-05-20,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2015-07-06,Maestro,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2015-08-20,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2016-02-15,Points,50,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2016-03-17,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2016-05-02,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2016-09-12,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2016-12-29,Points,50,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-03-07,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-04-03,Maestro,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-06-20,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-07-14,Points,50,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-09-26,Maestro,-1,-2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-11-22,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2017-12-23,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-01-18,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-04-17,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-05-11,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-06-13,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-07-21,Même chanson,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-10-01,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2018-10-20,Maestro,-1,-2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-01-08,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-03-04,Points,20,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-05-02,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-05-25,Points,50,-4
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-08-03,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-09-19,Même chanson,-1,-1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-11-08,Points,30,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-12-02,Points,30,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2019-12-21,Même chanson,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-01-25,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-02-17,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-03-19,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-05-26,Points,20,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-07-07,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-08-15,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2020-09-24,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-02-16,Points,50,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-03-26,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-05-21,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-09-01,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-10-06,Points,40,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2021-12-22,Maestro,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-01-01,Même chanson,-1,-2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-03-09,Points,30,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-04-22,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-06-09,Points,40,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-08-31,Même chanson,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-10-12,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2022-12-12,Points,20,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2023-02-03,Même chanson,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2023-05-04,Points,50,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2023-06-30,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2023-09-20,Points,40,-1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2023-11-14,Points,30,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2024-01-09,Même chanson,-1,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2024-03-07,Points,50,2
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2024-04-22,Même chanson,-1,1
+Ne retiens pas tes larmes (Amel Bent),Amel Bent,2024-07-13,Points,50,1
 Ne reviens pas,Gradur feat. Heuss l'Enfoiré,2020-08-01,Points,20,1
 Ne reviens pas,Gradur feat. Heuss l'Enfoiré,2020-10-20,Points,30,-2
 Ne reviens pas,Gradur feat. Heuss l'Enfoiré,2021-05-24,Points,20,1
@@ -41841,6 +42012,7 @@ Non non rien n'a changé,Les Poppys,2015-11-23,Maestro,-1,1
 Non non rien n'a changé,Les Poppys,2016-08-04,Points,30,2
 Non non rien n'a changé,Les Poppys,2017-01-20,Points,50,1
 Non non rien n'a changé,Les Poppys,2017-04-20,Points,20,1
+Non non rien n'a changé,Les Poppys,2017-05-22,Points,30,2
 Non non rien n'a changé,Les Poppys,2017-06-27,Maestro,-1,2
 Non non rien n'a changé,Les Poppys,2017-07-18,Maestro,-1,2
 Non non rien n'a changé,Les Poppys,2017-11-20,Points,40,1
@@ -41955,6 +42127,7 @@ Nos plus belles années,Grand Corps Malade & Kimberose,2023-03-08,Points,30,2
 Nos plus belles années,Grand Corps Malade & Kimberose,2023-08-17,Maestro,-1,1
 Nos plus belles années,Grand Corps Malade & Kimberose,2024-02-27,Points,20,1
 Nos plus belles années,Grand Corps Malade & Kimberose,2024-06-14,Maestro,-1,1
+Nos plus belles années,Grand Corps Malade & Kimberose,2024-09-12,Points,40,1
 Nos secrets,Louane,2015-11-17,Points,20,2
 Nos secrets,Louane,2015-12-15,Points,50,1
 Nos secrets,Louane,2016-01-07,Points,30,-1
@@ -42399,6 +42572,7 @@ Nuit magique,Catherine Lara,2023-12-27,Points,30,1
 Nuit magique,Catherine Lara,2024-02-05,Points,40,1
 Nuit magique,Catherine Lara,2024-03-28,Points,30,2
 Nuit magique,Catherine Lara,2024-06-12,Même chanson,-1,1
+Nuit magique,Catherine Lara,2024-09-17,Points,50,1
 Nuit sauvage,Les Avions,2008-07-11,Ancienne formule,2500,0
 Nuit sauvage,Les Avions,2009-06-25,Ancienne formule,10000,0
 Nuit sauvage,Les Avions,2014-12-15,Points,10,2
@@ -42537,6 +42711,7 @@ Oh les filles !,Au Bonheur des Dames,2009-01-01,Ancienne formule,10000,0
 Oh les filles !,Au Bonheur des Dames,2009-02-14,Ancienne formule,20000,0
 Oh les filles !,Au Bonheur des Dames,2009-04-13,Ancienne formule,250,0
 Oh les filles !,Au Bonheur des Dames,2009-06-17,Ancienne formule,10000,0
+Oh les filles !,Au Bonheur des Dames,2009-09-28,Ancienne formule,500,0
 Oh les filles !,Au Bonheur des Dames,2013-02-21,Points,50,0
 Oh les filles !,Au Bonheur des Dames,2014-06-09,Points,40,2
 Oh les filles !,Au Bonheur des Dames,2014-07-09,Points,30,1
@@ -42807,6 +42982,7 @@ On fait comme si,Calogero,2022-04-25,Maestro,-1,1
 On fait comme si,Calogero,2023-09-20,Maestro,-1,-1
 On fait comme si,Calogero,2023-11-30,Points,50,1
 On fait comme si,Calogero,2024-03-07,Maestro,-1,1
+On fait comme si,Calogero,2024-09-16,Maestro,-1,1
 On ira (Jean-Jacques Goldman),Jean-Jacques Goldman,2015-05-20,Points,50,1
 On ira (Jean-Jacques Goldman),Jean-Jacques Goldman,2016-01-13,Points,30,-2
 On ira (Jean-Jacques Goldman),Jean-Jacques Goldman,2017-05-31,Points,40,2
@@ -43136,6 +43312,7 @@ On se retrouvera,Francis Lalanne dans Le Passage,2015-04-17,Points,50,1
 On se retrouvera,Francis Lalanne dans Le Passage,2015-11-13,Points,40,2
 On se retrouvera,Francis Lalanne dans Le Passage,2015-12-11,Même chanson,-1,2
 On se retrouvera,Francis Lalanne dans Le Passage,2016-06-20,Même chanson,-1,2
+On se retrouvera,Francis Lalanne dans Le Passage,2016-09-28,Points,20,2
 On se retrouvera,Francis Lalanne dans Le Passage,2016-12-28,Même chanson,-1,1
 On se retrouvera,Francis Lalanne dans Le Passage,2017-02-09,Maestro,-1,1
 On se retrouvera,Francis Lalanne dans Le Passage,2017-05-25,Maestro,-1,2
@@ -43478,6 +43655,7 @@ Onde sensuelle (M),M,2023-12-15,Même chanson,-1,1
 Onde sensuelle (M),M,2024-02-08,Points,20,1
 Onde sensuelle (M),M,2024-04-09,Même chanson,-1,2
 Onde sensuelle (M),M,2024-06-12,Points,50,1
+Onde sensuelle (M),M,2024-09-14,Même chanson,-1,2
 Open season,Josef Salvat,2016-03-17,Points,40,1
 Open season,Josef Salvat,2016-04-05,Points,30,2
 Open season,Josef Salvat,2016-06-16,Points,40,2
@@ -43845,6 +44023,7 @@ Où sont les femmes,Patrick Juvet,2024-01-03,Points,50,1
 Où sont les femmes,Patrick Juvet,2024-02-14,Points,40,1
 Où sont les femmes,Patrick Juvet,2024-04-06,Points,50,2
 Où sont les femmes,Patrick Juvet,2024-06-12,Points,50,2
+Où sont les femmes,Patrick Juvet,2024-09-16,Même chanson,-1,2
 PS : Je t'aime,Christophe Willem,2022-12-17,Points,40,1
 PS : Je t'aime,Christophe Willem,2023-09-16,Points,30,-1
 PS : Je t'aime,Christophe Willem,2024-02-14,Points,10,2
@@ -44037,6 +44216,7 @@ Papaoutai,Stromae,2016-03-02,Maestro,-1,2
 Papaoutai,Stromae,2016-04-27,Même chanson,-1,1
 Papaoutai,Stromae,2016-06-11,Maestro,-1,0
 Papaoutai,Stromae,2016-08-02,Points,40,1
+Papaoutai,Stromae,2016-09-28,Points,50,2
 Papaoutai,Stromae,2016-10-17,Même chanson,-1,2
 Papaoutai,Stromae,2017-01-21,Points,40,-2
 Papaoutai,Stromae,2017-02-13,Points,50,2
@@ -44367,6 +44547,7 @@ Paris en colère,Mireille Mathieu dans ''Paris brûle-t-il ?'',2023-10-06,Points
 Paris en colère,Mireille Mathieu dans ''Paris brûle-t-il ?'',2024-03-14,Maestro,-1,2
 Paris en colère,Mireille Mathieu dans ''Paris brûle-t-il ?'',2024-05-07,Points,50,1
 Paris latino,Bandolero,2009-06-18,Ancienne formule,10000,0
+Paris latino,Bandolero,2009-09-28,Ancienne formule,5000,0
 Paris latino,Bandolero,2013-01-28,Points,30,0
 Paris latino,Bandolero,2013-11-06,Maestro,-1,0
 Paris latino,Bandolero,2014-04-21,Points,40,1
@@ -44980,6 +45161,7 @@ Pas d'ami (comme toi),Stephan Eicher,2015-03-19,Points,50,2
 Pas d'ami (comme toi),Stephan Eicher,2015-08-14,Points,10,2
 Pas d'ami (comme toi),Stephan Eicher,2015-11-17,Points,50,1
 Pas d'ami (comme toi),Stephan Eicher,2016-09-03,Points,30,-1
+Pas d'ami (comme toi),Stephan Eicher,2016-09-28,Points,40,2
 Pas d'ami (comme toi),Stephan Eicher,2017-04-04,Points,30,2
 Pas d'ami (comme toi),Stephan Eicher,2017-05-10,Points,20,2
 Pas d'ami (comme toi),Stephan Eicher,2017-06-29,Points,30,2
@@ -45103,6 +45285,7 @@ Pas de boogie woogie,Eddy Mitchell,2023-10-19,Maestro,-1,2
 Pas de boogie woogie,Eddy Mitchell,2024-01-02,Points,50,1
 Pas de boogie woogie,Eddy Mitchell,2024-03-05,Points,50,1
 Pas de boogie woogie,Eddy Mitchell,2024-06-10,Points,50,1
+Pas de boogie woogie,Eddy Mitchell,2024-09-12,Points,50,1
 Pas des chiens,Blankass,2024-03-15,Points,40,1
 Pas eu le temps,Patrick Bruel,2019-09-17,Points,50,-1
 Pas eu le temps,Patrick Bruel,2020-05-27,Points,20,2
@@ -45241,6 +45424,7 @@ Pendant que les champs brûlent,Niagara,2023-12-04,Points,30,2
 Pendant que les champs brûlent,Niagara,2024-01-17,Maestro,-1,2
 Pendant que les champs brûlent,Niagara,2024-03-07,Points,40,2
 Pendant que les champs brûlent,Niagara,2024-06-24,Maestro,-1,2
+Pensons à l'avenir,Cali,2024-09-13,Points,10,2
 Personne (Pascal Obispo),Pascal Obispo,2009-02-16,Ancienne formule,500,0
 Personne (Pascal Obispo),Pascal Obispo,2009-08-31,Ancienne formule,5000,0
 Personne (Pascal Obispo),Pascal Obispo,2009-08-31,Ancienne formule,5000,0
@@ -45294,6 +45478,7 @@ Petit frère,IAM,2023-06-26,Points,20,1
 Petit frère,IAM,2023-08-02,Maestro,-1,2
 Petit frère,IAM,2023-11-10,Points,40,1
 Petit frère,IAM,2024-04-30,Maestro,-1,1
+Petit frère,IAM,2024-09-13,Points,20,1
 Petit garçon,Graeme Allwright,2020-12-24,Points,20,2
 Petit garçon,Graeme Allwright,2021-11-22,Points,30,-1
 Petit garçon,Graeme Allwright,2023-12-23,Points,20,2
@@ -45545,6 +45730,7 @@ Pile ou face,Corynne Charby,2009-04-14,Ancienne formule,250,0
 Pile ou face,Corynne Charby,2009-05-06,Ancienne formule,250,0
 Pile ou face,Corynne Charby,2009-05-25,Ancienne formule,250,0
 Pile ou face,Corynne Charby,2009-09-03,Ancienne formule,20000,0
+Pile ou face,Corynne Charby,2009-09-25,Ancienne formule,500,0
 Pile ou face,Corynne Charby,2014-04-14,Points,30,1
 Pile ou face,Corynne Charby,2015-02-18,Points,20,2
 Pile ou face,Corynne Charby,2015-07-06,Points,20,2
@@ -46446,6 +46632,7 @@ Pour une amourette,Leny Escudero,2023-09-14,Points,40,-1
 Pour une amourette,Leny Escudero,2023-11-10,Maestro,-1,1
 Pour une amourette,Leny Escudero,2024-01-09,Points,50,1
 Pour une amourette,Leny Escudero,2024-05-11,Maestro,-1,1
+Pour une amourette,Leny Escudero,2024-09-16,Points,30,1
 Pour une biguine avec toi,Marc Lavoine,2008-08-27,Ancienne formule,250,0
 Pour une biguine avec toi,Marc Lavoine,2009-04-08,Ancienne formule,500,0
 Pour une biguine avec toi,Marc Lavoine,2009-04-30,Ancienne formule,2500,0
@@ -46639,6 +46826,7 @@ Prendre racine,Calogero,2013-01-11,Points,40,0
 Prendre racine,Calogero,2014-06-26,Points,20,2
 Prendre racine,Calogero,2014-10-14,Points,50,1
 Prendre racine,Calogero,2016-08-29,Points,30,-1
+Prendre racine,Calogero,2016-09-28,Maestro,-1,2
 Prendre racine,Calogero,2016-10-20,Maestro,-1,2
 Prendre racine,Calogero,2016-11-17,Points,40,1
 Prendre racine,Calogero,2017-03-15,Points,40,2
@@ -46692,6 +46880,7 @@ Prendre un enfant,Yves Duteil,2023-07-17,Points,10,1
 Prendre un enfant,Yves Duteil,2023-11-10,Points,20,2
 Prendre un enfant,Yves Duteil,2024-01-31,Même chanson,-1,1
 Prendre un enfant,Yves Duteil,2024-06-11,Points,20,2
+Prendre un enfant,Yves Duteil,2024-09-11,Points,10,1
 Prends ma main,Gims & Vitaa,2022-02-04,Points,40,2
 Prends ma main,Gims & Vitaa,2022-04-12,Points,20,2
 Prenons notre temps,Poetic Lover,2019-05-29,Points,10,1
@@ -46927,6 +47116,7 @@ Puisque vous partez en voyage (Françoise Hardy et Jacques Dutronc),Françoise H
 Puisque vous partez en voyage (Françoise Hardy et Jacques Dutronc),Françoise Hardy et Jacques Dutronc,2023-11-24,Points,30,2
 Puisque vous partez en voyage (Mireille et Jean Sablon),Mireille et Jean Sablon,2009-05-20,Ancienne formule,1000,0
 Puisque vous partez en voyage (Mireille et Jean Sablon),Mireille et Jean Sablon,2009-09-07,Ancienne formule,500,0
+Puissance et gloire,Herbert Léonard (pour la série Châteauvallon),2010-03-31,Ancienne formule,250,0
 Puissance et gloire,Herbert Léonard (pour la série Châteauvallon),2022-07-14,Points,40,0
 Puissance et gloire,Herbert Léonard (pour la série Châteauvallon),2023-04-21,Maestro,-1,1
 Puissance et gloire,Herbert Léonard (pour la série Châteauvallon),2023-10-28,Maestro,-1,2
@@ -47010,6 +47200,7 @@ Qu'est-ce qu'on attend pour être heureux,Ray Ventura,2022-10-15,Maestro,-1,1
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2008-01-19,Ancienne formule,500,0
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2009-04-06,Ancienne formule,20000,0
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2009-06-12,Ancienne formule,10000,0
+Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2009-09-30,Ancienne formule,500,0
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2013-03-04,Points,20,0
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2013-06-11,Points,50,0
 Qu'est-ce que t'es belle,Marc Lavoine et Catherine Ringer,2013-09-03,Points,30,0
@@ -47150,6 +47341,7 @@ Quand il est mort le poète,Gilbert Bécaud,2008-07-09,Ancienne formule,1000,0
 Quand j'serai K.-O.,Alain Souchon,2007-12-29,Ancienne formule,2500,0
 Quand j'serai K.-O.,Alain Souchon,2009-02-11,Ancienne formule,1000,0
 Quand j'serai K.-O.,Alain Souchon,2009-02-14,Ancienne formule,250,0
+Quand j'serai K.-O.,Alain Souchon,2009-09-25,Ancienne formule,500,0
 Quand j'serai K.-O.,Alain Souchon,2013-02-19,Points,10,0
 Quand j'serai K.-O.,Alain Souchon,2015-03-27,Points,50,2
 Quand j'serai K.-O.,Alain Souchon,2016-04-08,Points,20,2
@@ -47297,6 +47489,7 @@ Quand je vois tes yeux,Dany Brillant,2008-06-28,Ancienne formule,5000,0
 Quand je vois tes yeux,Dany Brillant,2008-08-25,Ancienne formule,5000,0
 Quand je vois tes yeux,Dany Brillant,2009-02-09,Ancienne formule,250,0
 Quand je vois tes yeux,Dany Brillant,2009-04-30,Ancienne formule,250,0
+Quand je vois tes yeux,Dany Brillant,2009-09-28,Ancienne formule,2500,0
 Quand je vois tes yeux,Dany Brillant,2013-03-18,Points,30,0
 Quand je vois tes yeux,Dany Brillant,2013-06-21,Même chanson,-1,0
 Quand je vois tes yeux,Dany Brillant,2013-09-18,Même chanson,-1,0
@@ -47587,6 +47780,7 @@ Quand t'es dans le désert,Jean-Patrick Capdevielle,2008-07-28,Ancienne formule,
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2009-04-01,Ancienne formule,250,0
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2009-06-18,Ancienne formule,2500,0
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2009-09-17,Ancienne formule,250,0
+Quand t'es dans le désert,Jean-Patrick Capdevielle,2009-09-25,Ancienne formule,2500,0
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2013-02-27,Points,50,0
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2014-09-29,Points,50,1
 Quand t'es dans le désert,Jean-Patrick Capdevielle,2015-07-23,Points,50,2
@@ -47610,6 +47804,7 @@ Quand tu chantes,Nana Mouskouri,2008-12-24,Ancienne formule,5000,0
 Quand tu chantes,Nana Mouskouri,2009-04-10,Ancienne formule,2500,0
 Quand tu chantes,Nana Mouskouri,2009-05-11,Ancienne formule,10000,0
 Quand tu chantes,Nana Mouskouri,2009-06-17,Ancienne formule,2500,0
+Quand tu chantes,Nana Mouskouri,2009-09-30,Ancienne formule,10000,0
 Quand tu chantes,Nana Mouskouri,2015-07-23,Points,50,1
 Quand tu chantes,Nana Mouskouri,2020-06-10,Points,40,1
 Quand tu chantes,Nana Mouskouri,2021-02-17,Points,20,2
@@ -47623,6 +47818,7 @@ Quand tu chantes,Nana Mouskouri,2023-10-31,Points,20,2
 Quand tu chantes,Nana Mouskouri,2024-01-30,Maestro,-1,2
 Quand tu chantes,Nana Mouskouri,2024-03-15,Points,20,1
 Quand tu chantes,Nana Mouskouri,2024-08-20,Points,30,1
+Quand tu m'aimes,Herbert Léonard,2009-09-29,Ancienne formule,500,0
 Quand tu m'aimes,Herbert Léonard,2015-07-29,Points,40,1
 Quand tu m'aimes,Herbert Léonard,2017-02-24,Points,30,2
 Quand tu m'aimes,Herbert Léonard,2017-06-16,Points,30,2
@@ -48236,6 +48432,7 @@ Qui de nous deux,M,2017-01-19,Maestro,-1,1
 Qui de nous deux,M,2017-02-23,Maestro,-1,2
 Qui de nous deux,M,2017-03-13,Maestro,-1,2
 Qui de nous deux,M,2017-04-03,Maestro,-1,2
+Qui de nous deux,M,2017-05-02,Maestro,-1,1
 Qui de nous deux,M,2017-06-15,Même chanson,-1,2
 Qui de nous deux,M,2017-08-25,Points,20,1
 Qui de nous deux,M,2017-09-27,Points,50,-2
@@ -48593,6 +48790,7 @@ Requiem,Alma,2024-05-21,Maestro,-1,1
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2009-03-09,Ancienne formule,10000,0
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2009-05-12,Ancienne formule,2500,0
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2009-09-03,Ancienne formule,2500,0
+Requiem pour un con,Serge Gainsbourg dans Le Pacha,2009-09-28,Ancienne formule,1000,0
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2013-06-10,Points,30,0
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2014-06-09,Points,50,1
 Requiem pour un con,Serge Gainsbourg dans Le Pacha,2014-06-30,Points,30,2
@@ -48802,6 +49000,7 @@ Retiens la nuit,Johnny Hallyday,2022-12-05,Points,20,2
 Retiens la nuit,Johnny Hallyday,2024-07-13,Points,50,2
 Reviens,Hervé Vilard,2009-02-12,Ancienne formule,5000,0
 Reviens,Hervé Vilard,2009-06-10,Ancienne formule,10000,0
+Reviens,Hervé Vilard,2009-09-30,Ancienne formule,5000,0
 Reviens,Hervé Vilard,2013-03-26,Points,50,0
 Reviens,Hervé Vilard,2014-04-08,Points,50,2
 Reviens,Hervé Vilard,2014-05-08,Points,50,2
@@ -49225,6 +49424,7 @@ Rodéo,Zazie,2023-03-15,Points,30,2
 Rodéo,Zazie,2023-10-17,Points,30,1
 Rodéo,Zazie,2024-01-01,Même chanson,-1,2
 Rodéo,Zazie,2024-04-25,Points,40,1
+Rodéo,Zazie,2024-09-16,Points,20,1
 Roi,Bilal Hassani,2021-11-04,Points,20,-2
 Roi,Bilal Hassani,2022-02-07,Points,50,2
 Roi,Bilal Hassani,2022-06-08,Points,20,1
@@ -49232,6 +49432,7 @@ Roi,Bilal Hassani,2022-10-22,Points,50,-1
 Roi,Bilal Hassani,2023-01-31,Points,20,1
 Roi,Bilal Hassani,2023-12-20,Points,40,1
 Roi,Bilal Hassani,2024-05-09,Points,20,2
+Roi,Bilal Hassani,2024-09-17,Points,30,2
 Rolling in the Deep,Adele,2016-02-12,Points,30,2
 Roméo kiffe Juliette,Grand Corps Malade,2020-05-23,Points,20,1
 Roméo kiffe Juliette,Grand Corps Malade,2020-09-10,Points,10,1
@@ -49319,6 +49520,7 @@ Rue de la paix,Zazie,2008-07-09,Ancienne formule,2500,0
 Rue de la paix,Zazie,2008-12-24,Ancienne formule,2500,0
 Rue de la paix,Zazie,2009-03-31,Ancienne formule,35000,0
 Rue de la paix,Zazie,2009-05-19,Ancienne formule,500,0
+Rue de la paix,Zazie,2009-10-01,Ancienne formule,2500,0
 Rue de la paix,Zazie,2013-01-24,Maestro,-1,0
 Rue de la paix,Zazie,2013-04-10,Même chanson,-1,0
 Rue de la paix,Zazie,2013-10-30,Même chanson,-1,0
@@ -49577,6 +49779,7 @@ Rétine,Amir,2023-12-05,Même chanson,-1,1
 Rétine,Amir,2024-03-04,Points,30,1
 Rétine,Amir,2024-04-16,Points,30,2
 Rétine,Amir,2024-07-03,Même chanson,-1,1
+Rétine,Amir,2024-09-13,Maestro,-1,2
 Rêver,Mylène Farmer,2014-08-28,Points,10,2
 Rêver,Mylène Farmer,2021-05-07,Maestro,-1,1
 Rêver,Mylène Farmer,2022-01-04,Points,30,2
@@ -49789,6 +49992,7 @@ Sacré Charlemagne,France Gall,2016-04-28,Points,20,2
 Sacré Charlemagne,France Gall,2016-09-03,Points,40,-2
 Sacré Charlemagne,France Gall,2016-11-26,Maestro,-1,2
 Sacré Charlemagne,France Gall,2017-01-16,Points,50,1
+Sacré Charlemagne,France Gall,2017-05-22,Points,50,1
 Sacré Charlemagne,France Gall,2017-09-04,Points,40,2
 Sacré Charlemagne,France Gall,2017-12-06,Points,30,1
 Sacré Charlemagne,France Gall,2019-04-05,Points,20,2
@@ -50009,6 +50213,7 @@ Samedi soir sur la Terre,Francis Cabrel,2022-08-29,Points,20,1
 Samedi soir sur la Terre,Francis Cabrel,2022-12-28,Maestro,-1,2
 Samedi soir sur la Terre,Francis Cabrel,2023-04-10,Points,30,1
 Samedi soir sur la Terre,Francis Cabrel,2023-10-19,Points,20,2
+Samedi soir sur la Terre,Francis Cabrel,2024-09-11,Maestro,-1,1
 San Francisco,Maxime Le Forestier,2008-07-10,Ancienne formule,10000,0
 San Francisco,Maxime Le Forestier,2009-02-19,Ancienne formule,1000,0
 San Francisco,Maxime Le Forestier,2009-05-08,Ancienne formule,1000,0
@@ -50386,6 +50591,7 @@ Sauver l'amour,Daniel Balavoine,2023-09-21,Points,40,-2
 Sauver l'amour,Daniel Balavoine,2023-12-16,Points,50,1
 Sauver l'amour,Daniel Balavoine,2024-01-18,Points,20,1
 Sauver l'amour,Daniel Balavoine,2024-04-01,Points,50,1
+Sauver l'amour,Daniel Balavoine,2024-09-17,Points,40,1
 Sauvez-moi,Jeanne Mas,2020-10-20,Maestro,-1,-1
 Sauvez-moi,Jeanne Mas,2023-11-24,Maestro,-1,1
 Sauvez-moi,Jeanne Mas,2024-01-18,Points,20,1
@@ -50549,6 +50755,7 @@ Seras-tu là,Michel Berger,2022-10-25,Points,30,-1
 Seras-tu là,Michel Berger,2023-02-21,Points,40,1
 Seras-tu là,Michel Berger,2024-01-08,Points,20,2
 Seras-tu là,Michel Berger,2024-05-15,Points,20,1
+Seras-tu là,Michel Berger,2024-09-12,Points,10,2
 Seul,Garou,2008-01-19,Ancienne formule,1000,0
 Seul,Garou,2008-01-26,Ancienne formule,50000,0
 Seul,Garou,2008-07-22,Ancienne formule,1000,0
@@ -50846,6 +51053,7 @@ Si demain (turn around),Kareen Antonn & Bonnie Tyler,2023-04-07,Points,30,1
 Si demain (turn around),Kareen Antonn & Bonnie Tyler,2023-08-10,Points,30,1
 Si demain (turn around),Kareen Antonn & Bonnie Tyler,2024-01-15,Points,30,1
 Si demain (turn around),Kareen Antonn & Bonnie Tyler,2024-04-11,Points,20,2
+Si demain (turn around),Kareen Antonn & Bonnie Tyler,2024-09-17,Points,50,2
 Si j'avais su,Claudio Capéo,2023-03-14,Points,30,2
 Si j'avais su,Claudio Capéo,2023-06-22,Maestro,-1,2
 Si j'avais su,Claudio Capéo,2023-09-18,Points,20,-2
@@ -51086,6 +51294,7 @@ Si je m'en sors,Julie Zenatti,2023-11-03,Points,40,1
 Si je m'en sors,Julie Zenatti,2023-12-27,Même chanson,-1,2
 Si je m'en sors,Julie Zenatti,2024-02-01,Même chanson,-1,1
 Si je m'en sors,Julie Zenatti,2024-06-12,Points,10,2
+Si je m'en sors,Julie Zenatti,2024-09-12,Points,30,1
 "Si l'on s'aimait, si",Les Enfoirés,2013-02-19,Points,30,0
 "Si l'on s'aimait, si",Les Enfoirés,2013-09-24,Points,50,0
 "Si l'on s'aimait, si",Les Enfoirés,2014-07-21,Points,20,2
@@ -51637,6 +51846,7 @@ Soleil d'hiver,Niagara,2023-12-22,Points,20,1
 Soleil soleil,Nana Mouskouri,2013-05-07,Points,30,0
 Soleil soleil,Nana Mouskouri,2014-09-03,Points,20,1
 Soleil soleil,Nana Mouskouri,2015-02-11,Points,30,1
+Soleil soleil,Nana Mouskouri,2017-05-22,Points,20,2
 Soleil soleil,Nana Mouskouri,2019-12-09,Points,20,2
 Soleil soleil,Nana Mouskouri,2020-05-11,Points,50,1
 Soleil soleil,Nana Mouskouri,2020-08-12,Points,20,2
@@ -51967,6 +52177,7 @@ Starsky et Hutch,TV,2018-06-15,Points,30,2
 Starsky et Hutch,TV,2019-08-26,Points,10,1
 Starsky et Hutch,TV,2019-12-30,Points,20,1
 Starsky et Hutch,TV,2022-08-27,Points,10,1
+Stayin' alive,Bee Gees,2016-02-09,Points,20,2
 Stewball,Hugues Aufray,2019-12-02,Points,30,1
 Stewball,Hugues Aufray,2020-06-15,Points,30,2
 Stewball,Hugues Aufray,2020-07-07,Points,50,2
@@ -52035,6 +52246,7 @@ Suavemente,Soolking,2023-07-25,Points,20,2
 Suavemente,Soolking,2023-09-13,Points,30,-1
 Suavemente,Soolking,2023-11-09,Points,20,2
 Suavemente,Soolking,2024-08-26,Maestro,-1,1
+Sublime et silence,Julien Doré,2017-05-02,Points,20,1
 Sublime et silence,Julien Doré,2017-06-24,Points,30,2
 Sublime et silence,Julien Doré,2017-07-14,Points,20,1
 Sublime et silence,Julien Doré,2017-10-03,Points,20,-1
@@ -52900,6 +53112,7 @@ Ta fête,Stromae,2023-08-10,Même chanson,-1,1
 Ta fête,Stromae,2024-01-22,Points,20,1
 Ta fête,Stromae,2024-03-22,Même chanson,-1,1
 Ta fête,Stromae,2024-04-20,Points,30,2
+Ta fête,Stromae,2024-09-13,Points,50,2
 Ta main (Claudio Capéo),Claudio Capéo,2019-03-23,Maestro,-1,1
 Ta main (Claudio Capéo),Claudio Capéo,2019-04-15,Maestro,-1,1
 Ta main (Claudio Capéo),Claudio Capéo,2019-05-07,Maestro,-1,1
@@ -53041,6 +53254,7 @@ Ta reine,Angèle,2023-01-12,Points,40,2
 Ta reine,Angèle,2023-08-03,Maestro,-1,2
 Ta reine,Angèle,2024-01-20,Maestro,-1,2
 Ta reine,Angèle,2024-05-11,Points,10,1
+Ta reine,Angèle,2024-09-17,Points,30,2
 Ta ta ta ta,Michel Polnareff,2016-01-07,Points,20,-2
 Ta ta ta ta,Michel Polnareff,2016-02-10,Points,30,1
 Ta ta ta ta,Michel Polnareff,2016-03-18,Points,30,1
@@ -53066,6 +53280,7 @@ Tahiti,Keen'V,2023-05-27,Points,20,2
 Tahiti,Keen'V,2023-11-09,Points,50,2
 Tahiti,Keen'V,2023-12-30,Points,50,1
 Tahiti,Keen'V,2024-05-20,Points,30,2
+Tahiti,Keen'V,2024-09-13,Points,50,1
 Tailler la route,"Gaël Faye, Grand Corps Malade et Ben Mazué",2023-01-23,Points,30,2
 Tailler la route,"Gaël Faye, Grand Corps Malade et Ben Mazué",2023-03-30,Points,20,2
 Tailler la route,"Gaël Faye, Grand Corps Malade et Ben Mazué",2023-07-17,Points,40,1
@@ -53291,6 +53506,7 @@ Tata Yoyo,Annie Cordy,2024-07-09,Points,50,2
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2009-04-17,Ancienne formule,2500,0
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2009-05-18,Ancienne formule,250,0
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2009-09-14,Ancienne formule,2500,0
+Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2009-09-29,Ancienne formule,500,0
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2013-01-16,Maestro,-1,0
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2013-03-29,Points,40,0
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2013-07-05,Ancienne formule,35000,0
@@ -53370,6 +53586,7 @@ Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2024-05-11,Maestro,-1,2
 Tatoue-moi,Mozart l'Opéra Rock (Mikelangelo Loconte),2024-07-11,Points,50,1
 Tchiki boum,Niagara,2008-07-16,Ancienne formule,250,0
 Tchiki boum,Niagara,2009-03-04,Ancienne formule,20000,0
+Tchiki boum,Niagara,2009-09-30,Ancienne formule,2500,0
 Tchiki boum,Niagara,2013-01-08,Points,30,0
 Tchiki boum,Niagara,2013-04-03,Points,40,0
 Tchiki boum,Niagara,2014-06-09,Points,30,1
@@ -53413,6 +53630,7 @@ Tchiki boum,Niagara,2024-07-04,Points,50,1
 Tchin tchin,Hugues Aufray,2009-02-17,Ancienne formule,250,0
 Tchin tchin,Hugues Aufray,2009-03-31,Ancienne formule,500,0
 Tchin tchin,Hugues Aufray,2009-04-30,Ancienne formule,250,0
+Tchin tchin,Hugues Aufray,2009-09-30,Ancienne formule,10000,0
 Tchin tchin,Hugues Aufray,2015-12-31,Points,30,1
 Tchin tchin,Hugues Aufray,2020-01-01,Points,20,1
 Tchin tchin,Hugues Aufray,2020-08-20,Points,40,1
@@ -54281,6 +54499,7 @@ Ton invitation,Louise Attaque,2023-10-09,Points,50,1
 Ton invitation,Louise Attaque,2023-11-27,Points,40,2
 Ton invitation,Louise Attaque,2024-02-15,Points,40,1
 Ton invitation,Louise Attaque,2024-05-16,Points,20,2
+Ton invitation,Louise Attaque,2024-09-17,Points,40,2
 Ton mec,Kyo,2018-03-08,Points,20,1
 Ton mec,Kyo,2018-04-26,Maestro,-1,2
 Ton mec,Kyo,2018-05-24,Maestro,-1,1
@@ -54550,6 +54769,7 @@ Tourner dans le vide,Indila,2023-12-05,Points,30,2
 Tourner dans le vide,Indila,2024-01-24,Points,40,2
 Tourner dans le vide,Indila,2024-03-13,Points,30,2
 Tourner dans le vide,Indila,2024-05-14,Points,30,0
+Tourner dans le vide,Indila,2024-09-14,Points,50,1
 Tourner les serviettes,Patrick Sébastien,2014-12-29,Points,50,1
 Tourner les serviettes,Patrick Sébastien,2015-02-11,Points,20,1
 Tourner les serviettes,Patrick Sébastien,2015-04-13,Maestro,-1,2
@@ -54762,6 +54982,7 @@ Tous les mêmes,Stromae,2015-12-30,Points,50,2
 Tous les mêmes,Stromae,2016-01-27,Maestro,-1,1
 Tous les mêmes,Stromae,2016-03-08,Points,50,1
 Tous les mêmes,Stromae,2016-03-25,Même chanson,-1,1
+Tous les mêmes,Stromae,2016-09-28,Points,50,2
 Tous les mêmes,Stromae,2016-11-05,Points,40,2
 Tous les mêmes,Stromae,2016-12-06,Même chanson,-1,2
 Tous les mêmes,Stromae,2017-01-16,Points,50,2
@@ -54823,6 +55044,7 @@ Tous les mêmes,Stromae,2024-06-24,Points,50,1
 Tout,Lara Fabian,2008-01-12,Ancienne formule,500,0
 Tout,Lara Fabian,2008-02-16,Ancienne formule,2500,0
 Tout,Lara Fabian,2008-07-15,Ancienne formule,5000,0
+Tout,Lara Fabian,2009-09-28,Ancienne formule,2500,0
 Tout,Lara Fabian,2013-02-21,Même chanson,-1,0
 Tout,Lara Fabian,2013-10-15,Points,40,0
 Tout,Lara Fabian,2013-11-28,Même chanson,-1,1
@@ -54965,6 +55187,7 @@ Tout l'amour,Dario Moreno,2009-02-19,Ancienne formule,10000,0
 Tout l'amour,Dario Moreno,2009-03-19,Ancienne formule,1000,0
 Tout l'amour,Dario Moreno,2009-04-29,Ancienne formule,2500,0
 Tout l'amour,Dario Moreno,2009-08-26,Ancienne formule,10000,0
+Tout l'amour,Dario Moreno,2009-09-28,Ancienne formule,2500,0
 Tout l'amour,Dario Moreno,2017-06-26,Points,20,1
 Tout l'amour,Dario Moreno,2020-08-28,Points,10,1
 Tout l'amour,Dario Moreno,2020-12-18,Points,10,2
@@ -54979,6 +55202,7 @@ Tout l'or des hommes,Céline Dion,2016-07-15,Points,30,1
 Tout l'or des hommes,Céline Dion,2016-08-30,Points,40,-1
 Tout l'or des hommes,Céline Dion,2016-12-05,Points,50,2
 Tout l'or des hommes,Céline Dion,2017-02-01,Points,20,2
+Tout l'or des hommes,Céline Dion,2017-05-02,Points,20,1
 Tout l'or des hommes,Céline Dion,2017-06-28,Points,20,1
 Tout l'or des hommes,Céline Dion,2017-12-25,Maestro,-1,2
 Tout l'or des hommes,Céline Dion,2018-03-28,Points,30,1
@@ -55311,6 +55535,7 @@ Toute seule,Lorie,2016-04-13,Points,30,2
 Toute seule,Lorie,2016-05-30,Points,20,2
 Toute seule,Lorie,2016-09-07,Points,50,-1
 Toute seule,Lorie,2016-09-29,Points,20,1
+Toute seule,Lorie,2017-05-22,Points,40,1
 Toute seule,Lorie,2018-04-13,Points,20,2
 Toute seule,Lorie,2018-06-08,Maestro,-1,2
 Toute seule,Lorie,2018-07-22,Maestro,-1,2
@@ -55688,6 +55913,7 @@ Tu es le soleil,Sheila,2008-07-16,Ancienne formule,20000,0
 Tu es le soleil,Sheila,2009-01-01,Ancienne formule,1000,0
 Tu es le soleil,Sheila,2009-02-25,Ancienne formule,250,0
 Tu es le soleil,Sheila,2009-04-01,Ancienne formule,35000,0
+Tu es le soleil,Sheila,2009-09-25,Ancienne formule,250,0
 Tu es le soleil,Sheila,2020-06-13,Maestro,-1,1
 Tu es le soleil,Sheila,2021-02-17,Points,40,2
 Tu es le soleil,Sheila,2021-05-10,Maestro,-1,2
@@ -56037,6 +56263,7 @@ Tu seras,Emma Daumas,2016-05-05,Points,50,1
 Tu seras,Emma Daumas,2016-09-01,Points,20,-2
 Tu seras,Emma Daumas,2016-11-23,Points,30,2
 Tu seras,Emma Daumas,2017-04-10,Points,30,2
+Tu seras,Emma Daumas,2017-05-02,Points,30,1
 Tu seras,Emma Daumas,2017-11-21,Points,30,2
 Tu seras,Emma Daumas,2018-02-16,Points,20,1
 Tu seras,Emma Daumas,2018-04-26,Points,40,2
@@ -56094,6 +56321,7 @@ Tu t'en iras,La Zarra,2023-06-17,Points,40,1
 Tu t'en iras,La Zarra,2024-01-10,Points,30,2
 Tu t'en iras,La Zarra,2024-03-25,Points,30,1
 Tu t'en vas,Alain Barrière et Noëlle Cordier,2009-03-23,Ancienne formule,250,0
+Tu t'en vas,Alain Barrière et Noëlle Cordier,2009-10-01,Ancienne formule,250,0
 Tu t'en vas,Alain Barrière et Noëlle Cordier,2015-04-22,Points,20,2
 Tu t'en vas,Alain Barrière et Noëlle Cordier,2015-07-20,Points,10,2
 Tu t'en vas,Alain Barrière et Noëlle Cordier,2017-11-15,Points,20,2
@@ -56198,6 +56426,7 @@ Tu verras,Claude Nougaro,2016-09-09,Même chanson,-1,-2
 Tu verras,Claude Nougaro,2016-11-19,Points,30,1
 Tu verras,Claude Nougaro,2017-03-08,Maestro,-1,1
 Tu verras,Claude Nougaro,2017-04-04,Maestro,-1,1
+Tu verras,Claude Nougaro,2017-05-02,Points,30,1
 Tu verras,Claude Nougaro,2017-06-14,Points,30,2
 Tu verras,Claude Nougaro,2017-08-10,Même chanson,-1,1
 Tu verras,Claude Nougaro,2017-09-11,Points,20,2
@@ -56505,6 +56734,7 @@ Un autre monde,Téléphone,2023-10-14,Points,50,1
 Un autre monde,Téléphone,2023-12-24,Maestro,-1,-3
 Un autre monde,Téléphone,2024-03-01,Même chanson,-1,2
 Un autre monde,Téléphone,2024-05-22,Points,50,2
+Un autre monde,Téléphone,2024-09-17,Même chanson,-1,1
 "Un banc, un arbre, une rue",Séverine,2019-01-12,Points,20,2
 "Un banc, un arbre, une rue",Séverine,2020-12-22,Points,20,2
 "Un banc, un arbre, une rue",Séverine,2021-11-26,Points,30,-1
@@ -56593,6 +56823,7 @@ Un homme,Jérémy Frérot,2023-05-10,Même chanson,-1,1
 Un homme,Jérémy Frérot,2023-10-10,Même chanson,-1,2
 Un homme,Jérémy Frérot,2024-01-30,Points,40,2
 Un homme,Jérémy Frérot,2024-05-21,Points,40,2
+Un homme,Jérémy Frérot,2024-09-11,Même chanson,-1,1
 Un homme debout,Claudio Capéo,2016-10-28,Points,20,2
 Un homme debout,Claudio Capéo,2016-12-19,Maestro,-1,2
 Un homme debout,Claudio Capéo,2017-02-28,Points,20,2
@@ -56650,6 +56881,7 @@ Un homme debout,Claudio Capéo,2024-01-22,Points,40,1
 Un homme debout,Claudio Capéo,2024-03-21,Points,50,2
 Un homme debout,Claudio Capéo,2024-04-22,Points,50,2
 Un homme debout,Claudio Capéo,2024-06-25,Points,50,1
+Un homme debout,Claudio Capéo,2024-09-11,Points,40,1
 Un homme et une femme,Nicole Croisille et Pierre Barouh,2008-01-01,Ancienne formule,20000,0
 Un homme et une femme,Nicole Croisille et Pierre Barouh,2008-07-07,Ancienne formule,1000,0
 Un homme et une femme,Nicole Croisille et Pierre Barouh,2008-12-20,Ancienne formule,2500,0
@@ -56805,6 +57037,7 @@ Un jour je marierai un ange,Pierre de Maere,2023-11-07,Points,20,1
 Un jour je marierai un ange,Pierre de Maere,2023-12-24,Points,30,-3
 Un jour je marierai un ange,Pierre de Maere,2024-03-21,Points,40,1
 Un jour je marierai un ange,Pierre de Maere,2024-04-23,Points,50,1
+Un jour je marierai un ange,Pierre de Maere,2024-09-14,Points,20,2
 Un jour ou l'autre,Isabelle Boulay,2008-05-31,Ancienne formule,2500,0
 Un jour ou l'autre,Isabelle Boulay,2008-08-25,Ancienne formule,500,0
 Un jour ou l'autre,Isabelle Boulay,2009-02-16,Ancienne formule,2500,0
@@ -56844,6 +57077,7 @@ Un jour viendra,Johnny Hallyday,2024-08-14,Maestro,-1,1
 Un lapin,Chantal Goya,2008-07-30,Ancienne formule,5000,0
 Un lapin,Chantal Goya,2009-02-23,Ancienne formule,10000,0
 Un lapin,Chantal Goya,2009-06-11,Ancienne formule,5000,0
+Un lapin,Chantal Goya,2009-09-25,Ancienne formule,1000,0
 Un lapin,Chantal Goya,2018-04-02,Points,20,2
 Un lapin,Chantal Goya,2019-01-05,Points,10,1
 Un lapin,Chantal Goya,2019-09-05,Points,20,2
@@ -56859,6 +57093,7 @@ Un lapin,Chantal Goya,2024-02-17,Maestro,-1,2
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2008-07-14,Ancienne formule,5000,0
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2009-04-01,Ancienne formule,500,0
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2009-09-16,Ancienne formule,500,0
+Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2009-09-29,Ancienne formule,2500,0
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2018-03-01,Points,10,2
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2018-04-04,Points,20,2
 Un monde parfait (Ilona Mitrecey),Ilona Mitrecey,2018-07-01,Points,20,2
@@ -57049,6 +57284,7 @@ Un portugais,Linda de Suza,2023-08-16,Points,30,1
 Un portugais,Linda de Suza,2023-11-13,Maestro,-1,1
 Un portugais,Linda de Suza,2024-01-08,Points,30,2
 Un portugais,Linda de Suza,2024-05-17,Maestro,-1,2
+Un portugais,Linda de Suza,2024-09-11,Points,40,2
 Un roman d'amitié,Elsa et Glenn Medeiros,2014-01-07,Points,50,2
 Un roman d'amitié,Elsa et Glenn Medeiros,2015-11-24,Points,40,2
 Un roman d'amitié,Elsa et Glenn Medeiros,2017-03-29,Points,10,2
@@ -57226,6 +57462,7 @@ Une autre histoire,Gérard Blanc,2023-12-25,Même chanson,-1,2
 Une autre histoire,Gérard Blanc,2024-02-09,Points,50,2
 Une autre histoire,Gérard Blanc,2024-03-27,Même chanson,-1,1
 Une autre histoire,Gérard Blanc,2024-07-05,Points,40,2
+Une autre histoire,Gérard Blanc,2024-09-12,Points,30,2
 Une autre vie,Sofia Essaïdi et Florian Etienne dans Cléopâtre,2008-12-13,Ancienne formule,2500,0
 Une autre vie,Sofia Essaïdi et Florian Etienne dans Cléopâtre,2009-03-03,Ancienne formule,500,0
 Une belle histoire,Michel Fugain et le Big Bazar,2008-06-21,Ancienne formule,250,0
@@ -57610,6 +57847,7 @@ Une île,Serge Lama,2023-12-05,Maestro,-1,2
 Une île,Serge Lama,2024-01-25,Points,20,1
 Une île,Serge Lama,2024-06-22,Points,40,2
 Utile,Julien Clerc,2009-09-03,Ancienne formule,1000,0
+Utile,Julien Clerc,2009-09-28,Ancienne formule,2500,0
 Utile,Julien Clerc,2021-01-18,Points,30,1
 Utile,Julien Clerc,2024-02-29,Points,20,2
 Utile,Julien Clerc,2024-04-10,Maestro,-1,1
@@ -58672,6 +58910,7 @@ Vous les copains,Sheila,2008-08-28,Ancienne formule,250,0
 Vous les copains,Sheila,2008-12-23,Ancienne formule,1000,0
 Vous les copains,Sheila,2009-02-16,Ancienne formule,5000,0
 Vous les copains,Sheila,2009-04-15,Ancienne formule,1000,0
+Vous les copains,Sheila,2009-10-01,Ancienne formule,1000,0
 Vous les copains,Sheila,2014-08-29,Points,50,2
 Vous les copains,Sheila,2014-09-05,Points,50,2
 Vous les copains,Sheila,2015-03-05,Points,50,1
@@ -58886,6 +59125,7 @@ Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",201
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-01-09,Maestro,-1,1
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-03-17,Maestro,-1,1
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-04-11,Points,30,1
+Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-05-22,Points,40,2
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-09-29,Points,20,-2
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2017-11-10,Maestro,-1,1
 Vérone,"Frédéric Charter dans Roméo et Juliette, de la haine à l'amour",2018-03-01,Points,50,1
@@ -59796,6 +60036,7 @@ Zou bisou bisou,Gillian Hills,2023-11-16,Maestro,-1,2
 À ma place,Axel Bauer et Zazie,2017-01-18,Points,50,1
 À ma place,Axel Bauer et Zazie,2017-02-27,Points,40,1
 À ma place,Axel Bauer et Zazie,2017-03-30,Points,40,1
+À ma place,Axel Bauer et Zazie,2017-05-02,Points,40,2
 À ma place,Axel Bauer et Zazie,2017-06-01,Points,50,1
 À ma place,Axel Bauer et Zazie,2017-06-30,Points,50,2
 À ma place,Axel Bauer et Zazie,2017-11-14,Points,40,2
@@ -60172,6 +60413,7 @@ Zou bisou bisou,Gillian Hills,2023-11-16,Maestro,-1,2
 Ça fait mal,Christophe Maé,2009-02-18,Ancienne formule,500,0
 Ça fait mal,Christophe Maé,2009-05-08,Ancienne formule,5000,0
 Ça fait mal,Christophe Maé,2009-09-08,Ancienne formule,1000,0
+Ça fait mal,Christophe Maé,2009-09-29,Ancienne formule,20000,0
 Ça fait mal,Christophe Maé,2013-02-19,Points,10,0
 Ça fait mal,Christophe Maé,2014-01-13,Maestro,-1,1
 Ça fait mal,Christophe Maé,2014-07-17,Points,30,2
@@ -60590,6 +60832,7 @@ Zou bisou bisou,Gillian Hills,2023-11-16,Maestro,-1,2
 Ça plane pour moi,"Plastic Bertrand<ref>Il s'agirait en réalité de la voix de son producteur et compositeur Lou Deprijck, qui aurait à l'époque utilisé Plastic Bertrand en tant que prête-nom pour son personnage plus punk qui selon lui incarnerait mieux la chanson.</ref>",2024-01-11,Points,40,2
 Ça plane pour moi,"Plastic Bertrand<ref>Il s'agirait en réalité de la voix de son producteur et compositeur Lou Deprijck, qui aurait à l'époque utilisé Plastic Bertrand en tant que prête-nom pour son personnage plus punk qui selon lui incarnerait mieux la chanson.</ref>",2024-03-19,Points,40,2
 Ça plane pour moi,"Plastic Bertrand<ref>Il s'agirait en réalité de la voix de son producteur et compositeur Lou Deprijck, qui aurait à l'époque utilisé Plastic Bertrand en tant que prête-nom pour son personnage plus punk qui selon lui incarnerait mieux la chanson.</ref>",2024-05-23,Points,40,2
+Ça plane pour moi,"Plastic Bertrand<ref>Il s'agirait en réalité de la voix de son producteur et compositeur Lou Deprijck, qui aurait à l'époque utilisé Plastic Bertrand en tant que prête-nom pour son personnage plus punk qui selon lui incarnerait mieux la chanson.</ref>",2024-09-16,Points,40,2
 Ça va pas changer le monde,Joe Dassin,2009-02-10,Ancienne formule,2500,0
 Ça va pas changer le monde,Joe Dassin,2014-04-22,Points,30,2
 Ça va pas changer le monde,Joe Dassin,2015-05-06,Points,20,2
