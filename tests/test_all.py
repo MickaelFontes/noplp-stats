@@ -1,5 +1,3 @@
-from time import sleep
-
 from dash.testing.composite import DashComposite
 
 from app import app as noplp_app
