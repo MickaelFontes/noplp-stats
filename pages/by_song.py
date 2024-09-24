@@ -1,13 +1,12 @@
 """Statistics page for song specific stats."""
 
-from functools import reduce
-
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html
 
 from pages.utils import (
+    extract_and_format_lyrics,
     filter_date,
     filter_song,
     find_singer,
@@ -160,39 +159,3 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
         html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
         html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
     ], lyrics
-
-
-def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
-    """Put verified lyrics in bold.
-
-    Args:
-        text (str): song lyrics
-
-    Returns:
-        list[html]: list of Dash HTML components
-    """
-    if text[0] != "":
-        if text[0][0] == "¤":
-            return [html.B(text[0][1:])]
-    return text
-
-
-def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
-    """Extract and foramt lyrics for quality
-
-    Args:
-        lyrics_string (str): Raw lyrics from database
-
-    Returns:
-        list[html]: list of Dash html components
-    """
-    lyrics = []
-
-    for text_paragraph in lyrics_string.split("\\n\\n"):
-        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
-        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
-        paragraph = html.P(
-            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
-        )
-        lyrics.append(paragraph)
-    return lyrics

@@ -1,6 +1,8 @@
 """Common utilities functions for all pages."""
+
 import datetime
 import time
+from functools import reduce
 
 import pandas as pd
 import plotly.express as px
@@ -44,7 +46,9 @@ def get_marks():
     return result
 
 
-def filter_date(date_range: tuple[int, int], data_frame: pd.DataFrame = df) -> pd.DataFrame:
+def filter_date(
+    date_range: tuple[int, int], data_frame: pd.DataFrame = df
+) -> pd.DataFrame:
     """Return a complete songs Dataframe for the data_range argument
 
     Args:
@@ -87,7 +91,9 @@ def get_time_limits(data_frame=df):
         list[Unix]: [begin, end] in Unix format
     """
     begin = datetime_to_unix(data_frame["date"].min().date().replace(day=1))
-    end = datetime_to_unix(data_frame["date"].max().date() + datetime.timedelta(days=31))
+    end = datetime_to_unix(
+        data_frame["date"].max().date() + datetime.timedelta(days=31)
+    )
     return begin, end
 
 
@@ -131,7 +137,8 @@ def get_date_range_object(prefix_component_id=""):
     return html.Div(
         [
             html.Label(
-                "Intervalle de temps pris en compte", id=prefix_component_id + "time-range-label"
+                "Intervalle de temps pris en compte",
+                id=prefix_component_id + "time-range-label",
             ),
             dcc.RangeSlider(
                 id=prefix_component_id + "year_slider",
@@ -355,3 +362,39 @@ def return_lyrics_df():
         Dataframe: lyrics Dataframe
     """
     return lyrics_df
+
+
+def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
+    """Put verified lyrics in bold.
+
+    Args:
+        text (str): song lyrics
+
+    Returns:
+        list[html]: list of Dash HTML components
+    """
+    if text[0] != "":
+        if text[0][0] == "¤":
+            return [html.B(text[0][1:])]
+    return text
+
+
+def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
+    """Extract and foramt lyrics for quality
+
+    Args:
+        lyrics_string (str): Raw lyrics from database
+
+    Returns:
+        list[html]: list of Dash html components
+    """
+    lyrics = []
+
+    for text_paragraph in lyrics_string.split("\\n\\n"):
+        text_with_breaks = ([t] for t in text_paragraph.split("\\n"))
+        text_with_breaks = (bold_for_verified(t) for t in text_with_breaks)
+        paragraph = html.P(
+            list(reduce(lambda a, b: a + [html.Br()] + b, text_with_breaks))
+        )
+        lyrics.append(paragraph)
+    return lyrics

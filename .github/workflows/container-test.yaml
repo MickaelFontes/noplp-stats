@@ -46,10 +46,12 @@ jobs:
 
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: stable
+          chrome-version: "128.0.6613.137"
 
       - name: setup-chromedriver
         uses: nanasess/setup-chromedriver@v2.2.0
+        with:
+          chromedriver-version: "128.0.6613.137"
 
       - name: Install dependencies
         run: |
@@ -57,5 +59,4 @@ jobs:
 
       - name: Launch tests
         run: |
-          poetry run pytest tests/test_all.py
-
+          poetry run pytest --log-cli-level DEBUG --headless

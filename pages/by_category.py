@@ -22,7 +22,9 @@ dash.register_page(__name__, path="/category", title="Par catégorie - NOLPL sta
 
 layout = dbc.Container(
     [
-        html.H4("Chansons les plus populaires par catégorie", style={"marginBottom": 10}),
+        html.H4(
+            "Chansons les plus populaires par catégorie", style={"marginBottom": 10}
+        ),
         dbc.Row(
             [
                 dbc.Col(
