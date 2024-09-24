@@ -16,8 +16,8 @@ def test_all_pages(dash_duo: DashComposite):
     assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/category")
     assert dash_duo.get_logs() == [], "browser console should contain no error"
-    # dash_duo.wait_for_page(dash_duo.server_url + "/song")
-    # assert dash_duo.get_logs() == [], "browser console should contain no error"
+    dash_duo.wait_for_page(dash_duo.server_url + "/song")
+    assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/singer")
     assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/training")
