@@ -1,5 +1,7 @@
 """Bottom of the pages."""
+
 import os
+
 from dash import dcc, html
 
 bottom = html.Div(

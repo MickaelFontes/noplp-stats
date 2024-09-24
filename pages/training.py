@@ -1,4 +1,5 @@
 """Training page to guess songs lyrics."""
+
 import re
 
 import dash
@@ -6,7 +7,11 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html
 from unidecode import unidecode
 
-from pages.utils import extract_and_format_lyrics, get_song_dropdown_menu, return_lyrics_df
+from pages.utils import (
+    extract_and_format_lyrics,
+    get_song_dropdown_menu,
+    return_lyrics_df,
+)
 
 dash.register_page(__name__, path="/training", title="Entraînemnt - NOLPL stats")
 
@@ -106,9 +111,14 @@ def compare_text_and_lyrics(user_text, song_title):
                 continue
             return (
                 [
-                    html.P("⛔ Erreur, paroles tapées incorrectes: " + " ".join(user_words[: i + 1][-5:])),
+                    html.P(
+                        "⛔ Erreur, paroles tapées incorrectes: "
+                        + " ".join(user_words[: i + 1][-5:])
+                    ),
                     html.Br(),
-                    html.P("Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])),
+                    html.P(
+                        "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
+                    ),
                 ],
                 verified_lyrics,
                 user_progress,

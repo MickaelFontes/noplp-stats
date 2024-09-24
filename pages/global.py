@@ -3,6 +3,7 @@
 Layout of the global statistics page, with graphs callbacks
 and some data manipulation.
 """
+
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
@@ -36,7 +37,9 @@ layout = dbc.Container(
         dbc.Button("Télécharger la sélection actuelle", id="btn-global-songs"),
         dcc.Download(id="download-global"),
         html.Hr(),
-        html.H4("Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"),
+        html.H4(
+            "Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"
+        ),
         dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
         dcc.Store(id="store-global-top-songs"),
     ],

@@ -1,4 +1,5 @@
 """Statistics page for singer specific stats."""
+
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
@@ -10,7 +11,10 @@ dash.register_page(__name__, path="/singer", title="Par interprète - NOLPL stat
 
 layout = dbc.Container(
     [
-        html.H4("Statistiques sur les chansons d'un.e interprète", style={"marginBottom": 10}),
+        html.H4(
+            "Statistiques sur les chansons d'un.e interprète",
+            style={"marginBottom": 10},
+        ),
         dcc.Dropdown(
             id="dropdown-singer",
             value="Céline Dion",
