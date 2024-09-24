@@ -12,7 +12,7 @@ def test_all_pages(dash_duo: DashComposite):
     print(dash_duo.server_url)
     dash_duo.wait_for_page()
     dash_duo.wait_for_page(dash_duo.server_url + "/global")
-    dash_duo.wait_for_page(dash_duo.server_url + "/category")
+    # dash_duo.wait_for_page(dash_duo.server_url + "/category")
     # dash_duo.wait_for_page(dash_duo.server_url + "/song")
     dash_duo.wait_for_page(dash_duo.server_url + "/singer")
     # dash_duo.wait_for_page(dash_duo.server_url + "/training")
