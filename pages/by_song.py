@@ -24,7 +24,7 @@ first_card = dbc.Card(
             html.H5("Sélectionner le titre de la chanson", className="card-title"),
             get_song_dropdown_menu(),
             html.Hr(),
-            #html.Div(id="song-details"),
+            html.Div(id="song-details"),
         ]
     )
 )
@@ -107,7 +107,7 @@ def update_timeline(song_name):
 
 
 @callback(
-    #Output("song-details", "children"),
+    Output("song-details", "children"),
     Output("song-lyrics", "children"),
     Input("dropdown-song", "value"),
 )
@@ -149,13 +149,12 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
         lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
     )
 
-    # return [
-    #     html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
-    #     html.P("Classement global: " + str(global_rank), id="global-rank"),
-    #     html.P(
-    #         "Classement Même chanson: " + str(meme_chanson_rank), id="meme-chanson-rank"
-    #     ),
-    #     html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
-    #     html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
-    # ], lyrics
-    return lyrics
+    return [
+        html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),
+        html.P("Classement global: " + str(global_rank), id="global-rank"),
+        html.P(
+            "Classement Même chanson: " + str(meme_chanson_rank), id="meme-chanson-rank"
+        ),
+        html.P("Classement 50 Points: " + str(fifty_points_rank), id="50-points-rank"),
+        html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
+    ], lyrics
