@@ -46,13 +46,13 @@ jobs:
 
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: "128"
+          chrome-version: "128.0.6613.137"
 
       - name: setup-chromedriver
         uses: nanasess/setup-chromedriver@v2.2.0
         with:
           # Optional: do not specify to match Chrome's version
-          chromedriver-version: "128"
+          chromedriver-version: "128.0.6613.137"
       - name: Install dependencies
         run: |
           poetry install
