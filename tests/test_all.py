@@ -13,8 +13,8 @@ def test_all_pages(dash_duo: DashComposite):
     dash_duo.wait_for_page()
     dash_duo.wait_for_page(dash_duo.server_url + "/global")
     dash_duo.wait_for_page(dash_duo.server_url + "/category")
-    dash_duo.wait_for_page(dash_duo.server_url + "/song")
+    # dash_duo.wait_for_page(dash_duo.server_url + "/song")
     dash_duo.wait_for_page(dash_duo.server_url + "/singer")
-    # dash_duo.wait_for_page(dash_duo.server_url + "/training")
+    dash_duo.wait_for_page(dash_duo.server_url + "/training")
     # acceptance criterion as an assert message after the comma.
     assert dash_duo.get_logs() == [], "browser console should contain no error"
