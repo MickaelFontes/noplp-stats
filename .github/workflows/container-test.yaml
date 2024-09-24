@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-test-container:
     name: Test app in container
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: "read"
 
@@ -27,7 +27,7 @@ jobs:
 
   dash-testing:
     name: Run end-to-end Dash tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: "read"
 
