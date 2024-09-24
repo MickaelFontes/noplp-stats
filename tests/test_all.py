@@ -11,10 +11,14 @@ def test_all_pages(dash_duo: DashComposite):
     # keep in mind even the initial rendering can trigger callbacks
     print(dash_duo.server_url)
     dash_duo.wait_for_page()
+    assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/global")
+    assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/category")
+    assert dash_duo.get_logs() == [], "browser console should contain no error"
     # dash_duo.wait_for_page(dash_duo.server_url + "/song")
+    # assert dash_duo.get_logs() == [], "browser console should contain no error"
     dash_duo.wait_for_page(dash_duo.server_url + "/singer")
-    # dash_duo.wait_for_page(dash_duo.server_url + "/training")
-    # acceptance criterion as an assert message after the comma.
+    assert dash_duo.get_logs() == [], "browser console should contain no error"
+    dash_duo.wait_for_page(dash_duo.server_url + "/training")
     assert dash_duo.get_logs() == [], "browser console should contain no error"
