@@ -159,18 +159,3 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     #     html.P("Classement Maestro: " + str(maestro_rank), id="maestro-rank"),
     # ], lyrics
     return lyrics
-
-
-def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
-    """Put verified lyrics in bold.
-
-    Args:
-        text (str): song lyrics
-
-    Returns:
-        list[html]: list of Dash HTML components
-    """
-    if text[0] != "":
-        if text[0][0] == "¤":
-            return [html.B(text[0][1:])]
-    return text

@@ -357,6 +357,20 @@ def return_lyrics_df():
     """
     return lyrics_df
 
+def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
+    """Put verified lyrics in bold.
+
+    Args:
+        text (str): song lyrics
+
+    Returns:
+        list[html]: list of Dash HTML components
+    """
+    if text[0] != "":
+        if text[0][0] == "¤":
+            return [html.B(text[0][1:])]
+    return text
+
 def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
     """Extract and foramt lyrics for quality
 
