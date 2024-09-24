@@ -1,6 +1,7 @@
 """Common utilities functions for all pages."""
 import datetime
 import time
+from functools import reduce
 
 import pandas as pd
 import plotly.express as px
