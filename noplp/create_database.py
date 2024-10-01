@@ -193,21 +193,21 @@ def get_all_page_list(common_songs_page: str, test: bool = False) -> list[str]:
     return pages_list
 
 
-def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
+def return_df_cumsum_category(songs_df: pd.DataFrame, category: str) -> pd.DataFrame:
     """Compute cumulative sum for songs coverage.
 
     Args:
         songs_df (Dataframe): songs dataframe of selected timeframe
-        cat (str): Song category
+        category (str): Song category
 
     Returns:
         Dataframe: Dataframe with "nb" column as cumulative sum
     """
-    if cat == "TOUT":
+    if category == "TOUT":
         same_base_df = songs_df
         same_base_df["category"] = "TOUT"
     else:
-        same_base_df = songs_df[songs_df["category"] == cat]
+        same_base_df = songs_df[songs_df["category"] == category]
     # 1: Order songs by descending (after groupby(date, emissions))
     songs_ranking = (
         same_base_df.groupby(by=["name"], as_index=False)[["date"]]
@@ -239,7 +239,7 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, cat: str) -> pd.DataFrame:
         iter_coverage += [(numerator - nb_dupli) / denominator * 100]
     songs_ranking["rank"] = 1
     songs_ranking["rank"] = songs_ranking["rank"].cumsum()
-    songs_ranking["category"] = cat.split(" ", 1)[1] if "-1" in cat else cat
+    songs_ranking["category"] = category.split(" ", 1)[1] if "-1" in category else category
     songs_ranking["coverage"] = iter_coverage
     return songs_ranking
 
