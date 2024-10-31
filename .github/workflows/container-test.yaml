@@ -44,19 +44,11 @@ jobs:
           curl -sSL https://install.python-poetry.org | python
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: "128.0.6613.137"
-
-      - name: setup-chromedriver
-        uses: nanasess/setup-chromedriver@v2.2.0
-        with:
-          chromedriver-version: "128.0.6613.137"
-
       - name: Install dependencies
         run: |
           poetry install
 
       - name: Launch tests
         run: |
+          export PATH=$PATH:$CHROMEWEBDRIVER
           poetry run pytest --log-cli-level DEBUG --headless
