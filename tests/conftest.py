@@ -1,5 +1,9 @@
-from selenium.webdriver.chrome.options import Options
+import os
 
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+  
+driver = webdriver.Chrome(executable_path=os.getenv("CHROMEWEBDRIVER"))  
 
 def pytest_setup_options():
     options = Options()
