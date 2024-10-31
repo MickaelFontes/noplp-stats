@@ -48,6 +48,11 @@ jobs:
         run: |
           poetry install
 
+      - name: Check chromedriver location and permissions
+        run: |
+          ls -alh $CHROMEWEBDRIVER
+          sudo ls -alh $CHROMEWEBDRIVER
+
       - name: Launch tests
         run: |
           export PATH=$PATH:$CHROMEWEBDRIVER
