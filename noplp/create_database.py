@@ -1,4 +1,4 @@
-"""Script to create the songs database used for data visualization."""
+"""Script to create the song database used for data visualization."""
 
 import argparse
 import asyncio
