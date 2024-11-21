@@ -9,6 +9,7 @@ from pages.utils import (
     extract_and_format_lyrics,
     filter_date,
     filter_song,
+    filter_songs,
     find_singer,
     get_date_range_object,
     get_song_dropdown_menu,
