@@ -86,18 +86,18 @@ class Scrapper:
                     raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
 
         # clean up source from problematic html tag
-        soup =  BeautifulSoup(self._data["source"], 'html.parser')
-        u_tags = soup.find_all('u')
+        soup = BeautifulSoup(self._data["source"], "html.parser")
+        u_tags = soup.find_all("u")
         for u in u_tags:
             u.unwrap()
-        ref_tags = soup.find_all('ref')
+        ref_tags = soup.find_all("ref")
         for ref in ref_tags:
             ref.decompose()
-        br_tags = soup.find_all('br')
+        br_tags = soup.find_all("br")
         for br in br_tags:
             br.decompose()
         self._data["source"] = soup.get_text()
-        
+
         # Check this is a relevant song page
         if not self.check_relevant_song_page():
             raise ScrapperTypePageError(
@@ -244,7 +244,8 @@ class Scrapper:
         else:
             raise ScrapperProcessingDates("data property empty." + f"\n{self._title}")
         regex_section = re.search(
-            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==", source
+            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==",
+            source,
         )
         if regex_section:
             section = regex_section.group(0)

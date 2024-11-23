@@ -23,7 +23,7 @@ async def main():
         "Il avait les mots (Sheryfa Luna)",
         "Cassé",
         "Savoir aimer",
-        "Tu trouveras"
+        "Tu trouveras",
     ]
     session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15))
 
