@@ -7,6 +7,7 @@ from datetime import date
 import aiohttp
 import dateparser
 from aiolimiter import AsyncLimiter
+from bs4 import BeautifulSoup
 
 from noplp.exceptions import (
     ScrapperGetPageError,
@@ -85,9 +86,18 @@ class Scrapper:
                     raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
 
         # clean up source from problematic html tag
-        self._data["source"] = (
-            self._data["source"].replace("<u>", "").replace("</u>", "")
-        )
+        soup =  BeautifulSoup(self._data["source"], 'html.parser')
+        u_tags = soup.find_all('u')
+        for u in u_tags:
+            u.unwrap()
+        ref_tags = soup.find_all('ref')
+        for ref in ref_tags:
+            ref.decompose()
+        br_tags = soup.find_all('br')
+        for br in br_tags:
+            br.decompose()
+        self._data["source"] = soup.get_text()
+        
         # Check this is a relevant song page
         if not self.check_relevant_song_page():
             raise ScrapperTypePageError(
@@ -205,8 +215,6 @@ class Scrapper:
 
         lyrics = regex_search.group(1) + "\n\n\n"
         lyrics = lyrics.replace("'\n\n'", "'\n'").replace("\n\n", "\n")
-        lyrics = re.sub(r"'{2,3}<br />'{2,3}\n", "", lyrics, flags=re.MULTILINE)
-        lyrics = re.sub(r"<br />\n", "", lyrics, flags=re.MULTILINE)
         lyrics = process_raw_lyrics(lyrics)
         lyrics = re.sub(r"'''(.*)'''", r"¤\1", lyrics)
         lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
@@ -338,7 +346,7 @@ class Scrapper:
             int: occurence number
         """
         regex_numero = re.search(
-            r"(?:;|:|-|,|)\s{,3}(\d)\w{,4}\s{,4}\w{,7}(?:sion|ontre)", line
+            r"(?:;|:|-|,|)\s{,3}(\d)\w{,4}\s{,4}\w{,7}(?:sion|ontre|duo)", line
         )
         factor = 1
         # if not usual emission
