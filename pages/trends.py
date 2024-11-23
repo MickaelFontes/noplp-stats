@@ -60,7 +60,6 @@ def update_figure_trends_songs(date_range, list_songs):
     graph_df = filter_date(date_range, graph_df)
     graph_df = graph_df.sort_values(by=["date"], ascending=False)
     graph_df["date"] = pd.to_datetime(graph_df["date"])
-    print(graph_df)
     df_count = graph_df.groupby([graph_df["date"].dt.date, "name"]).size().reset_index(name="Occurrences")
     df_count['Cumulative_Occurrences'] = df_count.groupby('name')['Occurrences'].cumsum()
     fig = px.line(data_frame=df_count, x="date", y="Cumulative_Occurrences",color="name")
