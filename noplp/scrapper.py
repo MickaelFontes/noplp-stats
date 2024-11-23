@@ -163,7 +163,7 @@ class Scrapper:
 
         # Extract lyrics from the source field
         regex_search = re.search(
-            r"==\s{0,5}Paroles\s{0,5}(?:<.*>|)\s{0,5}==[^']*?(''[^=]*'')[\s\S]*?Dates de sortie",
+            r"==[\s']{0,5}Paroles[\s']{0,5}(?:<.*>|)\s{0,5}==[^']*?(''[^=]*'')[\s\S]*?Dates de sortie",
             source,
         )
         if not regex_search:
@@ -244,7 +244,7 @@ class Scrapper:
         else:
             raise ScrapperProcessingDates("data property empty." + f"\n{self._title}")
         regex_section = re.search(
-            r"==\s{0,5}Dates de sortie\s{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==", source
+            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==", source
         )
         if regex_section:
             section = regex_section.group(0)
@@ -346,7 +346,7 @@ class Scrapper:
             int: occurence number
         """
         regex_numero = re.search(
-            r"(?:;|:|-|,|)\s{,3}(\d)\w{,4}\s{,4}\w{,7}(?:sion|ontre|duo)", line
+            r"(?:;|:|-|,|)\s{,3}(\d)\w{,4}\s{,4}\w{,7}(?:sion|ontre|duo|émi)", line
         )
         factor = 1
         # if not usual emission
