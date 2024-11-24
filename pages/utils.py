@@ -170,6 +170,15 @@ def filter_song(song_name):
     """
     return df[df["name"] == song_name]
 
+def filter_songs(songs_list):
+    """Return full songs Dataframe for selected songs.
+    No date_range restriction is applied.
+
+    Returns:
+        Dataframe: all rows about the selected song
+    """
+    return df[df["name"].isin(songs_list)]
+
 
 def get_singers():
     """Return all singers names of full songs Dataframe.
@@ -319,7 +328,7 @@ def get_nb_songs_slider():
     )
 
 
-def get_song_dropdown_menu():
+def get_song_dropdown_menu(multi=False):
     """Return the song Dropdown menu.
 
     Returns:
@@ -327,8 +336,9 @@ def get_song_dropdown_menu():
     """
     return dcc.Dropdown(
         id="dropdown-song",
-        value="2 be 3",
+        value=["2 be 3"] if multi else "2 be 3",
         options=[{"label": i, "value": i} for i in get_songs()],
+        multi=multi
     )
 
 
