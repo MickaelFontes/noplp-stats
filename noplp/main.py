@@ -13,15 +13,18 @@ async def main():
     start_time = time.time()
     scrap = Scrapper(singer_required=False)
     tasks = []
-    songs = (
+    songs = [
         "Stéréo",
-        "Tandem",
-        "Dis-moi",
+        "Tandem (Vanessa Paradis)",
+        "Dis-moi (BB Brunes)",
         "Joe le taxi",
         "Ton invitation",
         "Lola",
-        "Il avait les mots",
-    )
+        "Il avait les mots (Sheryfa Luna)",
+        "Cassé",
+        "Savoir aimer",
+        "Tu trouveras",
+    ]
     session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15))
 
     for song in songs:

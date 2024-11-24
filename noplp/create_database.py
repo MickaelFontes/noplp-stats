@@ -41,7 +41,7 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     pd.DataFrame({"title": full_page_list}).sort_values(by="title").to_csv(
         "data/songs.csv", index=False
     )
-    # Remove problematic and unrelevant songs
+    # Remove problematic and irrelevant songs
     if "Les feuilles mortes" in full_page_list:
         full_page_list.remove("Les feuilles mortes")
 
@@ -239,7 +239,9 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, category: str) -> pd.DataF
         iter_coverage += [(numerator - nb_dupli) / denominator * 100]
     songs_ranking["rank"] = 1
     songs_ranking["rank"] = songs_ranking["rank"].cumsum()
-    songs_ranking["category"] = category.split(" ", 1)[1] if "-1" in category else category
+    songs_ranking["category"] = (
+        category.split(" ", 1)[1] if "-1" in category else category
+    )
     songs_ranking["coverage"] = iter_coverage
     return songs_ranking
 
