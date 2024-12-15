@@ -2,7 +2,7 @@ name: Update NOLPL database
 
 on:
   schedule:
-    - cron: 0 0 * * 3
+    - cron: 0 0 * * *
   workflow_dispatch:
 
 jobs:
@@ -41,9 +41,36 @@ jobs:
           sed -i -e "s@${old_line}@${new_line}@g" app.yaml
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           base: main
           commit-message: "chore(database): update database"
           title: Perform scrapping to get last database version
           branch: update-noplp-database
+
+      - name: Fetch branches to compare
+        run: |
+          git fetch origin update-noplp-database main --depth=1
+
+      - name: Write comment source text using Python script
+        run: |
+          {
+            echo 'SCRIPT_OUTPUT<<EOF'
+            poetry run python noplp/compare_changes.py
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+      - name: Write summary comment in Pull Request
+        uses: actions/github-script@v7
+        env:
+          COMMENT_BODY: ${{env.SCRIPT_OUTPUT}}
+          PR_NUMBER: ${{steps.cpr.outputs.pull-request-number}}
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: process.env.PR_NUMBER,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.COMMENT_BODY
+            })
