@@ -1,8 +1,9 @@
-import subprocess
-import re
-import csv
-import io
 import contextlib
+import csv
+import difflib
+import io
+import subprocess
+
 
 def compare_diff():
     # Get the output of git diff
@@ -15,7 +16,7 @@ def compare_diff():
             "-U0",
         ]
     ).decode("utf-8")
-    
+
     # Initialize lines
     lines = diff_output.splitlines()[4:]
 
@@ -34,19 +35,27 @@ def compare_diff():
             added_lines.append(song_details)
 
     # Initialize variables to store the updated, new and removed songs
-    plus_titles = set([line[0] for line in added_lines])
-    minus_titles = set([line[0] for line in removed_lines])
+    plus_titles = {line[0] for line in added_lines}
+    minus_titles = {line[0] for line in removed_lines}
     updated_titles = plus_titles & minus_titles
-    new_songs = [song for song in added_lines if song[0] in list(plus_titles - updated_titles)]
-    removed_songs =  [song for song in removed_lines if song[0] in list(minus_titles - updated_titles)]
+    new_songs = [
+        song for song in added_lines if song[0] in list(plus_titles - updated_titles)
+    ]
+    removed_songs = [
+        song for song in removed_lines if song[0] in list(minus_titles - updated_titles)
+    ]
 
     # # Loop through the updated lines
     for added_line in added_lines:
         if added_line[0] in updated_titles:
             # Find associated remove line
-            removed_line = next((song for song in removed_lines if song[0] == added_line[0]), None)
+            removed_line = next(
+                (song for song in removed_lines if song[0] == added_line[0]), None
+            )
             # Add the song to the updated songs list
-            updated_songs.append((added_line[0], added_line[1], diff(added_line[2], removed_line[2])))
+            updated_songs.append(
+                (added_line[0], added_line[1], diff(added_line[2], removed_line[2]))
+            )
 
     # Print the results
     print("Updates songs:\n")
@@ -82,19 +91,16 @@ def diff(old_lyrics, new_lyrics):
         print(new_lyrics)
 
     # Récupère la sortie de print() sous forme de chaîne de caractères
-    old_output = old_output.getvalue().strip().replace('\\n', '\n')
-    new_output = new_output.getvalue().strip().replace('\\n', '\n')
+    old_output = old_output.getvalue().strip().replace("\\n", "\n")
+    new_output = new_output.getvalue().strip().replace("\\n", "\n")
 
-    import difflib
-    expected=old_output.splitlines(1)
-    actual=new_output.splitlines(1)
+    expected = old_output.splitlines(1)
+    actual = new_output.splitlines(1)
 
-    diff=difflib.unified_diff(expected, actual)
+    diff_files = difflib.unified_diff(expected, actual)
 
-    # TO avoid Github Markdown interpretation
-    diff_output=''.join(diff).replace("- ", "\- ")
-    return diff_output
-    
+    return diff_files
+
 
 # Call the function
 compare_diff()
