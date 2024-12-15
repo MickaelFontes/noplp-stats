@@ -57,7 +57,7 @@ jobs:
         run: |
           {
             echo 'SCRIPT_OUTPUT<<EOF'
-            poetry run noplp/compare_changes.py
+            poetry run python noplp/compare_changes.py
             echo EOF
           } >> "$GITHUB_ENV"
 
