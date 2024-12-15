@@ -53,6 +53,10 @@ jobs:
           export PATH=$PATH:$CHROMEWEBDRIVER
           poetry run pytest --log-cli-level DEBUG --headless
 
+      - name: get compared branch
+        run: |
+          git fetch origin update-noplp-database --depth=1
+
       - name: Test output diff
         run: |
           {
