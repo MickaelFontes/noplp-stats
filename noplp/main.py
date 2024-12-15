@@ -1,4 +1,4 @@
-"""Testing module."""
+"""Manual testing module."""
 
 import asyncio
 import time
