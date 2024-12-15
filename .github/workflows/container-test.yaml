@@ -55,7 +55,7 @@ jobs:
 
       - name: get compared branch
         run: |
-          git fetch origin update-noplp-database --depth=1
+          git fetch origin update-noplp-database main --depth=1
 
       - name: Test output diff
         run: |
