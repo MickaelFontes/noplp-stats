@@ -97,7 +97,7 @@ def diff(old_lyrics, new_lyrics):
     expected = old_output.splitlines(1)
     actual = new_output.splitlines(1)
 
-    diff_files = difflib.unified_diff(expected, actual)
+    diff_files = "".join(difflib.unified_diff(expected, actual))
 
     return diff_files
 
