@@ -71,12 +71,12 @@ def compare_diff():
 
 def parse_song_print(song, unescape_new_line=False):
     print("<details>")
-    print(f"<summary>{song[0]}, de {song[1]}</summary>\n<pre><code>")
+    print(f"<summary>{song[0]}, de {song[1]}</summary>\n\n<pre><code>")
     if unescape_new_line:
         print(song[2].replace("\\n", "\n"))
     else:
         print(song[2])
-    print("</code></pre>\n</details>")
+    print("</code></pre>\n\n</details>")
 
 
 def diff(old_lyrics, new_lyrics):
@@ -98,8 +98,6 @@ def diff(old_lyrics, new_lyrics):
     actual = new_output.splitlines(1)
 
     diff_files = "".join(difflib.unified_diff(expected, actual))
-    # To avoid markdown interpretation fo single hyphen in comment by GitHub
-    diff_files = diff_files.replace("\n-\n\n", "\n\\-\n\n").replace("\n+\n\n", "\n\\+\n\n")
 
     return diff_files
 
