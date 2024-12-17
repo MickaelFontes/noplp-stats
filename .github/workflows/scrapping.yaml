@@ -53,24 +53,38 @@ jobs:
         run: |
           git fetch origin update-noplp-database main --depth=1
 
-      - name: Write comment source text using Python script
-        run: |
-          {
-            echo 'SCRIPT_OUTPUT<<EOF'
-            poetry run python noplp/compare_changes.py
-            echo EOF
-          } >> "$GITHUB_ENV"
-
-      - name: Write summary comment in Pull Request
+      - name: Write or update summary comment in Pull Request #see https://github.com/actions/runner/issues/1733#issuecomment-2447036317
         uses: actions/github-script@v7
         env:
-          COMMENT_BODY: ${{env.SCRIPT_OUTPUT}}
           PR_NUMBER: ${{steps.cpr.outputs.pull-request-number}}
         with:
           script: |
-            github.rest.issues.createComment({
-              issue_number: process.env.PR_NUMBER,
+            const fs = require('fs');
+            const { execSync } = require('child_process');
+
+            const commentBody = execSync('poetry run python noplp/compare_changes.py').toString();
+
+
+            const {data: comments} = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: process.env.COMMENT_BODY
+              issue_number: process.env.PR_NUMBER,
             })
+            // 41898282 is github-actions[bot] id.
+            const botComment = comments.find(comment => comment.user.id === 41898282)
+
+            if (!botComment) {
+              github.rest.issues.createComment({
+                issue_number: process.env.PR_NUMBER,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentBody
+              })
+            } else {
+              github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody
+              })
+            }
