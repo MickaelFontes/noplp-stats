@@ -62,9 +62,9 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const { exeSync } = require('child_process');
+            const { execSync } = require('child_process');
 
-            const commentBody = exeSync('poetry run python noplp/compare_changes.py').toString();
+            const commentBody = execSync('poetry run python noplp/compare_changes.py').toString();
 
 
             const {data: comments} = await github.rest.issues.listComments({
