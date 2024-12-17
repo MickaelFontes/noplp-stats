@@ -98,6 +98,8 @@ def diff(old_lyrics, new_lyrics):
     actual = new_output.splitlines(1)
 
     diff_files = "".join(difflib.unified_diff(expected, actual))
+    # To avoid markdown interpretation fo single hyphen in comment by GitHub
+    diff_files = diff_files.replace("\n-\n", "\n\\-\n")
 
     return diff_files
 
