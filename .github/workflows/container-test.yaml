@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
-      pull-requests: "write"
 
     steps:
       - name: Checkout
@@ -53,40 +52,3 @@ jobs:
         run: |
           export PATH=$PATH:$CHROMEWEBDRIVER
           poetry run pytest --log-cli-level DEBUG --headless
-      - name: Fetch branches to compare
-        run: |
-          git fetch origin update-noplp-database main --depth=1
-
-      - name: Write or update summary comment in Pull Request #see https://github.com/actions/runner/issues/1733#issuecomment-2447036317
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const { execSync } = require('child_process');
-
-            const commentBody = execSync('poetry run python noplp/compare_changes.py').toString();
-
-
-            const {data: comments} = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.number,
-            })
-            // 41898282 is github-actions[bot] id.
-            const botComment = comments.find(comment => comment.user.id === 41898282)
-
-            if (!botComment) {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: commentBody
-              })
-            } else {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              })
-            }
