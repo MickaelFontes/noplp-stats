@@ -27,9 +27,6 @@ aiohttp = "^3.11.10"
 aiolimiter = "^1.2.1"
 pytest = "^8.3.4"
 
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.8"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
