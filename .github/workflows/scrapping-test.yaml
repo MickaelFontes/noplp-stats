@@ -3,7 +3,9 @@ name: Test scrapping script
 on:
   pull_request:
     branches: ["main"]
-    paths: ["noplp/**"]
+    paths:
+      - "noplp/**"
+      - "poetry.lock"
 
 jobs:
   scraping-testing:
