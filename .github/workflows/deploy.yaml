@@ -24,6 +24,7 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: |
+          poetry self add poetry-plugin-export
           poetry export -f requirements.txt --output requirements.txt --only main
       - uses: actions/upload-artifact@v4
         with:
