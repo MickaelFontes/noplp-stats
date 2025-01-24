@@ -12,4 +12,4 @@ handlers:
     script: auto
 
 env_variables:
-  LAST_UPDATE: '24/12/2024'
+  LAST_UPDATE: '24/01/2025'
