@@ -40,7 +40,7 @@ jobs:
     needs: setup-app-engine
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.url_output }}
+      url: ${{ steps.deploy.outputs.version_url }}
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
