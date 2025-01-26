@@ -51,5 +51,5 @@ General statistics about *N'oubliez Pas Les Paroles*, including:
 
 ## License
 
-The data, from [Fandom Wiki](https://n-oubliez-pas-les-paroles.fandom.com/fr/), is under CC-BY-SA license.
+The data, from [Fandom Wiki](https://n-oubliez-pas-les-paroles.fandom.com/fr/), is under CC-BY-SA license.  
 The web app code is under MIT license.
