@@ -1,4 +1,4 @@
-name: Test scrapping script
+name: "Test: scrapping script"
 
 on:
   pull_request:
