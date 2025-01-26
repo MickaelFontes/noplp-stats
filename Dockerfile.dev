@@ -43,4 +43,5 @@ COPY app.py ./
 COPY pages/ ./pages
 
 EXPOSE 8080
+HEALTHCHECK CMD python -c "import requests; import sys; sys.exit(0) if requests.get('http://127.0.0.1:8080/').status_code == 200 else sys.exit(1);"
 ENTRYPOINT ["gunicorn", "-b", ":8080", "-w", "2", "app:server"]
