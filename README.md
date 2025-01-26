@@ -31,7 +31,7 @@ General statistics about *N'oubliez Pas Les Paroles*, including:
 
 * Most popular song ranking in each category (Points, Maestro, Même chanson, etc.)
 * Dot chart of song occurences in the show
-* Song lyrics
+* Song lyrics, based on the [Fandom Wiki](https://n-oubliez-pas-les-paroles.fandom.com/fr/) lyrics, **verified on the show when written in bold**
 
 ![Song statistics page](docs/noplp-stats-song.png)
 
@@ -39,6 +39,13 @@ General statistics about *N'oubliez Pas Les Paroles*, including:
 
 * All songs of the same singer, sorted by popularity on the show!
 * Dot chart of all songs occurences in the show, for the given singer
+
+![Singer statistics page](docs/noplp-stats-singer.png)
+
+### Training page
+
+* You think you remember the lyrics? Check your knwoledge of a song on the training page!
+* Song lyrics based on the [Fandom Wiki](https://n-oubliez-pas-les-paroles.fandom.com/fr/) lyrics, **verified on the show when written in bold!**
 
 ![Singer statistics page](docs/noplp-stats-singer.png)
 
