@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: ["main"]
+    branches: [main]
 
 jobs:
   setup-app-engine:
@@ -38,6 +38,9 @@ jobs:
       contents: "read"
       id-token: "write" # for OpenID Connect JWT Token
     needs: setup-app-engine
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url_output }}
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
@@ -65,13 +68,15 @@ jobs:
             --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
 
   deploy-pr-app-engine:
-    name: Deploy App Engine (dev PR)
+    name: Deploy App Engine (pull_request)
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
       id-token: "write" # for OpenID Connect JWT Token
     needs: setup-app-engine
-    environment: pull_request
+    environment:
+      name: pull_request
+      url: ${{ steps.deploy.outputs.version_url }}
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
