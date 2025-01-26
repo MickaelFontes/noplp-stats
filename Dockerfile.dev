@@ -1,28 +1,41 @@
-# The builder image, used to build the virtual environment
-FROM python:3.10 as builder
+FROM python:3.10-slim AS builder
 
-RUN pip install poetry
+# --- Install Poetry ---
+ARG POETRY_VERSION=2.0
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+ENV POETRY_HOME=/opt/poetry
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_IN_PROJECT=1
+ENV POETRY_VIRTUALENVS_CREATE=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+# Tell Poetry where to place its cache and virtual environment
+ENV POETRY_CACHE_DIR=/opt/.cache
+
+RUN pip install "poetry==${POETRY_VERSION}"
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
-RUN touch README.md
+# --- Reproduce the environment ---
+# You can comment the following two lines if you prefer to manually install
+#   the dependencies from inside the container.
+COPY pyproject.toml poetry.lock /app/
 
+# Install the dependencies and clear the cache afterwards.
+#   This may save some MBs.
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-# The runtime image, used to just run the code provided its virtual environment
-FROM python:3.10 as runtime
+# Now let's build the runtime image from the builder.
+#   We'll just copy the env and the PATH reference.
+FROM python:3.10-slim AS runtime
 
-ENV VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH" \
-    HOST=0.0.0.0 \
-    DASH_DEBUG_MODE=True
+ENV VIRTUAL_ENV=/app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+ENV HOST=0.0.0.0
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+
+WORKDIR /app
 
 COPY assets/ ./assets
 COPY data/ ./data
@@ -30,4 +43,4 @@ COPY app.py ./
 COPY pages/ ./pages
 
 EXPOSE 8080
-CMD ["gunicorn", "-b", ":8080", "-w", "2", "app:server"]
+ENTRYPOINT ["gunicorn", "-b", ":8080", "-w", "2", "app:server"]
