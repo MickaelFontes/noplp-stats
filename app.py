@@ -16,7 +16,7 @@ app = Dash(
 server = app.server
 app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"
 # To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
-app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", False)))
+app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
 
 app.layout = html.Div(
     [
