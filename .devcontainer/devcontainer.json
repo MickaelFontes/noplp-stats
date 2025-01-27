@@ -7,11 +7,14 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-python.autopep8",
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.debugpy"
-			]
+        "ms-python.autopep8",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        "ms-python.flake8",
+        "ms-python.pylint",
+        "vivaxy.vscode-conventional-commits"
+      ]
 		}
 	},
 	// Features to add to the dev container. More info: https://containers.dev/features.
