@@ -38,9 +38,7 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     full_page_list = list(set(full_page_list))
     all_songs = []
     scrap = Scrapper(singer_required=False)
-    pd.DataFrame({"title": full_page_list}).sort_values(by="title").to_csv(
-        "data/songs.csv", index=False
-    )
+
     # Remove problematic and irrelevant songs
     if "Les feuilles mortes" in full_page_list:
         full_page_list.remove("Les feuilles mortes")
@@ -84,7 +82,7 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     )
     songs_df["date"] = pd.to_datetime(songs_df["date"])
     songs_df.sort_values(ascending=True, by=["name", "singer", "date"], inplace=True)
-    songs_df.to_csv("data/db_test_full.csv", index=False)
+    songs_df.to_csv("data/db_songs.csv", index=False)
     lyrics_df = pd.DataFrame(
         {
             "name": [song.title for song in real_songs],
@@ -249,7 +247,7 @@ def return_df_cumsum_category(songs_df: pd.DataFrame, category: str) -> pd.DataF
 def compute_cumulative_graph() -> None:
     """Computes and saves the global coverage graph data."""
     # 1. Read new CSV version
-    df_new = pd.read_csv("data/db_test_full.csv", index_col=None)
+    df_new = pd.read_csv("data/db_songs.csv", index_col=None)
     df_new["date"] = pd.to_datetime(df_new["date"])
     df_new["singer"] = df_new["singer"].astype("str")
     df_new["name"] = df_new["name"].astype("str")
