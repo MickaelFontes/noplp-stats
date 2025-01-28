@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.express as px
 from dash import dcc, html
 
-df = pd.read_csv("data/db_test_full.csv", index_col=None)
+df = pd.read_csv("data/db_songs.csv", index_col=None)
 df["date"] = pd.to_datetime(df["date"])
 df["singer"] = df["singer"].astype("str")
 df["name"] = df["name"].astype("str")
