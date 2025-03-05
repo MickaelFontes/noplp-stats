@@ -20,7 +20,7 @@ nbformat = "^5.10.4"
 black = "^25.1.0"
 flake8 = "^7.1.1"
 pylint = "^3.3.3"
-dateparser = "^1.1.8"
+dateparser = "^1.2.1"
 dash = {extras = ["testing"], version = "^2.18.2"}
 urllib3 = "^1.26.20"
 aiohttp = "^3.11.11"
