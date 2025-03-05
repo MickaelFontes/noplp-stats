@@ -1,4 +1,5 @@
 """Application file for noplp-stats"""
+
 import os
 
 import dash
@@ -12,7 +13,7 @@ app = Dash(
     use_pages=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     update_title="",
-    assets_folder="pages/assets"
+    assets_folder="pages/assets",
 )
 server = app.server
 app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"

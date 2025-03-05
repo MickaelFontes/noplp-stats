@@ -7,6 +7,7 @@ from dash import Input, Output, callback, ctx, dcc, html
 
 from pages.utils import (
     compare_to_global,
+    download_name,
     filter_date,
     filter_top_songs,
     get_ancienne_formule_options,
@@ -135,23 +136,44 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
     Output("download-category", "data"),
     Input("btn-category-songs", "n_clicks"),
     Input("store-category-top-songs", "data"),
+    Input("nb-songs", "value"),
+    Input("category-year_slider", "value"),
+    Input("category-selector", "value"),
+    Input("points-selector", "value"),
     prevent_initial_call=True,
 )
-def download_songs_list(_: int, data_stored: str):
+def download_songs_list(
+    _: int,
+    data_stored: str,
+    nb_songs: int,
+    date_range: list[int],
+    category: str,
+    points_selector: list[int],
+):
     # pylint: disable=useless-type-doc, useless-param-doc
     """Download function to save top songs
 
     Args:
         _ (int): nb of clicks
         data_stored (str): content of dcc.Store (Dataframe)
+        nb_songs (int): number of songs
+        date_range (list(int)): begin and end date
+        category (str): songs category
+        points_selector (list[int]): points categories selected
 
     Returns:
         dict: downloaded content
     """
     if ctx.triggered_id == "btn-category-songs":
         export_df = get_download_content_from_store(data_stored)
+        file_category_name = (
+            f"{category}-{'_'.join(str(x) for x in points_selector)}"
+            if category == "Points"
+            else category
+        )
+        filename = download_name(file_category_name, nb_songs, date_range)
         return {
             "content": export_df.to_csv(),
-            "filename": "category-top-songs-NOPLP.csv",
+            "filename": filename,
         }
     return None

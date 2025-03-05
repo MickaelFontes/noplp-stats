@@ -398,3 +398,18 @@ def extract_and_format_lyrics(lyrics_string: str) -> list[html.P]:
         )
         lyrics.append(paragraph)
     return lyrics
+
+
+def download_name(prefix, nb_songs, date_range):
+    """Generate filename for CSV download
+
+    Args:
+        prefix (str): file title
+        nb_songs (int): number of songs in the CSV
+        date_range (list[int]): begin and end date of the CSV data
+
+    Returns:
+        str: CSV filename
+    """
+    begin, end = [unix_to_datetime(t).date() for t in date_range]
+    return f"NOPLP-{prefix}-top-{nb_songs}-{begin}-{end}.csv"

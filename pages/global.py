@@ -11,6 +11,7 @@ from dash import Input, Output, callback, ctx, dcc, html
 
 from pages.utils import (
     compare_to_global,
+    download_name,
     filter_date,
     filter_top_songs,
     get_date_range_object,
@@ -80,20 +81,25 @@ def update_figure(date_range, nb_songs):
     Output("download-global", "data"),
     Input("btn-global-songs", "n_clicks"),
     Input("store-global-top-songs", "data"),
+    Input("nb-songs", "value"),
+    Input("global-year_slider", "value"),
     prevent_initial_call=True,
 )
-def download_songs_list(_, data_stored):
+def download_songs_list(_, data_stored, nb_songs, date_range):
     # pylint: disable=useless-type-doc, useless-param-doc
     """Download function to save top songs
 
     Args:
         _ (int): nb of clicks
         data_stored (str): content of dcc.Store (Dataframe)
+        nb_songs (int): number of songs
+        date_range (list[int]): begin and end date
 
     Returns:
         dict: downloaded content
     """
     if ctx.triggered_id == "btn-global-songs":
         export_df = get_download_content_from_store(data_stored)
-        return {"content": export_df.to_csv(), "filename": "global-top-songs-NOPLP.csv"}
+        filename = download_name("global", nb_songs, date_range)
+        return {"content": export_df.to_csv(), "filename": filename}
     return None
