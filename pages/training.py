@@ -13,7 +13,7 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/training", title="Entraînemnt - NOLPL stats")
+dash.register_page(__name__, path="/training", title="Entraînement - NOLPL stats")
 
 layout = dbc.Container(
     [
@@ -87,16 +87,19 @@ def compare_text_and_lyrics(user_text, song_title):
         list[hmtl]|str: List of Dash html components
     """
     if user_text:
+        puntuaction_marks = [",", ";", ":", "?", "!", "."]
+        user_text = remove_multiple_strings(user_text, puntuaction_marks)
         lyrics_df = return_lyrics_df()
         raw_lyrics = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
         lyrics = raw_lyrics.replace("¤", "")
 
-        # Remove optional text inside parenthesis and punctuation sings
-        lyrics = re.sub(r"\(.*?\)", r"", lyrics, flags=re.MULTILINE)
-        lyrics = re.sub(r"[,;:?!.]", r"", lyrics, flags=re.MULTILINE)
+        # Remove optional text inside parenthesis or brackets and punctuation marks
+        lyrics = re.sub(r"\([^()]*?\)", r"", lyrics, flags=re.MULTILINE)
+        lyrics = re.sub(r"\[[^\[\])]*?\]", r"", lyrics, flags=re.MULTILINE)
+        lyrics = remove_multiple_strings(lyrics, puntuaction_marks)
 
         user_words = [
-            x for x in re.split(r" |'", user_text.replace("\n", " ")) if x != ""
+            x for x in re.split(r" |'|-", user_text.replace("\n", " ")) if x != ""
         ]
         lyrics_words = [
             x for x in re.split(r" |'|-", lyrics.replace("\\n", " ")) if x != ""
@@ -104,25 +107,27 @@ def compare_text_and_lyrics(user_text, song_title):
         verified_lyrics = []
         user_progress = 0
         for i, word in enumerate(user_words):
-            verified_lyrics, user_progress = get_lyrics_approx_until_cut(
-                raw_lyrics, len(lyrics_words), i + 1
-            )
-            if unidecode(word.lower()) == unidecode(lyrics_words[i].lower()):
-                continue
-            return (
-                [
-                    html.P(
-                        "⛔ Erreur, paroles tapées incorrectes: "
-                        + " ".join(user_words[: i + 1][-5:])
-                    ),
-                    html.Br(),
-                    html.P(
-                        "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
-                    ),
-                ],
-                verified_lyrics,
-                user_progress,
-            )
+            if unidecode(word.lower()) != unidecode(lyrics_words[i].lower()):
+                verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+                    raw_lyrics, len(lyrics_words), i + 1
+                )
+                return (
+                    [
+                        html.P(
+                            "⛔ Erreur, paroles tapées incorrectes: "
+                            + " ".join(user_words[: i + 1][-5:])
+                        ),
+                        html.Br(),
+                        html.P(
+                            "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
+                        ),
+                    ],
+                    verified_lyrics,
+                    user_progress,
+                )
+        verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+            raw_lyrics, len(lyrics_words), len(user_words) + 1
+        )
         return "✅ Tous les mots tapés sont valides !", verified_lyrics, user_progress
     return "", "", 0
 
@@ -143,3 +148,18 @@ def get_lyrics_approx_until_cut(lyrics: str, nb_total_words: int, nb_found_words
     nb_to_show = int(nb_lines * user_progress) + 1
     raw_selected_lyrics = "\\n".join(lyrics.split("\\n")[:nb_to_show])
     return extract_and_format_lyrics(raw_selected_lyrics), int(user_progress * 100)
+
+
+def remove_multiple_strings(text: str, to_remove: list[str]):
+    """Removes multiple strings from a text.
+
+    Args:
+        text (str): raw text to clean
+        to_remove (list[str]): list of strings to remove
+
+    Returns:
+        str: text with all listed strings removed
+    """
+    for string_to_remove in to_remove:
+        text = text.replace(string_to_remove, "")
+    return text
