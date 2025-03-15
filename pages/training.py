@@ -91,12 +91,13 @@ def compare_text_and_lyrics(user_text, song_title):
         raw_lyrics = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
         lyrics = raw_lyrics.replace("¤", "")
 
-        # Remove optional text inside parenthesis and punctuation sings
-        lyrics = re.sub(r"\(.*?\)", r"", lyrics, flags=re.MULTILINE)
+        # Remove optional text inside parenthesis or brackets and punctuation sings
+        lyrics = re.sub(r"\([^()]*?\)", r"", lyrics, flags=re.MULTILINE)
+        lyrics = re.sub(r"\[[^\[\])]*?\]", r"", lyrics, flags=re.MULTILINE)
         lyrics = re.sub(r"[,;:?!.]", r"", lyrics, flags=re.MULTILINE)
 
         user_words = [
-            x for x in re.split(r" |'", user_text.replace("\n", " ")) if x != ""
+            x for x in re.split(r" |'|-", user_text.replace("\n", " ")) if x != ""
         ]
         lyrics_words = [
             x for x in re.split(r" |'|-", lyrics.replace("\\n", " ")) if x != ""
