@@ -105,25 +105,27 @@ def compare_text_and_lyrics(user_text, song_title):
         verified_lyrics = []
         user_progress = 0
         for i, word in enumerate(user_words):
-            verified_lyrics, user_progress = get_lyrics_approx_until_cut(
-                raw_lyrics, len(lyrics_words), i + 1
-            )
-            if unidecode(word.lower()) == unidecode(lyrics_words[i].lower()):
-                continue
-            return (
-                [
-                    html.P(
-                        "⛔ Erreur, paroles tapées incorrectes: "
-                        + " ".join(user_words[: i + 1][-5:])
-                    ),
-                    html.Br(),
-                    html.P(
-                        "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
-                    ),
-                ],
-                verified_lyrics,
-                user_progress,
-            )
+            if unidecode(word.lower()) != unidecode(lyrics_words[i].lower()):
+                verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+                    raw_lyrics, len(lyrics_words), i + 1
+                )
+                return (
+                    [
+                        html.P(
+                            "⛔ Erreur, paroles tapées incorrectes: "
+                            + " ".join(user_words[: i + 1][-5:])
+                        ),
+                        html.Br(),
+                        html.P(
+                            "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
+                        ),
+                    ],
+                    verified_lyrics,
+                    user_progress,
+                )
+        verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+            raw_lyrics, len(lyrics_words), len(user_words) + 1
+        )
         return "✅ Tous les mots tapés sont valides !", verified_lyrics, user_progress
     return "", "", 0
 
