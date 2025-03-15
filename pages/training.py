@@ -13,7 +13,7 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/training", title="Entraînemnt - NOLPL stats")
+dash.register_page(__name__, path="/training", title="Entraînement - NOLPL stats")
 
 layout = dbc.Container(
     [
