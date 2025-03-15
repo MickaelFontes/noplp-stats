@@ -87,14 +87,16 @@ def compare_text_and_lyrics(user_text, song_title):
         list[hmtl]|str: List of Dash html components
     """
     if user_text:
+        puntuaction_marks = [",", ";", ":", "?", "!", "."]
+        user_text = remove_multiple_strings(user_text, puntuaction_marks)
         lyrics_df = return_lyrics_df()
         raw_lyrics = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
         lyrics = raw_lyrics.replace("¤", "")
 
-        # Remove optional text inside parenthesis or brackets and punctuation sings
+        # Remove optional text inside parenthesis or brackets and punctuation marks
         lyrics = re.sub(r"\([^()]*?\)", r"", lyrics, flags=re.MULTILINE)
         lyrics = re.sub(r"\[[^\[\])]*?\]", r"", lyrics, flags=re.MULTILINE)
-        lyrics = re.sub(r"[,;:?!.]", r"", lyrics, flags=re.MULTILINE)
+        lyrics = remove_multiple_strings(lyrics, puntuaction_marks)
 
         user_words = [
             x for x in re.split(r" |'|-", user_text.replace("\n", " ")) if x != ""
@@ -146,3 +148,18 @@ def get_lyrics_approx_until_cut(lyrics: str, nb_total_words: int, nb_found_words
     nb_to_show = int(nb_lines * user_progress) + 1
     raw_selected_lyrics = "\\n".join(lyrics.split("\\n")[:nb_to_show])
     return extract_and_format_lyrics(raw_selected_lyrics), int(user_progress * 100)
+
+
+def remove_multiple_strings(text: str, to_remove: list[str]):
+    """Removes multiple strings from a text.
+
+    Args:
+        text (str): raw text to clean
+        to_remove (list[str]): list of strings to remove
+
+    Returns:
+        str: text with all listed strings removed
+    """
+    for string_to_remove in to_remove:
+        text = text.replace(string_to_remove, "")
+    return text
