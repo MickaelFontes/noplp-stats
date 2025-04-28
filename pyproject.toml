@@ -23,7 +23,7 @@ pylint = "^3.3.4"
 dateparser = "^1.2.1"
 dash = {extras = ["testing"], version = "^2.18.2"}
 urllib3 = "^1.26.20"
-aiohttp = "^3.11.13"
+aiohttp = "^3.11.18"
 aiolimiter = "^1.2.1"
 pytest = "^8.3.4"
 
