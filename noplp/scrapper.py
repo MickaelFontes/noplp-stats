@@ -311,14 +311,16 @@ class Scrapper:
             Tuple[str, int]: category name, nb of points if any.
         """
         regex = re.search(
-            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi)",
+            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi|Tirée)",
             line,
+            flags=re.IGNORECASE
         )
         if regex:
             points_text = regex.group(1)
+            print(self._title, points_text)
             checks = ["point", "prise"]
-            if not any(x in points_text for x in checks):
-                return points_text, -1
+            if not any(x in points_text.lower() for x in checks):
+                return points_text.capitalize(), -1
             return "Points", int(points_text[0] + "0")  # manual fix for found typos
         if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line):
             gain = regex_money.group(1)

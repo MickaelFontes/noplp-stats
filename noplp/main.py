@@ -15,11 +15,10 @@ async def main():
     tasks = []
     songs = [
         "Stéréo",
-        "Tandem (Vanessa Paradis)",
+        "La dame de Haute-Savoie",
         "Dis-moi (BB Brunes)",
         "Joe le taxi",
         "Ton invitation",
-        "Lola",
         "Il avait les mots (Sheryfa Luna)",
         "Cassé",
         "Savoir aimer",
@@ -35,7 +34,7 @@ async def main():
     time_difference = time.time() - start_time
     print(f"Scraping time: {time_difference:.2f} seconds.")
 
-    song_api = await scrap.get_song(page="Il suffira d'un signe", session=session)
+    song_api = await scrap.get_song(page="La dame de Haute-Savoie", session=session)
     for i, cat in enumerate(song_api.categories):
         print(cat, ": ", song_api.emissions[i], song_api.dates[i], song_api.points[i])
     await session.close()
