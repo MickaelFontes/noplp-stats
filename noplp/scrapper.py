@@ -317,7 +317,6 @@ class Scrapper:
         )
         if regex:
             points_text = regex.group(1)
-            print(self._title, points_text)
             checks = ["point", "prise"]
             if not any(x in points_text.lower() for x in checks):
                 return points_text.capitalize(), -1
