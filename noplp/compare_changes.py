@@ -11,8 +11,8 @@ def compare_diff():
         [
             "git",
             "diff",
-            "origin/update-noplp-database:data/db_lyrics.csv",
             "origin/main:data/db_lyrics.csv",
+            "origin/update-noplp-database:data/db_lyrics.csv",
             "-U0",
         ]
     ).decode("utf-8")
@@ -66,10 +66,13 @@ def compare_diff():
         parse_song_print(song, unescape_new_line=True)
     print("\n----\nRemoved songs:\n")
     for song in sorted(list(removed_songs), key=lambda x: x[0]):
-        parse_song_print(song, unescape_new_line=True)
+        parse_song_print(song, title_only=True)
 
 
-def parse_song_print(song, unescape_new_line=False):
+def parse_song_print(song, unescape_new_line=False, title_only=False):
+    if title_only:
+        print(f"* {song[0]}, de {song[1]}\n")
+        return
     print("<details>")
     print(f"<summary>{song[0]}, de {song[1]}</summary>\n\n<pre><code>")
     if unescape_new_line:
