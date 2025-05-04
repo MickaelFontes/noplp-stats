@@ -3,8 +3,22 @@ name: Deploy to App Engine
 on:
   push:
     branches: [main]
+    paths:
+      - pages/**
+      - data/**
+      - app.py
+      - poetry.lock
+      - app.yaml
+      - .gcloudignore
   pull_request:
     branches: [main]
+    paths:
+      - pages/**
+      - data/**
+      - app.py
+      - poetry.lock
+      - app.yaml
+      - .gcloudignore
 
 jobs:
   setup-app-engine:
