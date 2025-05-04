@@ -53,9 +53,10 @@ def compare_diff():
                 (song for song in removed_lines if song[0] == added_line[0]), None
             )
             # Add the song to the updated songs list
-            updated_songs.append(
-                (added_line[0], added_line[1], diff(added_line[2], removed_line[2]))
-            )
+            if removed_line[2] != added_line[2]:
+                updated_songs.append(
+                    (added_line[0], added_line[1], diff(removed_line[2], added_line[2]))
+                )
 
     # Print the results
     print("Updates songs:\n")
