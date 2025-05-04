@@ -54,7 +54,7 @@ def compare_diff():
             )
             # Add the song to the updated songs list
             updated_songs.append(
-                (added_line[0], added_line[1], diff(added_line[2], removed_line[2]))
+                (added_line[0], added_line[1], diff(removed_line[2], added_line[2]))
             )
 
     # Print the results
