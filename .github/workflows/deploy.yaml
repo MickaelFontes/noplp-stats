@@ -6,6 +6,7 @@ on:
     paths:
       - pages/**
       - data/**
+      - .github/workflows/deploy.yaml
       - app.py
       - poetry.lock
       - app.yaml
@@ -15,6 +16,7 @@ on:
     paths:
       - pages/**
       - data/**
+      - .github/workflows/deploy.yaml
       - app.py
       - poetry.lock
       - app.yaml
