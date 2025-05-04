@@ -311,7 +311,7 @@ class Scrapper:
             Tuple[str, int]: category name, nb of points if any.
         """
         regex = re.search(
-            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi|Tirée)",
+            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi|Tirée|mots imposés)",
             line,
             flags=re.IGNORECASE
         )
