@@ -319,7 +319,7 @@ def get_nb_songs_slider():
     )
 
 
-def get_song_dropdown_menu():
+def get_song_dropdown_menu(song_title="2 be 3"):
     """Return the song Dropdown menu.
 
     Returns:
@@ -327,7 +327,7 @@ def get_song_dropdown_menu():
     """
     return dcc.Dropdown(
         id="dropdown-song",
-        value="2 be 3",
+        value=song_title,
         options=[{"label": i, "value": i} for i in get_songs()],
     )
 
