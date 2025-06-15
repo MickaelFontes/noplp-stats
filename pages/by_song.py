@@ -77,7 +77,7 @@ def layout(song_title="2 be 3", **_):
     Input("url", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
-    if url_pathname[:6] == "/song/":
+    if url_pathname[:5] == "/song":
         if unquote(url_pathname)[6:] == song_title:
             return dash.no_update
         song_url = f"/song/{song_title}"
