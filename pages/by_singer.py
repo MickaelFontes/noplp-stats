@@ -12,7 +12,7 @@ dash.register_page(__name__, path="/singer", path_template="/singer/<singer_name
                    title="Par interprète - NOLPL stats")
 
 
-def layout(singer_name="Celine Dion"):
+def layout(singer_name="Céline Dion"):
     return dbc.Container(
         [
             dcc.Location(id="url-singer", refresh=False),
