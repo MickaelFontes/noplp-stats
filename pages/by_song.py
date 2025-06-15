@@ -4,7 +4,7 @@ from urllib.parse import unquote
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
     extract_and_format_lyrics,
@@ -69,6 +69,18 @@ def layout(song_title="2 be 3", **_):
         ],
         style={"marginTop": 20},
     )
+
+
+clientside_callback(
+    """
+    function(song_title) {
+        document.title = song_title + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-song", "value"),
+    prevent_initial_call=True
+)
 
 
 @callback(

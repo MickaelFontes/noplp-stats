@@ -36,6 +36,7 @@ app.layout = html.Div(
             dark=True,
         ),
         dash.page_container,
+        html.Div(id="blank-output"),
         bottom,
     ]
 )

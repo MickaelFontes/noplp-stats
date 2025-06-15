@@ -4,7 +4,7 @@ from urllib.parse import unquote
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers
 
@@ -34,6 +34,18 @@ def layout(singer_name="Céline Dion"):
         ],
         style={"marginTop": 20},
     )
+
+
+clientside_callback(
+    """
+    function(singer_name) {
+        document.title = singer_name + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-singer", "value"),
+    prevent_initial_call=True
+)
 
 
 @callback(
