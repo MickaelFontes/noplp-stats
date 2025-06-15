@@ -1,34 +1,66 @@
 """Statistics page for singer specific stats."""
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers
 
-dash.register_page(__name__, path="/singer", title="Par interprète - NOLPL stats")
+dash.register_page(__name__, path="/singer", path_template="/singer/<singer_name>",
+                   title="Par interprète - NOLPL stats")
 
-layout = dbc.Container(
-    [
-        html.H4(
-            "Statistiques sur les chansons d'un.e interprète",
-            style={"marginBottom": 10},
-        ),
-        dcc.Dropdown(
-            id="dropdown-singer",
-            value="Céline Dion",
-            options=[{"label": i, "value": i} for i in get_singers()],
-            style={"marginBottom": 10},
-        ),
-        get_date_range_object(),
-        dcc.Graph(id="categories-graph-singer"),
-        html.Hr(),
-        html.H4("Apparitions de ses chansons dans l'émission"),
-        dcc.Graph(id="timeline-graph-singer"),
-    ],
-    style={"marginTop": 20},
+
+def layout(singer_name="Céline Dion"):
+    return dbc.Container(
+        [
+            dcc.Location(id="url-singer", refresh=False),
+            html.H4(
+                "Statistiques sur les chansons d'un.e interprète",
+                style={"marginBottom": 10},
+            ),
+            dcc.Dropdown(
+                id="dropdown-singer",
+                value=singer_name,
+                options=[{"label": i, "value": i} for i in get_singers()],
+                style={"marginBottom": 10},
+            ),
+            get_date_range_object(),
+            dcc.Graph(id="categories-graph-singer"),
+            html.Hr(),
+            html.H4("Apparitions de ses chansons dans l'émission"),
+            dcc.Graph(id="timeline-graph-singer"),
+        ],
+        style={"marginTop": 20},
+    )
+
+
+clientside_callback(
+    """
+    function(singer_name) {
+        document.title = singer_name + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-singer", "value"),
+    prevent_initial_call=True
 )
+
+
+@callback(
+    Output("url-singer", "pathname"),
+    Input("dropdown-singer", "value"),
+    Input("url-singer", "pathname"),
+)
+def update_url_from_dropdown_singer(singer_name, url_pathname):
+    len_singer_prefix = len("/singer")
+    if url_pathname[:len_singer_prefix] == "/singer":
+        if unquote(url_pathname)[len_singer_prefix+1:] == singer_name:
+            return dash.no_update
+        singer_url = f"/singer/{singer_name}"
+        return singer_url
+    return dash.no_update
 
 
 @callback(

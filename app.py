@@ -27,7 +27,7 @@ app.layout = html.Div(
                 dbc.NavLink("Accueil", href="/", active="exact"),
                 dbc.NavLink("Global", href="/global", active="exact"),
                 dbc.NavLink("Par catégorie", href="/category", active="exact"),
-                dbc.NavLink("Par chanson", href="/song", active="exact"),
+                dbc.NavLink("Par chanson", href="/song", active="partial"),
                 dbc.NavLink("Par interprète", href="/singer", active="exact"),
                 dbc.NavLink("Entraînement", href="/training", active="exact"),
             ],
@@ -36,6 +36,7 @@ app.layout = html.Div(
             dark=True,
         ),
         dash.page_container,
+        html.Div(id="blank-output"),
         bottom,
     ]
 )

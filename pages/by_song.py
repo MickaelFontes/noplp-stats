@@ -1,9 +1,10 @@
 """Statistics page for song specific stats."""
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
     extract_and_format_lyrics,
@@ -17,42 +18,84 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/song", title="Par chanson - NOLPL stats")
-
-first_card = dbc.Card(
-    dbc.CardBody(
-        [
-            html.H5("Sélectionner le titre de la chanson", className="card-title"),
-            get_song_dropdown_menu(),
-            html.Hr(),
-            html.Div(id="song-details"),
-        ]
-    )
-)
+dash.register_page(__name__, path="/song", path_template="/song/<song_title>",
+                   title="Par chanson - NOLPL stats")
 
 
-layout = dbc.Container(
-    [
-        html.H4("Statistiques sur la chanson sélectionnée"),
-        dbc.Row(
+def layout(song_title="2 be 3", **_):
+    song_title = unquote(song_title)
+
+    first_card = dbc.Card(
+        dbc.CardBody(
             [
-                dbc.Col(first_card, lg=6, xs=0),
-                dbc.Col(dcc.Graph(id="categories-graph-song"), lg=6, xs=0),
-            ],
-            align="center",
-            justify="center",
-            style={"height": "100%"},
-        ),
-        get_date_range_object(),
-        html.Hr(),
-        html.H4("Apparitions de la chanson sur l'émission"),
-        dcc.Graph(id="timeline-graph-song"),
-        html.Hr(),
-        html.H4("Paroles"),
-        html.Div(id="song-lyrics", style={"textAlign": "center"}),
-    ],
-    style={"marginTop": 20},
+                html.H5("Sélectionner le titre de la chanson", className="card-title"),
+                get_song_dropdown_menu(song_title),
+                html.Hr(),
+                html.Div(
+                    [
+                        html.P(["Interprète: "]),
+                        html.P("Classement global: "),
+                        html.P(
+                            "Classement Même chanson: "
+                        ),
+                        html.P("Classement 50 Points: "),
+                        html.P("Classement Maestro: "),
+                    ],
+                    id="song-details"),
+            ]
+        )
+    )
+
+    return dbc.Container(
+        [
+            dcc.Location(id="url-song", refresh=False),
+            html.H4("Statistiques sur la chanson sélectionnée"),
+            dbc.Row(
+                [
+                    dbc.Col(first_card, lg=6, xs=0),
+                    dbc.Col(dcc.Graph(id="categories-graph-song"), lg=6, xs=0),
+                ],
+                align="center",
+                justify="center",
+                style={"height": "100%"},
+            ),
+            get_date_range_object(),
+            html.Hr(),
+            html.H4("Apparitions de la chanson sur l'émission"),
+            dcc.Graph(id="timeline-graph-song"),
+            html.Hr(),
+            html.H4("Paroles"),
+            html.Div(id="song-lyrics", style={"textAlign": "center"}),
+        ],
+        style={"marginTop": 20},
+    )
+
+
+clientside_callback(
+    """
+    function(song_title) {
+        document.title = song_title + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-song", "value"),
+    prevent_initial_call=True
 )
+
+
+@callback(
+    Output("url-song", "pathname"),
+    Input("dropdown-song", "value"),
+    Input("url-song", "pathname"),
+)
+def update_url_from_dropdown(song_title, url_pathname):
+    len_song_prefix = len("/song")
+    if url_pathname[:len_song_prefix] == "/song":
+        if unquote(url_pathname)[len_song_prefix+1:] == song_title:
+            return dash.no_update
+        song_url = f"/song/{song_title}"
+        return song_url
+    return dash.no_update
 
 
 @callback(
