@@ -48,7 +48,7 @@ def layout(song_title="2 be 3", **_):
 
     return dbc.Container(
         [
-            dcc.Location(id="url", refresh=False),
+            dcc.Location(id="url-song", refresh=False),
             html.H4("Statistiques sur la chanson sélectionnée"),
             dbc.Row(
                 [
@@ -72,13 +72,14 @@ def layout(song_title="2 be 3", **_):
 
 
 @callback(
-    Output("url", "pathname"),
+    Output("url-song", "pathname"),
     Input("dropdown-song", "value"),
-    Input("url", "pathname"),
+    Input("url-song", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
-    if url_pathname[:5] == "/song":
-        if unquote(url_pathname)[6:] == song_title:
+    len_song_prefix = len("/song")
+    if url_pathname[:len_song_prefix] == "/song":
+        if unquote(url_pathname)[len_song_prefix+1:] == song_title:
             return dash.no_update
         song_url = f"/song/{song_title}"
         return song_url
