@@ -82,6 +82,7 @@ def update_url_from_dropdown(song_title, url_pathname):
             return dash.no_update
         song_url = f"/song/{song_title}"
         return song_url
+    return dash.no_update
 
 
 @callback(
