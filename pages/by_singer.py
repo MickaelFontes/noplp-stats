@@ -13,6 +13,7 @@ dash.register_page(__name__, path="/singer", path_template="/singer/<singer_name
 
 
 def layout(singer_name="Céline Dion"):
+    singer_name = unquote(singer_name)
     return dbc.Container(
         [
             dcc.Location(id="url-singer", refresh=False),
