@@ -42,7 +42,8 @@ def get_marks():
     """
     result = {}
     for date in daterange_marks:
-        result[datetime_to_unix(date)] = str(date.strftime("%Y"))
+        result[datetime_to_unix(date)] = {"label": str(date.strftime("%Y")), "style": {
+            "writing-mode": "vertical-rl", "transform": "rotate(-45deg)"}}
     return result
 
 
