@@ -28,6 +28,7 @@ def layout(singer_name="Céline Dion"):
                 style={"marginBottom": 10},
             ),
             get_date_range_object(),
+            html.Hr(),
             dcc.Graph(id="categories-graph-singer"),
             html.Hr(),
             html.H4("Apparitions de ses chansons dans l'émission"),

@@ -43,7 +43,7 @@ def get_marks():
     result = {}
     for date in daterange_marks:
         result[datetime_to_unix(date)] = {"label": str(date.strftime("%Y")), "style": {
-            "writing-mode": "vertical-rl", "transform": "rotate(-45deg)"}}
+            "writing-mode": "vertical-rl", "transform": "rotate(-55deg)"}}
     return result
 
 
@@ -147,6 +147,7 @@ def get_date_range_object(prefix_component_id=""):
                 max=end,
                 value=[begin, end],
                 marks=get_marks(),
+                verticalHeight=15000
             ),
         ],
         style={"marginTop": "20"},
