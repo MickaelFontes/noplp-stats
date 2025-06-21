@@ -13,6 +13,7 @@ dash.register_page(__name__, path="/singer", path_template="/singer/<singer_name
 
 
 def layout(singer_name="Céline Dion"):
+    singer_name = unquote(singer_name)
     return dbc.Container(
         [
             dcc.Location(id="url-singer", refresh=False),
@@ -27,6 +28,7 @@ def layout(singer_name="Céline Dion"):
                 style={"marginBottom": 10},
             ),
             get_date_range_object(),
+            html.Hr(),
             dcc.Graph(id="categories-graph-singer"),
             html.Hr(),
             html.H4("Apparitions de ses chansons dans l'émission"),
