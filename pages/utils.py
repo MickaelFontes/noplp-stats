@@ -146,8 +146,7 @@ def get_date_range_object(prefix_component_id=""):
                 min=begin,
                 max=end,
                 value=[begin, end],
-                marks=get_marks(),
-                verticalHeight=15000
+                marks=get_marks()
             ),
         ],
         style={"marginTop": "20"},
