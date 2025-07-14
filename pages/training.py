@@ -46,7 +46,7 @@ def mask_line(line, show_first_letter=False):
         return " ".join(
             [w if w.endswith("'") and len(w) == 2 else w[0] + ("_" * (len(w) - 1)) if len(w) > 1 else w for w in split_words]
         )
-    return " ".join(["_" * len(w) for w in split_words])
+    return " ".join(["_" * 4 for w in split_words])
 
 
 def get_non_empty_indices(lines):
