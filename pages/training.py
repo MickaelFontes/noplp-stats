@@ -44,7 +44,7 @@ def mask_line(line, show_first_letter=False):
             split_words.append(w)
     if show_first_letter:
         return " ".join(
-            [w if w.endswith("'") and len(w) == 2 else w[0] + ("_" * (len(w) - 1)) if len(w) > 1 else w for w in split_words]
+            [w if w.endswith("'") and len(w) == 2 else w[0] + ("_" * 4) if len(w) > 1 else w for w in split_words]
         )
     return " ".join(["_" * 4 for w in split_words])
 
