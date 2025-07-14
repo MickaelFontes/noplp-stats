@@ -72,7 +72,8 @@ def render_intro_line(lines, step):
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
     return dbc.Card([
         html.H2(display_line, style=style),
-        dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0, color="primary", className="mt-3"),
+        html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
+                 color="primary", className="mt-3")], className="d-flex justify-content-center"),
     ], body=True)
 
 
@@ -103,7 +104,7 @@ def render_guess_line(lines, step, shown, state):
         html.Div([
             dbc.Button("Non", id={"type": "dont-know-btn", "index": step}, n_clicks=0, color="danger", className="me-2"),
             dbc.Button("Oui", id={"type": "know-btn", "index": step}, n_clicks=0, color="success"),
-        ], className="mt-3 d-flex justify-content-between"),
+        ], className="mt-3 d-flex justify-content-end"),
     ], body=True)
 
 
