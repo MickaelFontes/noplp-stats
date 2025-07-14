@@ -173,8 +173,7 @@ def training_step(song_title, state):
     prevent_initial_call=True,
 )
 def step_action(reveal, first_letter, know, dont_know, state):
-    step = state.get("step", 0)
-    if step < 3:
+    if state.get("step", 0) < 3:
         if reveal and any(reveal):
             state["step"] += 1
     else:
