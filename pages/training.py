@@ -1,6 +1,8 @@
 """Training page to guess songs lyrics, step-by-step interactive version."""
 
 import re
+from datetime import datetime
+
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
@@ -14,6 +16,7 @@ layout = dbc.Container([
     get_song_dropdown_menu(),
     html.Hr(),
     dcc.Store(id="training-state", data={}),
+    dcc.Store(id="user-training-stats", storage_type="local"),  # New store for stats
     html.Div(id="training-step"),
 ], style={"marginTop": 20})
 
@@ -162,6 +165,9 @@ def training_step(song_title, state):
             continue
         return state, render_guess_line(lines, step, shown, state)
     state["finished"] = True
+    # --- Save training stats to localStorage ---
+    # Use dcc.Store to trigger a clientside callback to persist stats
+    # We'll add a new dcc.Store for stats and update it here
     return state, render_final(lines, state)
 
 
@@ -195,3 +201,32 @@ def step_action(reveal, first_letter, know, dont_know, state):
             state["show_first_letter"] = False
             state["revealed"] = False
     return state
+
+
+# --- Save stats callback ---
+@callback(
+    Output("user-training-stats", "data", allow_duplicate=True),
+    Input("training-state", "data"),
+    State("user-training-stats", "data"),
+    prevent_initial_call=True,
+)
+def save_training_stats(state, stats):
+    if not state.get("finished"):
+        return dash.no_update
+    if not state.get("song_title") or not state.get("lines") or not state.get("results"):
+        return dash.no_update
+    # Find line numbers where user clicked 'no'
+    guess_indices = get_guess_indices(state["lines"])
+    mistakes = [guess_indices[i] for i, res in enumerate(state["results"]) if res is False]
+    # Compose training record
+    record = {
+        "song_title": state["song_title"],
+        "timestamp": datetime.now(),
+        "mistakes": mistakes,
+        "results": state["results"],
+        "total": len(guess_indices),
+    }
+    # Append to stats
+    stats = stats or []
+    stats.append(record)
+    return stats
