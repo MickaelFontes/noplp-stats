@@ -39,8 +39,7 @@ def get_last_n_unique(stats, n=10):
     seen = set()
     unique = []
     for rec in sorted(stats, key=lambda r: r["timestamp"], reverse=True):
-        title = rec["song_title"]
-        if title not in seen:
+        if (title := rec['song_title']) not in seen:
             seen.add(title)
             unique.append(rec)
         if len(unique) == n:
@@ -122,7 +121,7 @@ def render_song_card(title, min_score, is_open, stats):
     Input({"type": "show-details", "index": ALL}, "n_clicks"),
     State("selected-song", "data"),
 )
-def show_stats(stats, search, n_clicks_list, selected_song):
+def show_stats(stats, search, _, selected_song):
     if not stats:
         return "Aucun entraînement enregistré.", {"title": None, "open": False}
     song_scores = compute_song_scores(stats)
@@ -134,8 +133,7 @@ def show_stats(stats, search, n_clicks_list, selected_song):
     new_title = prev_title
     new_open = prev_open
     if triggered and isinstance(triggered, dict) and triggered.get("type") == "show-details":
-        clicked_title = triggered.get("index")
-        if clicked_title == prev_title:
+        if (clicked_title := triggered.get('index')) == prev_title:
             new_open = not prev_open  # Toggle
         else:
             new_title = clicked_title
