@@ -2,23 +2,30 @@
 
 import re
 from datetime import datetime
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
 from pages.utils import get_song_dropdown_menu, return_lyrics_df
 
-dash.register_page(__name__, path="/training", title="Entraînement - NOLPL stats")
+dash.register_page(__name__, path="/training", path_template="/training/<song_title>", title="Entraînement - NOLPL stats")
 
-layout = dbc.Container([
-    html.H5("Zone d'entraînement pour apprendre les paroles"),
-    html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
-    get_song_dropdown_menu(),
-    html.Hr(),
-    dcc.Store(id="training-state", data={}),
-    dcc.Store(id="user-training-stats", storage_type="local"),  # New store for stats
-    html.Div(id="training-step"),
-], style={"marginTop": 20})
+
+# Update layout to accept song_title
+def layout(song_title="2 be 3", **_):
+    song_title = unquote(song_title)
+    return dbc.Container([
+        dcc.Location(id="url-training", refresh=False),
+        html.H5("Zone d'entraînement pour apprendre les paroles"),
+        html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
+        get_song_dropdown_menu(song_title),
+        html.Hr(),
+        dcc.Store(id="training-state", data={}),
+        dcc.Store(id="user-training-stats", storage_type="local"),  # New store for stats
+        html.Div(id="training-step"),
+    ], style={"marginTop": 20})
+
 
 # --- Helper functions ---
 
@@ -230,3 +237,19 @@ def save_training_stats(state, stats):
     stats = stats or []
     stats.append(record)
     return stats
+
+
+# --- URL update callback ---
+@callback(
+    Output("url-training", "pathname"),
+    Input("dropdown-song", "value"),
+    Input("url-training", "pathname"),
+)
+def update_url_from_dropdown(song_title, url_pathname):
+    len_training_prefix = len("/training")
+    if url_pathname[:len_training_prefix] == "/training":
+        if unquote(url_pathname)[len_training_prefix+1:] == song_title:
+            return dash.no_update
+        training_url = f"/training/{song_title}"
+        return training_url
+    return dash.no_update
