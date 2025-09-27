@@ -59,15 +59,25 @@ def compare_diff():
                 )
 
     # Print the results
-    print("Updates songs:\n")
-    for song in sorted(list(updated_songs), key=lambda x: x[0]):
-        parse_song_print(song)
-    print("\n----\nNew songs:\n")
-    for song in sorted(list(new_songs), key=lambda x: x[0]):
-        parse_song_print(song, unescape_new_line=True)
-    print("\n----\nRemoved songs:\n")
-    for song in sorted(list(removed_songs), key=lambda x: x[0]):
-        parse_song_print(song, title_only=True)
+    is_first_section = True
+    if len(updated_titles) > 0:
+        print("Updates songs:\n")
+        for song in sorted(list(updated_songs), key=lambda x: x[0]):
+            parse_song_print(song)
+        is_first_section = False
+    if len(new_songs) > 0:
+        if not is_first_section:
+            print("\n----")
+        print("New songs:\n")
+        for song in sorted(list(new_songs), key=lambda x: x[0]):
+            parse_song_print(song, unescape_new_line=True)
+        is_first_section = False
+    if len(removed_songs) > 0:
+        if not is_first_section:
+            print("\n----")
+        print("Removed songs:\n")
+        for song in sorted(list(removed_songs), key=lambda x: x[0]):
+            parse_song_print(song, title_only=True)
 
 
 def parse_song_print(song, unescape_new_line=False, title_only=False):
