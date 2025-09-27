@@ -244,7 +244,7 @@ class Scrapper:
         else:
             raise ScrapperProcessingDates("data property empty." + f"\n{self._title}")
         regex_section = re.search(
-            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==",
+            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==[\s']{0,5}Trous[\s']{0,5}==",
             source,
         )
         if regex_section:
