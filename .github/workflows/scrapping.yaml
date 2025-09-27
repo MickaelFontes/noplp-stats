@@ -36,9 +36,8 @@ jobs:
 
       - name: Update last scrapping date
         run: |
-          new_line=$( echo "  LAST_UPDATE: '$(date +%d/%m/%Y)'" )
-          old_line=$( grep LAST_UPDATE app.yaml --color=never )
-          sed -i -e "s@${old_line}@${new_line}@g" app.yaml
+          new_line=$(date +%d/%m/%Y)
+          sed -i -E "s@[0-9]\{2\}/[0-9]\{2\}/[0-9]\{4\}@${new_line}@g" pages/bottom.py
 
       - name: Create Pull Request
         id: cpr

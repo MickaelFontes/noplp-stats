@@ -77,6 +77,7 @@ jobs:
         uses: "google-github-actions/deploy-appengine@v2"
         with:
           flags: "--no-cache"
+          deliverables: deploy/app-main.yaml
 
       - name: "Clean temporary container images"
         run: |-
@@ -114,6 +115,7 @@ jobs:
         with:
           flags: "--no-cache"
           promote: false
+          deliverables: deploy/app-pr.yaml
 
       - name: Show PR environment URL
         run: 'echo "${{ steps.deploy.outputs.version_url }}"'
