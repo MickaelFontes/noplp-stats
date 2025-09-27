@@ -63,7 +63,7 @@ def categorize_songs(added_lines, removed_lines):
 def print_song_changes(updated_songs, new_songs, removed_songs):
     is_first_section = True
     if len(updated_songs) > 0:
-        print("Updates songs:\n")
+        print("Updated songs:\n")
         for song in sorted(list(updated_songs), key=lambda x: x[0]):
             parse_song_print(song)
         is_first_section = False
