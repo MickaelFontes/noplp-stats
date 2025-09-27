@@ -6,8 +6,15 @@ import subprocess
 
 
 def compare_diff():
-    # Get the output of git diff
-    diff_output = subprocess.check_output(
+    diff_output = get_git_diff_output()
+    lines = diff_output.splitlines()[4:]
+    added_lines, removed_lines = parse_diff_lines(lines)
+    updated_songs, new_songs, removed_songs = categorize_songs(added_lines, removed_lines)
+    print_song_changes(updated_songs, new_songs, removed_songs)
+
+
+def get_git_diff_output():
+    return subprocess.check_output(
         [
             "git",
             "diff",
@@ -17,24 +24,21 @@ def compare_diff():
         ]
     ).decode("utf-8")
 
-    # Initialize lines
-    lines = diff_output.splitlines()[4:]
 
-    # Initialize variables to store the added and removed lines
+def parse_diff_lines(lines):
     added_lines = []
     removed_lines = []
-    updated_songs = []
-
-    # Loop through the lines
     for line in lines:
         song_details = list(csv.reader([line[1:]]))[0]
-        # Check if the line is a modification (starting with "-" or "+")
         if line.startswith("-"):
             removed_lines.append(song_details)
         elif line.startswith("+"):
             added_lines.append(song_details)
+    return added_lines, removed_lines
 
-    # Initialize variables to store the updated, new and removed songs
+
+def categorize_songs(added_lines, removed_lines):
+    updated_songs = []
     plus_titles = {line[0] for line in added_lines}
     minus_titles = {line[0] for line in removed_lines}
     updated_titles = plus_titles & minus_titles
@@ -44,30 +48,38 @@ def compare_diff():
     removed_songs = [
         song for song in removed_lines if song[0] in list(minus_titles - updated_titles)
     ]
-
-    # # Loop through the updated lines
     for added_line in added_lines:
         if added_line[0] in updated_titles:
-            # Find associated remove line
             removed_line = next(
                 (song for song in removed_lines if song[0] == added_line[0]), None
             )
-            # Add the song to the updated songs list
-            if removed_line[2] != added_line[2]:
+            if removed_line and removed_line[2] != added_line[2]:
                 updated_songs.append(
                     (added_line[0], added_line[1], diff(removed_line[2], added_line[2]))
                 )
+    return updated_songs, new_songs, removed_songs
 
-    # Print the results
-    print("Updates songs:\n")
-    for song in sorted(list(updated_songs), key=lambda x: x[0]):
-        parse_song_print(song)
-    print("\n----\nNew songs:\n")
-    for song in sorted(list(new_songs), key=lambda x: x[0]):
-        parse_song_print(song, unescape_new_line=True)
-    print("\n----\nRemoved songs:\n")
-    for song in sorted(list(removed_songs), key=lambda x: x[0]):
-        parse_song_print(song, title_only=True)
+
+def print_song_changes(updated_songs, new_songs, removed_songs):
+    is_first_section = True
+    if len(updated_songs) > 0:
+        print("Updates songs:\n")
+        for song in sorted(list(updated_songs), key=lambda x: x[0]):
+            parse_song_print(song)
+        is_first_section = False
+    if len(new_songs) > 0:
+        if not is_first_section:
+            print("\n----")
+        print("New songs:\n")
+        for song in sorted(list(new_songs), key=lambda x: x[0]):
+            parse_song_print(song, unescape_new_line=True)
+        is_first_section = False
+    if len(removed_songs) > 0:
+        if not is_first_section:
+            print("\n----")
+        print("Removed songs:\n")
+        for song in sorted(list(removed_songs), key=lambda x: x[0]):
+            parse_song_print(song, title_only=True)
 
 
 def parse_song_print(song, unescape_new_line=False, title_only=False):

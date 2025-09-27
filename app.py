@@ -4,7 +4,7 @@ import os
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Dash, html
+from dash import Dash, html, Output, Input, State
 
 from pages.bottom import bottom
 
@@ -22,16 +22,30 @@ app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
 
 app.layout = html.Div(
     [
-        dbc.NavbarSimple(
-            children=[
-                dbc.NavLink("Accueil", href="/", active="exact"),
-                dbc.NavLink("Global", href="/global", active="exact"),
-                dbc.NavLink("Par catégorie", href="/category", active="exact"),
-                dbc.NavLink("Par chanson", href="/song", active="partial"),
-                dbc.NavLink("Par interprète", href="/singer", active="partial"),
-                dbc.NavLink("Entraînement", href="/training", active="exact"),
-            ],
-            brand="NOPLP Stats",
+        dbc.Navbar(
+            dbc.Container(
+                [
+                    dbc.NavbarBrand("NOPLP Stats", href="/"),
+                    dbc.NavbarToggler(id="navbar-toggler"),
+                    dbc.Collapse(
+                        dbc.Nav(
+                            [
+                                dbc.NavLink("Accueil", href="/", active="exact", id="nav-accueil"),
+                                dbc.NavLink("Global", href="/global", active="exact", id="nav-global"),
+                                dbc.NavLink("Par catégorie", href="/category", active="exact", id="nav-category"),
+                                dbc.NavLink("Par chanson", href="/song", active="partial", id="nav-song"),
+                                dbc.NavLink("Par interprète", href="/singer", active="partial", id="nav-singer"),
+                                dbc.NavLink("Entraînement", href="/training", active="exact", id="nav-training"),
+                            ],
+                            className="ml-auto",
+                            navbar=True,
+                        ),
+                        id="navbar-collapse",
+                        is_open=False,
+                        navbar=True,
+                    ),
+                ]
+            ),
             color="primary",
             dark=True,
         ),
@@ -40,6 +54,31 @@ app.layout = html.Div(
         bottom,
     ]
 )
+
+
+# Callback to toggle/collapse navbar on toggler click or navlink click
+@app.callback(
+    Output("navbar-collapse", "is_open"),
+    [
+        Input("navbar-toggler", "n_clicks"),
+        Input("nav-accueil", "n_clicks"),
+        Input("nav-global", "n_clicks"),
+        Input("nav-category", "n_clicks"),
+        Input("nav-song", "n_clicks"),
+        Input("nav-singer", "n_clicks"),
+        Input("nav-training", "n_clicks"),
+    ],
+    [State("navbar-collapse", "is_open")],
+)
+def toggle_navbar(_n_toggler, _n_accueil, _n_global, _n_category, _n_song, _n_singer, _n_training, is_open):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        return is_open
+    if ctx.triggered[0]['prop_id'].split('.')[0] == 'navbar-toggler':
+        return not is_open
+    # If any navlink is clicked, close the navbar (only matters on mobile)
+    return False
+
 
 if __name__ == "__main__":
     app.run(port="8080", debug=None)
