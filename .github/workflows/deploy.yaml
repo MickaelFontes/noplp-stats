@@ -73,6 +73,9 @@ jobs:
         with:
           name: requirements
 
+      - name: Prepapre app.yaml file for production deployment
+        run: 'cp deploy/app-main.yaml app.yaml'
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
@@ -108,6 +111,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: requirements
+
+      - name: Prepapre app.yaml file for PR deployment
+        run: 'cp deploy/app-pr.yaml app.yaml'
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
