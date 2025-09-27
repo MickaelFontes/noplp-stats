@@ -74,18 +74,36 @@ jobs:
             const commentBody = fs.readFileSync(commentPath, 'utf8');
             const MAX_LENGTH = 65000; // a bit less than GitHub's 65536 char limit
 
-            // Split the comment into chunks
-            function splitComment(body, maxLength) {
-              const chunks = [];
-              let i = 0;
-              while (i < body.length) {
-                chunks.push(body.slice(i, i + maxLength));
-                i += maxLength;
+
+            // Improved split: split at section or collapse boundaries
+            function smartSplitComment(body, maxLength) {
+              // Split at section headers or <details> tags
+              const sectionRegex = /(----\n|<details>)/g;
+              let parts = [];
+              let lastIndex = 0;
+              let match;
+              let indices = [0];
+              while ((match = sectionRegex.exec(body)) !== null) {
+                indices.push(match.index);
               }
-              return chunks;
+              indices.push(body.length);
+              // Now, group sections into chunks under maxLength
+              let chunk = '';
+              for (let i = 0; i < indices.length - 1; i++) {
+                const section = body.slice(indices[i], indices[i + 1]);
+                if ((chunk.length + section.length) > maxLength && chunk.length > 0) {
+                  parts.push(chunk);
+                  chunk = '';
+                }
+                chunk += section;
+              }
+              if (chunk.length > 0) {
+                parts.push(chunk);
+              }
+              return parts;
             }
 
-            const commentChunks = splitComment(commentBody, MAX_LENGTH);
+            const commentChunks = smartSplitComment(commentBody, MAX_LENGTH);
 
             // Get all comments on the PR
             const {data: comments} = await github.rest.issues.listComments({
