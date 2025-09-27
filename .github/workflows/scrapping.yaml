@@ -72,27 +72,57 @@ jobs:
 
             const commentPath = path.join(process.env.GITHUB_WORKSPACE, 'comment.md');
             const commentBody = fs.readFileSync(commentPath, 'utf8');
+            const MAX_LENGTH = 65000; // a bit less than GitHub's 65536 char limit
 
+            // Split the comment into chunks
+            function splitComment(body, maxLength) {
+              const chunks = [];
+              let i = 0;
+              while (i < body.length) {
+                chunks.push(body.slice(i, i + maxLength));
+                i += maxLength;
+              }
+              return chunks;
+            }
+
+            const commentChunks = splitComment(commentBody, MAX_LENGTH);
+
+            // Get all comments on the PR
             const {data: comments} = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: process.env.PR_NUMBER,
-            })
+            });
             // 41898282 is github-actions[bot] id.
-            const botComment = comments.find(comment => comment.user.id === 41898282)
+            const botComments = comments.filter(comment => comment.user.id === 41898282);
 
-            if (!botComment) {
-              github.rest.issues.createComment({
-                issue_number: process.env.PR_NUMBER,
+            // Post or update comments for each chunk
+            for (let idx = 0; idx < commentChunks.length; idx++) {
+              const chunk = commentChunks[idx];
+              if (botComments[idx]) {
+                // Update existing bot comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComments[idx].id,
+                  body: chunk
+                });
+              } else {
+                // Create new comment
+                await github.rest.issues.createComment({
+                  issue_number: process.env.PR_NUMBER,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: chunk
+                });
+              }
+            }
+
+            // Delete any extra old bot comments
+            for (let idx = commentChunks.length; idx < botComments.length; idx++) {
+              await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: commentBody
-              })
-            } else {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              })
+                comment_id: botComments[idx].id
+              });
             }
