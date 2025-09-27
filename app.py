@@ -74,9 +74,7 @@ def toggle_navbar(_n_toggler, _n_accueil, _n_global, _n_category, _n_song, _n_si
     ctx = dash.callback_context
     if not ctx.triggered:
         return is_open
-    prop_id = ctx.triggered[0]["prop_id"].split(".")[0]
-    # Toggle on toggler click, close on navlink click
-    if prop_id == "navbar-toggler":
+    if ctx.triggered[0]['prop_id'].split('.')[0] == 'navbar-toggler':
         return not is_open
     # If any navlink is clicked, close the navbar (only matters on mobile)
     return False
