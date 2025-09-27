@@ -72,13 +72,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: requirements
-          path: deploy/
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
-          flags: "--no-cache"
-          deliverables: deploy/app-main.yaml
+          flags: "--no-cache" "--appyaml=deploy/app-main.yaml"
 
       - name: "Clean temporary container images"
         run: |-
@@ -110,14 +108,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: requirements
-          path: deploy/
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
-          flags: "--no-cache"
+          flags: "--no-cache" "--appyaml=deploy/app-pr.yaml"
           promote: false
-          deliverables: deploy/app-pr.yaml
 
       - name: Show PR environment URL
         run: 'echo "${{ steps.deploy.outputs.version_url }}"'
