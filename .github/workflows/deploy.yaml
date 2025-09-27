@@ -73,12 +73,13 @@ jobs:
         with:
           name: requirements
 
+      - name: Prepapre app.yaml file for production deployment
+        run: 'cp deloy/app-main.yaml app.yaml'
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
           flags: "--no-cache"
-          deliverables: "deploy/app-main.yaml"
-          working_directory: .
 
       - name: "Clean temporary container images"
         run: |-
@@ -111,13 +112,14 @@ jobs:
         with:
           name: requirements
 
+      - name: Prepapre app.yaml file for PR deployment
+        run: 'cp deloy/app-pr.yaml app.yaml'
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
           flags: "--no-cache"
-          deliverables: "deploy/app-pr.yaml"
           promote: false
-          working_directory: .
 
       - name: Show PR environment URL
         run: 'echo "${{ steps.deploy.outputs.version_url }}"'
