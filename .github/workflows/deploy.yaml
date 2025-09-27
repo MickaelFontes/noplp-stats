@@ -76,7 +76,7 @@ jobs:
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
-          flags: "--no-cache" "--appyaml=deploy/app-main.yaml"
+          flags: "--no-cache  --appyaml=deploy/app-main.yaml"
 
       - name: "Clean temporary container images"
         run: |-
