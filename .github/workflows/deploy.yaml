@@ -110,6 +110,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: requirements
+          deliverables: deploy/app-main.yaml
 
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
