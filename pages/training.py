@@ -107,6 +107,20 @@ def compare_text_and_lyrics(user_text, song_title):
         verified_lyrics = []
         user_progress = 0
         for i, word in enumerate(user_words):
+            if i >= len(lyrics_words):
+                verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+                    raw_lyrics, len(lyrics_words), len(lyrics_words)
+                )
+                return (
+                    [
+                        html.P(
+                            "⛔ Erreur, vous avez tapé plus de mots que les paroles attendues."
+                        ),
+                    ],
+                    verified_lyrics,
+                    user_progress,
+                )
+
             if unidecode(word.lower()) != unidecode(lyrics_words[i].lower()):
                 verified_lyrics, user_progress = get_lyrics_approx_until_cut(
                     raw_lyrics, len(lyrics_words), i + 1
