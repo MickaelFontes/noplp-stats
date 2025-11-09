@@ -365,8 +365,8 @@ def get_song_dropdown_menu(song_title=DEFAULT_SONG, component_id: str = "dropdow
     """Return the song Dropdown menu with configurable id.
 
     Args:
-        song_title: default selected title
-        component_id: id to assign to the Dash component
+        song_title (str): default selected title
+        component_id (str): id to assign to the Dash component
     """
     return dcc.Dropdown(
         id=component_id,
