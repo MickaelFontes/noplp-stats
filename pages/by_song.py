@@ -8,6 +8,7 @@ from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
     extract_and_format_lyrics,
+    DEFAULT_SONG,
     filter_date,
     filter_song,
     find_singer,
@@ -16,20 +17,23 @@ from pages.utils import (
     return_cat_rankings_df,
     return_global_ranking_df,
     return_lyrics_df,
+    song_exists,
 )
 
-dash.register_page(__name__, path="/song", path_template="/song/<song_title>",
+PAGE_PATH = "/song"
+
+dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Par chanson - NOLPL stats")
 
 
-def layout(song_title="2 be 3", **_):
+def layout(song_title=DEFAULT_SONG, **_):
     song_title = unquote(song_title)
 
     first_card = dbc.Card(
         dbc.CardBody(
             [
                 html.H5("Sélectionner le titre de la chanson", className="card-title"),
-                get_song_dropdown_menu(song_title),
+                get_song_dropdown_menu(song_title, component_id="dropdown-song-by-song"),
                 html.Hr(),
                 html.Div(
                     [
@@ -78,29 +82,33 @@ clientside_callback(
     }
     """,
     Output("blank-output", "children", allow_duplicate=True),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-by-song", "value"),
     prevent_initial_call=True
 )
 
 
 @callback(
     Output("url-song", "pathname"),
-    Input("dropdown-song", "value"),
+    Output("dropdown-song-by-song", "value"),
+    Input("dropdown-song-by-song", "value"),
     Input("url-song", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
-    len_song_prefix = len("/song")
-    if url_pathname[:len_song_prefix] == "/song":
-        if unquote(url_pathname)[len_song_prefix+1:] == song_title:
-            return dash.no_update
-        song_url = f"/song/{song_title}"
-        return song_url
-    return dash.no_update
+    len_song_prefix = len(PAGE_PATH)
+    if url_pathname[:len_song_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_song_prefix + 1:]
+        if param and not song_exists(param):
+            return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
+        if param == song_title:
+            return dash.no_update, dash.no_update
+        song_url = f"{PAGE_PATH}/{song_title}"
+        return song_url, dash.no_update
+    return dash.no_update, dash.no_update
 
 
 @callback(
     Output("categories-graph-song", "figure"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-by-song", "value"),
     Input("year_slider", "value"),
 )
 def update_figure(song_name, date_range):
@@ -123,7 +131,7 @@ def update_figure(song_name, date_range):
     return fig
 
 
-@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song", "value"))
+@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value"))
 def update_timeline(song_name):
     """Update the timeline graph of selected song.
 
@@ -153,7 +161,7 @@ def update_timeline(song_name):
 @callback(
     Output("song-details", "children"),
     Output("song-lyrics", "children"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-by-song", "value"),
 )
 def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     """Query and return song details.

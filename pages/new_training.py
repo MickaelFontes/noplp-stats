@@ -7,9 +7,11 @@ from urllib.parse import unquote
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
-from pages.utils import get_song_dropdown_menu, return_lyrics_df
+from pages.utils import DEFAULT_SONG, get_song_dropdown_menu, return_lyrics_df, song_exists
 
-dash.register_page(__name__, path="/new-training", path_template="/new-training/<song_title>",
+PAGE_PATH = "/new-training"
+
+dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Entraînement - NOLPL stats")
 
 
@@ -20,7 +22,7 @@ def layout(song_title="2 be 3", **_):
         dcc.Location(id="url-training", refresh=False),
         html.H5("Zone d'entraînement pour apprendre les paroles"),
         html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
-        get_song_dropdown_menu(song_title),
+        get_song_dropdown_menu(song_title, component_id="dropdown-song-new-training"),
         html.Hr(),
         dcc.Store(id="training-state", data={}),
         dcc.Store(id="user-training-stats", storage_type="local"),  # New store for stats
@@ -141,7 +143,7 @@ def render_final(lines, state):
 @callback(
     Output("training-state", "data"),
     Output("training-step", "children"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-new-training", "value"),
     Input("training-state", "data"),
 )
 def training_step(song_title, state):
@@ -243,14 +245,18 @@ def save_training_stats(state, stats):
 # --- URL update callback ---
 @callback(
     Output("url-training", "pathname"),
-    Input("dropdown-song", "value"),
+    Output("dropdown-song-new-training", "value"),
+    Input("dropdown-song-new-training", "value"),
     Input("url-training", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
-    len_training_prefix = len("/training")
-    if url_pathname[:len_training_prefix] == "/training":
-        if unquote(url_pathname)[len_training_prefix+1:] == song_title:
-            return dash.no_update
-        training_url = f"/training/{song_title}"
-        return training_url
-    return dash.no_update
+    len_training_prefix = len(PAGE_PATH)
+    if url_pathname[:len_training_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_training_prefix + 1:]
+        if param and not song_exists(param):
+            return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
+        if param == song_title:
+            return dash.no_update, dash.no_update
+        training_url = f"{PAGE_PATH}/{song_title}"
+        return training_url, dash.no_update
+    return dash.no_update, dash.no_update
