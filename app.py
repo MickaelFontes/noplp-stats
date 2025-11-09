@@ -36,7 +36,6 @@ app.layout = html.Div(
                                 dbc.NavLink("Par chanson", href="/song", active="partial", id="nav-song"),
                                 dbc.NavLink("Par interprète", href="/singer", active="partial", id="nav-singer"),
                                 dbc.NavLink("Entraînement", href="/training", active="exact", id="nav-training"),
-                                dbc.NavLink("Mes statistiques", href="/my-stats", active="exact", id="nav-my-stats"),
                             ],
                             className="ml-auto",
                             navbar=True,
@@ -68,11 +67,10 @@ app.layout = html.Div(
         Input("nav-song", "n_clicks"),
         Input("nav-singer", "n_clicks"),
         Input("nav-training", "n_clicks"),
-        Input("nav-my-stats", "n_clicks"),
     ],
     [State("navbar-collapse", "is_open")],
 )
-def toggle_navbar(_n_toggler, _n_accueil, _n_global, _n_category, _n_song, _n_singer, _n_training, _n_my_stats, is_open):
+def toggle_navbar(_n_toggler, _n_accueil, _n_global, _n_category, _n_song, _n_singer, _n_training, is_open):
     ctx = dash.callback_context
     if not ctx.triggered:
         return is_open
