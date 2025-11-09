@@ -83,8 +83,7 @@ jobs:
 
       - name: "Clean temporary container images"
         run: |-
-          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
-            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+          gcloud artifacts docker images delete europe-west6-docker.pkg.dev/noplp-stats/gae-standard/app/default
 
   deploy-pr-app-engine:
     name: Deploy App Engine (pull_request)
@@ -126,5 +125,4 @@ jobs:
 
       - name: "Clean temporary container images"
         run: |-
-          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
-            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+          gcloud artifacts docker images delete europe-west6-docker.pkg.dev/noplp-stats/gae-standard/app/default
