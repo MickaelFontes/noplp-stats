@@ -9,7 +9,8 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
 from pages.utils import get_song_dropdown_menu, return_lyrics_df
 
-dash.register_page(__name__, path="/new_training", path_template="/new_training/<song_title>", title="Entraînement - NOLPL stats")
+dash.register_page(__name__, path="/new_training", path_template="/new_training/<song_title>",
+                   title="Entraînement - NOLPL stats")
 
 
 # Update layout to accept song_title
