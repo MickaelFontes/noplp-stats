@@ -6,13 +6,17 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html, clientside_callback
 
-from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers
+from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers, singer_exists
 
-dash.register_page(__name__, path="/singer", path_template="/singer/<singer_name>",
+DEFAULT_SINGER = "Céline Dion"
+
+PAGE_PATH = "/singer"
+
+dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<singer_name>",
                    title="Par interprète - NOLPL stats")
 
 
-def layout(singer_name="Céline Dion"):
+def layout(singer_name=DEFAULT_SINGER):
     singer_name = unquote(singer_name)
     return dbc.Container(
         [
@@ -24,7 +28,7 @@ def layout(singer_name="Céline Dion"):
             dcc.Dropdown(
                 id="dropdown-singer",
                 value=singer_name,
-                options=[{"label": i, "value": i} for i in get_singers()],
+                options=[{"label": i, "value": i} for i in get_singers(as_sorted=True)],
                 style={"marginBottom": 10},
             ),
             get_date_range_object(),
@@ -52,17 +56,21 @@ clientside_callback(
 
 @callback(
     Output("url-singer", "pathname"),
+    Output("dropdown-singer", "value"),
     Input("dropdown-singer", "value"),
     Input("url-singer", "pathname"),
 )
 def update_url_from_dropdown_singer(singer_name, url_pathname):
-    len_singer_prefix = len("/singer")
-    if url_pathname[:len_singer_prefix] == "/singer":
-        if unquote(url_pathname)[len_singer_prefix+1:] == singer_name:
-            return dash.no_update
+    len_singer_prefix = len(PAGE_PATH)
+    if url_pathname[:len_singer_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_singer_prefix + 1:]
+        if param and not singer_exists(param):
+            return f"{PAGE_PATH}/{DEFAULT_SINGER}", DEFAULT_SINGER
+        if param == singer_name:
+            return dash.no_update, dash.no_update
         singer_url = f"/singer/{singer_name}"
-        return singer_url
-    return dash.no_update
+        return singer_url, dash.no_update
+    return dash.no_update, dash.no_update
 
 
 @callback(

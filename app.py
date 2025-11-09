@@ -11,6 +11,7 @@ from pages.bottom import bottom
 app = Dash(
     __name__,
     use_pages=True,
+    suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     update_title="",
     assets_folder="pages/assets",

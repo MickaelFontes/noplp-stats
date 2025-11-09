@@ -21,7 +21,7 @@ layout = dbc.Container(
         html.P(
             "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
         ),
-        get_song_dropdown_menu(),
+        get_song_dropdown_menu(component_id="dropdown-song-training"),
         html.Hr(),
         dbc.Textarea(
             id="user-lyrics",
@@ -74,7 +74,7 @@ def toggle_collapse(nb_clicks: int, is_open: bool):
     Output("collasped-verified-lyrics", "children"),
     Output("user-lyrics-progress", "value"),
     Input("user-lyrics", "value"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-training", "value"),
 )
 def compare_text_and_lyrics(user_text, song_title):
     """Compare user input text and known lyrics, return a comment on error or match.
