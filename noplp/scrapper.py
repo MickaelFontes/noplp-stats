@@ -218,6 +218,7 @@ class Scrapper:
         lyrics = process_raw_lyrics(lyrics)
         lyrics = re.sub(r"'''(.*)'''", r"¤\1", lyrics)
         lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
+        lyrics = lyrics.replace("' '", " ")
         return lyrics.strip()
 
     def extract_dates(self) -> tuple[list[date], list[str], list[int], list[int]]:
