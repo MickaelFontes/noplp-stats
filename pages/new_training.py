@@ -227,14 +227,12 @@ def save_training_stats(state, stats):
         return dash.no_update
     # Find line numbers where user clicked 'no'
     guess_indices = get_guess_indices(state["lines"])
-    mistakes = [guess_indices[i] for i, res in enumerate(state["results"]) if res is False]
+    guessed_lines = {line: state["results"][i] for i, line in enumerate(guess_indices)}
     # Compose training record
     record = {
         "song_title": state["song_title"],
         "timestamp": datetime.now(),
-        "mistakes": mistakes,
-        "results": state["results"],
-        "total": len(guess_indices),
+        "guessed_lines": guessed_lines,
     }
     # Append to stats
     stats = stats or []
