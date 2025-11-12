@@ -372,6 +372,7 @@ def get_song_dropdown_menu(song_title=DEFAULT_SONG, component_id: str = "dropdow
         id=component_id,
         value=song_title,
         options=[{"label": i, "value": i} for i in get_songs(as_sorted=True)],
+        clearable=False,
     )
 
 

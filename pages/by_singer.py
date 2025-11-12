@@ -30,6 +30,7 @@ def layout(singer_name=DEFAULT_SINGER):
                 value=singer_name,
                 options=[{"label": i, "value": i} for i in get_singers(as_sorted=True)],
                 style={"marginBottom": 10},
+                clearable=False,
             ),
             get_date_range_object(),
             html.Hr(),
