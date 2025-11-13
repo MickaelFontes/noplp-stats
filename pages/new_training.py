@@ -217,8 +217,12 @@ def training_step(song_title, state):
 
 
 # --- Step action callback ---
-def _apply_guessing_actions(state, step_val, first_letter, reveal, know, dont_know):
-    """Apply guessing-stage interactions to the state and return it."""
+def _apply_guessing_actions(state, *, step_val, first_letter, reveal, know, dont_know):
+    """Apply guessing-stage interactions to the state and return it.
+
+    Interaction flags are keyword-only to avoid too-many-positional-arguments
+    pylint warnings while keeping call sites explicit.
+    """
     if first_letter and any(first_letter):
         state["show_first_letter"] = True
     if reveal and any(reveal):
@@ -241,8 +245,7 @@ def _handle_back_action(state, step_val, shown, back):
     if back and any(back):
         if step_val > shown:
             state["step"] = step_val - 1
-            results = state.get("results", [])
-            if results:
+            if (results := state.get("results", [])):
                 results.pop()
                 state["results"] = results
             state["show_first_letter"] = False
@@ -255,40 +258,55 @@ def _handle_back_action(state, step_val, shown, back):
     return state, False
 
 
-def _handle_forward_interactions(state, step_val, shown, reveal, first_letter, know, dont_know):
+def _handle_forward_interactions(state, step_val, shown, *, reveal, first_letter, know, dont_know):
     """Handle forward interactions (intro and guessing stage)."""
     if step_val < shown:
         if reveal and any(reveal):
             state["step"] = step_val + 1
         return state
-    return _apply_guessing_actions(state, step_val, first_letter, reveal, know, dont_know)
+    return _apply_guessing_actions(
+        state,
+        step_val=step_val,
+        first_letter=first_letter,
+        reveal=reveal,
+        know=know,
+        dont_know=dont_know,
+    )
 
 
 @callback(
-    Output("training-state", "data", allow_duplicate=True),
-    Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"),
-    State("training-state", "data"),
+    output=Output("training-state", "data", allow_duplicate=True),
+    inputs={"reveal": Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
+            "first_letter": Input({"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"),
+            "know": Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
+            "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
+            "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"), },
+    state={"training_state": State("training-state", "data")},
     prevent_initial_call=True,
 )
-def step_action(reveal, first_letter, know, dont_know, back, state):
+def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
     # Defensive defaults
-    state = state or {}
-    lines = state.get("lines", [])
+    training_state = training_state or {}
+    lines = training_state.get("lines", [])
     non_empty_indices = get_non_empty_indices(lines)
     shown = min(3, len(non_empty_indices))
-    step_val = state.get("step", 0)
+    step_val = training_state.get("step", 0)
 
     # Try back action first
-    state, handled = _handle_back_action(state, step_val, shown, back)
+    training_state, handled = _handle_back_action(training_state, step_val, shown, back)
     if handled:
-        return state
+        return training_state
 
     # Forward interactions (intro or guessing)
-    return _handle_forward_interactions(state, step_val, shown, reveal, first_letter, know, dont_know)
+    return _handle_forward_interactions(
+        training_state,
+        step_val,
+        shown,
+        reveal=reveal,
+        first_letter=first_letter,
+        know=know,
+        dont_know=dont_know,
+    )
 
 
 # --- Save stats callback ---
