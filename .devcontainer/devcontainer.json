@@ -7,10 +7,6 @@
 	},
 	"customizations": {
 		"vscode": {
-			"conventionalCommits.autoCommit": false,
-			"git.autofetch": true,
-			"telemetry.telemetryLevel": "off",
-			"telemetry.feedback.enabled": false,
 			"extensions": [
 				"ms-python.autopep8",
 				"ms-python.python",
