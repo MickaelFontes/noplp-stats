@@ -96,28 +96,63 @@ def render_guess_line(lines, step, shown, state):
     line = lines[idx]
     display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
+    # Back button available when we're past the initial shown lines
+    can_go_back = step > shown
+
     if not state.get("revealed"):
         masked = mask_line(display_line, state.get("show_first_letter", False))
-        btns = []
+        right_btns = []
         if not state.get("show_first_letter"):
-            btns.append(
+            right_btns.append(
                 dbc.Button(
                     "Montrer les initiales",
                     id={"type": "first-letter-btn", "index": step},
                     n_clicks=0, color="secondary", className="me-2"
                 )
             )
-        btns.append(dbc.Button("Montrer la ligne", id={"type": "reveal-btn", "index": step}, n_clicks=0, color="primary"))
+        right_btns.append(
+            dbc.Button(
+                "Montrer la ligne",
+                id={"type": "reveal-btn", "index": step},
+                n_clicks=0,
+                color="primary",
+            )
+        )
+
+        left = []
+        if can_go_back:
+            left.append(dbc.Button(
+                "Précédent",
+                id={"type": "back-btn", "index": step},
+                n_clicks=0, color="secondary",
+            ))
+
         return dbc.Card([
             html.H2(masked, style=style),
-            html.Div(btns, className="mt-3 d-flex justify-content-end"),
+            html.Div([
+                html.Div(left, className="d-flex justify-content-start"),
+                html.Div(right_btns, className="d-flex justify-content-end"),
+            ], className="mt-3 d-flex justify-content-between"),
         ], body=True)
+
+    # revealed state: show full line and answer buttons, with back on left
+    left = []
+    if can_go_back:
+        left.append(dbc.Button(
+            "Précédent",
+            id={"type": "back-btn", "index": step},
+            n_clicks=0, color="secondary",
+        ))
+
     return dbc.Card([
         html.H2(display_line, style=style),
         html.Div([
-            dbc.Button("Non", id={"type": "dont-know-btn", "index": step}, n_clicks=0, color="danger", className="me-2"),
-            dbc.Button("Oui", id={"type": "know-btn", "index": step}, n_clicks=0, color="success"),
-        ], className="mt-3 d-flex justify-content-end"),
+            html.Div(left, className="d-flex justify-content-start"),
+            html.Div([
+                dbc.Button("Non", id={"type": "dont-know-btn", "index": step}, n_clicks=0, color="danger", className="me-2"),
+                dbc.Button("Oui", id={"type": "know-btn", "index": step}, n_clicks=0, color="success"),
+            ], className="d-flex justify-content-end"),
+        ], className="mt-3 d-flex justify-content-between"),
     ], body=True)
 
 
@@ -182,35 +217,96 @@ def training_step(song_title, state):
 
 
 # --- Step action callback ---
+def _apply_guessing_actions(state, *, step_val, first_letter, reveal, know, dont_know):
+    """Apply guessing-stage interactions to the state and return it.
+
+    Interaction flags are keyword-only to avoid too-many-positional-arguments
+    pylint warnings while keeping call sites explicit.
+    """
+    if first_letter and any(first_letter):
+        state["show_first_letter"] = True
+    if reveal and any(reveal):
+        state["revealed"] = True
+    if know and any(know):
+        state.setdefault("results", []).append(True)
+        state["step"] = step_val + 1
+        state["show_first_letter"] = False
+        state["revealed"] = False
+    if dont_know and any(dont_know):
+        state.setdefault("results", []).append(False)
+        state["step"] = step_val + 1
+        state["show_first_letter"] = False
+        state["revealed"] = False
+    return state
+
+
+def _handle_back_action(state, step_val, shown, back):
+    """Handle back button action. Returns (state, handled_bool)."""
+    if back and any(back):
+        if step_val > shown:
+            state["step"] = step_val - 1
+            if (results := state.get("results", [])):
+                results.pop()
+                state["results"] = results
+            state["show_first_letter"] = False
+            # When going back to the previous guessed line, show it revealed
+            state["revealed"] = True
+            state["finished"] = False
+        elif step_val > 0:
+            state["step"] = step_val - 1
+        return state, True
+    return state, False
+
+
+def _handle_forward_interactions(state, step_val, shown, *, reveal, first_letter, know, dont_know):
+    """Handle forward interactions (intro and guessing stage)."""
+    if step_val < shown:
+        if reveal and any(reveal):
+            state["step"] = step_val + 1
+        return state
+    return _apply_guessing_actions(
+        state,
+        step_val=step_val,
+        first_letter=first_letter,
+        reveal=reveal,
+        know=know,
+        dont_know=dont_know,
+    )
+
+
 @callback(
-    Output("training-state", "data", allow_duplicate=True),
-    Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
-    Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
-    State("training-state", "data"),
+    output=Output("training-state", "data", allow_duplicate=True),
+    inputs={"reveal": Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
+            "first_letter": Input({"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"),
+            "know": Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
+            "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
+            "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"), },
+    state={"training_state": State("training-state", "data")},
     prevent_initial_call=True,
 )
-def step_action(reveal, first_letter, know, dont_know, state):
-    if state.get("step", 0) < 3:
-        if reveal and any(reveal):
-            state["step"] += 1
-    else:
-        if first_letter and any(first_letter):
-            state["show_first_letter"] = True
-        if reveal and any(reveal):
-            state["revealed"] = True
-        if know and any(know):
-            state["results"].append(True)
-            state["step"] += 1
-            state["show_first_letter"] = False
-            state["revealed"] = False
-        if dont_know and any(dont_know):
-            state["results"].append(False)
-            state["step"] += 1
-            state["show_first_letter"] = False
-            state["revealed"] = False
-    return state
+def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
+    # Defensive defaults
+    training_state = training_state or {}
+    lines = training_state.get("lines", [])
+    non_empty_indices = get_non_empty_indices(lines)
+    shown = min(3, len(non_empty_indices))
+    step_val = training_state.get("step", 0)
+
+    # Try back action first
+    training_state, handled = _handle_back_action(training_state, step_val, shown, back)
+    if handled:
+        return training_state
+
+    # Forward interactions (intro or guessing)
+    return _handle_forward_interactions(
+        training_state,
+        step_val,
+        shown,
+        reveal=reveal,
+        first_letter=first_letter,
+        know=know,
+        dont_know=dont_know,
+    )
 
 
 # --- Save stats callback ---
