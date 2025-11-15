@@ -28,9 +28,8 @@ def compute_song_scores(stats):
     """Return dict: song_title -> list of scores (percent known lines)."""
     song_scores = defaultdict(list)
     for rec in stats:
-        if rec.get("total"):
-            score = sum(rec["results"]) / rec["total"] * 100
-            song_scores[rec["song_title"].strip()].append(score)
+        score = sum(rec["guessed_lines"].values()) / len(rec["guessed_lines"]) * 100
+        song_scores[rec["song_title"].strip()].append(score)
     return song_scores
 
 
@@ -39,7 +38,7 @@ def get_last_n_unique(stats, n=10):
     seen = set()
     unique = []
     for rec in sorted(stats, key=lambda r: r["timestamp"], reverse=True):
-        if (title := rec['song_title']) not in seen:
+        if (title := rec["song_title"]) not in seen:
             seen.add(title)
             unique.append(rec)
         if len(unique) == n:
@@ -51,9 +50,12 @@ def get_line_mistakes(song_title, stats):
     """Return Counter of mistakes per line for a song."""
     line_mistakes = Counter()
     for rec in stats:
+        print(rec)
         if rec["song_title"] == song_title:
-            for line in rec["mistakes"]:
-                line_mistakes[line] += 1
+            for line_number in rec["guessed_lines"].keys():
+                if rec["guessed_lines"][line_number] is False:
+                    line_mistakes[int(line_number)] += 1
+    print(line_mistakes)
     return line_mistakes
 
 
