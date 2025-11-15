@@ -1,13 +1,15 @@
 """Statistics page for song specific stats."""
+
 from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html, clientside_callback
+from dash import Input, Output, callback, clientside_callback, dcc, html
 
 from pages.utils import (
     DEFAULT_SONG,
+    compute_line_mistakes,
     filter_date,
     filter_song,
     find_singer,
@@ -22,8 +24,12 @@ from pages.utils import (
 
 PAGE_PATH = "/song"
 
-dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
-                   title="Par chanson - NOLPL stats")
+dash.register_page(
+    __name__,
+    path=PAGE_PATH,
+    path_template=PAGE_PATH + "/<song_title>",
+    title="Par chanson - NOLPL stats",
+)
 
 
 def layout(song_title=DEFAULT_SONG, **_):
@@ -33,25 +39,27 @@ def layout(song_title=DEFAULT_SONG, **_):
         dbc.CardBody(
             [
                 html.H5("Sélectionner le titre de la chanson", className="card-title"),
-                get_song_dropdown_menu(song_title, component_id="dropdown-song-by-song"),
+                get_song_dropdown_menu(
+                    song_title, component_id="dropdown-song-by-song"
+                ),
                 html.Hr(),
                 html.Div(
                     [
                         html.P(["Interprète: "]),
                         html.P("Classement global: "),
-                        html.P(
-                            "Classement Même chanson: "
-                        ),
+                        html.P("Classement Même chanson: "),
                         html.P("Classement 50 Points: "),
                         html.P("Classement Maestro: "),
                     ],
-                    id="song-details"),
+                    id="song-details",
+                ),
             ]
         )
     )
 
     return dbc.Container(
         [
+            dcc.Store(id="user-training-stats", storage_type="local"),
             dcc.Location(id="url-song", refresh=False),
             html.H4("Statistiques sur la chanson sélectionnée"),
             dbc.Row(
@@ -83,7 +91,7 @@ clientside_callback(
     """,
     Output("blank-output", "children", allow_duplicate=True),
     Input("dropdown-song-by-song", "value"),
-    prevent_initial_call=True
+    prevent_initial_call=True,
 )
 
 
@@ -96,7 +104,7 @@ clientside_callback(
 def update_url_from_dropdown(song_title, url_pathname):
     len_song_prefix = len(PAGE_PATH)
     if url_pathname[:len_song_prefix] == PAGE_PATH:
-        param = unquote(url_pathname)[len_song_prefix + 1:]
+        param = unquote(url_pathname)[len_song_prefix + 1 :]
         if param and not song_exists(param):
             return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
         if param == song_title:
@@ -131,7 +139,9 @@ def update_figure(song_name, date_range):
     return fig
 
 
-@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value"))
+@callback(
+    Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value")
+)
 def update_timeline(song_name):
     """Update the timeline graph of selected song.
 
@@ -162,15 +172,17 @@ def update_timeline(song_name):
     Output("song-details", "children"),
     Output("song-lyrics", "children"),
     Input("dropdown-song-by-song", "value"),
+    Input("user-training-stats", "data"),
 )
-def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
+def update_song_details(song_title: str, stats) -> tuple[list[html.P], list[html.P]]:
     """Query and return song details.
 
     Args:
         song_title (str): song title
+        stats (list[dict] | None): stored training stats (each record may contain "song_title" and a "mistakes" list)
 
     Returns:
-        list[html.P]: Dash elements with the details
+        tuple[list[html.P], list[html.P]]: (song detail elements, lyrics elements)
     """
     global_df = return_global_ranking_df()
     global_df = global_df[global_df["name"] == song_title]
@@ -196,11 +208,12 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
         else "NA"
     )
 
-    # Use shared rendering with optional line-level highlighting (no stats here)
+    line_mistakes = compute_line_mistakes(stats, song_title)
+
     lyrics_df = return_lyrics_df()
     raw = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
     lines = raw.split("\\n")
-    lyrics = render_lyrics_with_mistakes(lines, {})
+    lyrics = render_lyrics_with_mistakes(lines, line_mistakes)
 
     return [
         html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),

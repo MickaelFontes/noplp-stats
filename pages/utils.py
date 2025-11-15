@@ -2,6 +2,7 @@
 
 import datetime
 import time
+from collections import Counter
 from functools import reduce
 
 import pandas as pd
@@ -47,8 +48,10 @@ def get_marks():
     """
     result = {}
     for date in daterange_marks:
-        result[datetime_to_unix(date)] = {"label": str(date.strftime("%Y")), "style": {
-            "writing-mode": "vertical-rl", "transform": "rotate(-55deg)"}}
+        result[datetime_to_unix(date)] = {
+            "label": str(date.strftime("%Y")),
+            "style": {"writing-mode": "vertical-rl", "transform": "rotate(-55deg)"},
+        }
     return result
 
 
@@ -65,7 +68,7 @@ def filter_date(
         Dataframe: songs Dataframe of input data_range
     """
     small, big = date_range
-    graph_df = data_frame[data_frame["date"] <= unix_to_datetime(big)]  # type: ignore
+    graph_df = data_frame[data_frame["date"] <= unix_to_datetime(big)]
     graph_df = graph_df[graph_df["date"] >= unix_to_datetime(small)]
     return graph_df
 
@@ -151,7 +154,7 @@ def get_date_range_object(prefix_component_id=""):
                 min=begin,
                 max=end,
                 value=[begin, end],
-                marks=get_marks()
+                marks=get_marks(),
             ),
         ],
         style={"marginTop": "20"},
@@ -361,7 +364,9 @@ def song_exists(song_title: str) -> bool:
     return song_title in _SONGS_SET
 
 
-def get_song_dropdown_menu(song_title=DEFAULT_SONG, component_id: str = "dropdown-song"):
+def get_song_dropdown_menu(
+    song_title=DEFAULT_SONG, component_id: str = "dropdown-song"
+):
     """Return the song Dropdown menu with configurable id.
 
     Args:
@@ -431,15 +436,52 @@ def render_lyrics_with_mistakes(lines, line_mistakes):
 
     children = []
     for i, line in enumerate(lines):
-        count = line_mistakes.get(i, 0) if hasattr(line_mistakes, "get") else (line_mistakes[i] if i in line_mistakes else 0)
+        count = (
+            line_mistakes.get(i, 0)
+            if hasattr(line_mistakes, "get")
+            else (line_mistakes[i] if i in line_mistakes else 0)
+        )
         style = get_color(count)
         if line.startswith("¤"):
             style["fontWeight"] = "bold"
             display_line = line.lstrip("¤").strip()
         else:
             display_line = line.strip()
-        children.append(html.Br() if line.strip() == "" else html.Div(display_line, style=style))
+        if line.strip() == "":
+            children.append(html.Br())
+        else:
+            children.append(
+                html.Div(
+                    html.Span(display_line, className="lyric-span", style=style),
+                    style={"textAlign": "center"},
+                )
+            )
     return children
+
+
+def compute_line_mistakes(stats, song_title):
+    """Compute per-line mistake counts for a song from stored stats.
+
+    This function assumes the store records are created by
+    `pages/new_training.py` and therefore contain a `guessed_lines`
+    dict mapping line_index -> bool (True if guessed correctly).
+
+    Returns a `collections.Counter` mapping line_index (int) -> mistake_count.
+    """
+    counter = Counter()
+    if not stats:
+        return counter
+
+    for rec in stats:
+        if rec.get("song_title") != song_title:
+            continue
+
+        guessed = rec.get("guessed_lines")
+        for k, v in guessed.items():
+            if v is False:
+                counter[int(k)] += 1
+
+    return counter
 
 
 def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:

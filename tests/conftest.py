@@ -1,6 +1,6 @@
 import os
-from selenium.webdriver.chrome.options import Options
 
+from selenium.webdriver.chrome.options import Options
 
 # Ensure CHROMEWEBDRIVER path (if provided) is added to PATH so Selenium can find chromedriver
 # Tests can set the CHROMEWEBDRIVER env var before running pytest. If it's set, add it to PATH.
