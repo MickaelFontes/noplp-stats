@@ -130,9 +130,9 @@ def render_guess_line(lines, step, shown, state):
         return dbc.Card([
             html.H2(masked, style=style),
             html.Div([
-                html.Div(left, className="d-flex justify-content-start"),
+                html.Div(left, className="d-flex"),
                 html.Div(right_btns, className="d-flex justify-content-end"),
-            ], className="mt-3 d-flex justify-content-between"),
+            ], className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center"),
         ], body=True)
 
     # revealed state: show full line and answer buttons, with back on left
@@ -147,12 +147,24 @@ def render_guess_line(lines, step, shown, state):
     return dbc.Card([
         html.H2(display_line, style=style),
         html.Div([
-            html.Div(left, className="d-flex justify-content-start"),
+            html.Div(left, className="d-flex"),
             html.Div([
-                dbc.Button("Non", id={"type": "dont-know-btn", "index": step}, n_clicks=0, color="danger", className="me-2"),
-                dbc.Button("Oui", id={"type": "know-btn", "index": step}, n_clicks=0, color="success"),
+                dbc.Button(
+                    "Non",
+                    id={"type": "dont-know-btn", "index": step},
+                    n_clicks=0,
+                    color="danger",
+                    className="me-2 flex-shrink-0",
+                ),
+                dbc.Button(
+                    "Oui",
+                    id={"type": "know-btn", "index": step},
+                    n_clicks=0,
+                    color="success",
+                    className="flex-shrink-0",
+                ),
             ], className="d-flex justify-content-end"),
-        ], className="mt-3 d-flex justify-content-between"),
+        ], className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center"),
     ], body=True)
 
 
