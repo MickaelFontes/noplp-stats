@@ -13,6 +13,7 @@ from pages.utils import (
     get_song_dropdown_menu,
     return_lyrics_df,
     song_exists,
+    lyric_span,
 )
 
 PAGE_PATH = "/new-training"
@@ -109,10 +110,7 @@ def render_intro_line(lines, step):
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
     return dbc.Card(
         [
-            html.H2(
-                html.Span(display_line, className="lyric-span", style=style),
-                style={"textAlign": "center"},
-            ),
+            html.H2(display_line, className="lyric-span", style={"textAlign": "center", **style}),
             html.Div(
                 [
                     dbc.Button(
@@ -175,7 +173,7 @@ def render_guess_line(lines, step, shown, state):
         # wrap masked text in a centered span so highlighting only applies to text
         return dbc.Card(
             [
-                html.H2(html.Span(masked, style=style), style={"textAlign": "center"}),
+                html.H2(masked, className="lyric-span", style={"textAlign": "center", **style}),
                 html.Div(
                     [
                         html.Div(left, className="d-flex justify-content-start"),
@@ -202,9 +200,7 @@ def render_guess_line(lines, step, shown, state):
     # revealed state: show full line and answer buttons, with back on left
     return dbc.Card(
         [
-            html.H2(
-                html.Span(display_line, style=style), style={"textAlign": "center"}
-            ),
+            html.H2(display_line, className="lyric-span", style={"textAlign": "center", **style}),
             html.Div(
                 [
                     html.Div(left, className="d-flex justify-content-start"),
@@ -251,12 +247,7 @@ def render_final(lines, state):
         if line.strip() == "":
             children.append(html.Br())
         else:
-            children.append(
-                html.Div(
-                    html.Span(display_line, className="lyric-span", style=style),
-                    style={"textAlign": "center"},
-                )
-            )
+            children.append(lyric_span(display_line, style))
     return dbc.Card(
         [
             html.H4("Résultat final"),

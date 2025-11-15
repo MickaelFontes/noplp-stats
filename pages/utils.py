@@ -413,6 +413,19 @@ def return_lyrics_df():
     return lyrics_df
 
 
+def lyric_span(text, style=None):
+    """Return a centered Div containing a lyric Span with the shared CSS class.
+
+    Args:
+        text (str): text to display inside the span
+        style (dict | None): optional inline styles for color/weight
+
+    Returns:
+        html.Div: wrapper Div with centered text and inner Span
+    """
+    return html.Div(html.Span(text, className="lyric-span", style=style or {}), style={"textAlign": "center"})
+
+
 def render_lyrics_with_mistakes(lines, line_mistakes):
     """Return list of Dash HTML elements for lyrics with color highlights.
 
@@ -450,12 +463,7 @@ def render_lyrics_with_mistakes(lines, line_mistakes):
         if line.strip() == "":
             children.append(html.Br())
         else:
-            children.append(
-                html.Div(
-                    html.Span(display_line, className="lyric-span", style=style),
-                    style={"textAlign": "center"},
-                )
-            )
+            children.append(lyric_span(display_line, style))
     return children
 
 
