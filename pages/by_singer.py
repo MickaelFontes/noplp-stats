@@ -1,19 +1,30 @@
 """Statistics page for singer specific stats."""
+
 from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html, clientside_callback
+from dash import Input, Output, callback, clientside_callback, dcc, html
 
-from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers, singer_exists
+from pages.utils import (
+    filter_date,
+    filter_singer,
+    get_date_range_object,
+    get_singers,
+    singer_exists,
+)
 
 DEFAULT_SINGER = "Céline Dion"
 
 PAGE_PATH = "/singer"
 
-dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<singer_name>",
-                   title="Par interprète - NOLPL stats")
+dash.register_page(
+    __name__,
+    path=PAGE_PATH,
+    path_template=PAGE_PATH + "/<singer_name>",
+    title="Par interprète - NOLPL stats",
+)
 
 
 def layout(singer_name=DEFAULT_SINGER):
@@ -51,7 +62,7 @@ clientside_callback(
     """,
     Output("blank-output", "children", allow_duplicate=True),
     Input("dropdown-singer", "value"),
-    prevent_initial_call=True
+    prevent_initial_call=True,
 )
 
 
@@ -64,7 +75,7 @@ clientside_callback(
 def update_url_from_dropdown_singer(singer_name, url_pathname):
     len_singer_prefix = len(PAGE_PATH)
     if url_pathname[:len_singer_prefix] == PAGE_PATH:
-        param = unquote(url_pathname)[len_singer_prefix + 1:]
+        param = unquote(url_pathname)[len_singer_prefix + 1 :]
         if param and not singer_exists(param):
             return f"{PAGE_PATH}/{DEFAULT_SINGER}", DEFAULT_SINGER
         if param == singer_name:

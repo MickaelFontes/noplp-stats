@@ -6,28 +6,46 @@ from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, State, callback, html, dcc
-from pages.utils import DEFAULT_SONG, get_song_dropdown_menu, return_lyrics_df, song_exists
+from dash import Input, Output, State, callback, dcc, html
+
+from pages.utils import (
+    DEFAULT_SONG,
+    get_song_dropdown_menu,
+    return_lyrics_df,
+    song_exists,
+    lyric_span,
+)
 
 PAGE_PATH = "/new-training"
 
-dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
-                   title="Entraînement - NOLPL stats")
+dash.register_page(
+    __name__,
+    path=PAGE_PATH,
+    path_template=PAGE_PATH + "/<song_title>",
+    title="Entraînement - NOLPL stats",
+)
 
 
 # Update layout to accept song_title
 def layout(song_title="2 be 3", **_):
     song_title = unquote(song_title)
-    return dbc.Container([
-        dcc.Location(id="url-training", refresh=False),
-        html.H5("Zone d'entraînement pour apprendre les paroles"),
-        html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
-        get_song_dropdown_menu(song_title, component_id="dropdown-song-new-training"),
-        html.Hr(),
-        dcc.Store(id="training-state", data={}),
-        dcc.Store(id="user-training-stats", storage_type="local"),  # New store for stats
-        html.Div(id="training-step"),
-    ], style={"marginTop": 20})
+    return dbc.Container(
+        [
+            dcc.Location(id="url-training", refresh=False),
+            html.H5("Zone d'entraînement pour apprendre les paroles"),
+            html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
+            get_song_dropdown_menu(
+                song_title, component_id="dropdown-song-new-training"
+            ),
+            html.Hr(),
+            dcc.Store(id="training-state", data={}),
+            dcc.Store(
+                id="user-training-stats", storage_type="local"
+            ),  # New store for stats
+            html.Div(id="training-step"),
+        ],
+        style={"marginTop": 20},
+    )
 
 
 # --- Helper functions ---
@@ -57,7 +75,14 @@ def mask_line(line, show_first_letter=False):
             split_words.append(w)
     if show_first_letter:
         return " ".join(
-            [w if w.endswith("'") and len(w) == 2 else w[0] + ("_" * 4) if len(w) > 1 else w for w in split_words]
+            [
+                (
+                    w
+                    if w.endswith("'") and len(w) == 2
+                    else w[0] + ("_" * 4) if len(w) > 1 else w
+                )
+                for w in split_words
+            ]
         )
     return " ".join(["_" * 4 for w in split_words])
 
@@ -83,11 +108,24 @@ def render_intro_line(lines, step):
     line = lines[idx]
     display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
-    return dbc.Card([
-        html.H2(display_line, style=style),
-        html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
-                 color="primary", className="mt-3")], className="d-flex justify-content-center"),
-    ], body=True)
+    return dbc.Card(
+        [
+            html.H2(display_line, className="lyric-span", style={"textAlign": "center", **style}),
+            html.Div(
+                [
+                    dbc.Button(
+                        "Suivant",
+                        id={"type": "reveal-btn", "index": step},
+                        n_clicks=0,
+                        color="primary",
+                        className="mt-3",
+                    )
+                ],
+                className="d-flex justify-content-center",
+            ),
+        ],
+        body=True,
+    )
 
 
 def render_guess_line(lines, step, shown, state):
@@ -107,7 +145,9 @@ def render_guess_line(lines, step, shown, state):
                 dbc.Button(
                     "Montrer les initiales",
                     id={"type": "first-letter-btn", "index": step},
-                    n_clicks=0, color="secondary", className="me-2"
+                    n_clicks=0,
+                    color="secondary",
+                    className="me-2",
                 )
             )
         right_btns.append(
@@ -121,39 +161,73 @@ def render_guess_line(lines, step, shown, state):
 
         left = []
         if can_go_back:
-            left.append(dbc.Button(
-                "Précédent",
-                id={"type": "back-btn", "index": step},
-                n_clicks=0, color="secondary",
-            ))
+            left.append(
+                dbc.Button(
+                    "Précédent",
+                    id={"type": "back-btn", "index": step},
+                    n_clicks=0,
+                    color="secondary",
+                )
+            )
 
-        return dbc.Card([
-            html.H2(masked, style=style),
-            html.Div([
-                html.Div(left, className="d-flex justify-content-start"),
-                html.Div(right_btns, className="d-flex justify-content-end"),
-            ], className="mt-3 d-flex justify-content-between"),
-        ], body=True)
+        # wrap masked text in a centered span so highlighting only applies to text
+        return dbc.Card(
+            [
+                html.H2(masked, className="lyric-span", style={"textAlign": "center", **style}),
+                html.Div(
+                    [
+                        html.Div(left, className="d-flex justify-content-start"),
+                        html.Div(right_btns, className="d-flex justify-content-end"),
+                    ],
+                    className="mt-3 d-flex justify-content-between",
+                ),
+            ],
+            body=True,
+        )
 
     # revealed state: show full line and answer buttons, with back on left
     left = []
     if can_go_back:
-        left.append(dbc.Button(
-            "Précédent",
-            id={"type": "back-btn", "index": step},
-            n_clicks=0, color="secondary",
-        ))
+        left.append(
+            dbc.Button(
+                "Précédent",
+                id={"type": "back-btn", "index": step},
+                n_clicks=0,
+                color="secondary",
+            )
+        )
 
-    return dbc.Card([
-        html.H2(display_line, style=style),
-        html.Div([
-            html.Div(left, className="d-flex justify-content-start"),
-            html.Div([
-                dbc.Button("Non", id={"type": "dont-know-btn", "index": step}, n_clicks=0, color="danger", className="me-2"),
-                dbc.Button("Oui", id={"type": "know-btn", "index": step}, n_clicks=0, color="success"),
-            ], className="d-flex justify-content-end"),
-        ], className="mt-3 d-flex justify-content-between"),
-    ], body=True)
+    # revealed state: show full line and answer buttons, with back on left
+    return dbc.Card(
+        [
+            html.H2(display_line, className="lyric-span", style={"textAlign": "center", **style}),
+            html.Div(
+                [
+                    html.Div(left, className="d-flex justify-content-start"),
+                    html.Div(
+                        [
+                            dbc.Button(
+                                "Non",
+                                id={"type": "dont-know-btn", "index": step},
+                                n_clicks=0,
+                                color="danger",
+                                className="me-2",
+                            ),
+                            dbc.Button(
+                                "Oui",
+                                id={"type": "know-btn", "index": step},
+                                n_clicks=0,
+                                color="success",
+                            ),
+                        ],
+                        className="d-flex justify-content-end",
+                    ),
+                ],
+                className="mt-3 d-flex justify-content-between",
+            ),
+        ],
+        body=True,
+    )
 
 
 def render_final(lines, state):
@@ -165,13 +239,22 @@ def render_final(lines, state):
         style = {"fontWeight": "bold"} if line.startswith("¤") else {}
         if i in guess_indices and guessed_idx < len(state["results"]):
             if not state["results"][guessed_idx]:
-                style["color"] = "red"
+                # apply a background highlight for mistakes (consistent with utils)
+                style["backgroundColor"] = "rgb(255,0,0)"
+                # keep text readable
+                style.setdefault("color", "black")
             guessed_idx += 1
-        children.append(html.Br() if line.strip() == "" else html.Div(display_line, style=style))
-    return dbc.Card([
-        html.H4("Résultat final"),
-        html.Div(children),
-    ], body=True)
+        if line.strip() == "":
+            children.append(html.Br())
+        else:
+            children.append(lyric_span(display_line, style))
+    return dbc.Card(
+        [
+            html.H4("Résultat final"),
+            html.Div(children),
+        ],
+        body=True,
+    )
 
 
 # --- Main callback ---
@@ -245,7 +328,7 @@ def _handle_back_action(state, step_val, shown, back):
     if back and any(back):
         if step_val > shown:
             state["step"] = step_val - 1
-            if (results := state.get("results", [])):
+            if results := state.get("results", []):
                 results.pop()
                 state["results"] = results
             state["show_first_letter"] = False
@@ -258,7 +341,9 @@ def _handle_back_action(state, step_val, shown, back):
     return state, False
 
 
-def _handle_forward_interactions(state, step_val, shown, *, reveal, first_letter, know, dont_know):
+def _handle_forward_interactions(
+    state, step_val, shown, *, reveal, first_letter, know, dont_know
+):
     """Handle forward interactions (intro and guessing stage)."""
     if step_val < shown:
         if reveal and any(reveal):
@@ -276,11 +361,15 @@ def _handle_forward_interactions(state, step_val, shown, *, reveal, first_letter
 
 @callback(
     output=Output("training-state", "data", allow_duplicate=True),
-    inputs={"reveal": Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
-            "first_letter": Input({"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"),
-            "know": Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
-            "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
-            "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"), },
+    inputs={
+        "reveal": Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
+        "first_letter": Input(
+            {"type": "first-letter-btn", "index": dash.ALL}, "n_clicks"
+        ),
+        "know": Input({"type": "know-btn", "index": dash.ALL}, "n_clicks"),
+        "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
+        "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"),
+    },
     state={"training_state": State("training-state", "data")},
     prevent_initial_call=True,
 )
@@ -319,7 +408,11 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
 def save_training_stats(state, stats):
     if not state.get("finished"):
         return dash.no_update
-    if not state.get("song_title") or not state.get("lines") or not state.get("results"):
+    if (
+        not state.get("song_title")
+        or not state.get("lines")
+        or not state.get("results")
+    ):
         return dash.no_update
     # Find line numbers where user clicked 'no'
     guess_indices = get_guess_indices(state["lines"])
@@ -346,7 +439,7 @@ def save_training_stats(state, stats):
 def update_url_from_dropdown(song_title, url_pathname):
     len_training_prefix = len(PAGE_PATH)
     if url_pathname[:len_training_prefix] == PAGE_PATH:
-        param = unquote(url_pathname)[len_training_prefix + 1:]
+        param = unquote(url_pathname)[len_training_prefix + 1 :]
         if param and not song_exists(param):
             return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
         if param == song_title:

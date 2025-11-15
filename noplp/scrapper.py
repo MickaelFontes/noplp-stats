@@ -135,7 +135,9 @@ class Scrapper:
             raise ScrapperProcessingSinger("data property empty.")
 
         # Extract singer from the source field
-        if (regex_search := re.search(r"(?:Auteur|Interprète)\w* : (.*)", source)) is not None:
+        if (
+            regex_search := re.search(r"(?:Auteur|Interprète)\w* : (.*)", source)
+        ) is not None:
             singer = regex_search.group(1)
             # discard potential following brackets
             singer = re.search(r"([^\[]*)", singer).group(1)
@@ -314,7 +316,7 @@ class Scrapper:
         regex = re.search(
             r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi|Tirée|mots imposés)",
             line,
-            flags=re.IGNORECASE
+            flags=re.IGNORECASE,
         )
         if regex:
             points_text = regex.group(1)
