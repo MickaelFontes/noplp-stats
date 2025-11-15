@@ -5,7 +5,7 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State, callback, ctx
 from dash.dependencies import ALL
-from pages.utils import return_lyrics_df
+from pages.utils import return_lyrics_df, render_lyrics_with_mistakes
 
 
 dash.register_page(__name__, path="/my-stats", title="Mes stats - NOLPL stats")
@@ -68,29 +68,7 @@ def get_lyrics_lines(song_title):
     return lyrics_row["lyrics"].values[0].split("\\n")
 
 
-def render_lyrics(lines, line_mistakes):
-    """Return list of html elements for lyrics with color gradation."""
-    if not lines:
-        return [html.P("Paroles non disponibles.")]
-    max_mistakes = max(line_mistakes.values()) if line_mistakes else 1
-
-    def get_color(count):
-        if count == 0:
-            return {}
-        ratio = count / max_mistakes
-        r, g, b = 255, int(255 * (1 - ratio)), 0
-        return {"backgroundColor": f"rgb({r},{g},{b})"}
-
-    children = []
-    for i, line in enumerate(lines):
-        style = get_color(line_mistakes[i])
-        if line.startswith("¤"):
-            style["fontWeight"] = "bold"
-            display_line = line.lstrip("¤").strip()
-        else:
-            display_line = line.strip()
-        children.append(html.Br() if line.strip() == "" else html.Div(display_line, style=style))
-    return children
+# Replaced local render_lyrics implementation by `render_lyrics_with_mistakes`
 
 
 def render_song_card(title, min_score, is_open, stats):
@@ -100,10 +78,10 @@ def render_song_card(title, min_score, is_open, stats):
     details = dbc.Collapse(
         dbc.Card([
             html.H4(f"Détails pour {title}"),
-            html.Div(render_lyrics(lines, line_mistakes)),
+            html.Div(render_lyrics_with_mistakes(lines, line_mistakes)),
         ], body=True),
         is_open=is_open,
-        className="mt-2"
+        className="mt-2",
     ) if is_open else dbc.Collapse([], is_open=False)
     return dbc.Card([
         html.H5(title),

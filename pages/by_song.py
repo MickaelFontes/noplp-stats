@@ -7,13 +7,13 @@ import plotly.express as px
 from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
-    extract_and_format_lyrics,
     DEFAULT_SONG,
     filter_date,
     filter_song,
     find_singer,
     get_date_range_object,
     get_song_dropdown_menu,
+    render_lyrics_with_mistakes,
     return_cat_rankings_df,
     return_global_ranking_df,
     return_lyrics_df,
@@ -196,10 +196,11 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
         else "NA"
     )
 
+    # Use shared rendering with optional line-level highlighting (no stats here)
     lyrics_df = return_lyrics_df()
-    lyrics = extract_and_format_lyrics(
-        lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
-    )
+    raw = lyrics_df[lyrics_df["name"] == song_title]["lyrics"].values[0]
+    lines = raw.split("\\n")
+    lyrics = render_lyrics_with_mistakes(lines, {})
 
     return [
         html.P(["Interprète: " + singer, dcc.Markdown(id="singer-field")]),

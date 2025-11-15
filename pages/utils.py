@@ -408,6 +408,40 @@ def return_lyrics_df():
     return lyrics_df
 
 
+def render_lyrics_with_mistakes(lines, line_mistakes):
+    """Return list of Dash HTML elements for lyrics with color highlights.
+
+    Args:
+        lines (list[str]): list of lyric lines
+        line_mistakes (dict or Counter): mapping line_index -> mistake count
+
+    Returns:
+        list[html]: list of Dash HTML elements
+    """
+    if not lines:
+        return [html.P("Paroles non disponibles.")]
+    max_mistakes = max(line_mistakes.values()) if line_mistakes else 1
+
+    def get_color(count: int):
+        if not count:
+            return {}
+        ratio = count / max_mistakes
+        r, g, b = 255, int(255 * (1 - ratio)), 0
+        return {"backgroundColor": f"rgb({r},{g},{b})"}
+
+    children = []
+    for i, line in enumerate(lines):
+        count = line_mistakes.get(i, 0) if hasattr(line_mistakes, "get") else (line_mistakes[i] if i in line_mistakes else 0)
+        style = get_color(count)
+        if line.startswith("¤"):
+            style["fontWeight"] = "bold"
+            display_line = line.lstrip("¤").strip()
+        else:
+            display_line = line.strip()
+        children.append(html.Br() if line.strip() == "" else html.Div(display_line, style=style))
+    return children
+
+
 def bold_for_verified(text: list[str]) -> list[str] | list[html.B]:
     """Put verified lyrics in bold.
 
