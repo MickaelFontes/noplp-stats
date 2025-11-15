@@ -8,6 +8,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
 				"ms-python.autopep8",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
