@@ -105,7 +105,7 @@ def render_guess_line(lines, step, shown, state):
         if not state.get("show_first_letter"):
             right_btns.append(
                 dbc.Button(
-                    "Montrer les initiales",
+                    "Initiales",
                     id={"type": "first-letter-btn", "index": step},
                     n_clicks=0, color="secondary", className="me-2"
                 )
@@ -122,7 +122,7 @@ def render_guess_line(lines, step, shown, state):
         left = []
         if can_go_back:
             left.append(dbc.Button(
-                "Précédent",
+                "<-",
                 id={"type": "back-btn", "index": step},
                 n_clicks=0, color="secondary",
             ))
@@ -139,7 +139,7 @@ def render_guess_line(lines, step, shown, state):
     left = []
     if can_go_back:
         left.append(dbc.Button(
-            "Précédent",
+            "<-",
             id={"type": "back-btn", "index": step},
             n_clicks=0, color="secondary",
         ))
