@@ -44,7 +44,7 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
         full_page_list.remove("Les feuilles mortes")
 
     # Scrapping all.
-    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=5))
+    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30))
     tasks = []
     if test:
         full_page_list = sample(full_page_list, 150)
