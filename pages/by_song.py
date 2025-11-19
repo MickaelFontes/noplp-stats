@@ -127,7 +127,8 @@ def update_figure(song_name, date_range):
         "date"
     ].count()
     fig = px.histogram(data_frame=graph_df, x="category", y="date", color="points")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending"})
+    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
+                      "title": "Catégorie"}, yaxis={"title": "Nombre d'apparitions"})
     return fig
 
 
@@ -154,7 +155,7 @@ def update_timeline(song_name):
         color=graph_df["category"],
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
-    fig.update_layout(showlegend=False)
+    fig.update_layout(showlegend=False, yaxis={"title": "Catégorie"}, xaxis={"title": "Date"})
     return fig
 
 
