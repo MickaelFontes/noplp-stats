@@ -312,6 +312,8 @@ def return_coverage_figure():
         color="category",
         hover_data={"name": True, "rank": True, "coverage": True, "category": True},
     )
+    fig.update_layout(xaxis={"title": "Nombre de chansons à connaître"}, yaxis={
+                      "title": "Pourcentage de couverture d'une catégorie"})
     return fig
 
 

@@ -96,7 +96,9 @@ def update_figure(song_name, date_range):
     graph_df["category"] = graph_df["category"].str.replace(" -1", "")
     graph_df = graph_df.groupby(by=["name", "category"], as_index=False)["date"].count()
     fig = px.histogram(data_frame=graph_df, x="name", y="date", color="category")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending"})
+    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
+                      "title": "Chanson"}, yaxis={"title": "Nombre d'apparitions"},
+                      legend={"title": {"text": "Catégorie"}})
     return fig
 
 
@@ -132,6 +134,7 @@ def update_timeline(singer_name):
     fig.update_layout(
         height=500,
         yaxis={
+            "title": "Chanson",
             "categoryorder": "array",
             "categoryarray": [
                 "10 Points",
@@ -142,5 +145,7 @@ def update_timeline(singer_name):
                 "Même chanson",
             ],
         },
+        xaxis={"title": "Date"},
+        legend={"title": {"text": "Catégorie"}}
     )
     return fig
