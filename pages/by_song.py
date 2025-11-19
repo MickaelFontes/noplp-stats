@@ -128,7 +128,8 @@ def update_figure(song_name, date_range):
     ].count()
     fig = px.histogram(data_frame=graph_df, x="category", y="date", color="points")
     fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
-                      "title": "Catégorie"}, yaxis={"title": "Nombre d'apparitions"})
+                      "title": "Catégorie"}, yaxis={"title": "Nombre d'apparitions"},
+                      legend={"title": {"text": "Catégorie"}})
     return fig
 
 
