@@ -17,10 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install poetry
         run: |
           curl -sSL https://install.python-poetry.org | python
@@ -36,9 +36,8 @@ jobs:
 
       - name: Update last scrapping date
         run: |
-          new_line=$( echo "  LAST_UPDATE: '$(date +%d/%m/%Y)'" )
-          old_line=$( grep LAST_UPDATE app.yaml --color=never )
-          sed -i -e "s@${old_line}@${new_line}@g" app.yaml
+          new_line=$(date +%d/%m/%Y)
+          sed -i -E "s@[0-9]{2}/[0-9]{2}/[0-9]{4}@${new_line}@g" pages/bottom.py
 
       - name: Create Pull Request
         id: cpr
@@ -53,6 +52,15 @@ jobs:
         run: |
           git fetch origin update-noplp-database main --depth=1
 
+      - name: Write PR comment body to text file
+        run: |
+          poetry run python noplp/compare_changes.py > comment.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PR comment
+          path: comment.md
+
       - name: Write or update summary comment in Pull Request #see https://github.com/actions/runner/issues/1733#issuecomment-2447036317
         uses: actions/github-script@v7
         env:
@@ -60,31 +68,79 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const { execSync } = require('child_process');
+            const path = require('path');
 
-            const commentBody = execSync('poetry run python noplp/compare_changes.py').toString();
+            const commentPath = path.join(process.env.GITHUB_WORKSPACE, 'comment.md');
+            const commentBody = fs.readFileSync(commentPath, 'utf8');
+            const MAX_LENGTH = 65000; // a bit less than GitHub's 65536 char limit
 
 
+            // Improved split: split at section or collapse boundaries
+            function smartSplitComment(body, maxLength) {
+              // Split at section headers or <details> tags
+              const sectionRegex = /(----\n|<details>)/g;
+              let parts = [];
+              let lastIndex = 0;
+              let match;
+              let indices = [0];
+              while ((match = sectionRegex.exec(body)) !== null) {
+                indices.push(match.index);
+              }
+              indices.push(body.length);
+              // Now, group sections into chunks under maxLength
+              let chunk = '';
+              for (let i = 0; i < indices.length - 1; i++) {
+                const section = body.slice(indices[i], indices[i + 1]);
+                if ((chunk.length + section.length) > maxLength && chunk.length > 0) {
+                  parts.push(chunk);
+                  chunk = '';
+                }
+                chunk += section;
+              }
+              if (chunk.length > 0) {
+                parts.push(chunk);
+              }
+              return parts;
+            }
+
+            const commentChunks = smartSplitComment(commentBody, MAX_LENGTH);
+
+            // Get all comments on the PR
             const {data: comments} = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: process.env.PR_NUMBER,
-            })
+            });
             // 41898282 is github-actions[bot] id.
-            const botComment = comments.find(comment => comment.user.id === 41898282)
+            const botComments = comments.filter(comment => comment.user.id === 41898282);
 
-            if (!botComment) {
-              github.rest.issues.createComment({
-                issue_number: process.env.PR_NUMBER,
+            // Post or update comments for each chunk
+            for (let idx = 0; idx < commentChunks.length; idx++) {
+              const chunk = commentChunks[idx];
+              if (botComments[idx]) {
+                // Update existing bot comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: botComments[idx].id,
+                  body: chunk
+                });
+              } else {
+                // Create new comment
+                await github.rest.issues.createComment({
+                  issue_number: process.env.PR_NUMBER,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: chunk
+                });
+              }
+            }
+
+            // Delete any extra old bot comments
+            for (let idx = commentChunks.length; idx < botComments.length; idx++) {
+              await github.rest.issues.deleteComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: commentBody
-              })
-            } else {
-              github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              })
+                comment_id: botComments[idx].id
+              });
             }

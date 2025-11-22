@@ -1,12 +1,14 @@
 """Statistics page for song specific stats."""
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
     extract_and_format_lyrics,
+    DEFAULT_SONG,
     filter_date,
     filter_song,
     find_singer,
@@ -15,49 +17,98 @@ from pages.utils import (
     return_cat_rankings_df,
     return_global_ranking_df,
     return_lyrics_df,
+    song_exists,
 )
 
-dash.register_page(__name__, path="/song", title="Par chanson - NOLPL stats")
+PAGE_PATH = "/song"
 
-first_card = dbc.Card(
-    dbc.CardBody(
-        [
-            html.H5("Sélectionner le titre de la chanson", className="card-title"),
-            get_song_dropdown_menu(),
-            html.Hr(),
-            html.Div(id="song-details"),
-        ]
-    )
-)
+dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
+                   title="Par chanson - NOLPL stats")
 
 
-layout = dbc.Container(
-    [
-        html.H4("Statistiques sur la chanson sélectionnée"),
-        dbc.Row(
+def layout(song_title=DEFAULT_SONG, **_):
+    song_title = unquote(song_title)
+
+    first_card = dbc.Card(
+        dbc.CardBody(
             [
-                dbc.Col(first_card, lg=6, xs=0),
-                dbc.Col(dcc.Graph(id="categories-graph-song"), lg=6, xs=0),
-            ],
-            align="center",
-            justify="center",
-            style={"height": "100%"},
-        ),
-        get_date_range_object(),
-        html.Hr(),
-        html.H4("Apparitions de la chanson sur l'émission"),
-        dcc.Graph(id="timeline-graph-song"),
-        html.Hr(),
-        html.H4("Paroles"),
-        html.Div(id="song-lyrics", style={"textAlign": "center"}),
-    ],
-    style={"marginTop": 20},
+                html.H5("Sélectionner le titre de la chanson", className="card-title"),
+                get_song_dropdown_menu(song_title, component_id="dropdown-song-by-song"),
+                html.Hr(),
+                html.Div(
+                    [
+                        html.P(["Interprète: "]),
+                        html.P("Classement global: "),
+                        html.P(
+                            "Classement Même chanson: "
+                        ),
+                        html.P("Classement 50 Points: "),
+                        html.P("Classement Maestro: "),
+                    ],
+                    id="song-details"),
+            ]
+        )
+    )
+
+    return dbc.Container(
+        [
+            dcc.Location(id="url-song", refresh=False),
+            html.H4("Statistiques sur la chanson sélectionnée"),
+            dbc.Row(
+                [
+                    dbc.Col(first_card, lg=6, xs=0),
+                    dbc.Col(dcc.Graph(id="categories-graph-song"), lg=6, xs=0),
+                ],
+                align="center",
+                justify="center",
+                style={"height": "100%"},
+            ),
+            get_date_range_object(),
+            html.Hr(),
+            html.H4("Apparitions de la chanson sur l'émission"),
+            dcc.Graph(id="timeline-graph-song"),
+            html.Hr(),
+            html.H4("Paroles"),
+            html.Div(id="song-lyrics", style={"textAlign": "center"}),
+        ],
+        style={"marginTop": 20},
+    )
+
+
+clientside_callback(
+    """
+    function(song_title) {
+        document.title = song_title + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-song-by-song", "value"),
+    prevent_initial_call=True
 )
 
 
 @callback(
+    Output("url-song", "pathname"),
+    Output("dropdown-song-by-song", "value"),
+    Input("dropdown-song-by-song", "value"),
+    Input("url-song", "pathname"),
+)
+def update_url_from_dropdown(song_title, url_pathname):
+    len_song_prefix = len(PAGE_PATH)
+    if url_pathname[:len_song_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_song_prefix + 1:]
+        if param and not song_exists(param):
+            return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
+        if param == song_title:
+            return dash.no_update, dash.no_update
+        song_url = f"{PAGE_PATH}/{song_title}"
+        return song_url, dash.no_update
+    return dash.no_update, dash.no_update
+
+
+@callback(
     Output("categories-graph-song", "figure"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-by-song", "value"),
     Input("year_slider", "value"),
 )
 def update_figure(song_name, date_range):
@@ -76,11 +127,13 @@ def update_figure(song_name, date_range):
         "date"
     ].count()
     fig = px.histogram(data_frame=graph_df, x="category", y="date", color="points")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending"})
+    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
+                      "title": "Catégorie"}, yaxis={"title": "Nombre d'apparitions"},
+                      legend={"title": {"text": "Catégorie"}})
     return fig
 
 
-@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song", "value"))
+@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value"))
 def update_timeline(song_name):
     """Update the timeline graph of selected song.
 
@@ -103,14 +156,14 @@ def update_timeline(song_name):
         color=graph_df["category"],
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
-    fig.update_layout(showlegend=False)
+    fig.update_layout(showlegend=False, yaxis={"title": "Catégorie"}, xaxis={"title": "Date"})
     return fig
 
 
 @callback(
     Output("song-details", "children"),
     Output("song-lyrics", "children"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-by-song", "value"),
 )
 def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     """Query and return song details.

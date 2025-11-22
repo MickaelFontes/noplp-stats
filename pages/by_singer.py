@@ -1,34 +1,77 @@
 """Statistics page for singer specific stats."""
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from dash import Input, Output, callback, dcc, html
+from dash import Input, Output, callback, dcc, html, clientside_callback
 
-from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers
+from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers, singer_exists
 
-dash.register_page(__name__, path="/singer", title="Par interprète - NOLPL stats")
+DEFAULT_SINGER = "Céline Dion"
 
-layout = dbc.Container(
-    [
-        html.H4(
-            "Statistiques sur les chansons d'un.e interprète",
-            style={"marginBottom": 10},
-        ),
-        dcc.Dropdown(
-            id="dropdown-singer",
-            value="Céline Dion",
-            options=[{"label": i, "value": i} for i in get_singers()],
-            style={"marginBottom": 10},
-        ),
-        get_date_range_object(),
-        dcc.Graph(id="categories-graph-singer"),
-        html.Hr(),
-        html.H4("Apparitions de ses chansons dans l'émission"),
-        dcc.Graph(id="timeline-graph-singer"),
-    ],
-    style={"marginTop": 20},
+PAGE_PATH = "/singer"
+
+dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<singer_name>",
+                   title="Par interprète - NOLPL stats")
+
+
+def layout(singer_name=DEFAULT_SINGER):
+    singer_name = unquote(singer_name)
+    return dbc.Container(
+        [
+            dcc.Location(id="url-singer", refresh=False),
+            html.H4(
+                "Statistiques sur les chansons d'un.e interprète",
+                style={"marginBottom": 10},
+            ),
+            dcc.Dropdown(
+                id="dropdown-singer",
+                value=singer_name,
+                options=[{"label": i, "value": i} for i in get_singers(as_sorted=True)],
+                style={"marginBottom": 10},
+                clearable=False,
+            ),
+            get_date_range_object(),
+            html.Hr(),
+            dcc.Graph(id="categories-graph-singer"),
+            html.Hr(),
+            html.H4("Apparitions de ses chansons dans l'émission"),
+            dcc.Graph(id="timeline-graph-singer"),
+        ],
+        style={"marginTop": 20},
+    )
+
+
+clientside_callback(
+    """
+    function(singer_name) {
+        document.title = singer_name + ' - NOLPL stats';
+    }
+    """,
+    Output("blank-output", "children", allow_duplicate=True),
+    Input("dropdown-singer", "value"),
+    prevent_initial_call=True
 )
+
+
+@callback(
+    Output("url-singer", "pathname"),
+    Output("dropdown-singer", "value"),
+    Input("dropdown-singer", "value"),
+    Input("url-singer", "pathname"),
+)
+def update_url_from_dropdown_singer(singer_name, url_pathname):
+    len_singer_prefix = len(PAGE_PATH)
+    if url_pathname[:len_singer_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_singer_prefix + 1:]
+        if param and not singer_exists(param):
+            return f"{PAGE_PATH}/{DEFAULT_SINGER}", DEFAULT_SINGER
+        if param == singer_name:
+            return dash.no_update, dash.no_update
+        singer_url = f"/singer/{singer_name}"
+        return singer_url, dash.no_update
+    return dash.no_update, dash.no_update
 
 
 @callback(
@@ -53,7 +96,9 @@ def update_figure(song_name, date_range):
     graph_df["category"] = graph_df["category"].str.replace(" -1", "")
     graph_df = graph_df.groupby(by=["name", "category"], as_index=False)["date"].count()
     fig = px.histogram(data_frame=graph_df, x="name", y="date", color="category")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending"})
+    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
+                      "title": "Chanson"}, yaxis={"title": "Nombre d'apparitions"},
+                      legend={"title": {"text": "Catégorie"}})
     return fig
 
 
@@ -89,6 +134,7 @@ def update_timeline(singer_name):
     fig.update_layout(
         height=500,
         yaxis={
+            "title": "Chanson",
             "categoryorder": "array",
             "categoryarray": [
                 "10 Points",
@@ -99,5 +145,7 @@ def update_timeline(singer_name):
                 "Même chanson",
             ],
         },
+        xaxis={"title": "Date"},
+        legend={"title": {"text": "Catégorie"}}
     )
     return fig

@@ -135,7 +135,7 @@ class Scrapper:
             raise ScrapperProcessingSinger("data property empty.")
 
         # Extract singer from the source field
-        if (regex_search := re.search(r"Interprète\w* : (.*)", source)) is not None:
+        if (regex_search := re.search(r"(?:Auteur|Interprète)\w* : (.*)", source)) is not None:
             singer = regex_search.group(1)
             # discard potential following brackets
             singer = re.search(r"([^\[]*)", singer).group(1)
@@ -218,6 +218,7 @@ class Scrapper:
         lyrics = process_raw_lyrics(lyrics)
         lyrics = re.sub(r"'''(.*)'''", r"¤\1", lyrics)
         lyrics = lyrics.replace("''", "").replace("’", "'").replace(" ", "")
+        lyrics = lyrics.replace("' '", " ")
         return lyrics.strip()
 
     def extract_dates(self) -> tuple[list[date], list[str], list[int], list[int]]:
@@ -244,7 +245,7 @@ class Scrapper:
         else:
             raise ScrapperProcessingDates("data property empty." + f"\n{self._title}")
         regex_section = re.search(
-            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==\s{0,5}Trous\s{0,5}==",
+            r"==[\s']{0,5}Dates de sortie[\s']{0,5}==[\S\s]*?==[\s']{0,5}Trous[\s']{0,5}==",
             source,
         )
         if regex_section:

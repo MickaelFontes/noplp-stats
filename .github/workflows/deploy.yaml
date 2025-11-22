@@ -30,10 +30,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install poetry
         run: |
           curl -sSL https://install.python-poetry.org | python
@@ -73,6 +73,9 @@ jobs:
         with:
           name: requirements
 
+      - name: Prepapre app.yaml file for production deployment
+        run: 'cp deploy/app-main.yaml app.yaml'
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
@@ -80,8 +83,7 @@ jobs:
 
       - name: "Clean temporary container images"
         run: |-
-          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
-            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+          gcloud artifacts docker images delete europe-west6-docker.pkg.dev/noplp-stats/gae-standard/app/default
 
   deploy-pr-app-engine:
     name: Deploy App Engine (pull_request)
@@ -109,6 +111,9 @@ jobs:
         with:
           name: requirements
 
+      - name: Prepapre app.yaml file for PR deployment
+        run: 'cp deploy/app-pr.yaml app.yaml'
+
       - id: "deploy"
         uses: "google-github-actions/deploy-appengine@v2"
         with:
@@ -120,5 +125,4 @@ jobs:
 
       - name: "Clean temporary container images"
         run: |-
-          gcloud container images list --repository=eu.gcr.io/noplp-stats/app-engine-tmp/app/default \
-            --format="value(name)" | xargs -I {} sh -c 'gcloud container images delete {} --quiet --force-delete-tags'
+          gcloud artifacts docker images delete europe-west6-docker.pkg.dev/noplp-stats/gae-standard/app/default

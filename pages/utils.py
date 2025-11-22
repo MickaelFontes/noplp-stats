@@ -13,6 +13,11 @@ df["date"] = pd.to_datetime(df["date"])
 df["singer"] = df["singer"].astype("str")
 df["name"] = df["name"].astype("str")
 
+DEFAULT_SONG = "2 be 3"
+
+_SINGERS_SET = set(df["singer"].unique())
+_SONGS_SET = set(df["name"].unique())
+
 daterange = pd.date_range(
     start=df["date"].min().date(),
     end=df["date"].max().date() + datetime.timedelta(days=31),
@@ -42,7 +47,8 @@ def get_marks():
     """
     result = {}
     for date in daterange_marks:
-        result[datetime_to_unix(date)] = str(date.strftime("%Y"))
+        result[datetime_to_unix(date)] = {"label": str(date.strftime("%Y")), "style": {
+            "writing-mode": "vertical-rl", "transform": "rotate(-55deg)"}}
     return result
 
 
@@ -145,20 +151,27 @@ def get_date_range_object(prefix_component_id=""):
                 min=begin,
                 max=end,
                 value=[begin, end],
-                marks=get_marks(),
+                marks=get_marks()
             ),
         ],
         style={"marginTop": "20"},
     )
 
 
-def get_songs():
-    """Return all songs names of full songs Dataframe.
+def get_songs(as_sorted: bool = False):
+    """Return unique song names.
+
+    Args:
+        as_sorted (bool): if True, return a sorted list of song names. If
+            False, return a set for O(1) membership checks.
 
     Returns:
-        ndarray: unique values of songs name
+        set[str] | list[str]: unique song names (set when `as_sorted` is
+        False, sorted list when `as_sorted` is True).
     """
-    return df["name"].unique()
+    if as_sorted:
+        return sorted(_SONGS_SET)
+    return _SONGS_SET
 
 
 def filter_song(song_name):
@@ -171,13 +184,20 @@ def filter_song(song_name):
     return df[df["name"] == song_name]
 
 
-def get_singers():
-    """Return all singers names of full songs Dataframe.
+def get_singers(as_sorted: bool = False):
+    """Return unique singer names.
+
+    Args:
+        as_sorted (bool): if True, return a sorted list of singer names. If
+            False, return a set for O(1) membership checks.
 
     Returns:
-        ndarray: unique values of singers name
+        set[str] | list[str]: unique singer names (set when `as_sorted` is
+        False, sorted list when `as_sorted` is True).
     """
-    return df["singer"].unique()
+    if as_sorted:
+        return sorted(_SINGERS_SET)
+    return _SINGERS_SET
 
 
 def filter_singer(singer_name):
@@ -188,6 +208,17 @@ def filter_singer(singer_name):
         Dataframe: all rows about the selected singer
     """
     return df[df["singer"] == singer_name]
+
+
+def singer_exists(singer_name: str) -> bool:
+    """Check whether a singer exists in the songs database.
+
+    Uses a precomputed set for O(1) membership tests. Returns False if
+    the input is None or not a string.
+    """
+    if not isinstance(singer_name, str):
+        return False
+    return singer_name in _SINGERS_SET
 
 
 def find_singer(song_title):
@@ -281,6 +312,8 @@ def return_coverage_figure():
         color="category",
         hover_data={"name": True, "rank": True, "coverage": True, "category": True},
     )
+    fig.update_layout(xaxis={"title": "Nombre de chansons à connaître"}, yaxis={
+                      "title": "Pourcentage de couverture d'une catégorie"})
     return fig
 
 
@@ -319,16 +352,29 @@ def get_nb_songs_slider():
     )
 
 
-def get_song_dropdown_menu():
-    """Return the song Dropdown menu.
+def song_exists(song_title: str) -> bool:
+    """Check whether a song title exists in the songs database.
 
-    Returns:
-        dcc.Dropdown: Selector menu for song title
+    Uses a precomputed set for O(1) membership tests. Returns False if
+    the input is None or not a string.
+    """
+    if not isinstance(song_title, str):
+        return False
+    return song_title in _SONGS_SET
+
+
+def get_song_dropdown_menu(song_title=DEFAULT_SONG, component_id: str = "dropdown-song"):
+    """Return the song Dropdown menu with configurable id.
+
+    Args:
+        song_title (str): default selected title
+        component_id (str): id to assign to the Dash component
     """
     return dcc.Dropdown(
-        id="dropdown-song",
-        value="2 be 3",
-        options=[{"label": i, "value": i} for i in get_songs()],
+        id=component_id,
+        value=song_title,
+        options=[{"label": i, "value": i} for i in get_songs(as_sorted=True)],
+        clearable=False,
     )
 
 

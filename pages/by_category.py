@@ -128,7 +128,8 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
         fig2 = px.histogram(data_frame=graph2_df, x="name", y="date")
     list_songs = graph2_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
-    fig2.update_layout(height=500, xaxis={"categoryorder": "total descending"})
+    fig2.update_layout(height=500, xaxis={"categoryorder": "total descending", "title": "Chanson"},
+                       yaxis={"title": "Nombre d'apparitions"})
     return fig2, out_child, to_store
 
 

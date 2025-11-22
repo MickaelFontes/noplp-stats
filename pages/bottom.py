@@ -1,7 +1,5 @@
 """Bottom of the pages."""
 
-import os
-
 from dash import dcc, html
 
 bottom = html.Div(
@@ -17,7 +15,7 @@ bottom = html.Div(
                 " ![Github](assets/images/favicon.svg#thumbnail) ",
                 "[noplp-stats](https://github.com/MickaelFontes/noplp-stats) sous ",
                 "[MIT License](https://github.com/MickaelFontes/noplp-stats/blob/main/LICENSE) - ",  # noqa: E501
-                "Dernière mise à jour: le " + os.getenv("LAST_UPDATE", "XXXXXXXX"),
+                "Dernière mise à jour: le 21/11/2025",
             ]
         ),
     ],

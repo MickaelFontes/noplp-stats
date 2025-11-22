@@ -1,17 +1,15 @@
 {
 	"name": "Python 3, Poetry",
-	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"image": "mcr.microsoft.com/devcontainers/python:1-3.12",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers-extra/features/poetry:2": {}
 	},
 	"customizations": {
 		"vscode": {
-			"conventionalCommits.autoCommit": false,
-			"git.autofetch": true,
-			"telemetry.telemetryLevel": "off",
-			"telemetry.feedback.enabled": false,
 			"extensions": [
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
 				"ms-python.autopep8",
 				"ms-python.python",
 				"ms-python.vscode-pylance",

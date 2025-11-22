@@ -34,7 +34,7 @@ async def main():
     time_difference = time.time() - start_time
     print(f"Scraping time: {time_difference:.2f} seconds.")
 
-    song_api = await scrap.get_song(page="La dame de Haute-Savoie", session=session)
+    song_api = await scrap.get_song(page="Ma_révérence", session=session)
     for i, cat in enumerate(song_api.categories):
         print(cat, ": ", song_api.emissions[i], song_api.dates[i], song_api.points[i])
     await session.close()

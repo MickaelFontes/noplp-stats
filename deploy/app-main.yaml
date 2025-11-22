@@ -1,0 +1,13 @@
+runtime: python312
+instance_class: F1
+automatic_scaling:
+  max_instances: 1
+  min_instances: 1
+service_account: app-engine-instance@noplp-stats.iam.gserviceaccount.com
+entrypoint: gunicorn -b :8080 -w 1 app:server # See here for number of workers: https://cloud.google.com/appengine/docs/standard/python3/runtime#entrypoint_best_practices
+
+handlers:
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto

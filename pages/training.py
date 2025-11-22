@@ -21,7 +21,7 @@ layout = dbc.Container(
         html.P(
             "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
         ),
-        get_song_dropdown_menu(),
+        get_song_dropdown_menu(component_id="dropdown-song-training"),
         html.Hr(),
         dbc.Textarea(
             id="user-lyrics",
@@ -74,7 +74,7 @@ def toggle_collapse(nb_clicks: int, is_open: bool):
     Output("collasped-verified-lyrics", "children"),
     Output("user-lyrics-progress", "value"),
     Input("user-lyrics", "value"),
-    Input("dropdown-song", "value"),
+    Input("dropdown-song-training", "value"),
 )
 def compare_text_and_lyrics(user_text, song_title):
     """Compare user input text and known lyrics, return a comment on error or match.
@@ -107,6 +107,20 @@ def compare_text_and_lyrics(user_text, song_title):
         verified_lyrics = []
         user_progress = 0
         for i, word in enumerate(user_words):
+            if i >= len(lyrics_words):
+                verified_lyrics, user_progress = get_lyrics_approx_until_cut(
+                    raw_lyrics, len(lyrics_words), len(lyrics_words)
+                )
+                return (
+                    [
+                        html.P(
+                            "⛔ Erreur, vous avez tapé plus de mots que les paroles attendues."
+                        ),
+                    ],
+                    verified_lyrics,
+                    user_progress,
+                )
+
             if unidecode(word.lower()) != unidecode(lyrics_words[i].lower()):
                 verified_lyrics, user_progress = get_lyrics_approx_until_cut(
                     raw_lyrics, len(lyrics_words), i + 1
