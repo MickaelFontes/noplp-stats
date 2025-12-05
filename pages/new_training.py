@@ -15,6 +15,8 @@ PAGE_PATH = "/new-training"
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Entraînement - NOLPL stats")
 
+INITIAL_INTRO = 3
+
 
 # Update layout to accept song_title
 def layout(song_title="2 be 3", **_):
@@ -65,42 +67,39 @@ def mask_line(line, show_first_letter=False):
 
 def get_non_empty_indices(lines):
     """Return indices of non-empty lines."""
-    return [i for i, line in enumerate(lines) if line.strip()]
+    return [i for i, line in enumerate(lines) if not is_blank(line)]
 
 
-def get_guess_indices(lines):
-    """Return indices of lines to guess (after first 3 non-empty lines)."""
-    shown, idx = 0, 0
-    while shown < 3 and idx < len(lines):
-        if lines[idx].strip():
-            shown += 1
-        idx += 1
-    return [i for i in range(idx, len(lines)) if lines[i].strip()]
+def is_blank(line):
+    """Return True when a line is empty or only whitespace.
+
+    Centralizes the definition of blank/empty lines.
+    """
+    if not line:
+        return True
+    return not bool(line.strip("¤"))
 
 
-def render_intro_line(lines, step):
-    """Render the intro line (first 3 non-empty lines)."""
-    idx = get_non_empty_indices(lines)[step]
-    line = lines[idx]
+def render_guess_line(line, step, intro_count, state, is_intro=False):
+    """Render a single line either as intro (revealed) or guessing (masked/revealed).
+
+    The caller selects a precomputed non-empty `line` and passes `is_intro=True`
+    when this comes from the intro stage (so the renderer doesn't need to know
+    which stage called it).
+    """
     display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
-    return dbc.Card([
-        html.H2(display_line, style=style),
-        html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
-                 color="primary", className="mt-3")], className="d-flex justify-content-center"),
-    ], body=True)
+    # Back button available when we're past the initial intro lines
+    can_go_back = step > intro_count
 
+    if is_intro:
+        return dbc.Card([
+            html.H2(display_line, style=style),
+            html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
+                     color="primary", className="mt-3")], className="d-flex justify-content-center"),
+        ], body=True)
 
-def render_guess_line(lines, step, shown, state):
-    """Render the guessing line (masked or revealed)."""
-    idx = get_guess_indices(lines)[step - shown]
-    line = lines[idx]
-    display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
-    style = {"fontWeight": "bold"} if line.startswith("¤") else {}
-    # Back button available when we're past the initial shown lines
-    can_go_back = step > shown
-
-    if not state.get("revealed"):
+    if not bool(state.get("revealed")):
         masked = mask_line(display_line, state.get("show_first_letter", False))
         right_btns = []
         if not state.get("show_first_letter"):
@@ -136,7 +135,6 @@ def render_guess_line(lines, step, shown, state):
             ], className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center"),
         ], body=True)
 
-    # revealed state: show full line and answer buttons, with back on left
     left = []
     if can_go_back:
         left.append(dbc.Button(
@@ -171,7 +169,9 @@ def render_guess_line(lines, step, shown, state):
 
 def render_final(lines, state):
     """Render the final lyrics with highlights."""
-    guess_indices = get_guess_indices(lines)
+    non_empty = get_non_empty_indices(lines)
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
+    guess_indices = non_empty[intro_count:]
     children, guessed_idx = [], 0
     for i, line in enumerate(lines):
         display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
@@ -180,7 +180,7 @@ def render_final(lines, state):
             if not state["results"][guessed_idx]:
                 style["color"] = "red"
             guessed_idx += 1
-        children.append(html.Br() if line.strip() == "" else html.Div(display_line, style=style))
+        children.append(html.Br() if is_blank(line) else html.Div(display_line, style=style))
     return dbc.Card([
         html.H4("Résultat final"),
         html.Div(children),
@@ -210,22 +210,18 @@ def training_step(song_title, state):
         return state, render_final(state["lines"], state)
     step = state["step"]
     lines = state["lines"]
-    non_empty_indices = get_non_empty_indices(lines)
-    shown = min(3, len(non_empty_indices))
-    if step < shown:
-        return state, render_intro_line(lines, step)
-    guess_indices = get_guess_indices(lines)
-    while step - shown < len(guess_indices):
-        idx = guess_indices[step - shown]
-        if lines[idx].strip() == "":
-            state["step"] += 1
-            step = state["step"]
-            continue
-        return state, render_guess_line(lines, step, shown, state)
+    non_empty = get_non_empty_indices(lines)
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
+
+    # If the current step addresses a non-empty line, render it. For the
+    # first `intro_count` non-empty lines we show them revealed (intro stage).
+    if step < len(non_empty):
+        idx = non_empty[step]
+        line = lines[idx]
+        is_intro = step < intro_count
+        return state, render_guess_line(line, step, intro_count, state, is_intro=is_intro)
+
     state["finished"] = True
-    # --- Save training stats to localStorage ---
-    # Use dcc.Store to trigger a clientside callback to persist stats
-    # We'll add a new dcc.Store for stats and update it here
     return state, render_final(lines, state)
 
 
@@ -253,10 +249,10 @@ def _apply_guessing_actions(state, *, step_val, first_letter, reveal, know, dont
     return state
 
 
-def _handle_back_action(state, step_val, shown, back):
+def _handle_back_action(state, step_val, intro_count, back):
     """Handle back button action. Returns (state, handled_bool)."""
     if back and any(back):
-        if step_val > shown:
+        if step_val > intro_count:
             state["step"] = step_val - 1
             if (results := state.get("results", [])):
                 results.pop()
@@ -271,9 +267,9 @@ def _handle_back_action(state, step_val, shown, back):
     return state, False
 
 
-def _handle_forward_interactions(state, step_val, shown, *, reveal, first_letter, know, dont_know):
+def _handle_forward_interactions(state, step_val, intro_count, *, reveal, first_letter, know, dont_know):
     """Handle forward interactions (intro and guessing stage)."""
-    if step_val < shown:
+    if step_val < intro_count:
         if reveal and any(reveal):
             state["step"] = step_val + 1
         return state
@@ -373,8 +369,8 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
     # Defensive defaults
     training_state = training_state or {}
     lines = training_state.get("lines", [])
-    non_empty_indices = get_non_empty_indices(lines)
-    shown = min(3, len(non_empty_indices))
+    non_empty = get_non_empty_indices(lines)
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
     step_val = training_state.get("step", 0)
 
     t_type, t_index = _get_trigger_info()
@@ -387,7 +383,7 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
 
     # Back button handled specially (it may modify previous results).
     if t_type == "back-btn":
-        training_state, handled = _handle_back_action(training_state, step_val, shown, back)
+        training_state, handled = _handle_back_action(training_state, step_val, intro_count, back)
         if handled:
             return training_state
         return training_state
@@ -398,7 +394,7 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
     return _handle_forward_interactions(
         training_state,
         step_val,
-        shown,
+        intro_count,
         reveal=reveal,
         first_letter=first_letter,
         know=know,
@@ -419,7 +415,9 @@ def save_training_stats(state, stats):
     if not state.get("song_title") or not state.get("lines") or not state.get("results"):
         return dash.no_update
     # Find line numbers where user clicked 'no'
-    guess_indices = get_guess_indices(state["lines"])
+    non_empty = get_non_empty_indices(state["lines"])
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
+    guess_indices = non_empty[intro_count:]
     guessed_lines = {line: state["results"][i] for i, line in enumerate(guess_indices)}
     # Compose training record
     record = {
