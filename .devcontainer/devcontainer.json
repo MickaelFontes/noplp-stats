@@ -16,7 +16,6 @@
 				"ms-python.debugpy",
 				"ms-python.flake8",
 				"ms-python.pylint",
-				"ms-ceintl.vscode-language-pack-fr",
 				"vivaxy.vscode-conventional-commits"
 			]
 		}
