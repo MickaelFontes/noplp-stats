@@ -15,7 +15,7 @@ PAGE_PATH = "/new-training"
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Entraînement - NOLPL stats")
 
-INTIAL_INTRO = 3
+INITIAL_INTRO = 3
 
 
 # Update layout to accept song_title
@@ -77,34 +77,29 @@ def is_blank(line):
     """
     if not line:
         return True
-    return not bool(line.lstrip("¤").strip())
+    return not bool(line.strip("¤"))
 
 
-def render_intro_line(lines, step):
-    """Render the intro line (first 3 non-empty lines)."""
-    idx = get_non_empty_indices(lines)[step]
-    line = lines[idx]
-    display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
-    style = {"fontWeight": "bold"} if line.startswith("¤") else {}
-    return dbc.Card([
-        html.H2(display_line, style=style),
-        html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
-                 color="primary", className="mt-3")], className="d-flex justify-content-center"),
-    ], body=True)
+def render_guess_line(line, step, intro_count, state, is_intro=False):
+    """Render a single line either as intro (revealed) or guessing (masked/revealed).
 
-
-def render_guess_line(line, step, intro_count, state):
-    """Render the guessing line (masked or revealed).
-
-    Accepts the already-selected `line` text so the caller doesn't need
-    the renderer to recompute non-empty indices.
+    The caller selects a precomputed non-empty `line` and passes `is_intro=True`
+    when this comes from the intro stage (so the renderer doesn't need to know
+    which stage called it).
     """
     display_line = line.lstrip("¤").strip() if line.startswith("¤") else line
     style = {"fontWeight": "bold"} if line.startswith("¤") else {}
     # Back button available when we're past the initial intro lines
     can_go_back = step > intro_count
 
-    if not state.get("revealed"):
+    if is_intro:
+        return dbc.Card([
+            html.H2(display_line, style=style),
+            html.Div([dbc.Button("Suivant", id={"type": "reveal-btn", "index": step}, n_clicks=0,
+                     color="primary", className="mt-3")], className="d-flex justify-content-center"),
+        ], body=True)
+
+    if not bool(state.get("revealed")):
         masked = mask_line(display_line, state.get("show_first_letter", False))
         right_btns = []
         if not state.get("show_first_letter"):
@@ -139,6 +134,7 @@ def render_guess_line(line, step, intro_count, state):
                 html.Div(right_btns, className="d-flex justify-content-end"),
             ], className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center"),
         ], body=True)
+
     left = []
     if can_go_back:
         left.append(dbc.Button(
@@ -174,7 +170,7 @@ def render_guess_line(line, step, intro_count, state):
 def render_final(lines, state):
     """Render the final lyrics with highlights."""
     non_empty = get_non_empty_indices(lines)
-    intro_count = INTIAL_INTRO if len(non_empty) > INTIAL_INTRO else 0
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
     guess_indices = non_empty[intro_count:]
     children, guessed_idx = [], 0
     for i, line in enumerate(lines):
@@ -215,20 +211,17 @@ def training_step(song_title, state):
     step = state["step"]
     lines = state["lines"]
     non_empty = get_non_empty_indices(lines)
-    intro_count = INTIAL_INTRO if len(non_empty) > INTIAL_INTRO else 0
-    if step < intro_count:
-        return state, render_intro_line(lines, step)
-    guess_indices = non_empty[intro_count:]
-    # `guess_indices` contains only non-empty line indices, so render the
-    # guessing card directly without per-call emptiness checks.
-    while step - intro_count < len(guess_indices):
-        idx = guess_indices[step - intro_count]
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
+
+    # If the current step addresses a non-empty line, render it. For the
+    # first `intro_count` non-empty lines we show them revealed (intro stage).
+    if step < len(non_empty):
+        idx = non_empty[step]
         line = lines[idx]
-        return state, render_guess_line(line, step, intro_count, state)
+        is_intro = step < intro_count
+        return state, render_guess_line(line, step, intro_count, state, is_intro=is_intro)
+
     state["finished"] = True
-    # --- Save training stats to localStorage ---
-    # Use dcc.Store to trigger a clientside callback to persist stats
-    # We'll add a new dcc.Store for stats and update it here
     return state, render_final(lines, state)
 
 
@@ -377,7 +370,7 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
     training_state = training_state or {}
     lines = training_state.get("lines", [])
     non_empty = get_non_empty_indices(lines)
-    intro_count = INTIAL_INTRO if len(non_empty) > INTIAL_INTRO else 0
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
     step_val = training_state.get("step", 0)
 
     t_type, t_index = _get_trigger_info()
@@ -423,7 +416,7 @@ def save_training_stats(state, stats):
         return dash.no_update
     # Find line numbers where user clicked 'no'
     non_empty = get_non_empty_indices(state["lines"])
-    intro_count = INTIAL_INTRO if len(non_empty) > INTIAL_INTRO else 0
+    intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
     guess_indices = non_empty[intro_count:]
     guessed_lines = {line: state["results"][i] for i, line in enumerate(guess_indices)}
     # Compose training record
