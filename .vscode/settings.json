@@ -4,7 +4,6 @@
     "pylint.args": [
         "--rcfile=${workspaceFolder}/.pylintrc"
     ],
-    "python.defaultInterpreterPath": "{workspaceFolder}/.venv/bin/python",
     "pylint.severity": {
         "refactor": "Information"
     },
