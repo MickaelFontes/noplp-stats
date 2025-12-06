@@ -14,6 +14,7 @@ from pages.utils import (
     get_category_options,
     get_date_range_object,
     get_download_content_from_store,
+    get_mots_options,
     get_nb_songs_slider,
     get_points_options,
 )
@@ -82,9 +83,14 @@ def update_options_category(category):
         list_options, selected_options: list, list
     """
     if category == "Points":
-        return get_points_options(), [50, 40, 30, 20, 10]
+        points_options = get_points_options()
+        return points_options, points_options
     if category == "Ancienne formule":
-        return get_ancienne_formule_options(), [250, 500, 1000, 2500]
+        ancienne_options = get_ancienne_formule_options()
+        return ancienne_options, ancienne_options
+    if category == "Mots":
+        mots_options = get_mots_options()
+        return mots_options, mots_options
     # for other categories (Même chanson, Maestro, etc.), no option is available
     return [], None
 
@@ -112,7 +118,7 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
     """
     graph2_df = filter_date(date_range)
     graph2_df = graph2_df[graph2_df["category"] == category_value]
-    if category_value in set({"Points", "Ancienne formule"}):
+    if category_value in set({"Points", "Ancienne formule", "Mots"}):
         graph2_df = graph2_df[graph2_df["points"].isin(points_selector)]
         graph2_df = graph2_df.groupby(by=["name", "points"], as_index=False)[
             "date"
