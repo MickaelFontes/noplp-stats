@@ -83,10 +83,12 @@ def update_options_category(category):
         list_options, selected_options: list, list
     """
     if category == "Points":
-        return get_points_options(), [50, 40, 30, 20, 10]
+        points_options = get_points_options()
+        return points_options, points_options
     if category == "Ancienne formule":
-        return get_ancienne_formule_options(), [250, 500, 1000, 2500]
-    if category =="Mots":
+        ancienne_options = get_ancienne_formule_options()
+        return ancienne_options, ancienne_options
+    if category == "Mots":
         mots_options = get_mots_options()
         return mots_options, mots_options
     # for other categories (Même chanson, Maestro, etc.), no option is available

@@ -118,7 +118,7 @@ def get_points_options():
     Returns:
         list[int]: list of existing points categories
     """
-    return sorted(filter(lambda x: x < 100, df["points"].unique()))[1:]
+    return sorted(df[df["category"] == "Points"]["points"].unique())
 
 
 def get_ancienne_formule_options():
@@ -127,7 +127,7 @@ def get_ancienne_formule_options():
     Returns:
         list[int]: list of existing ancienne formule gains
     """
-    return sorted(df[df["category"] == "Mots"]["points"].unique())
+    return sorted(df[df["category"] == "Ancienne formule"]["points"].unique())
 
 
 def get_mots_options():
@@ -137,8 +137,7 @@ def get_mots_options():
         list[int]: list of existing mots options
     """
     # return the list of options where category is "Mots"
-    return 
-    return sorted(filter(lambda x: x > 100, df["points"].unique()))
+    return sorted(df[df["category"] == "Mots"]["points"].unique())
 
 
 def get_date_range_object(prefix_component_id=""):
