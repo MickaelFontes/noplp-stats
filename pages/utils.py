@@ -127,6 +127,17 @@ def get_ancienne_formule_options():
     Returns:
         list[int]: list of existing ancienne formule gains
     """
+    return sorted(df[df["category"] == "Mots"]["points"].unique())
+
+
+def get_mots_options():
+    """Return mots options of full songs Dataframe.
+
+    Returns:
+        list[int]: list of existing mots options
+    """
+    # return the list of options where category is "Mots"
+    return 
     return sorted(filter(lambda x: x > 100, df["points"].unique()))
 
 
