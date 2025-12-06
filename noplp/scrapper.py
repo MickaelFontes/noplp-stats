@@ -261,7 +261,7 @@ class Scrapper:
                     continue
                 song_date_line = song_date_line.replace("'", "")
                 dates.append(self.process_date_line(song_date_line))
-                category, point = self.process_points_line(song_date_line)
+                category, point = self.process_categories_line(song_date_line)
                 emission = self.process_emission_line(song_date_line)
                 categories.append(category)
                 points.append(point)
@@ -299,8 +299,8 @@ class Scrapper:
             )
         return date_object.date()  # We only care about the date
 
-    def process_points_line(self, line: str) -> tuple[str, int]:
-        """Processes a date line to extract points category.
+    def process_categories_line(self, line: str) -> tuple[str, int]:
+        """Processes a date line to extract matching category.
 
         Args:
             line (str): line of a date occurence.
@@ -311,28 +311,29 @@ class Scrapper:
         Returns:
             Tuple[str, int]: category name, nb of points if any.
         """
-        regex = re.search(
-            r"(\d\w\s{0,5}?(point|prise)|Même chanson|Maestro|Chanson piégée|Chanson à trou|Tournoi|Tirée|mots imposés)",
+        regex_known_categories = re.search(
+            r"(Même chanson|Maestro|Chanson piégée|Chanson à trou|Tirée|Chanson mots imposés)",
             line,
             flags=re.IGNORECASE
         )
-        if regex:
-            points_text = regex.group(1)
-            checks = ["point", "prise"]
-            if not any(x in points_text.lower() for x in checks):
-                return points_text.capitalize(), -1
+        if regex_known_categories:
+            points_text = regex_known_categories.group(1)
+            return points_text.capitalize(), -1
+        if regex_points := re.search(r"(\d\w\s{0,5}?point)", line, flags=re.IGNORECASE):
+            points_text = regex_points.group(1)
             return "Points", int(points_text[0] + "0")  # manual fix for found typos
-        if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line):
+        if regex_mots := re.search(r"(\d+)\s{0,5}mot", line, flags=re.IGNORECASE):
+            nb_mots = int(regex_mots.group(1))
+            return "Mots", nb_mots
+        if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line, flags=re.IGNORECASE):
             gain = regex_money.group(1)
             gain = re.sub(r"[^\d]", "", gain)
             gain = int(gain)
             return "Ancienne formule", gain
         # No most exepected category found
-        if not (regex_extract := re.search(r"\s*((\w+\s)*\w+)\s*:", line)):
-            raise ScrapperProcessingPoints(
-                "No points category found in the line\n\n" + line + f"\n{self._title}"
-            )
-        return regex_extract.group(1), -1
+        raise ScrapperProcessingPoints(
+            "No known category found in the line\n\n" + line + f"\n{self._title}"
+        )
 
     def process_emission_line(self, line: str) -> int:
         """Return the show/emission number.
