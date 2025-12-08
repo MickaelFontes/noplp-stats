@@ -77,7 +77,7 @@ def is_blank(line):
     """
     if not line:
         return True
-    return not bool(line.strip("¤"))
+    return not bool(line.strip().strip("¤"))
 
 
 def render_guess_line(line, step, intro_count, state, is_intro=False):
