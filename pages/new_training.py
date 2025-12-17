@@ -290,6 +290,11 @@ def _handle_forward_interactions(state, step_val, intro_count, *, reveal, first_
             "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
             "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"), },
     state={"training_state": State("training-state", "data")},
+    running=[(Input({"type": "know-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "dont-know-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "reveal-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "first-letter-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "back-btn", "index": dash.ALL}, "disabled"), True, False)],
     prevent_initial_call=True,
 )
 def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
