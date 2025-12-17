@@ -192,6 +192,11 @@ def render_final(lines, state):
     Output("training-step", "children"),
     Input("dropdown-song-new-training", "value"),
     Input("training-state", "data"),
+    running=[(Input({"type": "know-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "dont-know-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "reveal-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "first-letter-btn", "index": dash.ALL}, "disabled"), True, False),
+             (Input({"type": "back-btn", "index": dash.ALL}, "disabled"), True, False)],
 )
 def training_step(song_title, state):
     if not state or state.get("song_title") != song_title:
