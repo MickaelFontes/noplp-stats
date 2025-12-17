@@ -1,6 +1,5 @@
 """Training page to guess songs lyrics, step-by-step interactive version."""
 
-import json
 import re
 from datetime import datetime
 from urllib.parse import unquote
@@ -283,53 +282,6 @@ def _handle_forward_interactions(state, step_val, intro_count, *, reveal, first_
     )
 
 
-def _parse_trigger_json(s):
-    """Parse a JSON-like trigger identifier and return (type, index).
-
-    Accepts either a dict (already parsed) or a JSON string. Returns
-    (None, None) when parsing fails or when the data is not present.
-    """
-    if isinstance(s, dict):
-        return s.get("type"), s.get("index")
-    if not isinstance(s, str):
-        return None, None
-    try:
-        parsed = json.loads(s)
-    except json.JSONDecodeError:
-        return None, None
-    if isinstance(parsed, dict):
-        return parsed.get("type"), parsed.get("index")
-    return None, None
-
-
-def _get_trigger_info():
-    """Return (type, index) for the triggering Dash input or (None, None).
-
-    This helper centralizes detection of which pattern-matching button
-    triggered a callback. It prefers `dash.ctx.triggered_id` (newer
-    Dash versions) and falls back to parsing `dash.callback_context.triggered`.
-
-    Returns:
-    - (type: str, index: int) when detected
-    - (None, None) when no valid trigger could be parsed
-    """
-    ctx = dash.callback_context
-    tid = dash.ctx.triggered_id
-
-    if isinstance(tid, dict):
-        return tid.get("type"), tid.get("index")
-    # Try parsing `tid` or fallback to `callback_context.triggered` prop
-    t_type, t_index = _parse_trigger_json(tid)
-    if t_type is not None:
-        return t_type, t_index
-
-    if not (triggered := ctx.triggered):
-        return None, None
-
-    prop = triggered[0]["prop_id"].split(".")[0]
-    return _parse_trigger_json(prop)
-
-
 @callback(
     output=Output("training-state", "data", allow_duplicate=True),
     inputs={"reveal": Input({"type": "reveal-btn", "index": dash.ALL}, "n_clicks"),
@@ -341,31 +293,6 @@ def _get_trigger_info():
     prevent_initial_call=True,
 )
 def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
-    """Handle a single user interaction and update training state.
-
-    The page uses pattern-matching IDs for buttons, so each input arrives as
-    a list of `n_clicks` values (one per existing button). Rapid user clicks
-    or delayed UI updates can leave stale values in these lists that do not
-    correspond to the line currently displayed. To prevent skipping or
-    applying actions intended for another line, this callback:
-
-    - determines which input actually triggered the callback and its
-      `index` using `_get_trigger_info()`;
-    - ignores the event when the triggered `index` doesn't match the
-      current `step` shown to the user;
-    - treats `back-btn` specially (may remove a previous result and set
-      the previous line as revealed);
-    - delegates forward actions (reveal, initial letters, know/don't-know)
-      to `_handle_forward_interactions` which applies them to the state.
-
-    Parameters (kwargs provided by Dash):
-    - `reveal`, `first_letter`, `know`, `dont_know`, `back`: lists of
-      `n_clicks` for each pattern-matching input type.
-    - `training_state`: dict stored in `dcc.Store(id="training-state")`.
-
-    Returns:
-    - updated `training_state` dict that Dash will write back to the store.
-    """
     # Defensive defaults
     training_state = training_state or {}
     lines = training_state.get("lines", [])
@@ -373,24 +300,12 @@ def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
     intro_count = INITIAL_INTRO if len(non_empty) > INITIAL_INTRO else 0
     step_val = training_state.get("step", 0)
 
-    t_type, t_index = _get_trigger_info()
-    if t_type is None:
+    # Try back action first
+    training_state, handled = _handle_back_action(training_state, step_val, intro_count, back)
+    if handled:
         return training_state
 
-    # Ignore clicks that came from a button not matching the displayed step.
-    if t_index != step_val:
-        return training_state
-
-    # Back button handled specially (it may modify previous results).
-    if t_type == "back-btn":
-        training_state, handled = _handle_back_action(training_state, step_val, intro_count, back)
-        if handled:
-            return training_state
-        return training_state
-
-    # Forward interactions (intro or guessing) — reuse the raw payloads
-    # provided by Dash. Because we confirmed the trigger's index matches
-    # `step_val`, it's safe to process the inputs as-is.
+    # Forward interactions (intro or guessing)
     return _handle_forward_interactions(
         training_state,
         step_val,
