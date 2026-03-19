@@ -69,7 +69,8 @@ def layout(song_title=DEFAULT_SONG, **_):
             dcc.Graph(id="timeline-graph-song"),
             html.Hr(),
             html.H4("Paroles"),
-            html.Div(id="song-lyrics", style={"textAlign": "center"}),
+            html.Div(id="parent-song-lyrics", style={'display': 'flex', 'justify-content': 'center'},
+                     children=[html.Div(id="song-lyrics", style={'text-align': 'left'})])
         ],
         style={"marginTop": 20},
     )

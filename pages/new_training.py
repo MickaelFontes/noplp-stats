@@ -182,7 +182,7 @@ def render_final(lines, state):
         children.append(html.Br() if is_blank(line) else html.Div(display_line, style=style))
     return dbc.Card([
         html.H4("Résultat final"),
-        html.Div(children),
+        html.Div(style={'display': 'flex', 'justify-content': 'center'}, children=[html.Div(children)])
     ], body=True)
 
 
