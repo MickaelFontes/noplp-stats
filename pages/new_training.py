@@ -192,11 +192,11 @@ def render_final(lines, state):
     Output("training-step", "children"),
     Input("dropdown-song-new-training", "value"),
     Input("training-state", "data"),
-    running=[(Input({"type": "know-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "dont-know-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "reveal-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "first-letter-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "back-btn", "index": dash.ALL}, "disabled"), True, False)],
+    running=[(
+        Output("training-step", "style"),
+        {"pointerEvents": "none", "opacity": 1},
+        {"pointerEvents": "auto", "opacity": 1},
+    )],
 )
 def training_step(song_title, state):
     if not state or state.get("song_title") != song_title:
@@ -295,11 +295,11 @@ def _handle_forward_interactions(state, step_val, intro_count, *, reveal, first_
             "dont_know": Input({"type": "dont-know-btn", "index": dash.ALL}, "n_clicks"),
             "back": Input({"type": "back-btn", "index": dash.ALL}, "n_clicks"), },
     state={"training_state": State("training-state", "data")},
-    running=[(Input({"type": "know-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "dont-know-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "reveal-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "first-letter-btn", "index": dash.ALL}, "disabled"), True, False),
-             (Input({"type": "back-btn", "index": dash.ALL}, "disabled"), True, False)],
+    running=[(
+        Output("training-step", "style"),
+        {"pointerEvents": "none", "opacity": 1},
+        {"pointerEvents": "auto", "opacity": 1},
+    )],
     prevent_initial_call=True,
 )
 def step_action(*, reveal, first_letter, know, dont_know, back, training_state):
