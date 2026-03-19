@@ -40,7 +40,7 @@ layout = dbc.Container(
             n_clicks=0,
         ),
         dbc.Collapse(
-            dbc.Card(id="collasped-verified-lyrics", body=True),
+            dbc.Card(id="collasped-verified-lyrics"),
             id="collapse",
             is_open=False,
         ),
@@ -117,7 +117,7 @@ def compare_text_and_lyrics(user_text, song_title):
                             "⛔ Erreur, vous avez tapé plus de mots que les paroles attendues."
                         ),
                     ],
-                    verified_lyrics,
+                    build_verified_lyrics_card(verified_lyrics),
                     user_progress,
                 )
 
@@ -136,14 +136,26 @@ def compare_text_and_lyrics(user_text, song_title):
                             "Paroles attendues: " + " ".join(lyrics_words[: i + 1][-5:])
                         ),
                     ],
-                    verified_lyrics,
+                    build_verified_lyrics_card(verified_lyrics),
                     user_progress,
                 )
         verified_lyrics, user_progress = get_lyrics_approx_until_cut(
             raw_lyrics, len(lyrics_words), len(user_words) + 1
         )
-        return "✅ Tous les mots tapés sont valides !", verified_lyrics, user_progress
+        return (
+            "✅ Tous les mots tapés sont valides !",
+            build_verified_lyrics_card(verified_lyrics),
+            user_progress,
+        )
     return "", "", 0
+
+
+def build_verified_lyrics_card(verified_lyrics):
+    """Create the consistent card layout for verified lyrics preview."""
+    return dbc.CardBody(
+        html.Div(verified_lyrics),
+        style={"display": "flex", "justify-content": "center"},
+    )
 
 
 def get_lyrics_approx_until_cut(lyrics: str, nb_total_words: int, nb_found_words: int):
