@@ -5,6 +5,7 @@ import os
 import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html, Output, Input, State
+from dash_improve_my_llms import add_llms_routes
 
 from pages.bottom import bottom
 
@@ -16,8 +17,11 @@ app = Dash(
     update_title="",
     assets_folder="pages/assets",
 )
+add_llms_routes(app)
+
 server = app.server
 app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"
+app._base_url = "https://noplp-stats.oa.r.appspot.com"
 # To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
 app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
 

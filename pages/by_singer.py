@@ -5,6 +5,7 @@ import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html, clientside_callback
+from dash_improve_my_llms import register_page_metadata
 
 from pages.utils import filter_date, filter_singer, get_date_range_object, get_singers, singer_exists
 
@@ -14,6 +15,12 @@ PAGE_PATH = "/singer"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<singer_name>",
                    title="Par interprète - NOLPL stats")
+
+register_page_metadata(
+    path="/singer",
+    name="Statistiques par interprète",
+    description="Statistiques spécifiques à chaque interprète de l'émission *N'oubliez pas les paroles*.",
+)
 
 
 def layout(singer_name=DEFAULT_SINGER):

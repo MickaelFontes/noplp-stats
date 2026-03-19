@@ -3,8 +3,16 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
+from dash_improve_my_llms import register_page_metadata
 
 dash.register_page(__name__, path="/", title="NOLPL stats")
+
+register_page_metadata(
+    path="/",
+    name="Accueil",
+    description=("Présentation de l'outil et de ses fonctionnalités, ainsi que des données "
+                 "utilisées pour les statistiques de NOPLP Stats, pour N'oubliez pas les paroles."),
+)
 
 homepage_markdown = """
 ## Présentation

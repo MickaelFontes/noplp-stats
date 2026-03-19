@@ -7,12 +7,19 @@ from urllib.parse import unquote
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
+from dash_improve_my_llms import register_page_metadata
 from pages.utils import DEFAULT_SONG, get_song_dropdown_menu, return_lyrics_df, song_exists
 
 PAGE_PATH = "/new-training"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Entraînement - NOLPL stats")
+
+register_page_metadata(
+    path="/new-training",
+    name="Entraînement",
+    description="Page d'entraînement pour deviner les paroles des chansons."
+)
 
 INITIAL_INTRO = 3
 
