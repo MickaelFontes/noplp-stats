@@ -5,11 +5,17 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State, callback, ctx
 from dash.dependencies import ALL
+from dash_improve_my_llms import register_page_metadata
 from pages.utils import return_lyrics_df
 
 
 dash.register_page(__name__, path="/my-stats", title="Mes stats - NOLPL stats")
 
+register_page_metadata(
+    path="/my-stats",
+    name="Mes stats",
+    description="Statistiques sur votre entraînement et vos scores."
+)
 
 layout = dbc.Container([
     html.H5("Mes stats d'entraînement"),

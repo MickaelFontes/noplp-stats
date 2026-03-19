@@ -8,6 +8,7 @@ import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
+from dash_improve_my_llms import register_page_metadata
 
 from pages.utils import (
     compare_to_global,
@@ -22,6 +23,11 @@ from pages.utils import (
 
 dash.register_page(__name__, path="/global", title="Global - NOLPL stats")
 
+register_page_metadata(
+    path="/global",
+    name="Statistiques globales",
+    description="Statistiques sur l'ensemble des chansons et des catégories, sur la fenêtre temporelle sélectionnée.",
+)
 
 layout = dbc.Container(
     [
