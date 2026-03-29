@@ -24,7 +24,7 @@ from pages.utils import (
 PAGE_PATH = "/song"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
-                   title="Par chanson - NOLPL stats")
+                   title="Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/song",
@@ -86,7 +86,7 @@ def layout(song_title=DEFAULT_SONG, **_):
 clientside_callback(
     """
     function(song_title) {
-        document.title = song_title + ' - NOLPL stats';
+        document.title = song_title + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
     }
     """,
     Output("blank-output", "children", allow_duplicate=True),

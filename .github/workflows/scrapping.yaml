@@ -1,4 +1,4 @@
-name: Update NOLPL database
+name: Update NOPLP database
 
 on:
   schedule:

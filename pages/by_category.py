@@ -20,7 +20,7 @@ from pages.utils import (
     get_points_options,
 )
 
-dash.register_page(__name__, path="/category", title="Par catégorie - NOLPL stats")
+dash.register_page(__name__, path="/category", title="Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/category",

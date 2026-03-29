@@ -14,13 +14,13 @@ app = Dash(
     use_pages=True,
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    update_title="",
+    update_title="NOPLP stats - Statistiques N'oubliez pas les paroles",
     assets_folder="pages/assets",
 )
 add_llms_routes(app)
 
 server = app.server
-app.title = "NOPLP stats - Statistiques sur N'oubliez pas les paroles"
+app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
 app._base_url = "https://noplp-stats.oa.r.appspot.com"
 # To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
 app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
