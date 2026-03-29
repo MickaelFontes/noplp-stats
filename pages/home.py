@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from dash import dcc
 from dash_improve_my_llms import register_page_metadata
 
-dash.register_page(__name__, path="/", title="NOLPL stats")
+dash.register_page(__name__, path="/", title="NOPLP - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/",

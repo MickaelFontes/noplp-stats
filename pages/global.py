@@ -21,7 +21,7 @@ from pages.utils import (
     return_coverage_figure,
 )
 
-dash.register_page(__name__, path="/global", title="Global - NOLPL stats")
+dash.register_page(__name__, path="/global", title="Global - NOPLP - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/global",

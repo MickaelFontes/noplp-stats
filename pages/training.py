@@ -14,7 +14,7 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/training", title="Entraînement - NOLPL stats")
+dash.register_page(__name__, path="/training", title="Entraînement - NOPLP - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/training",

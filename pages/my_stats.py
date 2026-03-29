@@ -9,7 +9,7 @@ from dash_improve_my_llms import register_page_metadata
 from pages.utils import return_lyrics_df
 
 
-dash.register_page(__name__, path="/my-stats", title="Mes stats - NOLPL stats")
+dash.register_page(__name__, path="/my-stats", title="Mes stats - NOPLP - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/my-stats",
