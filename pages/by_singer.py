@@ -14,7 +14,7 @@ DEFAULT_SINGER = "Céline Dion"
 PAGE_PATH = "/singer"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<singer_name>",
-                   title="Par interprète - NOPLP - Statistiques N'oubliez pas les paroles")
+                   title="Par interprète - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/singer",
@@ -53,7 +53,7 @@ def layout(singer_name=DEFAULT_SINGER):
 clientside_callback(
     """
     function(singer_name) {
-        document.title = singer_name + ' - NOPLP - Statistiques N'oubliez pas les paroles';
+        document.title = singer_name + ' - NOPLP stats - Statistiques N\'oubliez pas les paroles';
     }
     """,
     Output("blank-output", "children", allow_duplicate=True),

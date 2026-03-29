@@ -13,7 +13,7 @@ from pages.utils import DEFAULT_SONG, get_song_dropdown_menu, return_lyrics_df, 
 PAGE_PATH = "/new-training"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
-                   title="Entraînement - NOPLP - Statistiques N'oubliez pas les paroles")
+                   title="Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 register_page_metadata(
     path="/new-training",
