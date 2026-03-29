@@ -86,7 +86,7 @@ def layout(song_title=DEFAULT_SONG, **_):
 clientside_callback(
     """
     function(song_title) {
-        document.title = song_title + ' - NOPLP stats - Statistiques N\'oubliez pas les paroles';
+        document.title = song_title + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
     }
     """,
     Output("blank-output", "children", allow_duplicate=True),
