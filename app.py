@@ -14,7 +14,8 @@ app = Dash(
     use_pages=True,
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.BOOTSTRAP],
-    update_title="NOPLP stats - Statistiques N'oubliez pas les paroles",
+    title="NOPLP stats - Statistiques N'oubliez pas les paroles",
+    update_title=None,
     assets_folder="pages/assets",
 )
 add_llms_routes(app)
