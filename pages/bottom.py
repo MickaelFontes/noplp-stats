@@ -15,7 +15,7 @@ bottom = html.Div(
                 " ![Github](/assets/images/favicon.svg#thumbnail) ",
                 "[noplp-stats](https://github.com/MickaelFontes/noplp-stats) sous ",
                 "[MIT License](https://github.com/MickaelFontes/noplp-stats/blob/main/LICENSE) - ",  # noqa: E501
-                "Dernière mise à jour: le 19/03/2026",
+                "Dernière mise à jour: le 08/04/2026",
             ]
         ),
     ],
