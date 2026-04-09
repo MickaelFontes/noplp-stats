@@ -4,7 +4,7 @@
 
 Python project to exploit and present lastest statistics and data about NOPLP from dedicated [Fandom Wiki](https://n-oubliez-pas-les-paroles.fandom.com/fr/).
 
-See the app here: [https://noplp-stats.oa.r.appspot.com/](https://noplp-stats.oa.r.appspot.com/).
+See the app here: [https://noplp-stats.fr/](https://noplp-stats.fr/).
 
 ## What can I find?
 
