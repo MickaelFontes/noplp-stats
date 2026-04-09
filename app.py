@@ -22,7 +22,7 @@ add_llms_routes(app)
 
 server = app.server
 app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
-app._base_url = "https://noplp-stats.oa.r.appspot.com"
+app._base_url = "https://noplp-stats.fr"
 # To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
 app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
 
