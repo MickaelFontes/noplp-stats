@@ -5,7 +5,6 @@ import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, dcc, html, clientside_callback
-from dash_improve_my_llms import register_page_metadata
 
 from pages.utils import (
     extract_and_format_lyrics,
@@ -25,12 +24,6 @@ PAGE_PATH = "/song"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles")
-
-register_page_metadata(
-    path="/song",
-    name="Statistiques par chanson",
-    description="Statistiques spécifiques à chaque chanson de l'émission *N'oubliez pas les paroles*.",
-)
 
 
 def layout(song_title=DEFAULT_SONG, **_):
