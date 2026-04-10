@@ -5,7 +5,6 @@ import re
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html
-from dash_improve_my_llms import register_page_metadata
 from unidecode import unidecode
 
 from pages.utils import (
@@ -15,12 +14,6 @@ from pages.utils import (
 )
 
 dash.register_page(__name__, path="/training", title="Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles")
-
-register_page_metadata(
-    path="/training",
-    name="Entraînement",
-    description="Page d'entraînement pour deviner les paroles des chansons.",
-)
 
 layout = dbc.Container(
     [

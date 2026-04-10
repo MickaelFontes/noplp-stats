@@ -4,8 +4,6 @@ import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
-from dash_improve_my_llms import register_page_metadata
-
 from pages.utils import (
     compare_to_global,
     download_name,
@@ -21,12 +19,6 @@ from pages.utils import (
 )
 
 dash.register_page(__name__, path="/category", title="Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles")
-
-register_page_metadata(
-    path="/category",
-    name="Statistiques par catégorie",
-    description="Statistiques spécifiques à chaque catégorie de l'émission *N'oubliez pas les paroles*.",
-)
 
 layout = dbc.Container(
     [

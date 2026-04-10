@@ -5,8 +5,6 @@ import os
 import dash
 import dash_bootstrap_components as dbc
 from dash import Dash, html, Output, Input, State
-from dash_improve_my_llms import add_llms_routes
-
 from pages.bottom import bottom
 
 app = Dash(
@@ -18,7 +16,7 @@ app = Dash(
     update_title=None,
     assets_folder="pages/assets",
 )
-add_llms_routes(app)
+
 
 server = app.server
 app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
