@@ -28,10 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Install poetry
@@ -42,7 +42,7 @@ jobs:
         run: |
           poetry self add poetry-plugin-export
           poetry export -f requirements.txt --output requirements.txt --only main
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: requirements
           path: requirements.txt
@@ -60,16 +60,16 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - id: "auth"
-        uses: "google-github-actions/auth@v2"
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
 
       - name: Get requirements.txt
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: requirements
 
@@ -77,7 +77,7 @@ jobs:
         run: 'cp deploy/app-main.yaml app.yaml'
 
       - id: "deploy"
-        uses: "google-github-actions/deploy-appengine@v2"
+        uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
         with:
           flags: "--no-cache"
 
@@ -98,16 +98,16 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - id: "auth"
-        uses: "google-github-actions/auth@v2"
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
 
       - name: Get requirements.txt
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: requirements
 
@@ -115,7 +115,7 @@ jobs:
         run: 'cp deploy/app-pr.yaml app.yaml'
 
       - id: "deploy"
-        uses: "google-github-actions/deploy-appengine@v2"
+        uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
         with:
           flags: "--no-cache"
           promote: false
