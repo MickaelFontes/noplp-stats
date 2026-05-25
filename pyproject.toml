@@ -25,6 +25,7 @@ aiohttp = {version = "^3.11.13", extras = ["speedups"]}
 aiolimiter = "^1.2.1"
 pytest = "^9.0.1"
 selenium = ">=4.0,<5.0"
+beautifulsoup4 = "^4.12.2"
 
 [build-system]
 requires = ["poetry-core"]
