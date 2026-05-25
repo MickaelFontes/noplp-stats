@@ -11,7 +11,14 @@ app = Dash(
     __name__,
     use_pages=True,
     suppress_callback_exceptions=True,
-    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    external_stylesheets=[
+        {
+            'href': dbc.themes.BOOTSTRAP,
+            'rel': 'stylesheet',
+            'integrity': 'sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=',
+            'crossorigin': 'anonymous'
+        }
+    ],
     title="NOPLP stats - Statistiques N'oubliez pas les paroles",
     update_title=None,
     assets_folder="pages/assets",
