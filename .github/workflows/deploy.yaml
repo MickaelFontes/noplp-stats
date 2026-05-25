@@ -99,7 +99,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-      - id: GCP authentication
+      - name: GCP authentication
         uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
@@ -113,7 +113,7 @@ jobs:
       - name: Prepapre app.yaml file for PR deployment
         run: 'cp deploy/app-pr.yaml app.yaml'
 
-      - id: Deploy App Engine
+      - name: Deploy App Engine
         uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
         with:
           flags: "--no-cache"
