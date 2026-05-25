@@ -79,7 +79,7 @@ class Scrapper:
             song (Song): Song instance with the data obtained from the API
         """
         # Retry logic: up to 3 attempts with a short delay between tries
-        last_exc = None
+        last_exc: str | None = None
         for attempt in range(1, 4):
             try:
                 async with self._ratelimit:
@@ -88,12 +88,10 @@ class Scrapper:
                             text = await response.text()
                             self._data = json.loads(text)
                             break
-                        # record non-200 as an error to possibly retry
-                        last_exc = ScrapperGetPageError(
-                            f"name: {response.url} ; {status_code}"
-                        )
+                        # record non-200 as an error message to possibly retry
+                        last_exc = f"name: {response.url} ; {status_code}"
             except aiohttp.ClientError as e:
-                last_exc = e
+                last_exc = str(e)
 
             if attempt < 3:
                 await asyncio.sleep(5)
