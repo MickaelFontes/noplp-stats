@@ -24,16 +24,8 @@ jobs:
           python-version: "3.12"
       - name: Install poetry
         run: |
-          curl -sSL https://install.python-poetry.org | python
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - uses: browser-actions/setup-chrome@c785b87e244131f27c9f19c1a33e2ead956ab7ce # v1.7.3
-        with:
-          chrome-version: stable
-
-      - name: setup-chromedriver
-        uses: nanasess/setup-chromedriver@2c49495f83dd47aa7cee6b3d20cd5a5a3e1e016d # v2.2.0
-
+          pipx install git+https://github.com/python-poetry/poetry.git@811a12dae0fe81f199e3f1b88b8b8be9eed543c2 #v2.4.1
+          
       - name: Install dependencies
         run: |
           poetry install
@@ -44,4 +36,5 @@ jobs:
 
       - name: Launch pages tests
         run: |
-          poetry run pytest tests/test_all.py
+          export PATH=$PATH:$CHROMEWEBDRIVER
+          poetry run pytest --log-cli-level DEBUG --headless
