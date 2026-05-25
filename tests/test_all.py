@@ -35,3 +35,10 @@ def test_all_pages(browser, live_server):
         browser.get(urljoin(live_server, path))
         WebDriverWait(browser, 10).until(ec.title_is(expected_title))
         assert browser.find_element(By.ID, "navbar-toggler")
+
+        # Check browser console for errors (equivalent to dash_duo.get_logs())
+        logs = browser.get_log("browser")
+        error_logs = [log for log in logs if log["level"] == "SEVERE"]
+        assert (
+            error_logs == []
+        ), f"Browser console should contain no errors on {path}: {error_logs}"

@@ -20,6 +20,7 @@ def _build_chrome_options():
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1280,720")
+    options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
     return options
 
 
