@@ -1,7 +1,7 @@
 FROM python:3.12-slim AS builder
 
 # --- Install Poetry ---
-ARG POETRY_VERSION=2.0
+ARG POETRY_VERSION=2.4.1
 
 ENV POETRY_HOME=/opt/poetry
 ENV POETRY_NO_INTERACTION=1
@@ -33,7 +33,9 @@ ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 ENV HOST=0.0.0.0
 
-COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+RUN useradd -m appuser
+
+COPY --from=builder --chown=appuser:appuser ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 WORKDIR /app
 
@@ -41,6 +43,12 @@ COPY data/ ./data
 COPY app.py ./
 COPY pages/ ./pages
 
+USER appuser
+
 EXPOSE 8080
-HEALTHCHECK CMD python -c "import requests; import sys; sys.exit(0) if requests.get('http://127.0.0.1:8080/').status_code == 200 else sys.exit(1);"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --start-interval=1s \
+    CMD python -c "import requests, sys; \
+    try: r = requests.get('http://127.0.0.1:8080/', timeout=3); \
+    sys.exit(0) if r.status_code == 200 else sys.exit(1) \
+    except Exception: sys.exit(1)"
 ENTRYPOINT ["gunicorn", "-b", ":8080", "-w", "2", "app:server"]
