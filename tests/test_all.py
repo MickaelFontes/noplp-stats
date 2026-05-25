@@ -15,10 +15,13 @@ def test_all_pages(browser, live_server):
             "/category",
             "Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles",
         ),
-        ("/song", "Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles"),
         (
-            "/singer",
-            "Par interprète - NOPLP stats - Statistiques N'oubliez pas les paroles",
+            "/song/2 be 3",
+            "2 be 3 - NOPLP stats - Statistiques N'oubliez pas les paroles",
+        ),
+        (
+            "/singer/Céline Dion",
+            "Céline Dion - NOPLP stats - Statistiques N'oubliez pas les paroles",
         ),
         (
             "/training",
