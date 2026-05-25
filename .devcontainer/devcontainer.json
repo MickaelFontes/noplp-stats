@@ -11,7 +11,7 @@
 				// Can't use hash-based references for these extensions
 				"GitHub.copilot",
 				"GitHub.copilot-chat",
-				"ms-python.autopep8",
+				"ms-python.black-formatter",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
 				"ms-python.debugpy",
