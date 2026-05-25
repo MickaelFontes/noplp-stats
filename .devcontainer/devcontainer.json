@@ -1,6 +1,6 @@
 {
 	"name": "Python 3, Poetry",
-	"image": "mcr.microsoft.com/devcontainers/python:3.14@sha256:c845af9399020c7e562969a13689e929074a10fd057acd1b1fad06a2fb068e97",
+	"image": "mcr.microsoft.com/devcontainers/python:3.14@sha256:882b17d068262c7af4300180ead0ee14423d2c03393778c92435b0ca642dea07",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {
 	// 	"ghcr.io/devcontainers-extra/features/poetry:2": {}
