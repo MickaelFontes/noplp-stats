@@ -17,6 +17,7 @@
 				"ms-python.debugpy",
 				"ms-python.flake8",
 				"ms-python.pylint",
+				"ms-python.vscode-python-envs",
 				"vivaxy.vscode-conventional-commits"
 			]
 		}
@@ -26,7 +27,7 @@
 		8080
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pipx install git+https://github.com/python-poetry/poetry.git@811a12dae0fe81f199e3f1b88b8b8be9eed543c2 && poetry sync"
+	"onCreateCommand": "pipx install git+https://github.com/python-poetry/poetry.git@811a12dae0fe81f199e3f1b88b8b8be9eed543c2 && poetry sync"
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
