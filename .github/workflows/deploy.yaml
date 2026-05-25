@@ -114,6 +114,7 @@ jobs:
         run: 'cp deploy/app-pr.yaml app.yaml'
 
       - name: Deploy App Engine
+        id: deploy
         uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
         with:
           flags: "--no-cache"
