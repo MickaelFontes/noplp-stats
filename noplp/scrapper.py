@@ -3,6 +3,7 @@
 import json
 import re
 from datetime import date
+import asyncio
 
 import aiohttp
 import dateparser
@@ -77,13 +78,30 @@ class Scrapper:
         Returns:
             song (Song): Song instance with the data obtained from the API
         """
-        async with self._ratelimit:
-            async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
-                if (status_code := response.status) == 200:
-                    text = await response.text()
-                    self._data = json.loads(text)
-                else:
-                    raise ScrapperGetPageError(f"name: {response.url} ; {status_code}")
+        # Retry logic: up to 3 attempts with a short delay between tries
+        last_exc = None
+        for attempt in range(1, 4):
+            try:
+                async with self._ratelimit:
+                    async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
+                        if (status_code := response.status) == 200:
+                            text = await response.text()
+                            self._data = json.loads(text)
+                            break
+                        # record non-200 as an error to possibly retry
+                        last_exc = ScrapperGetPageError(
+                            f"name: {response.url} ; {status_code}"
+                        )
+            except aiohttp.ClientError as e:
+                last_exc = e
+
+            if attempt < 3:
+                await asyncio.sleep(5)
+        else:
+            # all attempts failed
+            raise ScrapperGetPageError(
+                f"Failed to get page {page} after 3 attempts: {last_exc}"
+            )
 
         # clean up source from problematic html tag
         soup = BeautifulSoup(self._data["source"], "html.parser")
