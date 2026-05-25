@@ -10,8 +10,7 @@ from app import app as noplp_app
 
 # Ensure CHROMEWEBDRIVER path (if provided) is added to PATH so Selenium can find chromedriver.
 # Tests can set the CHROMEWEBDRIVER env var before running pytest. If it's set, add it to PATH.
-chrome_driver_dir = os.environ.get("CHROMEWEBDRIVER")
-if chrome_driver_dir:
+if chrome_driver_dir := os.environ.get("CHROMEWEBDRIVER"):
     os.environ["PATH"] = os.environ.get("PATH", "") + os.pathsep + chrome_driver_dir
 
 
