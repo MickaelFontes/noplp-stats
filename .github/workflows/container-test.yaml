@@ -59,4 +59,4 @@ jobs:
       - name: Launch tests
         run: |
           export PATH=$PATH:$CHROMEWEBDRIVER
-          poetry run pytest --log-cli-level DEBUG --headless
+          poetry run pytest --log-cli-level DEBUG
