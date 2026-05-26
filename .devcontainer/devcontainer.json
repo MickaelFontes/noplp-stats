@@ -13,7 +13,7 @@
 				"ms-python.autopep8",
 				"ms-python.black-formatter",
 				"vivaxy.vscode-conventional-commits",
-				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this
+				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this?- not enough apparently
 				"ms-python.flake8",
 				"ms-python.vscode-pylance",
 				"ms-python.pylint",
