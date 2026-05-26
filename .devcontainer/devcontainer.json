@@ -9,8 +9,8 @@
 		"vscode": {
 			"extensions": [
 				// Can't use hash-based references for these extensions
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
+				"github.copilot-chat",
+				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this
 				"ms-python.black-formatter",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
