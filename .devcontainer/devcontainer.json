@@ -10,15 +10,16 @@
 			"extensions": [
 				// Can't use hash-based references for these extensions
 				"github.copilot-chat",
-				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this
+				"ms-python.autopep8",
 				"ms-python.black-formatter",
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.debugpy",
+				"vivaxy.vscode-conventional-commits",
+				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this
 				"ms-python.flake8",
+				"ms-python.vscode-pylance",
 				"ms-python.pylint",
-				"ms-python.vscode-python-envs",
-				"vivaxy.vscode-conventional-commits"
+				"ms-python.python",
+				"ms-python.debugpy",
+				"ms-python.vscode-python-envs"
 			]
 		}
 	},
