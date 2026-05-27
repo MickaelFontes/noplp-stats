@@ -43,7 +43,8 @@ jobs:
         run: |
           poetry self add poetry-plugin-export
           poetry export -f requirements.txt --output requirements.txt --only main
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - name: Upload requirements.txt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: requirements
           path: requirements.txt
