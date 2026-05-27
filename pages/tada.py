@@ -1,39 +1,12 @@
-"""Application file for noplp-stats"""
+"""Static landing page moved out of app.py and registered from app startup.
 
-import os
-
-import dash
-import dash_bootstrap_components as dbc
-from dash import Dash, html, Output, Input, State
+This module exposes `attach(server)` which registers the `/tada` route
+on the Flask `server` passed in. The HTML is stored in `_LANDING_PAGE_HTML`.
+"""
 from flask import render_template_string, request
-from pages.bottom import bottom
-
-app = Dash(
-    __name__,
-    use_pages=True,
-    suppress_callback_exceptions=True,
-    external_stylesheets=[
-        {
-            "href": dbc.themes.BOOTSTRAP,
-            "rel": "stylesheet",
-            "integrity": "sha256-oxqX0LQclbvrsJt8IymkxnISn4Np2Wy2rY9jjoQlDEg=",
-            "crossorigin": "anonymous",
-        }
-    ],
-    title="NOPLP stats - Statistiques N'oubliez pas les paroles",
-    update_title=None,
-    assets_folder="pages/assets",
-)
-
-
-server = app.server
-import pages.tada as tada  # move landing page into pages/tada.py and register route
-tada.attach(server)
-app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
-app._base_url = "https://noplp-stats.fr"
-# To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
-app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
-
+import dash
+from dash import Dash, dcc, html
+from pages.utils import return_coverage_figure
 
 _LANDING_PAGE_HTML = """
                 <!doctype html>
@@ -206,105 +179,36 @@ _LANDING_PAGE_HTML = """
                 """
 
 
-app.layout = html.Div(
-    [
-        dbc.Navbar(
-            dbc.Container(
-                [
-                    dbc.NavbarBrand("NOPLP Stats", href="/"),
-                    dbc.NavbarToggler(id="navbar-toggler"),
-                    dbc.Collapse(
-                        dbc.Nav(
-                            [
-                                dbc.NavLink(
-                                    "Accueil",
-                                    href="/",
-                                    active="exact",
-                                    id="nav-accueil",
-                                ),
-                                dbc.NavLink(
-                                    "Global",
-                                    href="/global",
-                                    active="exact",
-                                    id="nav-global",
-                                ),
-                                dbc.NavLink(
-                                    "Par catégorie",
-                                    href="/category",
-                                    active="exact",
-                                    id="nav-category",
-                                ),
-                                dbc.NavLink(
-                                    "Par chanson",
-                                    href="/song",
-                                    active="partial",
-                                    id="nav-song",
-                                ),
-                                dbc.NavLink(
-                                    "Par interprète",
-                                    href="/singer",
-                                    active="partial",
-                                    id="nav-singer",
-                                ),
-                                dbc.NavLink(
-                                    "Entraînement",
-                                    href="/training",
-                                    active="exact",
-                                    id="nav-training",
-                                ),
-                            ],
-                            className="ml-auto",
-                            navbar=True,
-                        ),
-                        id="navbar-collapse",
-                        is_open=False,
-                        navbar=True,
-                    ),
-                ]
-            ),
-            color="primary",
-            dark=True,
-        ),
-        dash.page_container,
-        html.Div(id="blank-output"),
-        bottom,
-    ]
-)
+def attach(server):
+    """Register the `/tada` route and embed a small Dash app into the page.
 
+    The Dash app is mounted under `/tada/dash/` and its minimized `index_string`
+    is included into the Flask-rendered template via `dash_app.index()`.
+    """
 
-# Callback to toggle/collapse navbar on toggler click or navlink click
-@app.callback(
-    Output("navbar-collapse", "is_open"),
-    [
-        Input("navbar-toggler", "n_clicks"),
-        Input("nav-accueil", "n_clicks"),
-        Input("nav-global", "n_clicks"),
-        Input("nav-category", "n_clicks"),
-        Input("nav-song", "n_clicks"),
-        Input("nav-singer", "n_clicks"),
-        Input("nav-training", "n_clicks"),
-    ],
-    [State("navbar-collapse", "is_open")],
-)
-def toggle_navbar(
-    _n_toggler,
-    _n_accueil,
-    _n_global,
-    _n_category,
-    _n_song,
-    _n_singer,
-    _n_training,
-    is_open,
-):
-    ctx = dash.callback_context
-    if not ctx.triggered:
-        return is_open
-    if ctx.triggered[0]["prop_id"].split(".")[0] == "navbar-toggler":
-        return not is_open
-    # If any navlink is clicked, close the navbar (only matters on mobile)
-    return False
+    # Create embedded Dash app mounted on the provided Flask server
+    dash_app = Dash(
+        __name__,
+        server=server,
+        routes_pathname_prefix="/tada/dash/",
+        assets_folder="pages/assets",
+        suppress_callback_exceptions=True,
+    )
 
+    # Minimal index_string so `dash_app.index()` returns only the entry+scripts
+    dash_app.index_string = """{%app_entry%}{%config%}{%scripts%}{%renderer%}"""
 
+    # Simple layout reusing an existing figure from pages.utils
+    dash_app.layout = html.Div([
+        html.H4("Extrait interactif: couverture des catégories"),
+        dcc.Graph(id="tada-coverage", figure=return_coverage_figure()),
+    ])
 
-if __name__ == "__main__":
-    app.run(port="8080", debug=None)
+    @server.route("/tada")
+    def _tada():
+        # Inject the Dash app HTML where desired inside the landing template.
+        dash_html = dash_app.index()
+        return render_template_string(_LANDING_PAGE_HTML.replace(
+            "</section>\n\n                        <p class=\"footer\">",
+            "</section>\n\n                        <!-- Embedded Dash app -->\n                        " + dash_html + "\n\n                        <p class=\"footer\">",
+        ))
