@@ -3,10 +3,11 @@
 This module exposes `attach(server)` which registers the `/tada` route
 on the Flask `server` passed in. The HTML is stored in `_LANDING_PAGE_HTML`.
 """
-from flask import render_template_string, request
-import dash
-from dash import Dash, dcc, html
-from pages.utils import return_coverage_figure
+
+from flask import render_template_string
+import plotly.express as px
+from dash import Dash, Input, Output, dcc, html
+from pages.utils import return_cat_rankings_df
 
 _LANDING_PAGE_HTML = """
                 <!doctype html>
@@ -198,17 +199,73 @@ def attach(server):
     # Minimal index_string so `dash_app.index()` returns only the entry+scripts
     dash_app.index_string = """{%app_entry%}{%config%}{%scripts%}{%renderer%}"""
 
-    # Simple layout reusing an existing figure from pages.utils
-    dash_app.layout = html.Div([
-        html.H4("Extrait interactif: couverture des catégories"),
-        dcc.Graph(id="tada-coverage", figure=return_coverage_figure()),
-    ])
+    graph_df = return_cat_rankings_df()
+    category_values = sorted(graph_df["category"].dropna().unique().tolist())
+    rank_min = int(graph_df["rank"].min())
+    rank_max = int(graph_df["rank"].max())
+
+    # Interactive layout with category dropdown + rank range slider
+    dash_app.layout = html.Div(
+        [
+            html.H4("Extrait interactif: couverture des catégories"),
+            dcc.Dropdown(
+                id="tada-category",
+                options=[{"label": "Toutes les catégories", "value": "ALL"}]
+                + [{"label": cat, "value": cat} for cat in category_values],
+                value="ALL",
+                clearable=False,
+            ),
+            html.Div("Plage de rangs", style={"marginTop": 12}),
+            dcc.RangeSlider(
+                id="tada-rank-range",
+                min=rank_min,
+                max=rank_max,
+                value=[rank_min, min(rank_max, rank_min + 300)],
+                step=1,
+                allowCross=False,
+                tooltip={"placement": "bottom", "always_visible": False},
+            ),
+            dcc.Graph(id="tada-coverage"),
+        ]
+    )
+
+    @dash_app.callback(
+        Output("tada-coverage", "figure"),
+        Input("tada-category", "value"),
+        Input("tada-rank-range", "value"),
+    )
+    def _update_tada_coverage(selected_category, rank_range):
+        low_rank, high_rank = rank_range
+        filtered = graph_df[
+            (graph_df["rank"] >= low_rank) & (graph_df["rank"] <= high_rank)
+        ]
+        if selected_category and selected_category != "ALL":
+            filtered = filtered[filtered["category"] == selected_category]
+
+        fig = px.line(
+            data_frame=filtered,
+            x="rank",
+            y="coverage",
+            color="category",
+            hover_data={"name": True, "rank": True, "coverage": True, "category": True},
+        )
+        fig.update_layout(
+            height=520,
+            xaxis={"title": "Nombre de chansons à connaître"},
+            yaxis={"title": "Pourcentage de couverture d'une catégorie"},
+            legend={"title": {"text": "Catégorie"}},
+        )
+        return fig
 
     @server.route("/tada")
     def _tada():
         # Inject the Dash app HTML where desired inside the landing template.
         dash_html = dash_app.index()
-        return render_template_string(_LANDING_PAGE_HTML.replace(
-            "</section>\n\n                        <p class=\"footer\">",
-            "</section>\n\n                        <!-- Embedded Dash app -->\n                        " + dash_html + "\n\n                        <p class=\"footer\">",
-        ))
+        return render_template_string(
+            _LANDING_PAGE_HTML.replace(
+                '</section>\n\n                        <p class="footer">',
+                "</section>\n\n                        <!-- Embedded Dash app -->\n                        "
+                + dash_html
+                + '\n\n                        <p class="footer">',
+            )
+        )
