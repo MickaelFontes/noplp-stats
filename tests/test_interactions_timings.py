@@ -3,7 +3,15 @@ import os
 import time
 from urllib.parse import urljoin
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+
+from tests.conftest import (
+    wait_for_plotly_graph,
+    get_plotly_data_signature,
+    click_slider_by_percent,
+    measure_action_time,
+)
 
 
 def _ensure_artifacts_dir():
@@ -19,13 +27,6 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
     browser.get(url)
 
     # wait initial graph
-    from tests.conftest import (
-        wait_for_plotly_graph,
-        get_plotly_data_signature,
-        click_slider_by_percent,
-        measure_action_time,
-    )
-
     wait_for_plotly_graph(browser, "graph", timeout=15)
     sig_before = get_plotly_data_signature(browser, "graph")
 
@@ -54,7 +55,7 @@ def test_training_dropdown_selection_timing(browser, live_server):
     url = urljoin(base, "/training")
     browser.get(url)
 
-    from tests.conftest import measure_action_time
+    # measure_action_time imported at module top
 
     # find dropdown toggle element created by Dash for dcc.Dropdown
     dropdown_id = "dropdown-song-training"
@@ -69,7 +70,7 @@ def test_training_dropdown_selection_timing(browser, live_server):
             # dropdown options are rendered in a separate menu; wait a short time
             opt = browser.find_element(By.CSS_SELECTOR, "div.Select-option")
             opt.click()
-        except Exception:
+        except NoSuchElementException:
             # fallback: select by sending keys or clicking the first visible option
             pass
 

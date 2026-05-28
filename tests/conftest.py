@@ -1,13 +1,18 @@
 import os
 import threading
+import time
 
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    WebDriverException,
+)
 from werkzeug.serving import make_server
 
 from app import app as noplp_app
@@ -52,36 +57,42 @@ def wait_for_plotly_graph(driver, graph_id: str, timeout: int = 15) -> None:
     """
 
     def _check(driver):
-        script = (
-            "const el = document.getElementById(arguments[0]);"
-            "if(!el) return false;"
-            "const plot = el.querySelector('.js-plotly-plot') || el;"
-            "if(plot && plot.data && plot.data.length>0) return true;"
-            "// fallback: look for SVG traces or bars"
-            "if(plot.querySelector && (plot.querySelector('g.trace') || plot.querySelector('path'))) return true;"
-            "return false;"
-        )
+        script_lines = [
+            "const el = document.getElementById(arguments[0]);",
+            "if(!el) return false;",
+            "const plot = el.querySelector('.js-plotly-plot') || el;",
+            "if(plot && plot.data && plot.data.length>0) return true;",
+            "// fallback: look for SVG traces or bars",
+            "if(plot.querySelector && (",
+            "plot.querySelector('g.trace') || plot.querySelector('path'))) return true;",
+            "return false;",
+        ]
+        script = "".join(script_lines)
         try:
             return bool(driver.execute_script(script, graph_id))
-        except Exception:
+        except WebDriverException:
             return False
 
-    WebDriverWait(driver, timeout).until(lambda d: _check(d))
+    WebDriverWait(driver, timeout).until(_check)
 
 
 def get_plotly_data_signature(driver, graph_id: str) -> str:
     """Return a lightweight signature of the graph content to detect updates."""
-    script = (
-        "const el = document.getElementById(arguments[0]);"
-        "if(!el) return null;"
-        "const plot = el.querySelector('.js-plotly-plot') || el;"
-        "if(plot && plot.data) return plot.data.length + '|' + JSON.stringify(plot.data.map(d=>d.name||d.type||'')).slice(0,200);"
-        "if(plot && plot.innerHTML) return plot.innerHTML.slice(0,200);"
-        "return null;"
-    )
+    script_lines = [
+        "const el = document.getElementById(arguments[0]);",
+        "if(!el) return null;",
+        "const plot = el.querySelector('.js-plotly-plot') || el;",
+        (
+            "if(plot && plot.data) return plot.data.length + '|' + "
+            "JSON.stringify(plot.data.map(d=>d.name||d.type||'')).slice(0,200);"
+        ),
+        "if(plot && plot.innerHTML) return plot.innerHTML.slice(0,200);",
+        "return null;",
+    ]
+    script = "".join(script_lines)
     try:
         return driver.execute_script(script, graph_id)
-    except Exception:
+    except WebDriverException:
         return None
 
 
@@ -92,20 +103,81 @@ def click_slider_by_percent(driver, slider_id: str, percent: float) -> None:
     works for the common rc-slider markup used by Dash sliders.
     """
     slider = driver.find_element(By.ID, slider_id)
-    # try to find the visible track element used by rc-slider
-    try:
-        track = slider.find_element(By.CSS_SELECTOR, ".rc-slider")
-    except Exception:
-        track = slider
 
-    size = track.size
-    # clamp percent
-    p = max(0.0, min(1.0, percent))
-    x_offset = int(size["width"] * p)
-    y_offset = int(size["height"] / 2)
-    ActionChains(driver).move_to_element_with_offset(
-        track, x_offset, y_offset
-    ).click().perform()
+    # ensure visible in viewport
+    try:
+        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", slider)
+    except WebDriverException:
+        pass
+
+    # attempt strategies in order; helpers return True on success
+    if _try_handle_keyboard(slider, percent):
+        return
+
+    if _dispatch_js_click(driver, slider, max(0.0, min(1.0, percent))):
+        return
+
+    if _offset_click(driver, slider, percent):
+        return
+
+    # give up silently; tests should handle lack of interaction
+    return
+
+
+def _try_handle_keyboard(slider, percent: float) -> bool:
+    """Try moving the first slider handle with keyboard arrows. Returns True on success."""
+    try:
+        if not (handles := slider.find_elements(By.CSS_SELECTOR, ".rc-slider-handle")):
+            return False
+        handle = handles[0]
+        handle.click()
+        steps = int(max(1, min(100, round(percent * 20))))
+        key = Keys.ARROW_RIGHT if percent >= 0.5 else Keys.ARROW_LEFT
+        for _ in range(steps):
+            handle.send_keys(key)
+        return True
+    except WebDriverException:
+        return False
+
+
+def _dispatch_js_click(driver, slider, percent: float) -> bool:
+    """Dispatch a synthetic click event at `percent` of `slider` bounding box.
+
+    Returns True on success, False on failure.
+    """
+    script_lines = [
+        "const el = arguments[0];",
+        "const rect = el.getBoundingClientRect();",
+        "const x = rect.left + rect.width * arguments[1];",
+        "const y = rect.top + rect.height/2;",
+        "const ev = new MouseEvent('click', {bubbles: true, clientX: x, clientY: y});",
+        "el.dispatchEvent(ev);",
+    ]
+    try:
+        driver.execute_script("".join(script_lines), slider, percent)
+        return True
+    except WebDriverException:
+        return False
+
+
+def _offset_click(driver, slider, percent: float) -> bool:
+    """Perform an ActionChains offset click on the slider at `percent` position.
+
+    Returns True on success, False on failure.
+    """
+    try:
+        try:
+            track = slider.find_element(By.CSS_SELECTOR, ".rc-slider")
+        except NoSuchElementException:
+            track = slider
+        size = track.size
+        p = max(0.0, min(1.0, percent))
+        x_offset = int(size["width"] * p)
+        y_offset = int(size["height"] / 2)
+        ActionChains(driver).move_to_element_with_offset(track, x_offset, y_offset).click().perform()
+        return True
+    except WebDriverException:
+        return False
 
 
 def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) -> float:
@@ -116,10 +188,8 @@ def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) ->
     # get start timestamp from page
     try:
         start = driver.execute_script("return performance.now();")
-    except Exception:
+    except WebDriverException:
         # fallback to python time
-        import time
-
         start = time.perf_counter() * 1000.0
 
     # perform the action
@@ -130,9 +200,7 @@ def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) ->
 
     try:
         end = driver.execute_script("return performance.now();")
-    except Exception:
-        import time
-
+    except WebDriverException:
         end = time.perf_counter() * 1000.0
 
     return float(end) - float(start)
