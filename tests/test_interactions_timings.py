@@ -10,6 +10,7 @@ from tests.conftest import (
     wait_for_plotly_graph,
     get_plotly_data_signature,
     click_slider_by_percent,
+    wait_for_element,
     measure_action_time,
 )
 
@@ -59,8 +60,8 @@ def test_training_dropdown_selection_timing(browser, live_server):
 
     # find dropdown toggle element created by Dash for dcc.Dropdown
     dropdown_id = "dropdown-song-training"
-    # ensure the dropdown exists
-    dd = browser.find_element(By.ID, dropdown_id)
+    # ensure the dropdown exists (Dash may render it client-side)
+    dd = wait_for_element(browser, By.ID, dropdown_id, timeout=15)
 
     # open dropdown by clicking the element
     def action():

@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
     NoSuchElementException,
     WebDriverException,
@@ -74,6 +75,17 @@ def wait_for_plotly_graph(driver, graph_id: str, timeout: int = 15) -> None:
             return False
 
     WebDriverWait(driver, timeout).until(_check)
+
+
+def wait_for_element(driver, by, value, timeout: int = 15):
+    """Wait for an element to be present in the DOM and return it.
+
+    Uses Selenium's expected_conditions.presence_of_element_located so it
+    works with client-side frameworks that attach elements asynchronously.
+    """
+    return WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located((by, value))
+    )
 
 
 def get_plotly_data_signature(driver, graph_id: str) -> str:
@@ -174,7 +186,9 @@ def _offset_click(driver, slider, percent: float) -> bool:
         p = max(0.0, min(1.0, percent))
         x_offset = int(size["width"] * p)
         y_offset = int(size["height"] / 2)
-        ActionChains(driver).move_to_element_with_offset(track, x_offset, y_offset).click().perform()
+        ActionChains(driver).move_to_element_with_offset(
+            track, x_offset, y_offset
+        ).click().perform()
         return True
     except WebDriverException:
         return False
