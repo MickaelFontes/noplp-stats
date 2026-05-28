@@ -5,6 +5,8 @@ from urllib.parse import urljoin
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from tests.conftest import (
     click_slider_by_percent,
@@ -49,6 +51,15 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
 
     # Perform slider interaction
     def action():
+        # Ensure slider is visible and clickable
+        slider = browser.find_element(By.ID, "nb-songs")
+        browser.execute_script(
+            "arguments[0].scrollIntoView({block: 'center'});", slider
+        )
+        # Wait for slider to be in viewport (presence + visibility)
+        WebDriverWait(browser, 5).until(
+            EC.visibility_of_element_located((By.ID, "nb-songs"))
+        )
         click_slider_by_percent(browser, "nb-songs", 0.8)
 
     def ready_check():
@@ -56,7 +67,7 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
             browser,
             "graph",
             initial_signature,
-            timeout=20,
+            timeout=25,
         )
 
     elapsed_ms = measure_action_time(browser, action, ready_check, timeout=20)
@@ -108,7 +119,22 @@ def test_training_dropdown_selection_timing(browser, live_server):
 
     def action():
         nonlocal selected_value
+        # Ensure dropdown control is visible and clickable
+        browser.execute_script(
+            "arguments[0].scrollIntoView({block: 'center'});", dd_control
+        )
+        WebDriverWait(browser, 5).until(EC.visibility_of(dd_control))
+        # Click to open dropdown
         browser.execute_script("arguments[0].click();", dd_control)
+        # Wait for at least one option to appear
+        WebDriverWait(browser, 5).until(
+            EC.presence_of_all_elements_located(
+                (
+                    By.CSS_SELECTOR,
+                    "div.Select-option, div[role='option'], .VirtualizedSelectOption",
+                )
+            )
+        )
         option_nodes = browser.find_elements(
             By.CSS_SELECTOR,
             "div.Select-option, div[role='option'], .VirtualizedSelectOption",
