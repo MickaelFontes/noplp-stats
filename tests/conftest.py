@@ -51,32 +51,6 @@ def browser():
     driver.quit()
 
 
-def wait_for_plotly_graph(driver, graph_id: str, timeout: int = 15) -> None:
-    """Wait until a Plotly/Dash graph with given `graph_id` has rendered data.
-
-    This uses a JS check that looks for Plotly data or graph-like SVG elements.
-    """
-
-    def _check(driver):
-        script_lines = [
-            "const el = document.getElementById(arguments[0]);",
-            "if(!el) return false;",
-            "const plot = el.querySelector('.js-plotly-plot') || el;",
-            "if(plot && plot.data && plot.data.length>0) return true;",
-            "// fallback: look for SVG traces or bars",
-            "if(plot.querySelector && (",
-            "plot.querySelector('g.trace') || plot.querySelector('path'))) return true;",
-            "return false;",
-        ]
-        script = "".join(script_lines)
-        try:
-            return bool(driver.execute_script(script, graph_id))
-        except WebDriverException:
-            return False
-
-    WebDriverWait(driver, timeout).until(_check)
-
-
 def wait_for_element(driver, by, value, timeout: int = 15):
     """Wait for an element to be present in the DOM and return it.
 
@@ -86,26 +60,6 @@ def wait_for_element(driver, by, value, timeout: int = 15):
     return WebDriverWait(driver, timeout).until(
         EC.presence_of_element_located((by, value))
     )
-
-
-def get_plotly_data_signature(driver, graph_id: str) -> str:
-    """Return a lightweight signature of the graph content to detect updates."""
-    script_lines = [
-        "const el = document.getElementById(arguments[0]);",
-        "if(!el) return null;",
-        "const plot = el.querySelector('.js-plotly-plot') || el;",
-        (
-            "if(plot && plot.data) return plot.data.length + '|' + "
-            "JSON.stringify(plot.data.map(d=>d.name||d.type||'')).slice(0,200);"
-        ),
-        "if(plot && plot.innerHTML) return plot.innerHTML.slice(0,200);",
-        "return null;",
-    ]
-    script = "".join(script_lines)
-    try:
-        return driver.execute_script(script, graph_id)
-    except WebDriverException:
-        return None
 
 
 def wait_for_stable_signature_raf(
@@ -200,6 +154,90 @@ def wait_for_plotly_graph_stable(driver, graph_id: str, timeout: int = 15):
     )
 
 
+def wait_for_plotly_graph_change_stable(
+    driver,
+    graph_id: str,
+    baseline_signature: str,
+    timeout: int = 15,
+):
+    """Wait until a Plotly graph changes from a baseline and then settles."""
+    signature_script = """
+        const plot = el.querySelector('.js-plotly-plot') || el;
+        if (plot && plot.data) {
+            return plot.data.length + '|' + JSON.stringify(
+                plot.data.map(d => d.name || d.type || '')
+            ).slice(0, 200);
+        }
+        if (plot && plot.innerHTML) {
+            return plot.innerHTML.slice(0, 200);
+        }
+        return null;
+    """
+    script = """
+        const elementId = arguments[0];
+        const signatureScript = arguments[1];
+        const baselineSignature = arguments[2];
+        const stableFrames = arguments[3];
+        const timeoutMs = arguments[4];
+        const done = arguments[arguments.length - 1];
+
+        const start = performance.now();
+        let lastSignature = null;
+        let sameCount = 0;
+        let hasChanged = false;
+
+        function readSignature() {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                return null;
+            }
+
+            try {
+                return Function('el', signatureScript)(el);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function tick() {
+            const current = readSignature();
+
+            if (current !== null && current !== baselineSignature) {
+                hasChanged = true;
+            }
+
+            if (hasChanged && current !== null && current === lastSignature) {
+                sameCount += 1;
+                if (sameCount >= stableFrames) {
+                    done(current);
+                    return;
+                }
+            } else {
+                sameCount = 0;
+            }
+
+            lastSignature = current;
+
+            if (performance.now() - start >= timeoutMs) {
+                done(null);
+                return;
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+    """
+    return driver.execute_async_script(
+        script,
+        graph_id,
+        signature_script,
+        baseline_signature,
+        3,
+        timeout * 1000,
+    )
+
+
 def wait_for_text_stable(driver, element_id: str, timeout: int = 15):
     """Wait until a text container content remains stable across frames."""
     signature_script = """
@@ -210,6 +248,81 @@ def wait_for_text_stable(driver, element_id: str, timeout: int = 15):
         element_id,
         signature_script,
         timeout=timeout,
+    )
+
+
+def wait_for_text_change_stable(
+    driver,
+    element_id: str,
+    baseline_text: str,
+    timeout: int = 15,
+):
+    """Wait until a text container changes from baseline and then settles."""
+    signature_script = """
+        return (el.textContent || '').trim();
+    """
+    script = """
+        const elementId = arguments[0];
+        const signatureScript = arguments[1];
+        const baselineSignature = arguments[2];
+        const stableFrames = arguments[3];
+        const timeoutMs = arguments[4];
+        const done = arguments[arguments.length - 1];
+
+        const start = performance.now();
+        let lastSignature = null;
+        let sameCount = 0;
+        let hasChanged = false;
+
+        function readSignature() {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                return null;
+            }
+
+            try {
+                return Function('el', signatureScript)(el);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function tick() {
+            const current = readSignature();
+
+            if (current !== null && current !== baselineSignature) {
+                hasChanged = true;
+            }
+
+            if (hasChanged && current !== null && current === lastSignature) {
+                sameCount += 1;
+                if (sameCount >= stableFrames) {
+                    done(current);
+                    return;
+                }
+            } else {
+                sameCount = 0;
+            }
+
+            lastSignature = current;
+
+            if (performance.now() - start >= timeoutMs) {
+                done(null);
+                return;
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+    """
+    return driver.execute_async_script(
+        script,
+        element_id,
+        signature_script,
+        baseline_text,
+        3,
+        timeout * 1000,
     )
 
 
@@ -315,8 +428,7 @@ def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) ->
     action_fn()
 
     # wait for ready_check to become truthy; the callback owns the wait logic
-    ready_value = ready_check_fn()
-    if not ready_value:
+    if not ready_check_fn():
         raise TimeoutError(
             f"Timed out waiting for action to settle after {timeout} seconds"
         )
@@ -343,8 +455,7 @@ def get_slider_value(driver, slider_id: str):
         "return null;"
     )
     try:
-        val = driver.execute_script(script, slider_id)
-        if val is not None:
+        if (val := driver.execute_script(script, slider_id)) is not None:
             return float(val) if isinstance(val, (int, float)) else val
     except (WebDriverException, ValueError):
         pass
@@ -368,15 +479,3 @@ def get_dropdown_value(driver, dropdown_id: str):
         return driver.execute_script(script, dropdown_id)
     except WebDriverException:
         return None
-
-
-def wait_for_page_ready(driver, graph_ids: list, timeout: int = 15) -> None:
-    """Wait for a page to be fully ready by checking all specified graphs are rendered.
-
-    Args:
-        driver: Selenium WebDriver
-        graph_ids: List of Plotly graph element IDs to wait for
-        timeout: Maximum time to wait in seconds
-    """
-    for graph_id in graph_ids:
-        wait_for_plotly_graph(driver, graph_id, timeout=timeout)
