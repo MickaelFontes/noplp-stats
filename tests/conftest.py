@@ -108,6 +108,111 @@ def get_plotly_data_signature(driver, graph_id: str) -> str:
         return None
 
 
+def wait_for_stable_signature_raf(
+    driver,
+    element_id: str,
+    signature_script: str,
+    timeout: int = 15,
+    stable_frames: int = 3,
+):
+    """Wait until a browser signature stays stable across animation frames.
+
+    The check is executed in the page context via requestAnimationFrame so the
+    wait tracks the browser's render loop instead of fixed sleeps or polling.
+    """
+    script = """
+        const elementId = arguments[0];
+        const signatureScript = arguments[1];
+        const stableFrames = arguments[2];
+        const timeoutMs = arguments[3];
+        const done = arguments[arguments.length - 1];
+
+        const start = performance.now();
+        let lastSignature = null;
+        let sameCount = 0;
+
+        function readSignature() {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                return null;
+            }
+
+            try {
+                return Function('el', signatureScript)(el);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function tick() {
+            const current = readSignature();
+
+            if (current !== null && current === lastSignature) {
+                sameCount += 1;
+                if (sameCount >= stableFrames) {
+                    done(current);
+                    return;
+                }
+            } else {
+                sameCount = 0;
+            }
+
+            lastSignature = current;
+
+            if (performance.now() - start >= timeoutMs) {
+                done(null);
+                return;
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+    """
+    return driver.execute_async_script(
+        script,
+        element_id,
+        signature_script,
+        stable_frames,
+        timeout * 1000,
+    )
+
+
+def wait_for_plotly_graph_stable(driver, graph_id: str, timeout: int = 15):
+    """Wait until a Plotly graph has settled across animation frames."""
+    signature_script = """
+        const plot = el.querySelector('.js-plotly-plot') || el;
+        if (plot && plot.data) {
+            return plot.data.length + '|' + JSON.stringify(
+                plot.data.map(d => d.name || d.type || '')
+            ).slice(0, 200);
+        }
+        if (plot && plot.innerHTML) {
+            return plot.innerHTML.slice(0, 200);
+        }
+        return null;
+    """
+    return wait_for_stable_signature_raf(
+        driver,
+        graph_id,
+        signature_script,
+        timeout=timeout,
+    )
+
+
+def wait_for_text_stable(driver, element_id: str, timeout: int = 15):
+    """Wait until a text container content remains stable across frames."""
+    signature_script = """
+        return (el.textContent || '').trim();
+    """
+    return wait_for_stable_signature_raf(
+        driver,
+        element_id,
+        signature_script,
+        timeout=timeout,
+    )
+
+
 def click_slider_by_percent(driver, slider_id: str, percent: float) -> None:
     """Click a Dash/rc-slider at `percent` (0.0-1.0) of its width.
 
@@ -209,8 +314,12 @@ def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) ->
     # perform the action
     action_fn()
 
-    # wait for ready_check to become truthy
-    WebDriverWait(driver, timeout).until(lambda d: ready_check_fn())
+    # wait for ready_check to become truthy; the callback owns the wait logic
+    ready_value = ready_check_fn()
+    if not ready_value:
+        raise TimeoutError(
+            f"Timed out waiting for action to settle after {timeout} seconds"
+        )
 
     try:
         end = driver.execute_script("return performance.now();")
@@ -218,3 +327,56 @@ def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) ->
         end = time.perf_counter() * 1000.0
 
     return float(end) - float(start)
+
+
+def get_slider_value(driver, slider_id: str):
+    """Get the current numeric value of a Dash RangeSlider or Slider component.
+
+    Returns the value as a float or the raw value if extraction fails.
+    """
+    script = (
+        "const el = document.getElementById(arguments[0]);"
+        "if (el && el.__dash_loaded_props) {"
+        "  const props = el.__dash_loaded_props;"
+        "  if (props.value !== undefined) return props.value;"
+        "}"
+        "return null;"
+    )
+    try:
+        val = driver.execute_script(script, slider_id)
+        if val is not None:
+            return float(val) if isinstance(val, (int, float)) else val
+    except (WebDriverException, ValueError):
+        pass
+    return None
+
+
+def get_dropdown_value(driver, dropdown_id: str):
+    """Get the current selected value of a Dash Dropdown component.
+
+    Returns the selected value (typically a string like a song title).
+    """
+    script = (
+        "const el = document.getElementById(arguments[0]);"
+        "if (el && el.__dash_loaded_props) {"
+        "  const props = el.__dash_loaded_props;"
+        "  if (props.value !== undefined) return props.value;"
+        "}"
+        "return null;"
+    )
+    try:
+        return driver.execute_script(script, dropdown_id)
+    except WebDriverException:
+        return None
+
+
+def wait_for_page_ready(driver, graph_ids: list, timeout: int = 15) -> None:
+    """Wait for a page to be fully ready by checking all specified graphs are rendered.
+
+    Args:
+        driver: Selenium WebDriver
+        graph_ids: List of Plotly graph element IDs to wait for
+        timeout: Maximum time to wait in seconds
+    """
+    for graph_id in graph_ids:
+        wait_for_plotly_graph(driver, graph_id, timeout=timeout)
