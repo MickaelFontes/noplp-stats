@@ -102,12 +102,8 @@ def test_training_dropdown_selection_timing(browser, live_server):
     browser.get(url)
     # Wait for dropdown specifically
     dropdown_id = "dropdown-song-training"
-    dd_control = wait_for_element(
-        browser,
-        By.CSS_SELECTOR,
-        f"#{dropdown_id} .Select-control",
-        timeout=15,
-    )
+    # Wait for the dropdown element by id (legacy react-select selector removed)
+    dd_control = wait_for_element(browser, By.ID, dropdown_id, timeout=15)
     load_end = time.perf_counter() * 1000.0
     initial_load_ms = load_end - load_start
 
