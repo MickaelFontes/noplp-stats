@@ -5,13 +5,10 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
-    NoSuchElementException,
     WebDriverException,
 )
 from werkzeug.serving import make_server
@@ -29,6 +26,12 @@ def _build_chrome_options():
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1280,720")
+
+    if os.path.exists("/.dockerenv"):
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--remote-debugging-pipe")
+
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
     return options
 
@@ -45,7 +48,26 @@ def live_server():
 
 @pytest.fixture
 def browser():
-    driver = webdriver.Chrome(options=_build_chrome_options())
+    chromedriver_log_path = os.environ.get(
+        "CHROMEDRIVER_LOG_PATH", os.path.join("tests", "artifacts", "chromedriver.log")
+    )
+    os.makedirs(os.path.dirname(chromedriver_log_path), exist_ok=True)
+
+    service_args = []
+    if os.environ.get("CHROMEDRIVER_VERBOSE", "0").lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }:
+        service_args.append("--verbose")
+
+    service = Service(
+        service_args=service_args,
+        log_output=chromedriver_log_path,
+    )
+
+    driver = webdriver.Chrome(service=service, options=_build_chrome_options())
     driver.set_window_size(1280, 720)
     yield driver
     driver.quit()
@@ -62,383 +84,73 @@ def wait_for_element(driver, by, value, timeout: int = 15):
     )
 
 
-def wait_for_stable_signature_raf(
-    driver,
-    element_id: str,
-    signature_script: str,
-    timeout: int = 15,
-    stable_frames: int = 3,
-):
-    """Wait until a browser signature stays stable across animation frames.
-
-    The check is executed in the page context via requestAnimationFrame so the
-    wait tracks the browser's render loop instead of fixed sleeps or polling.
-    """
+def _install_network_tracker(driver) -> None:
+    """Install a lightweight network tracker for fetch/XHR and resource entries."""
     script = """
-        const elementId = arguments[0];
-        const signatureScript = arguments[1];
-        const stableFrames = arguments[2];
-        const timeoutMs = arguments[3];
-        const done = arguments[arguments.length - 1];
+        if (!window.__networkTrackerInstalled) {
+            window.__networkTrackerInstalled = true;
+            window.__inflightRequests = 0;
+            window.__lastResourceCount = performance.getEntriesByType('resource').length;
 
-        const start = performance.now();
-        let lastSignature = null;
-        let sameCount = 0;
+            const originalFetch = window.fetch;
+            window.fetch = function() {
+                window.__inflightRequests += 1;
+                return originalFetch.apply(this, arguments)
+                    .finally(() => { window.__inflightRequests -= 1; });
+            };
 
-        function readSignature() {
-            const el = document.getElementById(elementId);
-            if (!el) {
-                return null;
-            }
+            const originalOpen = XMLHttpRequest.prototype.open;
+            const originalSend = XMLHttpRequest.prototype.send;
 
-            try {
-                return Function('el', signatureScript)(el);
-            } catch (error) {
-                return null;
-            }
-        }
+            XMLHttpRequest.prototype.open = function() {
+                this.__trackRequest = true;
+                return originalOpen.apply(this, arguments);
+            };
 
-        function tick() {
-            const current = readSignature();
-
-            if (current !== null && current === lastSignature) {
-                sameCount += 1;
-                if (sameCount >= stableFrames) {
-                    done(current);
-                    return;
+            XMLHttpRequest.prototype.send = function() {
+                if (this.__trackRequest) {
+                    window.__inflightRequests += 1;
+                    this.addEventListener('loadend', () => { window.__inflightRequests -= 1; });
                 }
-            } else {
-                sameCount = 0;
-            }
-
-            lastSignature = current;
-
-            if (performance.now() - start >= timeoutMs) {
-                done(null);
-                return;
-            }
-
-            requestAnimationFrame(tick);
+                return originalSend.apply(this, arguments);
+            };
         }
-
-        requestAnimationFrame(tick);
     """
-    return driver.execute_async_script(
-        script,
-        element_id,
-        signature_script,
-        stable_frames,
-        timeout * 1000,
-    )
+    driver.execute_script(script)
 
 
-def wait_for_plotly_graph_stable(driver, graph_id: str, timeout: int = 15):
-    """Wait until a Plotly graph has settled across animation frames."""
-    signature_script = """
-        const plot = el.querySelector('.js-plotly-plot') || el;
-        if (plot && plot.data) {
-            return plot.data.length + '|' + JSON.stringify(
-                plot.data.map(d => d.name || d.type || '')
-            ).slice(0, 200);
-        }
-        if (plot && plot.innerHTML) {
-            return plot.innerHTML.slice(0, 200);
-        }
-        return null;
+def wait_for_network_idle(driver, timeout: int = 10, max_quiet_ms: int = 5000) -> int:
+    """Wait until all network requests finish and return elapsed wait time in ms.
+
+    Returns 0 if the timeout is reached before the page becomes idle.
     """
-    return wait_for_stable_signature_raf(
-        driver,
-        graph_id,
-        signature_script,
-        timeout=timeout,
-    )
+    _install_network_tracker(driver)
+    start = time.perf_counter()
+    quiet_start = None
+    last_resource_count = None
 
+    while time.perf_counter() - start < timeout:
+        inflight, resource_count, ready_state = driver.execute_script("""
+            return [
+                window.__inflightRequests || 0,
+                performance.getEntriesByType('resource').length,
+                document.readyState
+            ];
+            """)
 
-def wait_for_plotly_graph_change_stable(
-    driver,
-    graph_id: str,
-    baseline_signature: str,
-    timeout: int = 15,
-):
-    """Wait until a Plotly graph changes from a baseline and then settles."""
-    signature_script = """
-        const plot = el.querySelector('.js-plotly-plot') || el;
-        if (plot && plot.data) {
-            return plot.data.length + '|' + JSON.stringify(
-                plot.data.map(d => d.name || d.type || '')
-            ).slice(0, 200);
-        }
-        if (plot && plot.innerHTML) {
-            return plot.innerHTML.slice(0, 200);
-        }
-        return null;
-    """
-    script = """
-        const elementId = arguments[0];
-        const signatureScript = arguments[1];
-        const baselineSignature = arguments[2];
-        const stableFrames = arguments[3];
-        const timeoutMs = arguments[4];
-        const done = arguments[arguments.length - 1];
+        if last_resource_count != resource_count:
+            last_resource_count = resource_count
+            quiet_start = time.perf_counter()
 
-        const start = performance.now();
-        let lastSignature = null;
-        let sameCount = 0;
-        let hasChanged = false;
+        if inflight == 0 and ready_state == "complete" and quiet_start is not None:
+            if (
+                (time.perf_counter() - quiet_start) * 1000
+            ) >= max_quiet_ms:  # noqa: PLR2004
+                return int((quiet_start - start) * 1000)
 
-        function readSignature() {
-            const el = document.getElementById(elementId);
-            if (!el) {
-                return null;
-            }
+        time.sleep(0.05)
 
-            try {
-                return Function('el', signatureScript)(el);
-            } catch (error) {
-                return null;
-            }
-        }
-
-        function tick() {
-            const current = readSignature();
-
-            if (current !== null && current !== baselineSignature) {
-                hasChanged = true;
-            }
-
-            if (hasChanged && current !== null && current === lastSignature) {
-                sameCount += 1;
-                if (sameCount >= stableFrames) {
-                    done(current);
-                    return;
-                }
-            } else {
-                sameCount = 0;
-            }
-
-            lastSignature = current;
-
-            if (performance.now() - start >= timeoutMs) {
-                done(null);
-                return;
-            }
-
-            requestAnimationFrame(tick);
-        }
-
-        requestAnimationFrame(tick);
-    """
-    return driver.execute_async_script(
-        script,
-        graph_id,
-        signature_script,
-        baseline_signature,
-        3,
-        timeout * 1000,
-    )
-
-
-def wait_for_text_stable(driver, element_id: str, timeout: int = 15):
-    """Wait until a text container content remains stable across frames."""
-    signature_script = """
-        return (el.textContent || '').trim();
-    """
-    return wait_for_stable_signature_raf(
-        driver,
-        element_id,
-        signature_script,
-        timeout=timeout,
-    )
-
-
-def wait_for_text_change_stable(
-    driver,
-    element_id: str,
-    baseline_text: str,
-    timeout: int = 15,
-):
-    """Wait until a text container changes from baseline and then settles."""
-    signature_script = """
-        return (el.textContent || '').trim();
-    """
-    script = """
-        const elementId = arguments[0];
-        const signatureScript = arguments[1];
-        const baselineSignature = arguments[2];
-        const stableFrames = arguments[3];
-        const timeoutMs = arguments[4];
-        const done = arguments[arguments.length - 1];
-
-        const start = performance.now();
-        let lastSignature = null;
-        let sameCount = 0;
-        let hasChanged = false;
-
-        function readSignature() {
-            const el = document.getElementById(elementId);
-            if (!el) {
-                return null;
-            }
-
-            try {
-                return Function('el', signatureScript)(el);
-            } catch (error) {
-                return null;
-            }
-        }
-
-        function tick() {
-            const current = readSignature();
-
-            if (current !== null && current !== baselineSignature) {
-                hasChanged = true;
-            }
-
-            if (hasChanged && current !== null && current === lastSignature) {
-                sameCount += 1;
-                if (sameCount >= stableFrames) {
-                    done(current);
-                    return;
-                }
-            } else {
-                sameCount = 0;
-            }
-
-            lastSignature = current;
-
-            if (performance.now() - start >= timeoutMs) {
-                done(null);
-                return;
-            }
-
-            requestAnimationFrame(tick);
-        }
-
-        requestAnimationFrame(tick);
-    """
-    return driver.execute_async_script(
-        script,
-        element_id,
-        signature_script,
-        baseline_text,
-        3,
-        timeout * 1000,
-    )
-
-
-def click_slider_by_percent(driver, slider_id: str, percent: float) -> None:
-    """Click a Dash/rc-slider at `percent` (0.0-1.0) of its width.
-
-    This performs a click on the slider track; it is a best-effort action that
-    works for the common rc-slider markup used by Dash sliders.
-    """
-    slider = driver.find_element(By.ID, slider_id)
-
-    # ensure visible in viewport
-    try:
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", slider)
-    except WebDriverException:
-        pass
-
-    # attempt strategies in order; helpers return True on success
-    if _try_handle_keyboard(slider, percent):
-        return
-
-    if _dispatch_js_click(driver, slider, max(0.0, min(1.0, percent))):
-        return
-
-    if _offset_click(driver, slider, percent):
-        return
-
-    # give up silently; tests should handle lack of interaction
-    return
-
-
-def _try_handle_keyboard(slider, percent: float) -> bool:
-    """Try moving the first slider handle with keyboard arrows. Returns True on success."""
-    try:
-        if not (handles := slider.find_elements(By.CSS_SELECTOR, ".rc-slider-handle")):
-            return False
-        handle = handles[0]
-        handle.click()
-        steps = int(max(1, min(100, round(percent * 20))))
-        key = Keys.ARROW_RIGHT if percent >= 0.5 else Keys.ARROW_LEFT
-        for _ in range(steps):
-            handle.send_keys(key)
-        return True
-    except WebDriverException:
-        return False
-
-
-def _dispatch_js_click(driver, slider, percent: float) -> bool:
-    """Dispatch a synthetic click event at `percent` of `slider` bounding box.
-
-    Returns True on success, False on failure.
-    """
-    script_lines = [
-        "const el = arguments[0];",
-        "const rect = el.getBoundingClientRect();",
-        "const x = rect.left + rect.width * arguments[1];",
-        "const y = rect.top + rect.height/2;",
-        "const ev = new MouseEvent('click', {bubbles: true, clientX: x, clientY: y});",
-        "el.dispatchEvent(ev);",
-    ]
-    try:
-        driver.execute_script("".join(script_lines), slider, percent)
-        return True
-    except WebDriverException:
-        return False
-
-
-def _offset_click(driver, slider, percent: float) -> bool:
-    """Perform an ActionChains offset click on the slider at `percent` position.
-
-    Returns True on success, False on failure.
-    """
-    try:
-        try:
-            track = slider.find_element(By.CSS_SELECTOR, ".rc-slider")
-        except NoSuchElementException:
-            track = slider
-        size = track.size
-        p = max(0.0, min(1.0, percent))
-        x_offset = int(size["width"] * p)
-        y_offset = int(size["height"] / 2)
-        ActionChains(driver).move_to_element_with_offset(
-            track, x_offset, y_offset
-        ).click().perform()
-        return True
-    except WebDriverException:
-        return False
-
-
-def measure_action_time(driver, action_fn, ready_check_fn, timeout: int = 15) -> float:
-    """Measure milliseconds elapsed between performing `action_fn()` and
-    `ready_check_fn()` returning truthy. Uses `performance.now()` in page context
-    to get high-resolution timings.
-    """
-    # get start timestamp from page
-    try:
-        start = driver.execute_script("return performance.now();")
-    except WebDriverException:
-        # fallback to python time
-        start = time.perf_counter() * 1000.0
-
-    # perform the action
-    action_fn()
-
-    # wait for ready_check to become truthy; the callback owns the wait logic
-    if not ready_check_fn():
-        raise TimeoutError(
-            f"Timed out waiting for action to settle after {timeout} seconds"
-        )
-
-    try:
-        end = driver.execute_script("return performance.now();")
-    except WebDriverException:
-        end = time.perf_counter() * 1000.0
-
-    return float(end) - float(start)
+    return 0
 
 
 def get_slider_value(driver, slider_id: str):
@@ -448,9 +160,13 @@ def get_slider_value(driver, slider_id: str):
     """
     script = (
         "const el = document.getElementById(arguments[0]);"
-        "if (el && el.__dash_loaded_props) {"
-        "  const props = el.__dash_loaded_props;"
-        "  if (props.value !== undefined) return props.value;"
+        "if (!el) return null;"
+        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
+        "  return el.__dash_loaded_props.value;"
+        "}"
+        "const handle = el.querySelector('.rc-slider-handle');"
+        "if (handle && handle.hasAttribute('aria-valuenow')) {"
+        "  return parseFloat(handle.getAttribute('aria-valuenow'));"
         "}"
         "return null;"
     )
@@ -469,9 +185,13 @@ def get_dropdown_value(driver, dropdown_id: str):
     """
     script = (
         "const el = document.getElementById(arguments[0]);"
-        "if (el && el.__dash_loaded_props) {"
-        "  const props = el.__dash_loaded_props;"
-        "  if (props.value !== undefined) return props.value;"
+        "if (!el) return null;"
+        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
+        "  return el.__dash_loaded_props.value;"
+        "}"
+        "const singleValue = el.querySelector('.Select-value-label, .react-select__single-value');"
+        "if (singleValue) {"
+        "  return (singleValue.textContent || '').trim();"
         "}"
         "return null;"
     )

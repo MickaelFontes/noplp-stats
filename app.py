@@ -26,6 +26,17 @@ app = Dash(
 
 
 server = app.server
+
+
+@server.route("/test")
+def test_route():
+    """Minimal Flask route used to compare baseline loading times."""
+    return (
+        "<!doctype html><html><head><title>NOPLP Test Route</title></head>"
+        "<body><button id='navbar-toggler' type='button'>menu</button>ok</body></html>"
+    )
+
+
 app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
 app._base_url = "https://noplp-stats.fr"
 # To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
