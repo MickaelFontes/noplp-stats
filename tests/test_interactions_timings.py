@@ -14,8 +14,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tests.conftest import (
     get_dropdown_value,
     get_slider_value,
+    measure_until_dash_ready,
     wait_for_element,
-    wait_for_network_idle,
 )
 
 logger = logging.getLogger(__name__)
@@ -69,19 +69,15 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
     )
 
 
-def _wait_for_idle_after_action(browser, action_fn, timeout: int = 15) -> int:
-    action_fn()
-    return wait_for_network_idle(browser, timeout=timeout, max_quiet_ms=500)
-
-
 def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
     """Navigate to /global, measure initial load, then click slider through multiple values."""
     url = urljoin(live_server, "/global")
 
-    browser.get(url)
-    initial_load_ms = wait_for_network_idle(browser, timeout=10, max_quiet_ms=500)
+    initial_load_ms = measure_until_dash_ready(
+        browser, lambda: browser.get(url), timeout=25
+    )
     if not initial_load_ms:
-        raise TimeoutException("Timed out waiting for network idle on /global")
+        raise TimeoutException("Timed out waiting for /global to become Dash-ready")
 
     logger.info(
         "[timing] page=%s target=initial_load measured_ms=%s",
@@ -96,7 +92,7 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
 
     for target_value in target_values:
         value_before = get_slider_value(browser, "nb-songs")
-        elapsed_ms = _wait_for_idle_after_action(
+        elapsed_ms = measure_until_dash_ready(
             browser,
             lambda target_value=target_value: _click_nb_songs_target(
                 browser, target_value
@@ -105,7 +101,7 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
         )
         if not elapsed_ms:
             raise TimeoutException(
-                f"Timed out waiting for network idle after selecting nb-songs={target_value}"
+                f"Timed out waiting for /global to become Dash-ready after nb-songs={target_value}"
             )
 
         value_after = get_slider_value(browser, "nb-songs")
@@ -153,10 +149,11 @@ def test_song_dropdown_selection_timing(browser, live_server):
     """Navigate to /song, measure initial load, type a song name in dropdown and measure render time."""
     url = urljoin(live_server, "/song")
 
-    browser.get(url)
-    initial_load_ms = wait_for_network_idle(browser, timeout=10, max_quiet_ms=500)
+    initial_load_ms = measure_until_dash_ready(
+        browser, lambda: browser.get(url), timeout=25
+    )
     if not initial_load_ms:
-        raise TimeoutException("Timed out waiting for network idle on /song")
+        raise TimeoutException("Timed out waiting for /song to become Dash-ready")
 
     logger.info(
         "[timing] page=%s target=initial_load measured_ms=%s",
@@ -185,10 +182,10 @@ def test_song_dropdown_selection_timing(browser, live_server):
         dd_focusable.send_keys(song_to_select)
         dd_focusable.send_keys(Keys.ENTER)
 
-    elapsed_ms = _wait_for_idle_after_action(browser, action, timeout=25)
+    elapsed_ms = measure_until_dash_ready(browser, action, timeout=25)
     if not elapsed_ms:
         raise TimeoutException(
-            f"Timed out waiting for network idle after selecting dropdown value {song_to_select!r}"
+            f"Timed out waiting for /song to become Dash-ready after selecting dropdown value {song_to_select!r}"
         )
 
     value_after = get_dropdown_value(browser, dropdown_id)

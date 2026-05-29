@@ -6,9 +6,10 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
+    TimeoutException,
     WebDriverException,
 )
 from werkzeug.serving import make_server
@@ -80,77 +81,37 @@ def wait_for_element(driver, by, value, timeout: int = 15):
     works with client-side frameworks that attach elements asynchronously.
     """
     return WebDriverWait(driver, timeout).until(
-        EC.presence_of_element_located((by, value))
+        lambda current_driver: current_driver.find_element(by, value)
     )
 
 
-def _install_network_tracker(driver) -> None:
-    """Install a lightweight network tracker for fetch/XHR and resource entries."""
-    script = """
-        if (!window.__networkTrackerInstalled) {
-            window.__networkTrackerInstalled = true;
-            window.__inflightRequests = 0;
-            window.__lastResourceCount = performance.getEntriesByType('resource').length;
-
-            const originalFetch = window.fetch;
-            window.fetch = function() {
-                window.__inflightRequests += 1;
-                return originalFetch.apply(this, arguments)
-                    .finally(() => { window.__inflightRequests -= 1; });
-            };
-
-            const originalOpen = XMLHttpRequest.prototype.open;
-            const originalSend = XMLHttpRequest.prototype.send;
-
-            XMLHttpRequest.prototype.open = function() {
-                this.__trackRequest = true;
-                return originalOpen.apply(this, arguments);
-            };
-
-            XMLHttpRequest.prototype.send = function() {
-                if (this.__trackRequest) {
-                    window.__inflightRequests += 1;
-                    this.addEventListener('loadend', () => { window.__inflightRequests -= 1; });
-                }
-                return originalSend.apply(this, arguments);
-            };
-        }
-    """
-    driver.execute_script(script)
-
-
-def wait_for_network_idle(driver, timeout: int = 10, max_quiet_ms: int = 5000) -> int:
-    """Wait until all network requests finish and return elapsed wait time in ms.
-
-    Returns 0 if the timeout is reached before the page becomes idle.
-    """
-    _install_network_tracker(driver)
+def wait_for_dash_idle(driver, timeout: int = 10) -> int:
+    """Wait until Dash finishes its current loading state and return elapsed ms."""
     start = time.perf_counter()
-    quiet_start = None
-    last_resource_count = None
+    try:
+        WebDriverWait(driver, timeout).until(
+            lambda current_driver: current_driver.execute_script(
+                "return document.readyState"
+            ) == "complete"
+            and not current_driver.find_elements(
+                By.CSS_SELECTOR, "._dash-loading-callback"
+            )
+        )
+    except TimeoutException:
+        return 0
 
-    while time.perf_counter() - start < timeout:
-        inflight, resource_count, ready_state = driver.execute_script("""
-            return [
-                window.__inflightRequests || 0,
-                performance.getEntriesByType('resource').length,
-                document.readyState
-            ];
-            """)
+    return int((time.perf_counter() - start) * 1000)
 
-        if last_resource_count != resource_count:
-            last_resource_count = resource_count
-            quiet_start = time.perf_counter()
 
-        if inflight == 0 and ready_state == "complete" and quiet_start is not None:
-            if (
-                (time.perf_counter() - quiet_start) * 1000
-            ) >= max_quiet_ms:  # noqa: PLR2004
-                return int((quiet_start - start) * 1000)
+def measure_until_dash_ready(driver, trigger_fn, timeout: int = 10) -> int:
+    """Measure a trigger until Dash reaches a usable idle state."""
+    start = time.perf_counter()
+    trigger_fn()
 
-        time.sleep(0.05)
+    if not wait_for_dash_idle(driver, timeout=timeout):
+        return 0
 
-    return 0
+    return int((time.perf_counter() - start) * 1000)
 
 
 def get_slider_value(driver, slider_id: str):

@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from app import app as noplp_app
-from tests.conftest import wait_for_network_idle
+from tests.conftest import measure_until_dash_ready
 
 logger = logging.getLogger(__name__)
 
@@ -58,12 +58,13 @@ def test_all_pages(browser, live_server):
     per_route_timings = []
 
     for path, expected_title in routes:
-        browser.get(urljoin(live_server, path))
-        initial_page_load_ms = wait_for_network_idle(
-            browser, timeout=10, max_quiet_ms=3000
+        initial_page_load_ms = measure_until_dash_ready(
+            browser,
+            lambda path=path: browser.get(urljoin(live_server, path)),
+            timeout=10,
         )
         if not initial_page_load_ms:
-            raise TimeoutError(f"Timed out waiting for network idle on {path}")
+            raise TimeoutError(f"Timed out waiting for {path} to become Dash-ready")
 
         logger.info(
             "[timing] page=%s target=initial_load measured_ms=%s",
