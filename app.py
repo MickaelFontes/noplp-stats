@@ -130,6 +130,5 @@ def toggle_navbar(
     return False
 
 
-
 if __name__ == "__main__":
     app.run(port="8080", debug=None)
