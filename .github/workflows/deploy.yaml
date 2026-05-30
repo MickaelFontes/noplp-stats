@@ -43,7 +43,8 @@ jobs:
         run: |
           poetry self add poetry-plugin-export
           poetry export -f requirements.txt --output requirements.txt --only main
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - name: Upload requirements.txt
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: requirements
           path: requirements.txt
@@ -64,7 +65,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: GCP authentication
-        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
@@ -78,7 +79,7 @@ jobs:
         run: 'cp deploy/app-main.yaml app.yaml'
 
       - name: Deploy App Engine
-        uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
+        uses: google-github-actions/deploy-appengine@54d5fc7167ec790eb0233905e3cef384221b4619 # v3.0.1
         with:
           flags: "--no-cache"
 
@@ -102,7 +103,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: GCP authentication
-        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
         with:
           workload_identity_provider: ${{ secrets.OIDC_PROVIDER }}
           service_account: ${{ secrets.GCP_SA }}
@@ -117,7 +118,7 @@ jobs:
 
       - name: Deploy App Engine
         id: deploy
-        uses: google-github-actions/deploy-appengine@a343979004148afb93c94c712b467e8e9f01b06b # v2.1.8
+        uses: google-github-actions/deploy-appengine@54d5fc7167ec790eb0233905e3cef384221b4619 # v3.0.1
         with:
           flags: "--no-cache"
           promote: false

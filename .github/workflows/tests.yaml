@@ -59,4 +59,26 @@ jobs:
       - name: Launch tests
         run: |
           export PATH=$PATH:$CHROMEWEBDRIVER
-          poetry run pytest --log-cli-level DEBUG
+          poetry run pytest --log-cli-level INFO --log-file=tests/artifacts/pytest.log --log-file-level=DEBUG
+
+      - name: Show timing JSON
+        if: always()
+        run: |
+          shopt -s nullglob
+          files=(tests/artifacts/timing-results-*.json)
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "No timing results JSON found"
+            exit 0
+          fi
+          for file in "${files[@]}"; do
+            echo "::group::$file"
+            cat "$file"
+            echo "::endgroup::"
+          done
+
+      - name: Upload test logs
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-verbose-logs
+          path: tests/artifacts/*.log
