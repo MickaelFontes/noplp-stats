@@ -175,6 +175,7 @@ def get_slider_value(driver, slider_id: str):
             return float(val) if isinstance(val, (int, float)) else val
     except (WebDriverException, ValueError):
         return None
+    return None
 
 
 def get_dropdown_value(driver, dropdown_id: str):
