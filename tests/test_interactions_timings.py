@@ -161,9 +161,7 @@ def test_song_dropdown_selection_timing(browser, live_server, request):
             "arguments[0].scrollIntoView({block: 'center'});", dd_control
         )
         WebDriverWait(browser, 5).until(EC.visibility_of(dd_control))
-        # Click the dropdown button to open the menu
         dd_control.click()
-        # Wait for the search input to appear in the Radix dropdown menu
         selector = (
             "input[role='combobox'], input[placeholder*='Search'], "
             "input[placeholder*='Sélectionner'], input[placeholder*='Rechercher']"

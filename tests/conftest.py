@@ -148,41 +148,19 @@ def measure_until_dash_ready(driver, trigger_fn, timeout: int = 10) -> int:
     if not wait_for_dash_idle(driver, timeout=timeout):
         return 0
 
-    # Temporary debug: keep a snapshot of the UI once our readiness condition is met.
-    try:
-        screenshot_name = datetime.now(timezone.utc).strftime(
-            "dash-ready-%Y-%m-%dT%H-%M-%S-%fZ.png"
-        )
-        screenshot_path = os.path.join(_ensure_artifacts_dir(), screenshot_name)
-        driver.save_screenshot(screenshot_path)
-    except WebDriverException:
-        pass
-
     return int((time.perf_counter() - start) * 1000)
 
 
 def get_slider_value(driver, slider_id: str):
-    """Get the current numeric value of a Dash RangeSlider or Slider component.
+    """Get the current numeric value of a Dash Slider component.
 
-    Returns the value as a float or the raw value if extraction fails.
+    Returns the value as an int or the raw value if extraction fails.
     """
-    # Support old rc-slider handles, Dash component props, and the new Dash slider markup
-    # (tooltip content or role=slider with aria-valuenow).
     script = (
-        "const id = arguments[0];"
-        "const el = document.getElementById(id);"
+        "const el = document.getElementById(arguments[0]);"
         "if (!el) return null;"
-        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
-        "  return el.__dash_loaded_props.value;"
-        "}"
         "const thumb = el.querySelector('[role=\"slider\"][aria-valuenow]');"
-        "if (thumb) { const v = thumb.getAttribute('aria-valuenow'); if (v!==null) return parseFloat(v); }"
-        "const tooltip = document.getElementById(id + '-tooltip-1-content');"
-        "if (tooltip) { const txt=(tooltip.textContent||'').trim();"
-        " const num=parseFloat(txt); return isNaN(num) ? txt : num; }"
-        "const handle = el.querySelector('.rc-slider-handle');"
-        "if (handle && handle.hasAttribute('aria-valuenow')) { return parseFloat(handle.getAttribute('aria-valuenow')); }"
-        "return null;"
+        "return thumb ? parseFloat(thumb.getAttribute('aria-valuenow')) : null;"
     )
     try:
         if (val := driver.execute_script(script, slider_id)) is None:
@@ -204,13 +182,8 @@ def get_dropdown_value(driver, dropdown_id: str):
         "const id = arguments[0];"
         "const el = document.getElementById(id);"
         "if (!el) return null;"
-        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
-        "  return el.__dash_loaded_props.value;"
-        "}"
         "const valueEl = document.getElementById(id + '-value');"
         "if (valueEl) { const txt = (valueEl.textContent || '').trim(); return txt || null; }"
-        "const singleValue = el.querySelector('.Select-value-label, .react-select__single-value');"
-        "if (singleValue) { return (singleValue.textContent || '').trim(); }"
         "return null;"
     )
     try:
