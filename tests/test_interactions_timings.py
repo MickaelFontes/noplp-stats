@@ -1,8 +1,5 @@
-import json
 import logging
-import os
 import re
-import time
 from urllib.parse import urljoin
 
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -15,23 +12,11 @@ from tests.conftest import (
     get_dropdown_value,
     get_slider_value,
     measure_until_dash_ready,
+    record_timing_result,
     wait_for_element,
 )
 
 logger = logging.getLogger(__name__)
-
-
-def _ensure_artifacts_dir():
-    path = os.path.join("tests", "artifacts")
-    os.makedirs(path, exist_ok=True)
-    return path
-
-
-def _write_timing_artifact(prefix: str, payload: dict) -> None:
-    artifacts_dir = _ensure_artifacts_dir()
-    filename = os.path.join(artifacts_dir, f"{prefix}-{int(time.time())}.json")
-    with open(filename, "w", encoding="utf8") as handle:
-        json.dump(payload, handle, indent=2, ensure_ascii=False, sort_keys=False)
 
 
 def _click_nb_songs_target(browser, target_value: int) -> None:
@@ -61,7 +46,17 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
                 ),
             )
             if dot:
-                dot[0].click()
+                dot_element = dot[0]
+                # Wait for it to be clickable
+                WebDriverWait(browser, 5).until(
+                    EC.element_to_be_clickable(
+                        (
+                            By.XPATH,
+                            f".//span[contains(@class, 'rc-slider-dot') and contains(@style, 'left: {left_value}')]",
+                        )
+                    )
+                )
+                dot_element.click()
                 return
 
     raise NoSuchElementException(
@@ -69,7 +64,7 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
     )
 
 
-def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
+def test_global_nb_songs_slider_updates_and_timing(browser, live_server, request):
     """Navigate to /global, measure initial load, then click slider through multiple values."""
     url = urljoin(live_server, "/global")
 
@@ -131,8 +126,8 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
             "interaction_render_time_ms"
         ]
 
-    _write_timing_artifact(
-        "timing-global-nb-songs",
+    record_timing_result(
+        request,
         {
             "page": "/global",
             "initial_page_load_ms": initial_load_ms,
@@ -145,7 +140,7 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server):
     )
 
 
-def test_song_dropdown_selection_timing(browser, live_server):
+def test_song_dropdown_selection_timing(browser, live_server, request):
     """Navigate to /song, measure initial load, type a song name in dropdown and measure render time."""
     url = urljoin(live_server, "/song")
 
@@ -182,8 +177,7 @@ def test_song_dropdown_selection_timing(browser, live_server):
         dd_focusable.send_keys(song_to_select)
         dd_focusable.send_keys(Keys.ENTER)
 
-    elapsed_ms = measure_until_dash_ready(browser, action, timeout=25)
-    if not elapsed_ms:
+    if not (elapsed_ms := measure_until_dash_ready(browser, action, timeout=25)):
         raise TimeoutException(
             f"Timed out waiting for /song to become Dash-ready after selecting dropdown value {song_to_select!r}"
         )
@@ -200,8 +194,8 @@ def test_song_dropdown_selection_timing(browser, live_server):
         value_after,
     )
 
-    _write_timing_artifact(
-        "timing-song-dropdown",
+    record_timing_result(
+        request,
         {
             "page": "/song",
             "initial_page_load_ms": initial_load_ms,

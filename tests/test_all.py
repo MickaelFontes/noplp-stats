@@ -1,7 +1,4 @@
-import json
 import logging
-import os
-import time
 from urllib.parse import urljoin
 
 from selenium.webdriver.common.by import By
@@ -9,25 +6,12 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from app import app as noplp_app
-from tests.conftest import measure_until_dash_ready
+from tests.conftest import measure_until_dash_ready, record_timing_result
 
 logger = logging.getLogger(__name__)
 
 
-def _ensure_artifacts_dir():
-    path = os.path.join("tests", "artifacts")
-    os.makedirs(path, exist_ok=True)
-    return path
-
-
-def _write_timing_artifact(prefix: str, payload: dict) -> None:
-    artifacts_dir = _ensure_artifacts_dir()
-    filename = os.path.join(artifacts_dir, f"{prefix}-{int(time.time())}.json")
-    with open(filename, "w", encoding="utf8") as handle:
-        json.dump(payload, handle, indent=2, ensure_ascii=False, sort_keys=True)
-
-
-def test_all_pages(browser, live_server):
+def test_all_pages(browser, live_server, request):
     routes = [
         ("/", "NOPLP stats - Statistiques N'oubliez pas les paroles"),
         ("/global", "Global - NOPLP stats - Statistiques N'oubliez pas les paroles"),
@@ -90,10 +74,9 @@ def test_all_pages(browser, live_server):
             error_logs == []
         ), f"Browser console should contain no errors on {path}: {error_logs}"
 
-    _write_timing_artifact(
-        "timing-all-pages",
+    record_timing_result(
+        request,
         {
-            "test": "test_all_pages",
             "routes_count": len(routes),
             "routes": per_route_timings,
         },

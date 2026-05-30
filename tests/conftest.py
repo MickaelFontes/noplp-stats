@@ -1,6 +1,8 @@
+import json
 import os
 import threading
 import time
+from datetime import datetime, timezone
 
 import pytest
 from selenium import webdriver
@@ -20,6 +22,42 @@ from app import app as noplp_app
 # Tests can set the CHROMEWEBDRIVER env var before running pytest. If it's set, add it to PATH.
 if chrome_driver_dir := os.environ.get("CHROMEWEBDRIVER"):
     os.environ["PATH"] = os.environ.get("PATH", "") + os.pathsep + chrome_driver_dir
+
+
+def _ensure_artifacts_dir():
+    path = os.path.join("tests", "artifacts")
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def _write_timing_results(filename: str, payload: dict) -> None:
+    with open(filename, "w", encoding="utf8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False, sort_keys=False)
+
+
+def pytest_configure(config):
+    config._timing_results = {}
+
+
+def pytest_sessionfinish(session, exitstatus):
+    timing_results = getattr(session.config, "_timing_results", {})
+    artifact_name = datetime.now(timezone.utc).strftime(
+        "timing-results-%Y-%m-%dT%H-%M-%SZ.json"
+    )
+    artifact_path = os.path.join(_ensure_artifacts_dir(), artifact_name)
+    _write_timing_results(
+        artifact_path,
+        {
+            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "pytest_exitstatus": exitstatus,
+            "tests": timing_results,
+        },
+    )
+
+
+def record_timing_result(request, payload: dict) -> None:
+    test_name = getattr(request.node, "originalname", request.node.name)
+    request.config._timing_results[test_name] = payload
 
 
 def _build_chrome_options():
@@ -92,7 +130,8 @@ def wait_for_dash_idle(driver, timeout: int = 10) -> int:
         WebDriverWait(driver, timeout).until(
             lambda current_driver: current_driver.execute_script(
                 "return document.readyState"
-            ) == "complete"
+            )
+            == "complete"
             and not current_driver.find_elements(
                 By.CSS_SELECTOR, "._dash-loading-callback"
             )

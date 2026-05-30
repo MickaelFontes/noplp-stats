@@ -61,6 +61,21 @@ jobs:
           export PATH=$PATH:$CHROMEWEBDRIVER
           poetry run pytest --log-cli-level DEBUG
 
+      - name: Show timing JSON
+        if: always()
+        run: |
+          shopt -s nullglob
+          files=(tests/artifacts/timing-results-*.json)
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "No timing results JSON found"
+            exit 0
+          fi
+          for file in "${files[@]}"; do
+            echo "::group::$file"
+            cat "$file"
+            echo "::endgroup::"
+          done
+
       - name: Upload test artifacts (performance metrics)
         if: always() # Ensure this step runs even if previous steps fail ()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
