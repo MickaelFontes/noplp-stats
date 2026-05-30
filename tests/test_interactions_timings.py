@@ -47,7 +47,7 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
             By.XPATH, "//span[@class='dash-slider-range']"
         )
         offset = range_slider.location["y"] - mark_element.location["y"]
-        time.sleep(0.05)
+        time.sleep(0.05)  # TODO: try to remove this and rely on WebDriverWait instead
         ActionChains(browser).move_to_element_with_offset(
             mark_element, 0, offset
         ).click().perform()
