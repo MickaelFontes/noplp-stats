@@ -1,11 +1,12 @@
 import logging
+import time
 from urllib.parse import urljoin
 
 from selenium.common.exceptions import (
     NoSuchElementException,
     TimeoutException,
-    ElementClickInterceptedException,
 )
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -38,21 +39,18 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
             EC.element_to_be_clickable(
                 (
                     By.XPATH,
-                    mark_xpath,
+                    "//span[@class='dash-slider-root has-marks']",
                 )
             )
         )
-        try:
-            mark_element.click()
-        except ElementClickInterceptedException as exc:
-            # The click may be visually intercepted by a floating element (tooltip, overlay,
-            # etc). For our timing tests this is acceptable — log and continue instead of
-            # raising so the interaction is considered performed.
-            logger.warning(
-                "Click intercepted for nb-songs mark %s; ignoring and continuing: %s",
-                target_value,
-                exc,
-            )
+        range_slider = slider.find_element(
+            By.XPATH, "//span[@class='dash-slider-range']"
+        )
+        offset = range_slider.location["y"] - mark_element.location["y"]
+        time.sleep(0.05)
+        ActionChains(browser).move_to_element_with_offset(
+            mark_element, 0, offset
+        ).click().perform()
         return
 
     raise NoSuchElementException(
@@ -96,7 +94,6 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server, request
             )
 
         value_after = get_slider_value(browser, "nb-songs")
-
         interaction_timings.append(
             {
                 "target_value": target_value,
@@ -129,7 +126,8 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server, request
             "initial_page_load_ms": initial_load_ms,
             "initial_value": initial_value,
             "slider_id": "nb-songs",
-            "action": "slider position changes through multiple values: 50, 100, 300, 500, 1000",
+            "action": "slider position changes through multiple values: "
+            + ", ".join(str(v) for v in target_values),
             "timings_summary": timings_summary,
             "interaction_timings": interaction_timings,
         },
@@ -154,12 +152,6 @@ def test_song_dropdown_selection_timing(browser, live_server, request):
 
     dropdown_id = "dropdown-song-by-song"
     dd_control = wait_for_element(browser, By.ID, dropdown_id, timeout=15)
-    dd_focusable = wait_for_element(
-        browser,
-        By.CSS_SELECTOR,
-        f"#{dropdown_id} input, #{dropdown_id} [role='combobox']",
-        timeout=15,
-    )
 
     value_before = get_dropdown_value(browser, dropdown_id)
     song_to_select = "Pour que tu m'aimes encore (Céline Dion)"
@@ -168,8 +160,16 @@ def test_song_dropdown_selection_timing(browser, live_server, request):
         browser.execute_script(
             "arguments[0].scrollIntoView({block: 'center'});", dd_control
         )
+        WebDriverWait(browser, 5).until(EC.visibility_of(dd_control))
+        # Click the dropdown button to open the menu
+        dd_control.click()
+        # Wait for the search input to appear in the Radix dropdown menu
+        selector = (
+            "input[role='combobox'], input[placeholder*='Search'], "
+            "input[placeholder*='Sélectionner'], input[placeholder*='Rechercher']"
+        )
+        dd_focusable = wait_for_element(browser, By.CSS_SELECTOR, selector, timeout=15)
         WebDriverWait(browser, 5).until(EC.visibility_of(dd_focusable))
-        browser.execute_script("arguments[0].focus();", dd_focusable)
         dd_focusable.send_keys(song_to_select)
         dd_focusable.send_keys(Keys.ENTER)
 

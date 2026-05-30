@@ -8,7 +8,6 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
     TimeoutException,
@@ -120,13 +119,20 @@ def wait_for_dash_idle(driver, timeout: int = 10) -> int:
     start = time.perf_counter()
     try:
         WebDriverWait(driver, timeout).until(
-            lambda current_driver: current_driver.execute_script(
-                "return document.readyState"
-            )
-            == "complete"
-            and not current_driver.find_elements(
-                By.CSS_SELECTOR, "._dash-loading-callback"
-            )
+            lambda current_driver: current_driver.execute_script("""
+                return (function(){
+                    if (document.readyState !== 'complete') return false;
+                    if (document.querySelector('._dash-loading-callback')) return false;
+                    if (!document.querySelector('.navbar-collapse')) return false;
+                    if (document.querySelector('[data-dash-is-loading="true"]')) return false;
+                    if (
+                        document.querySelector(
+                            'script[src*="/_dash-component-suites/plotly/package_data/plotly.min.js"]'
+                        ) && !document.getElementById('js-plotly-tester')
+                    ) return false;
+                    return true;
+                })();
+                """)
         )
     except TimeoutException:
         return 0
@@ -142,6 +148,16 @@ def measure_until_dash_ready(driver, trigger_fn, timeout: int = 10) -> int:
     if not wait_for_dash_idle(driver, timeout=timeout):
         return 0
 
+    # Temporary debug: keep a snapshot of the UI once our readiness condition is met.
+    try:
+        screenshot_name = datetime.now(timezone.utc).strftime(
+            "dash-ready-%Y-%m-%dT%H-%M-%S-%fZ.png"
+        )
+        screenshot_path = os.path.join(_ensure_artifacts_dir(), screenshot_name)
+        driver.save_screenshot(screenshot_path)
+    except WebDriverException:
+        pass
+
     return int((time.perf_counter() - start) * 1000)
 
 
@@ -150,24 +166,33 @@ def get_slider_value(driver, slider_id: str):
 
     Returns the value as a float or the raw value if extraction fails.
     """
+    # Support old rc-slider handles, Dash component props, and the new Dash slider markup
+    # (tooltip content or role=slider with aria-valuenow).
     script = (
-        "const el = document.getElementById(arguments[0]);"
+        "const id = arguments[0];"
+        "const el = document.getElementById(id);"
         "if (!el) return null;"
         "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
         "  return el.__dash_loaded_props.value;"
         "}"
+        "const thumb = el.querySelector('[role=\"slider\"][aria-valuenow]');"
+        "if (thumb) { const v = thumb.getAttribute('aria-valuenow'); if (v!==null) return parseFloat(v); }"
+        "const tooltip = document.getElementById(id + '-tooltip-1-content');"
+        "if (tooltip) { const txt=(tooltip.textContent||'').trim();"
+        " const num=parseFloat(txt); return isNaN(num) ? txt : num; }"
         "const handle = el.querySelector('.rc-slider-handle');"
-        "if (handle && handle.hasAttribute('aria-valuenow')) {"
-        "  return parseFloat(handle.getAttribute('aria-valuenow'));"
-        "}"
+        "if (handle && handle.hasAttribute('aria-valuenow')) { return parseFloat(handle.getAttribute('aria-valuenow')); }"
         "return null;"
     )
     try:
-        if (val := driver.execute_script(script, slider_id)) is not None:
-            return float(val) if isinstance(val, (int, float)) else val
+        if (val := driver.execute_script(script, slider_id)) is None:
+            return None
+        try:
+            return int(val)
+        except (ValueError, TypeError):
+            return val
     except (WebDriverException, ValueError):
         return None
-    return None
 
 
 def get_dropdown_value(driver, dropdown_id: str):
@@ -176,15 +201,16 @@ def get_dropdown_value(driver, dropdown_id: str):
     Returns the selected value (typically a string like a song title).
     """
     script = (
-        "const el = document.getElementById(arguments[0]);"
+        "const id = arguments[0];"
+        "const el = document.getElementById(id);"
         "if (!el) return null;"
         "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
         "  return el.__dash_loaded_props.value;"
         "}"
+        "const valueEl = document.getElementById(id + '-value');"
+        "if (valueEl) { const txt = (valueEl.textContent || '').trim(); return txt || null; }"
         "const singleValue = el.querySelector('.Select-value-label, .react-select__single-value');"
-        "if (singleValue) {"
-        "  return (singleValue.textContent || '').trim();"
-        "}"
+        "if (singleValue) { return (singleValue.textContent || '').trim(); }"
         "return null;"
     )
     try:
