@@ -92,15 +92,7 @@ def browser():
     )
     os.makedirs(os.path.dirname(chromedriver_log_path), exist_ok=True)
 
-    service_args = []
-    if os.environ.get("CHROMEDRIVER_VERBOSE", "0").lower() in {
-        "1",
-        "true",
-        "yes",
-        "on",
-    }:
-        service_args.append("--verbose")
-
+    service_args = ["--verbose"]
     service = Service(
         service_args=service_args,
         log_output=chromedriver_log_path,
