@@ -31,10 +31,6 @@ def test_all_pages(browser, live_server, request):
             "/training",
             "Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles",
         ),
-        (
-            "/test",
-            "NOPLP Test Route",
-        ),
     ]
 
     assert noplp_app.title == "NOPLP stats - Statistiques N'oubliez pas les paroles"
