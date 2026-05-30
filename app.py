@@ -13,10 +13,10 @@ app = Dash(
     suppress_callback_exceptions=True,
     external_stylesheets=[
         {
-            'href': dbc.themes.BOOTSTRAP,
-            'rel': 'stylesheet',
-            'integrity': 'sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=',
-            'crossorigin': 'anonymous'
+            "href": dbc.themes.BOOTSTRAP,
+            "rel": "stylesheet",
+            "integrity": "sha256-oxqX0LQclbvrsJt8IymkxnISn4Np2Wy2rY9jjoQlDEg=",
+            "crossorigin": "anonymous",
         }
     ],
     title="NOPLP stats - Statistiques N'oubliez pas les paroles",
@@ -41,12 +41,42 @@ app.layout = html.Div(
                     dbc.Collapse(
                         dbc.Nav(
                             [
-                                dbc.NavLink("Accueil", href="/", active="exact", id="nav-accueil"),
-                                dbc.NavLink("Global", href="/global", active="exact", id="nav-global"),
-                                dbc.NavLink("Par catégorie", href="/category", active="exact", id="nav-category"),
-                                dbc.NavLink("Par chanson", href="/song", active="partial", id="nav-song"),
-                                dbc.NavLink("Par interprète", href="/singer", active="partial", id="nav-singer"),
-                                dbc.NavLink("Entraînement", href="/training", active="exact", id="nav-training"),
+                                dbc.NavLink(
+                                    "Accueil",
+                                    href="/",
+                                    active="exact",
+                                    id="nav-accueil",
+                                ),
+                                dbc.NavLink(
+                                    "Global",
+                                    href="/global",
+                                    active="exact",
+                                    id="nav-global",
+                                ),
+                                dbc.NavLink(
+                                    "Par catégorie",
+                                    href="/category",
+                                    active="exact",
+                                    id="nav-category",
+                                ),
+                                dbc.NavLink(
+                                    "Par chanson",
+                                    href="/song",
+                                    active="partial",
+                                    id="nav-song",
+                                ),
+                                dbc.NavLink(
+                                    "Par interprète",
+                                    href="/singer",
+                                    active="partial",
+                                    id="nav-singer",
+                                ),
+                                dbc.NavLink(
+                                    "Entraînement",
+                                    href="/training",
+                                    active="exact",
+                                    id="nav-training",
+                                ),
                             ],
                             className="ml-auto",
                             navbar=True,
@@ -81,11 +111,20 @@ app.layout = html.Div(
     ],
     [State("navbar-collapse", "is_open")],
 )
-def toggle_navbar(_n_toggler, _n_accueil, _n_global, _n_category, _n_song, _n_singer, _n_training, is_open):
+def toggle_navbar(
+    _n_toggler,
+    _n_accueil,
+    _n_global,
+    _n_category,
+    _n_song,
+    _n_singer,
+    _n_training,
+    is_open,
+):
     ctx = dash.callback_context
     if not ctx.triggered:
         return is_open
-    if ctx.triggered[0]['prop_id'].split('.')[0] == 'navbar-toggler':
+    if ctx.triggered[0]["prop_id"].split(".")[0] == "navbar-toggler":
         return not is_open
     # If any navlink is clicked, close the navbar (only matters on mobile)
     return False

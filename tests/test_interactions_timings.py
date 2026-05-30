@@ -1,8 +1,12 @@
 import logging
-import re
+import time
 from urllib.parse import urljoin
 
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    TimeoutException,
+)
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -27,37 +31,27 @@ def _click_nb_songs_target(browser, target_value: int) -> None:
         EC.visibility_of_element_located((By.ID, "nb-songs"))
     )
 
-    mark = slider.find_elements(
-        By.XPATH,
-        (
-            ".//span[contains(@class, 'rc-slider-mark-text') and "
-            f"normalize-space()='{target_value}']"
-        ),
-    )
-    if mark:
+    mark_xpath = f"//div[text()='{target_value}']"
+    if mark := slider.find_elements(By.XPATH, mark_xpath):
+        logger.info("Clicking slider mark for target value %s", target_value)
         mark_element = mark[0]
-        mark_style = mark_element.get_attribute("style") or ""
-        if left_match := re.search(r"left:\s*([^;]+)", mark_style):
-            left_value = left_match.group(1)
-            dot = slider.find_elements(
-                By.XPATH,
+        WebDriverWait(browser, 5).until(
+            EC.element_to_be_clickable(
                 (
-                    f".//span[contains(@class, 'rc-slider-dot') and contains(@style, 'left: {left_value}')]"
-                ),
-            )
-            if dot:
-                dot_element = dot[0]
-                # Wait for it to be clickable
-                WebDriverWait(browser, 5).until(
-                    EC.element_to_be_clickable(
-                        (
-                            By.XPATH,
-                            f".//span[contains(@class, 'rc-slider-dot') and contains(@style, 'left: {left_value}')]",
-                        )
-                    )
+                    By.XPATH,
+                    "//span[@class='dash-slider-root has-marks']",
                 )
-                dot_element.click()
-                return
+            )
+        )
+        range_slider = slider.find_element(
+            By.XPATH, "//span[@class='dash-slider-range']"
+        )
+        offset = range_slider.location["y"] - mark_element.location["y"]
+        time.sleep(0.05)  # TODO: try to remove this and rely on WebDriverWait instead
+        ActionChains(browser).move_to_element_with_offset(
+            mark_element, 0, offset
+        ).click().perform()
+        return
 
     raise NoSuchElementException(
         f"Could not find slider mark or dot to click for target value {target_value}"
@@ -100,7 +94,6 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server, request
             )
 
         value_after = get_slider_value(browser, "nb-songs")
-
         interaction_timings.append(
             {
                 "target_value": target_value,
@@ -133,7 +126,8 @@ def test_global_nb_songs_slider_updates_and_timing(browser, live_server, request
             "initial_page_load_ms": initial_load_ms,
             "initial_value": initial_value,
             "slider_id": "nb-songs",
-            "action": "slider position changes through multiple values: 50, 100, 300, 500, 1000",
+            "action": "slider position changes through multiple values: "
+            + ", ".join(str(v) for v in target_values),
             "timings_summary": timings_summary,
             "interaction_timings": interaction_timings,
         },
@@ -158,12 +152,6 @@ def test_song_dropdown_selection_timing(browser, live_server, request):
 
     dropdown_id = "dropdown-song-by-song"
     dd_control = wait_for_element(browser, By.ID, dropdown_id, timeout=15)
-    dd_focusable = wait_for_element(
-        browser,
-        By.CSS_SELECTOR,
-        f"#{dropdown_id} input, #{dropdown_id} [role='combobox']",
-        timeout=15,
-    )
 
     value_before = get_dropdown_value(browser, dropdown_id)
     song_to_select = "Pour que tu m'aimes encore (Céline Dion)"
@@ -172,8 +160,14 @@ def test_song_dropdown_selection_timing(browser, live_server, request):
         browser.execute_script(
             "arguments[0].scrollIntoView({block: 'center'});", dd_control
         )
+        WebDriverWait(browser, 5).until(EC.visibility_of(dd_control))
+        dd_control.click()
+        selector = (
+            "input[role='combobox'], input[placeholder*='Search'], "
+            "input[placeholder*='Sélectionner'], input[placeholder*='Rechercher']"
+        )
+        dd_focusable = wait_for_element(browser, By.CSS_SELECTOR, selector, timeout=15)
         WebDriverWait(browser, 5).until(EC.visibility_of(dd_focusable))
-        browser.execute_script("arguments[0].focus();", dd_focusable)
         dd_focusable.send_keys(song_to_select)
         dd_focusable.send_keys(Keys.ENTER)
 
