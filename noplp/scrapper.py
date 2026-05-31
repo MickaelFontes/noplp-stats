@@ -118,7 +118,7 @@ class Scrapper:
         # Check this is a relevant song page
         if not self.check_relevant_song_page():
             raise ScrapperTypePageError(
-                "The downloaded page source may not be a song page."
+                f"The downloaded page source of '{page}' may not be a song page."
             )
 
         # Then extract and parse relevant data
