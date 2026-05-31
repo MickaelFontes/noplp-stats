@@ -161,7 +161,8 @@ def get_date_range_object(prefix_component_id=""):
                 min=begin,
                 max=end,
                 value=[begin, end],
-                marks=get_marks()
+                marks=get_marks(),
+                allow_direct_input=False
             ),
         ],
         style={"marginTop": "20"},
@@ -359,6 +360,7 @@ def get_nb_songs_slider():
         marks={i: f"{i}" for i in (5, 10, 50, 100, 300, 500, 1000, 3000)},
         id="nb-songs",
         tooltip={"placement": "bottom", "always_visible": True},
+        allow_direct_input=False
     )
 
 

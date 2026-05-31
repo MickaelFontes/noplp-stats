@@ -37,7 +37,7 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
         full_page_list += get_all_page_list(common_song_page, test=False)
     full_page_list = list(set(full_page_list))
     all_songs = []
-    scrap = Scrapper(singer_required=False)
+    scrap = Scrapper(singer_required=True)
 
     # Remove problematic and irrelevant songs
     if "Les feuilles mortes" in full_page_list:
@@ -48,7 +48,11 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
     tasks = []
     if test:
         full_page_list = sample(full_page_list, 150)
-        full_page_list += ["2 be 3", "Je sais pas"]
+        full_page_list += [
+            "2 be 3",
+            "Je sais pas",
+            "Pour que tu m'aimes encore (Céline Dion)",
+        ]
         full_page_list = list(set(full_page_list))
 
     for page in full_page_list:

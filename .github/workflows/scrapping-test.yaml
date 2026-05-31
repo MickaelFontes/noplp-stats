@@ -37,4 +37,11 @@ jobs:
       - name: Launch pages tests
         run: |
           export PATH=$PATH:$CHROMEWEBDRIVER
-          poetry run pytest --log-cli-level DEBUG --headless
+          poetry run pytest --log-cli-level INFO --log-file=tests/artifacts/pytest.log --log-file-level=DEBUG
+
+      - name: Upload test logs
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-verbose-logs
+          path: tests/artifacts/*.log

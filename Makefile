@@ -40,7 +40,7 @@ lint-isort: #Doc: run isort in linting mode
 
 .PHONY: lint-pylint
 lint-pylint: #Doc: run pylint (code linter)
-	pylint app.py noplp pages
+	pylint app.py noplp pages tests
 
 .PHONY: lint-flake8
 lint-flake8: #Doc: run flake8 (code linter)
