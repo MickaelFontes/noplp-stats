@@ -113,6 +113,7 @@ class Scrapper:
         for br in br_tags:
             br.decompose()
         self._data["source"] = soup.get_text()
+        self._data["source"] = self._data["source"].replace("\xa0", " ")
 
         # Check this is a relevant song page
         if not self.check_relevant_song_page():
@@ -151,7 +152,7 @@ class Scrapper:
             raise ScrapperProcessingSinger("data property empty.")
 
         # Extract singer from the source field
-        if (regex_search := re.search(r"(?:Auteur|Interprète)\w* : (.*)", source)) is not None:
+        if (regex_search := re.search(r"(?:Auteur|Interprète)\w*\s{0,1}:\s{0,1}(.*)", source)) is not None:
             singer = regex_search.group(1)
             # discard potential following brackets
             singer = re.search(r"([^\[]*)", singer).group(1)
