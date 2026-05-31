@@ -8,7 +8,6 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
     TimeoutException,
@@ -120,13 +119,20 @@ def wait_for_dash_idle(driver, timeout: int = 10) -> int:
     start = time.perf_counter()
     try:
         WebDriverWait(driver, timeout).until(
-            lambda current_driver: current_driver.execute_script(
-                "return document.readyState"
-            )
-            == "complete"
-            and not current_driver.find_elements(
-                By.CSS_SELECTOR, "._dash-loading-callback"
-            )
+            lambda current_driver: current_driver.execute_script("""
+                return (function(){
+                    if (document.readyState !== 'complete') return false;
+                    if (document.querySelector('._dash-loading-callback')) return false;
+                    if (!document.querySelector('.navbar-collapse')) return false;
+                    if (document.querySelector('[data-dash-is-loading="true"]')) return false;
+                    if (
+                        document.querySelector(
+                            'script[src*="/_dash-component-suites/plotly/package_data/plotly.min.js"]'
+                        ) && !document.getElementById('js-plotly-tester')
+                    ) return false;
+                    return true;
+                })();
+                """)
         )
     except TimeoutException:
         return 0
@@ -146,28 +152,25 @@ def measure_until_dash_ready(driver, trigger_fn, timeout: int = 10) -> int:
 
 
 def get_slider_value(driver, slider_id: str):
-    """Get the current numeric value of a Dash RangeSlider or Slider component.
+    """Get the current numeric value of a Dash Slider component.
 
-    Returns the value as a float or the raw value if extraction fails.
+    Returns the value as an int or the raw value if extraction fails.
     """
     script = (
         "const el = document.getElementById(arguments[0]);"
         "if (!el) return null;"
-        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
-        "  return el.__dash_loaded_props.value;"
-        "}"
-        "const handle = el.querySelector('.rc-slider-handle');"
-        "if (handle && handle.hasAttribute('aria-valuenow')) {"
-        "  return parseFloat(handle.getAttribute('aria-valuenow'));"
-        "}"
-        "return null;"
+        "const thumb = el.querySelector('[role=\"slider\"][aria-valuenow]');"
+        "return thumb ? parseFloat(thumb.getAttribute('aria-valuenow')) : null;"
     )
     try:
-        if (val := driver.execute_script(script, slider_id)) is not None:
-            return float(val) if isinstance(val, (int, float)) else val
+        if (val := driver.execute_script(script, slider_id)) is None:
+            return None
+        try:
+            return int(val)
+        except (ValueError, TypeError):
+            return val
     except (WebDriverException, ValueError):
         return None
-    return None
 
 
 def get_dropdown_value(driver, dropdown_id: str):
@@ -176,15 +179,11 @@ def get_dropdown_value(driver, dropdown_id: str):
     Returns the selected value (typically a string like a song title).
     """
     script = (
-        "const el = document.getElementById(arguments[0]);"
+        "const id = arguments[0];"
+        "const el = document.getElementById(id);"
         "if (!el) return null;"
-        "if (el.__dash_loaded_props && el.__dash_loaded_props.value !== undefined) {"
-        "  return el.__dash_loaded_props.value;"
-        "}"
-        "const singleValue = el.querySelector('.Select-value-label, .react-select__single-value');"
-        "if (singleValue) {"
-        "  return (singleValue.textContent || '').trim();"
-        "}"
+        "const valueEl = document.getElementById(id + '-value');"
+        "if (valueEl) { const txt = (valueEl.textContent || '').trim(); return txt || null; }"
         "return null;"
     )
     try:
