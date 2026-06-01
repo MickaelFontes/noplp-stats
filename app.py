@@ -8,10 +8,15 @@ import os
 from flask import Flask, render_template
 
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
+from pages.global_dash import create_global_dash
 
 # Create Flask app
 app = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
 app.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
+
+global_page_dash = create_global_dash(
+    server=app
+)  # Initialize the global Dash app with the Flask server
 
 
 @app.context_processor
@@ -31,8 +36,8 @@ def home():
 
 @app.route("/global")
 def global_stats():
-    """Global statistics page"""
-    return render_template("dash_page.html", title="Global")
+    """Global statistics page served by Dash."""
+    return global_page_dash.index()
 
 
 @app.route("/category")
@@ -59,14 +64,6 @@ def training():
     return render_template("dash_page.html", title="Entraînement")
 
 
-# Register Dash apps as blueprints
-# Dash apps are initialized with server=False and integrated via blueprints
-# Dash apps will be registered here once they are created:
-# from pages.home_dash import dash_app as home_dash_app
-# app.register_blueprint(home_dash_app.server)
-
-
-# Enable debug mode via environment variable
 app.debug = bool(os.getenv("DASH_DEBUG", None))
 
 
