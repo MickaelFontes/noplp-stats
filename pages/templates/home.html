@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - NOPLP Stats{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center g-4">
+    <div class="col-12 col-lg-10">
+        <div class="hero-card rounded-4 p-4 p-lg-5">
+            <p class="text-uppercase text-primary fw-semibold mb-2">NOPLP Stats</p>
+            <h1 class="display-6 fw-bold mb-3">Statistiques et révisions autour de N'oubliez pas les paroles</h1>
+            <p class="lead mb-0">Le site présente des statistiques sur les chansons, les catégories et les interprètes du jeu, avec des outils pensés pour réviser efficacement et explorer les tendances du programme.</p>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-10">
+        <div class="section-card rounded-4 p-4 p-lg-5 mb-4">
+            <h2 class="h3 fw-semibold">Fonctionnalités</h2>
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 h-100 bg-light">
+                        <h3 class="h5">Statistiques globales</h3>
+                        <p class="mb-0">Vue d'ensemble des chansons et des catégories sur la période sélectionnée.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 h-100 bg-light">
+                        <h3 class="h5">Par catégorie</h3>
+                        <p class="mb-0">Détail des statistiques pour chaque catégorie de l'émission.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 h-100 bg-light">
+                        <h3 class="h5">Par chanson</h3>
+                        <p class="mb-0">Classements, occurrences et paroles pour une chanson donnée.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 border rounded-3 h-100 bg-light">
+                        <h3 class="h5">Par interprète</h3>
+                        <p class="mb-0">Analyse des chansons liées à un artiste et de leur fréquence dans l'émission.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card rounded-4 p-4 p-lg-5">
+            <h2 class="h3 fw-semibold">Entraînement</h2>
+            <p>Retrouve un mode d'entraînement pour saisir les paroles exactes d'une chanson et progresser à ton rythme.</p>
+            <p class="mb-0">Les données viennent du wiki Fandom NOPLP et peuvent être complétées ou corrigées au fil des contributions.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

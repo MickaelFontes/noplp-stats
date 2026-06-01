@@ -1,134 +1,74 @@
-"""Application file for noplp-stats"""
+"""Main Flask application for noplp-stats
+
+This is the main website. Dash apps are initialized with server=False
+and registered as blueprints within this Flask app.
+"""
 
 import os
+from flask import Flask, render_template
 
-import dash
-import dash_bootstrap_components as dbc
-from dash import Dash, html, Output, Input, State
-from pages.bottom import bottom
+from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 
-app = Dash(
-    __name__,
-    use_pages=True,
-    suppress_callback_exceptions=True,
-    external_stylesheets=[
-        {
-            "href": dbc.themes.BOOTSTRAP,
-            "rel": "stylesheet",
-            "integrity": "sha256-oxqX0LQclbvrsJt8IymkxnISn4Np2Wy2rY9jjoQlDEg=",
-            "crossorigin": "anonymous",
-        }
-    ],
-    title="NOPLP stats - Statistiques N'oubliez pas les paroles",
-    update_title=None,
-    assets_folder="pages/assets",
-)
+# Create Flask app
+app = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
+app.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
 
 
-server = app.server
-app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
-app._base_url = "https://noplp-stats.fr"
-# To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
-app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
-
-app.layout = html.Div(
-    [
-        dbc.Navbar(
-            dbc.Container(
-                [
-                    dbc.NavbarBrand("NOPLP Stats", href="/"),
-                    dbc.NavbarToggler(id="navbar-toggler"),
-                    dbc.Collapse(
-                        dbc.Nav(
-                            [
-                                dbc.NavLink(
-                                    "Accueil",
-                                    href="/",
-                                    active="exact",
-                                    id="nav-accueil",
-                                ),
-                                dbc.NavLink(
-                                    "Global",
-                                    href="/global",
-                                    active="exact",
-                                    id="nav-global",
-                                ),
-                                dbc.NavLink(
-                                    "Par catégorie",
-                                    href="/category",
-                                    active="exact",
-                                    id="nav-category",
-                                ),
-                                dbc.NavLink(
-                                    "Par chanson",
-                                    href="/song",
-                                    active="partial",
-                                    id="nav-song",
-                                ),
-                                dbc.NavLink(
-                                    "Par interprète",
-                                    href="/singer",
-                                    active="partial",
-                                    id="nav-singer",
-                                ),
-                                dbc.NavLink(
-                                    "Entraînement",
-                                    href="/training",
-                                    active="exact",
-                                    id="nav-training",
-                                ),
-                            ],
-                            className="ml-auto",
-                            navbar=True,
-                        ),
-                        id="navbar-collapse",
-                        is_open=False,
-                        navbar=True,
-                    ),
-                ]
-            ),
-            color="primary",
-            dark=True,
-        ),
-        dash.page_container,
-        html.Div(id="blank-output"),
-        bottom,
-    ]
-)
+@app.context_processor
+def inject_bootstrap_assets():
+    """Expose shared Bootstrap assets to Jinja templates."""
+    return {
+        "bootstrap_css": BOOTSTRAP_CSS,
+        "bootstrap_js": BOOTSTRAP_JS,
+    }
 
 
-# Callback to toggle/collapse navbar on toggler click or navlink click
-@app.callback(
-    Output("navbar-collapse", "is_open"),
-    [
-        Input("navbar-toggler", "n_clicks"),
-        Input("nav-accueil", "n_clicks"),
-        Input("nav-global", "n_clicks"),
-        Input("nav-category", "n_clicks"),
-        Input("nav-song", "n_clicks"),
-        Input("nav-singer", "n_clicks"),
-        Input("nav-training", "n_clicks"),
-    ],
-    [State("navbar-collapse", "is_open")],
-)
-def toggle_navbar(
-    _n_toggler,
-    _n_accueil,
-    _n_global,
-    _n_category,
-    _n_song,
-    _n_singer,
-    _n_training,
-    is_open,
-):
-    ctx = dash.callback_context
-    if not ctx.triggered:
-        return is_open
-    if ctx.triggered[0]["prop_id"].split(".")[0] == "navbar-toggler":
-        return not is_open
-    # If any navlink is clicked, close the navbar (only matters on mobile)
-    return False
+@app.route("/")
+def home():
+    """Home page - Flask template with embedded Dash app"""
+    return render_template("home.html", title="Accueil")
+
+
+@app.route("/global")
+def global_stats():
+    """Global statistics page"""
+    return render_template("dash_page.html", title="Global")
+
+
+@app.route("/category")
+def category():
+    """Category statistics page"""
+    return render_template("dash_page.html", title="Par catégorie")
+
+
+@app.route("/song")
+def song():
+    """Song statistics page"""
+    return render_template("dash_page.html", title="Par chanson")
+
+
+@app.route("/singer")
+def singer():
+    """Singer statistics page"""
+    return render_template("dash_page.html", title="Par interprète")
+
+
+@app.route("/training")
+def training():
+    """Training page"""
+    return render_template("dash_page.html", title="Entraînement")
+
+
+# Register Dash apps as blueprints
+# Dash apps are initialized with server=False and integrated via blueprints
+# Dash apps will be registered here once they are created:
+# from pages.home_dash import dash_app as home_dash_app
+# app.register_blueprint(home_dash_app.server)
+
+
+# Enable debug mode via environment variable
+app.debug = bool(os.getenv("DASH_DEBUG", None))
 
 
 if __name__ == "__main__":
-    app.run(port="8080", debug=None)
+    app.run(port=8080, debug=bool(os.getenv("DASH_DEBUG", None)))
