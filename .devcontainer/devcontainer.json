@@ -1,6 +1,6 @@
 {
 	"name": "Python 3, Poetry",
-	"image": "mcr.microsoft.com/devcontainers/python:3.14@sha256:882b17d068262c7af4300180ead0ee14423d2c03393778c92435b0ca642dea07",
+	"build": { "dockerfile": "Dockerfile" },
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {
 	// 	"ghcr.io/devcontainers-extra/features/poetry:2": {}
@@ -9,15 +9,17 @@
 		"vscode": {
 			"extensions": [
 				// Can't use hash-based references for these extensions
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
+				"github.copilot-chat",
+				"ms-python.autopep8",
 				"ms-python.black-formatter",
-				"ms-python.python",
-				"ms-python.vscode-pylance",
-				"ms-python.debugpy",
+				"vivaxy.vscode-conventional-commits",
+				"dbaeumer.vscode-eslint", // forced to reaload at first boot for this?- not enough apparently
 				"ms-python.flake8",
+				"ms-python.vscode-pylance",
 				"ms-python.pylint",
-				"vivaxy.vscode-conventional-commits"
+				"ms-python.python",
+				"ms-python.debugpy",
+				"ms-python.vscode-python-envs"
 			]
 		}
 	},
@@ -26,7 +28,7 @@
 		8080
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pipx install git+https://github.com/python-poetry/poetry.git@811a12dae0fe81f199e3f1b88b8b8be9eed543c2 && poetry sync"
+	"onCreateCommand": "poetry sync"
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
