@@ -1,6 +1,6 @@
 {
 	"name": "Python 3, Poetry",
-	"image": "mcr.microsoft.com/devcontainers/python:3.14@sha256:882b17d068262c7af4300180ead0ee14423d2c03393778c92435b0ca642dea07",
+	"build": { "dockerfile": "Dockerfile" },
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {
 	// 	"ghcr.io/devcontainers-extra/features/poetry:2": {}
@@ -28,7 +28,7 @@
 		8080
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"onCreateCommand": "pipx install git+https://github.com/python-poetry/poetry.git@811a12dae0fe81f199e3f1b88b8b8be9eed543c2 && poetry sync"
+	"onCreateCommand": "poetry sync"
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
