@@ -1,7 +1,4 @@
 """Global statistics Dash app served from the Flask web site."""
-
-import os
-
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px

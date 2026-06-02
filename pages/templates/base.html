@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{% block title %}NOPLP Stats{% endblock %}</title>
 	<link href="{{ bootstrap_css.href }}" rel="{{ bootstrap_css.rel }}" integrity="{{ bootstrap_css.integrity }}" crossorigin="{{ bootstrap_css.crossorigin }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/components.css') }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/icon.css') }}">
 	<style>
 		body { background: #f7f8fb; color: #1f2937; }
 		main { min-height: calc(100vh - 180px); }

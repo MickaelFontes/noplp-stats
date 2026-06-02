@@ -8,15 +8,13 @@ import os
 from flask import Flask, render_template
 
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
-from pages.global_dash import create_global_dash
+from pages.global_old import create_global_dash
 
-# Create Flask app
 app = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
 app.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
 
-global_page_dash = create_global_dash(
-    server=app
-)  # Initialize the global Dash app with the Flask server
+global_page_dash = create_global_dash(server=app)
+global_page_dash.enable_dev_tools(debug=True, dev_tools_ui=True)
 
 
 @app.context_processor
@@ -37,7 +35,7 @@ def home():
 @app.route("/global")
 def global_stats():
     """Global statistics page served by Dash."""
-    return global_page_dash.index()
+    return render_template("dash_page_import.html", app_dash=global_page_dash.index())
 
 
 @app.route("/category")

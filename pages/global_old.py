@@ -20,31 +20,39 @@ from pages.utils import (
     return_coverage_figure,
 )
 
-dash.register_page(__name__, path="/global", title="Global - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
-layout = dbc.Container(
-    [
-        html.H4("Chansons les plus populaires (toutes catégories confondues)"),
-        dcc.Graph(id="graph"),
-        html.Div("Nombre de chansons à afficher"),
-        get_nb_songs_slider(),
-        get_date_range_object(prefix_component_id="global-"),
-        html.Div(
-            "Statistiques de couverture des catégories avec la sélection actuelle:",
-            style={"marginTop": 20},
-        ),
-        dcc.Markdown("rien", id="stats-global"),
-        dbc.Button("Télécharger la sélection actuelle", id="btn-global-songs"),
-        dcc.Download(id="download-global"),
-        html.Hr(),
-        html.H4(
-            "Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"
-        ),
-        dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
-        dcc.Store(id="store-global-top-songs"),
-    ],
-    style={"marginTop": 20},
-)
+def create_global_dash(server=None):
+    """Create the global statistics Dash app."""
+    global_dash_app = dash.Dash(
+        __name__,
+        server=server,
+        url_base_pathname="/global/",
+        suppress_callback_exceptions=True,
+        index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}")
+    global_dash_app.layout = dbc.Container(
+        [
+            html.H4("Chansons les plus populaires (toutes catégories confondues)"),
+            dcc.Graph(id="graph"),
+            html.Div("Nombre de chansons à afficher"),
+            get_nb_songs_slider(),
+            get_date_range_object(prefix_component_id="global-"),
+            html.Div(
+                "Statistiques de couverture des catégories avec la sélection actuelle:",
+                style={"marginTop": 20},
+            ),
+            dcc.Markdown("rien", id="stats-global"),
+            dbc.Button("Télécharger la sélection actuelle", id="btn-global-songs"),
+            dcc.Download(id="download-global"),
+            html.Hr(),
+            html.H4(
+                "Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"
+            ),
+            dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
+            dcc.Store(id="store-global-top-songs"),
+        ],
+        style={"marginTop": 20},
+    )
+    return global_dash_app
 
 
 @callback(
@@ -70,9 +78,12 @@ def update_figure(date_range, nb_songs):
     graph_df = filter_top_songs(graph_df, nb_songs)
     to_store = graph_df.to_csv(index=False, sep=";")
     fig = px.histogram(data_frame=graph_df, x="name", y="date", color="category")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
-                      "title": "Chanson"}, yaxis={"title": "Nombre d'apparitions"},
-                      legend={"title": {"text": "Catégorie"}})
+    fig.update_layout(
+        height=500,
+        xaxis={"categoryorder": "total descending", "title": "Chanson"},
+        yaxis={"title": "Nombre d'apparitions"},
+        legend={"title": {"text": "Catégorie"}},
+    )
     list_songs = graph_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
     return fig, out_child, to_store
