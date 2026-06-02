@@ -1,10 +1,14 @@
-"""Global statistics Dash app served from the Flask web site."""
+"""Global statistics page layout.
+
+Layout of the global statistics page, with graphs callbacks
+and some data manipulation.
+"""
+
 import dash
 import dash_bootstrap_components as dbc
 import plotly.express as px
 from dash import Input, Output, callback, ctx, dcc, html
 
-from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 from pages.utils import (
     compare_to_global,
     download_name,
@@ -17,66 +21,13 @@ from pages.utils import (
 )
 
 
-def _build_index_string() -> str:
-    """Return a Bootstrap-wrapped Dash index string."""
-    return f"""<!DOCTYPE html>
-<html>
-    <head>
-        {{%metas%}}
-        <title>{{%title%}}</title>
-        {{%favicon%}}
-        {{%css%}}
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-semibold" href="/">NOPLP Stats</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="/global">Global</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/category">Catégories</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/song">Chansons</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/singer">Interprètes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/training">Entraînement</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="container py-4 py-lg-5">
-            <div id="react-entry-point">{{%app_entry%}}</div>
-        </main>
-
-        <footer class="border-top bg-white">
-            <div class="container py-3 small text-center">
-                <span>NOPLP Stats • Données issues du wiki Fandom NOPLP • Open source sur GitHub</span>
-            </div>
-        </footer>
-
-        <script src="{BOOTSTRAP_JS['src']}" integrity="{BOOTSTRAP_JS['integrity']}" crossorigin="{BOOTSTRAP_JS['crossorigin']}"></script>
-        {{%config%}}
-        {{%scripts%}}
-        {{%renderer%}}
-    </body>
-</html>"""
-
-
 def create_global_dash(server=None):
     """Create the global statistics Dash app."""
     global_dash_app = dash.Dash(
         __name__,
         server=server,
         url_base_pathname="/global/",
-        suppress_callback_exceptions=True,
-        external_stylesheets=[BOOTSTRAP_CSS],
-        title="Global - NOPLP stats - Statistiques N'oubliez pas les paroles",
-        update_title=None,
-    )
-    global_dash_app.index_string = _build_index_string()
+        index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}")
     global_dash_app.layout = dbc.Container(
         [
             html.H4("Chansons les plus populaires (toutes catégories confondues)"),
@@ -100,11 +51,7 @@ def create_global_dash(server=None):
         ],
         style={"marginTop": 20},
     )
-
     return global_dash_app
-
-
-dash_app = create_global_dash(server=False)
 
 
 @callback(
@@ -115,7 +62,15 @@ dash_app = create_global_dash(server=False)
     Input("nb-songs", "value"),
 )
 def update_figure(date_range, nb_songs):
-    """Update global graph ranking."""
+    """Update global graph ranking.
+
+    Args:
+        date_range (list[int]): date range in Unix format
+        nb_songs (int): Number of top songs to display
+
+    Returns:
+        fig: Top songs graph, accross all categories
+    """
     graph_df = filter_date(date_range)
     graph_df = graph_df.groupby(by=["name", "category"], as_index=False)["date"].count()
     graph_df = graph_df.sort_values(by=["date"], ascending=False)
@@ -143,7 +98,17 @@ def update_figure(date_range, nb_songs):
 )
 def download_songs_list(_, data_stored, nb_songs, date_range):
     # pylint: disable=useless-type-doc, useless-param-doc
-    """Download function to save top songs."""
+    """Download function to save top songs
+
+    Args:
+        _ (int): nb of clicks
+        data_stored (str): content of dcc.Store (Dataframe)
+        nb_songs (int): number of songs
+        date_range (list[int]): begin and end date
+
+    Returns:
+        dict: downloaded content
+    """
     if ctx.triggered_id == "btn-global-songs":
         export_df = get_download_content_from_store(data_stored)
         filename = download_name("global", nb_songs, date_range)

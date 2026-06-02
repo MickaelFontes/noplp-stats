@@ -8,16 +8,17 @@ import os
 from flask import Flask, render_template
 
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
-from pages.global_old import create_global_dash
+from pages.global_stats import create_global_dash
 
-app = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
-app.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
+server = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
+server.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
 
-global_page_dash = create_global_dash(server=app)
-global_page_dash.enable_dev_tools(debug=True, dev_tools_ui=True)
+global_page_dash = create_global_dash(server=server)
+
+dash_apps = [global_page_dash]
 
 
-@app.context_processor
+@server.context_processor
 def inject_bootstrap_assets():
     """Expose shared Bootstrap assets to Jinja templates."""
     return {
@@ -26,44 +27,44 @@ def inject_bootstrap_assets():
     }
 
 
-@app.route("/")
+@server.route("/")
 def home():
     """Home page - Flask template with embedded Dash app"""
     return render_template("home.html", title="Accueil")
 
 
-@app.route("/global")
+@server.route("/global")
 def global_stats():
     """Global statistics page served by Dash."""
     return render_template("dash_page_import.html", app_dash=global_page_dash.index())
 
 
-@app.route("/category")
+@server.route("/category")
 def category():
     """Category statistics page"""
     return render_template("dash_page.html", title="Par catégorie")
 
 
-@app.route("/song")
+@server.route("/song")
 def song():
     """Song statistics page"""
     return render_template("dash_page.html", title="Par chanson")
 
 
-@app.route("/singer")
+@server.route("/singer")
 def singer():
     """Singer statistics page"""
     return render_template("dash_page.html", title="Par interprète")
 
 
-@app.route("/training")
+@server.route("/training")
 def training():
     """Training page"""
     return render_template("dash_page.html", title="Entraînement")
 
 
-app.debug = bool(os.getenv("DASH_DEBUG", None))
-
-
 if __name__ == "__main__":
-    app.run(port=8080, debug=bool(os.getenv("DASH_DEBUG", None)))
+    if bool(os.getenv("DASH_DEBUG", None)):
+        for app_dash in dash_apps:
+            app_dash.enable_dev_tools(debug=True, dev_tools_ui=True)
+    server.run(port=8080, debug=bool(os.getenv("DASH_DEBUG", None)))
