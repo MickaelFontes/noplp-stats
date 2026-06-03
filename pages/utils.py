@@ -47,8 +47,10 @@ def get_marks():
     """
     result = {}
     for date in daterange_marks:
-        result[datetime_to_unix(date)] = {"label": str(date.strftime("%Y")), "style": {
-            "writing-mode": "vertical-rl", "transform": "rotate(-55deg)"}}
+        result[datetime_to_unix(date)] = {
+            "label": str(date.strftime("%Y")),
+            "style": {"writingMode": "vertical-rl", "transform": "rotate(-55deg)"},
+        }
     return result
 
 
@@ -162,7 +164,7 @@ def get_date_range_object(prefix_component_id=""):
                 max=end,
                 value=[begin, end],
                 marks=get_marks(),
-                allow_direct_input=False
+                allow_direct_input=False,
             ),
         ],
         style={"marginTop": "20"},
@@ -323,8 +325,10 @@ def return_coverage_figure():
         color="category",
         hover_data={"name": True, "rank": True, "coverage": True, "category": True},
     )
-    fig.update_layout(xaxis={"title": "Nombre de chansons à connaître"}, yaxis={
-                      "title": "Pourcentage de couverture d'une catégorie"})
+    fig.update_layout(
+        xaxis={"title": "Nombre de chansons à connaître"},
+        yaxis={"title": "Pourcentage de couverture d'une catégorie"},
+    )
     return fig
 
 
@@ -346,7 +350,7 @@ def return_global_ranking_df():
     return pd.read_csv("data/global_ranking.csv")
 
 
-def get_nb_songs_slider():
+def get_nb_songs_slider(suffix=""):
     """Return Dash nb_songs slider
 
     Returns:
@@ -358,9 +362,9 @@ def get_nb_songs_slider():
         step=10,
         value=10,
         marks={i: f"{i}" for i in (5, 10, 50, 100, 300, 500, 1000, 3000)},
-        id="nb-songs",
+        id="nb-songs" + suffix,
         tooltip={"placement": "bottom", "always_visible": True},
-        allow_direct_input=False
+        allow_direct_input=False,
     )
 
 
@@ -375,7 +379,9 @@ def song_exists(song_title: str) -> bool:
     return song_title in _SONGS_SET
 
 
-def get_song_dropdown_menu(song_title=DEFAULT_SONG, component_id: str = "dropdown-song"):
+def get_song_dropdown_menu(
+    song_title=DEFAULT_SONG, component_id: str = "dropdown-song"
+):
     """Return the song Dropdown menu with configurable id.
 
     Args:

@@ -5,17 +5,24 @@ and registered as blueprints within this Flask app.
 """
 
 import os
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request
+import dash
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
-from pages.global_stats import create_global_dash
 
-server = Flask(__name__, template_folder="pages/templates", static_folder="pages/assets")
-server.config["SUPPRESS_CALLBACK_EXCEPTIONS"] = True
+server = Flask(
+    __name__, template_folder="pages/templates", static_folder="pages/assets"
+)
 
-global_page_dash = create_global_dash(server=server)
+app = dash.Dash(
+    __name__,
+    server=server,
+    url_base_pathname="/",
+    index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}",
+    suppress_callback_exceptions=True,
+    use_pages=True,
+)
 
-dash_apps = [global_page_dash]
+dash_apps = [app]
 
 
 @server.context_processor
@@ -27,22 +34,26 @@ def inject_bootstrap_assets():
     }
 
 
+@server.before_request
 @server.route("/")
 def home():
     """Home page - Flask template with embedded Dash app"""
-    return render_template("home.html", title="Accueil")
+    if request.method == "GET" and request.path == "/":
+        return render_template("home.html", title="Accueil")
 
 
 @server.route("/global")
 def global_stats():
     """Global statistics page served by Dash."""
-    return render_template("dash_page_import.html", app_dash=global_page_dash.index())
+    return render_template(
+        "dash_page_import.html", title="Global", app_dash=app.index()
+    )
 
 
 @server.route("/category")
 def category():
     """Category statistics page"""
-    return render_template("dash_page.html", title="Par catégorie")
+    return render_template("dash_page_import.html", title="Par catégorie", app_dash=app.index())
 
 
 @server.route("/song")
@@ -65,6 +76,5 @@ def training():
 
 if __name__ == "__main__":
     if bool(os.getenv("DASH_DEBUG", None)):
-        for app_dash in dash_apps:
-            app_dash.enable_dev_tools(debug=True, dev_tools_ui=True)
+        app.enable_dev_tools(debug=True, dev_tools_ui=True)
     server.run(port=8080, debug=bool(os.getenv("DASH_DEBUG", None)))

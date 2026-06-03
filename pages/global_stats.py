@@ -20,38 +20,31 @@ from pages.utils import (
     return_coverage_figure,
 )
 
+dash.register_page(__name__, path="/global/")
 
-def create_global_dash(server=None):
-    """Create the global statistics Dash app."""
-    global_dash_app = dash.Dash(
-        __name__,
-        server=server,
-        url_base_pathname="/global/",
-        index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}")
-    global_dash_app.layout = dbc.Container(
-        [
-            html.H4("Chansons les plus populaires (toutes catégories confondues)"),
-            dcc.Graph(id="graph"),
-            html.Div("Nombre de chansons à afficher"),
-            get_nb_songs_slider(),
-            get_date_range_object(prefix_component_id="global-"),
-            html.Div(
-                "Statistiques de couverture des catégories avec la sélection actuelle:",
-                style={"marginTop": 20},
-            ),
-            dcc.Markdown("rien", id="stats-global"),
-            dbc.Button("Télécharger la sélection actuelle", id="btn-global-songs"),
-            dcc.Download(id="download-global"),
-            html.Hr(),
-            html.H4(
-                "Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"
-            ),
-            dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
-            dcc.Store(id="store-global-top-songs"),
-        ],
-        style={"marginTop": 20},
-    )
-    return global_dash_app
+layout = dbc.Container(
+    [
+        html.H4("Chansons les plus populaires (toutes catégories confondues)"),
+        dcc.Graph(id="graph"),
+        html.Div("Nombre de chansons à afficher"),
+        get_nb_songs_slider(),
+        get_date_range_object(prefix_component_id="global-"),
+        html.Div(
+            "Statistiques de couverture des catégories avec la sélection actuelle:",
+            style={"marginTop": 20},
+        ),
+        dcc.Markdown("rien", id="stats-global"),
+        dbc.Button("Télécharger la sélection actuelle", id="btn-global-songs"),
+        dcc.Download(id="download-global"),
+        html.Hr(),
+        html.H4(
+            "Statistiques de couverture des catégories en fonction du nombre de chanson (sur l'ensemble des émissions)"
+        ),
+        dcc.Graph(id="coverage-graph", figure=return_coverage_figure()),
+        dcc.Store(id="store-global-top-songs"),
+    ],
+    style={"marginTop": 20},
+)
 
 
 @callback(
