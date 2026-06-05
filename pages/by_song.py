@@ -96,7 +96,11 @@ def layout():
 clientside_callback(
     """
     function(song_title) {
-        document.title = song_title + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        if (song_title === null || song_title === undefined || song_title === '') {
+            document.title = "Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        } else {
+            document.title = song_title + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        }
     }
     """,
     Input("dropdown-song-by-song", "value"),
