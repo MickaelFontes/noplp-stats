@@ -9,7 +9,6 @@ from dash import Input, Output, callback, dcc, html, clientside_callback
 
 from pages.utils import (
     extract_and_format_lyrics,
-    DEFAULT_SONG,
     filter_date,
     filter_song,
     find_singer,
@@ -42,15 +41,13 @@ dash.register_page(
 )
 
 
-def layout(song_title=DEFAULT_SONG, **_):
-    song_title = unquote(song_title)
-
+def layout():
     first_card = dbc.Card(
         dbc.CardBody(
             [
                 html.H5("Sélectionner le titre de la chanson", className="card-title"),
                 get_song_dropdown_menu(
-                    song_title, component_id="dropdown-song-by-song"
+                    component_id="dropdown-song-by-song"
                 ),
                 html.Hr(),
                 html.Div(
@@ -119,7 +116,7 @@ def update_url_from_dropdown(song_title, url_pathname):
     if url_pathname[:len_song_prefix] == PAGE_PATH:
         param = unquote(url_pathname)[len_song_prefix + 1 :]
         if param and not song_exists(param):
-            return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
+            return f"{PAGE_PATH}", None
         if param == song_title:
             return dash.no_update, dash.no_update
         song_url = f"{PAGE_PATH}/{song_title}"

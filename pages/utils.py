@@ -379,13 +379,10 @@ def song_exists(song_title: str) -> bool:
     return song_title in _SONGS_SET
 
 
-def get_song_dropdown_menu(
-    song_title=DEFAULT_SONG, component_id: str = "dropdown-song"
-):
+def get_song_dropdown_menu(component_id: str = "dropdown-song"):
     """Return the song Dropdown menu with configurable id.
 
     Args:
-        song_title (str): default selected title
         component_id (str): id to assign to the Dash component
     """
     return dcc.Dropdown(
