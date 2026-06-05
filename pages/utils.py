@@ -167,7 +167,7 @@ def get_date_range_object(prefix_component_id=""):
                 allow_direct_input=False,
             ),
         ],
-        style={"marginTop": "20"},
+        style={"marginTop": 20},
     )
 
 
@@ -390,9 +390,8 @@ def get_song_dropdown_menu(
     """
     return dcc.Dropdown(
         id=component_id,
-        value=song_title,
         options=[{"label": i, "value": i} for i in get_songs(as_sorted=True)],
-        clearable=False,
+        placeholder="Cliquez ici pour sélectionnez une chanson"
     )
 
 

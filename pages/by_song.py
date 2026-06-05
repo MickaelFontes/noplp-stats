@@ -1,4 +1,5 @@
 """Statistics page for song specific stats."""
+
 from urllib.parse import unquote
 
 import dash
@@ -22,8 +23,23 @@ from pages.utils import (
 
 PAGE_PATH = "/song"
 
-dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
-                   title="Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles")
+
+def title(*_, **kwargs):
+    song_title = kwargs.get("song_title")
+    if song_title := kwargs.get("song_title"):
+        return (
+            unquote(song_title)
+            + " - NOPLP stats - Statistiques N'oubliez pas les paroles"
+        )
+    return "Par chanson - NOPLP stats - Statistiques N'oubliez pas les paroles"
+
+
+dash.register_page(
+    __name__,
+    path=PAGE_PATH,
+    path_template=PAGE_PATH + "/<song_title>",
+    title=title,
+)
 
 
 def layout(song_title=DEFAULT_SONG, **_):
@@ -33,19 +49,20 @@ def layout(song_title=DEFAULT_SONG, **_):
         dbc.CardBody(
             [
                 html.H5("Sélectionner le titre de la chanson", className="card-title"),
-                get_song_dropdown_menu(song_title, component_id="dropdown-song-by-song"),
+                get_song_dropdown_menu(
+                    song_title, component_id="dropdown-song-by-song"
+                ),
                 html.Hr(),
                 html.Div(
                     [
                         html.P(["Interprète: "]),
                         html.P("Classement global: "),
-                        html.P(
-                            "Classement Même chanson: "
-                        ),
+                        html.P("Classement Même chanson: "),
                         html.P("Classement 50 Points: "),
                         html.P("Classement Maestro: "),
                     ],
-                    id="song-details"),
+                    id="song-details",
+                ),
             ]
         )
     )
@@ -69,8 +86,11 @@ def layout(song_title=DEFAULT_SONG, **_):
             dcc.Graph(id="timeline-graph-song"),
             html.Hr(),
             html.H4("Paroles"),
-            html.Div(id="parent-song-lyrics", style={'display': 'flex', 'justify-content': 'center'},
-                     children=[html.Div(id="song-lyrics", style={'text-align': 'left'})])
+            html.Div(
+                id="parent-song-lyrics",
+                style={"display": "flex", "justifyContent": "center"},
+                children=[html.Div(id="song-lyrics", style={"textAlign": "left"})],
+            ),
         ],
         style={"marginTop": 20},
     )
@@ -82,9 +102,7 @@ clientside_callback(
         document.title = song_title + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
     }
     """,
-    Output("blank-output", "children", allow_duplicate=True),
     Input("dropdown-song-by-song", "value"),
-    prevent_initial_call=True
 )
 
 
@@ -95,9 +113,11 @@ clientside_callback(
     Input("url-song", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
+    if song_title is None:
+        return PAGE_PATH, dash.no_update
     len_song_prefix = len(PAGE_PATH)
     if url_pathname[:len_song_prefix] == PAGE_PATH:
-        param = unquote(url_pathname)[len_song_prefix + 1:]
+        param = unquote(url_pathname)[len_song_prefix + 1 :]
         if param and not song_exists(param):
             return f"{PAGE_PATH}/{DEFAULT_SONG}", DEFAULT_SONG
         if param == song_title:
@@ -122,19 +142,32 @@ def update_figure(song_name, date_range):
     Returns:
         fig: chart graph by value
     """
+    fig = px.histogram(height=500)
+    fig.update_layout(
+        xaxis={"categoryorder": "total descending", "title": "Catégorie"},
+        yaxis={"title": "Nombre d'apparitions"},
+        legend={"title": {"text": "Catégorie"}},
+    )
+    if song_name is None:
+        return fig
     graph_df = filter_date(date_range)
     graph_df = graph_df[graph_df["name"] == song_name]
     graph_df = graph_df.groupby(by=["name", "category", "points"], as_index=False)[
         "date"
     ].count()
     fig = px.histogram(data_frame=graph_df, x="category", y="date", color="points")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
-                      "title": "Catégorie"}, yaxis={"title": "Nombre d'apparitions"},
-                      legend={"title": {"text": "Catégorie"}})
+    fig.update_layout(
+        height=500,
+        xaxis={"categoryorder": "total descending", "title": "Catégorie"},
+        yaxis={"title": "Nombre d'apparitions"},
+        legend={"title": {"text": "Catégorie"}},
+    )
     return fig
 
 
-@callback(Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value"))
+@callback(
+    Output("timeline-graph-song", "figure"), Input("dropdown-song-by-song", "value")
+)
 def update_timeline(song_name):
     """Update the timeline graph of selected song.
 
@@ -144,6 +177,12 @@ def update_timeline(song_name):
     Returns:
         fig: timeline graph
     """
+    fig = px.scatter()
+    fig.update_layout(
+        showlegend=False, yaxis={"title": "Catégorie"}, xaxis={"title": "Date"}
+    )
+    if song_name is None:
+        return fig
     graph_df = filter_song(song_name)
     graph_df.insert(5, "nb", 1)
     # fix view VS copy
@@ -157,7 +196,9 @@ def update_timeline(song_name):
         color=graph_df["category"],
         hover_data={"date": "|%B %d, %Y", "nb": False, "points": True},
     )
-    fig.update_layout(showlegend=False, yaxis={"title": "Catégorie"}, xaxis={"title": "Date"})
+    fig.update_layout(
+        showlegend=False, yaxis={"title": "Catégorie"}, xaxis={"title": "Date"}
+    )
     return fig
 
 
@@ -175,6 +216,16 @@ def update_song_details(song_title: str) -> tuple[list[html.P], list[html.P]]:
     Returns:
         list[html.P]: Dash elements with the details
     """
+    if song_title is None:
+        return [
+            html.P(["Interprète: ", dcc.Markdown(id="singer-field")]),
+            html.P("Classement global: ", id="global-rank"),
+            html.P(
+                "Classement Même chanson: ", id="meme-chanson-rank"
+            ),
+            html.P("Classement 50 Points: " , id="50-points-rank"),
+            html.P("Classement Maestro: ", id="maestro-rank"),
+        ], ""
     global_df = return_global_ranking_df()
     global_df = global_df[global_df["name"] == song_title]
     singer = find_singer(song_title)

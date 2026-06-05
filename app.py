@@ -20,9 +20,8 @@ app = dash.Dash(
     index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}",
     suppress_callback_exceptions=True,
     use_pages=True,
+    update_title=None
 )
-
-dash_apps = [app]
 
 
 @server.context_processor
@@ -33,13 +32,17 @@ def inject_bootstrap_assets():
         "bootstrap_js": BOOTSTRAP_JS,
     }
 
-
-@server.before_request
 @server.route("/")
 def home():
     """Home page - Flask template with embedded Dash app"""
+    return render_template("home.html")
+
+@server.before_request
+@server.route("/")
+def redirect_conflicting_paths():
+    """Home page - Flask template with embedded Dash app"""
     if request.method == "GET" and request.path == "/":
-        return render_template("home.html", title="Accueil")
+        return render_template("home.html")
 
 
 @server.route("/global")
@@ -55,11 +58,11 @@ def category():
     """Category statistics page"""
     return render_template("dash_page_import.html", title="Par catégorie", app_dash=app.index())
 
-
+@server.route("/song/<song_title>")
 @server.route("/song")
-def song():
+def song(*args, **kwargs):
     """Song statistics page"""
-    return render_template("dash_page.html", title="Par chanson")
+    return render_template("dash_page_import.html", title="Par chanson", app_dash=app.index())
 
 
 @server.route("/singer")

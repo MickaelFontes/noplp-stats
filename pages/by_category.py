@@ -18,7 +18,7 @@ from pages.utils import (
     get_points_options,
 )
 
-dash.register_page(__name__, path="/category/")
+dash.register_page(__name__, path="/category/", title="Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 layout = dbc.Container(
     [

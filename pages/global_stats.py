@@ -20,7 +20,7 @@ from pages.utils import (
     return_coverage_figure,
 )
 
-dash.register_page(__name__, path="/global/")
+dash.register_page(__name__, path="/global/", title="Global - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 layout = dbc.Container(
     [
