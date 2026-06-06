@@ -1,6 +1,7 @@
 """Training page to guess songs lyrics."""
 
 import re
+from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
@@ -13,40 +14,60 @@ from pages.utils import (
     return_lyrics_df,
 )
 
-dash.register_page(__name__, path="/training", title="Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
-layout = dbc.Container(
-    [
-        html.H5("Zone d'entraînement pour apprendre les paroles"),
-        html.P(
-            "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
-        ),
-        get_song_dropdown_menu(song_title=None, component_id="dropdown-song-training"),
-        html.Hr(),
-        dbc.Textarea(
-            id="user-lyrics",
-            className="mb-3",
-            placeholder="Tapez les paroles de la chanson...",
-            style={"height": 200},
-        ),
-        html.Div(id="verified-lyrics"),
-        dbc.Progress(id="user-lyrics-progress", value=0),
-        html.Hr(),
-        dbc.Button(
-            "Montrer les paroles vérifiées",
-            id="collapse-button",
-            className="mb-3",
-            color="primary",
-            n_clicks=0,
-        ),
-        dbc.Collapse(
-            dbc.Card(id="collasped-verified-lyrics"),
-            id="collapse",
-            is_open=False,
-        ),
-    ],
-    style={"marginTop": 20},
+def title(*_, **kwargs):
+    if song_title := kwargs.get("song_title"):
+        return (
+            unquote(song_title)
+            + " - Entraînement clavier - NOPLP stats - Statistiques N'oubliez pas les paroles"
+        )
+    return "Entraînement clavier - NOPLP stats - Statistiques N'oubliez pas les paroles"
+
+
+dash.register_page(
+    __name__,
+    path="/training/type",
+    path_template="/training/type/<song_title>",
+    title=title,
 )
+
+
+def layout(song_title=None):
+    song_title = unquote(song_title) if song_title else None
+    return dbc.Container(
+        [
+            html.H5("Zone d'entraînement pour apprendre les paroles"),
+            html.P(
+                "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
+            ),
+            get_song_dropdown_menu(
+                song_title=song_title, component_id="dropdown-song-training"
+            ),
+            html.Hr(),
+            dbc.Textarea(
+                id="user-lyrics",
+                className="mb-3",
+                placeholder="Tapez les paroles de la chanson...",
+                style={"height": 200},
+            ),
+            html.Div(id="verified-lyrics"),
+            dbc.Progress(id="user-lyrics-progress", value=0),
+            html.Hr(),
+            dbc.Button(
+                "Montrer les paroles vérifiées",
+                id="collapse-button",
+                className="mb-3",
+                color="primary",
+                n_clicks=0,
+            ),
+            dbc.Collapse(
+                dbc.Card(id="collasped-verified-lyrics"),
+                id="collapse",
+                is_open=False,
+            ),
+        ],
+        style={"marginTop": 20},
+    )
 
 
 @callback(

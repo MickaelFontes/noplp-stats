@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center g-4">
+    <div class="col-12 col-lg-10">
+        <div class="hero-card rounded-4 p-4 p-lg-5">
+            <p class="text-uppercase text-primary fw-semibold mb-2">Entraînement</p>
+            <h1 class="display-6 fw-bold mb-3">Entraînement</h1>
+            <p class="lead mb-0">Retrouve deux modes d'entraînement pour vérifier ta connaissance des paroles d'une
+                chanson et progresser à ton rythme.</p>
+            <p class="mb-0">Les données viennent du wiki Fandom NOPLP et peuvent être complétées ou corrigées au fil des
+                contributions.</p>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-10">
+        <a href="/training/type" class="card-link" style="text-decoration:none;color:inherit;display:block;">
+            <div class="section-card rounded-4 p-4 p-lg-5 mb-4">
+                <h2 class="h3 fw-semibold" hre>Entraînement au clavier</h2>
+                <p>Tapes les paroles de chansons en temps réel pour vérifer ta mémorisation. Pas besoin d'écrire les
+                    accents
+                    ou marques de ponctuation. Tu sauras en temps réel si tout ce que tu écris est correct.</p>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="row justify-content-center g-4">
+    <div class="col-12 col-lg-10">
+        <a href="/training/yes_no" class="card-link" style="text-decoration:none;color:inherit;display:block;">
+            <div class="section-card rounded-4 p-4 p-lg-5 mb-4">
+                <h2 class="h3 fw-semibold">Entraînement oui/non</h2>
+                <p>Inpirée da la manche <i>Même chanson</i> du jeu.</p>
+
+                <ul>
+                    <li>Les premières lignes d'une chanson sont affichées, et les lignes suivantes sont cachées (chaque
+                        mot
+                        à deviner est représenté par un trait).
+                        A ce momenet-là, tu es seul.e avec ta mémoir epoour vérifier si tu connais les paroles ! Sois
+                        honnête !
+                    </li>
+                    <li>Ensuite, tu peux choisir d'afficher les paroles cachées ou d'utiliser les initiales, puis
+                        cliquer sur oui ou non pour indiquer si tu avais la bonne réponse en tête.</li>
+                    <li>A la fin de la chanson, les paroles entières sont affichées avec le texte en rouge pour les
+                        lignes que tu ne connaissais pas.</li>
+                </ul>
+            </div>
+        </a>
+    </div>
+</div>
+
+{% endblock %}
