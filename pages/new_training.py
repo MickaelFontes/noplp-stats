@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output, State, callback, html, dcc
 from pages.utils import DEFAULT_SONG, get_song_dropdown_menu, return_lyrics_df, song_exists
 
-PAGE_PATH = "/new-training"
+PAGE_PATH = "/training/yes_no"
 
 dash.register_page(__name__, path=PAGE_PATH, path_template=PAGE_PATH+"/<song_title>",
                    title="Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles")
@@ -18,8 +18,8 @@ INITIAL_INTRO = 3
 
 
 # Update layout to accept song_title
-def layout(song_title="2 be 3", **_):
-    song_title = unquote(song_title)
+def layout(song_title=None, **_):
+    song_title = unquote(song_title) if song_title else None
     return dbc.Container([
         dcc.Location(id="url-training", refresh=False),
         html.H5("Zone d'entraînement pour apprendre les paroles"),
