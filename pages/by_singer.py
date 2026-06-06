@@ -54,7 +54,11 @@ def layout(singer_name=None):
 clientside_callback(
     """
     function(singer_name) {
-        document.title = singer_name + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        if (singer_name === null || singer_name === undefined || singer_name === '') {
+            document.title = "Par interprète - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        } else {
+            document.title = singer_name + " - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        }
     }
     """,
     Input("dropdown-singer", "value"),
@@ -91,7 +95,7 @@ def update_figure(singer_name, date_range):
     """Update the graph with the singer's songs stats.
 
     Args:
-        song_name (str): Song title.
+        singer_name (str): Singer's name.
         date_range (int): date range in Unix format.
 
     Returns:

@@ -20,7 +20,7 @@ app = dash.Dash(
     index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}",
     suppress_callback_exceptions=True,
     use_pages=True,
-    update_title=None
+    update_title=None,
 )
 
 
@@ -32,10 +32,12 @@ def inject_bootstrap_assets():
         "bootstrap_js": BOOTSTRAP_JS,
     }
 
+
 @server.route("/")
 def home():
     """Home page - Flask template with embedded Dash app"""
     return render_template("home.html")
+
 
 @server.before_request
 @server.route("/")
@@ -43,6 +45,7 @@ def redirect_conflicting_paths():
     """Home page - Flask template with embedded Dash app"""
     if request.method == "GET" and request.path == "/":
         return render_template("home.html")
+    return None
 
 
 @server.route("/global")
@@ -56,33 +59,61 @@ def global_stats():
 @server.route("/category")
 def category():
     """Category statistics page"""
-    return render_template("dash_page_import.html", title="Par catégorie", app_dash=app.index())
+    return render_template(
+        "dash_page_import.html", title="Par catégorie", app_dash=app.index()
+    )
+
 
 @server.route("/song/<song_title>")
 @server.route("/song")
 def song(song_title=None, **_):
     """Song statistics page"""
-    return render_template("dash_page_import.html", title=song_title if song_title else "Par chanson", app_dash=app.index())
+    return render_template(
+        "dash_page_import.html",
+        title=song_title if song_title else "Par chanson",
+        app_dash=app.index(),
+    )
+
 
 @server.route("/singer/<singer_name>")
 @server.route("/singer")
 def singer(singer_name=None, **_):
     """Singer statistics page"""
-    return render_template("dash_page_import.html", title=singer_name if singer_name else "Par interprète", app_dash=app.index())
+    return render_template(
+        "dash_page_import.html",
+        title=singer_name if singer_name else "Par interprète",
+        app_dash=app.index(),
+    )
 
 
 @server.route("/training/type")
 @server.route("/training/type/<song_title>")
 def training_type(song_title=None, **_):
     """Training type selection page"""
-    return render_template("dash_page_import.html", title=song_title if song_title else "Entraînement clavier", app_dash=app.index())
+    return render_template(
+        "dash_page_import.html",
+        title=(
+            song_title + " - Entraînement clavier"
+            if song_title
+            else "Entraînement clavier"
+        ),
+        app_dash=app.index(),
+    )
 
 
 @server.route("/training/yes_no")
 @server.route("/training/yes_no/<song_title>")
 def training_yes_no(song_title=None, **_):
     """Training yes/no page"""
-    return render_template("dash_page_import.html", title=song_title if song_title else "Entraînement oui/non", app_dash=app.index())
+    return render_template(
+        "dash_page_import.html",
+        title=(
+            song_title + " - Entraînement oui/non"
+            if song_title
+            else "Entraînement oui/non"
+        ),
+        app_dash=app.index(),
+    )
 
 
 @server.route("/training")
@@ -91,11 +122,11 @@ def training():
     return render_template("training.html", title="Entraînement")
 
 
-
 @server.route("/about")
 def about():
     """About page"""
     return render_template("about.html")
+
 
 if __name__ == "__main__":
     if bool(os.getenv("DASH_DEBUG", None)):

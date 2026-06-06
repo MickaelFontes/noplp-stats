@@ -5,14 +5,17 @@ from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, State, callback, html
+from dash import dcc, Input, Output, State, clientside_callback, callback, html
 from unidecode import unidecode
 
 from pages.utils import (
     extract_and_format_lyrics,
     get_song_dropdown_menu,
     return_lyrics_df,
+    song_exists,
 )
+
+PAGE_PATH = "/training/type"
 
 
 def title(*_, **kwargs):
@@ -26,8 +29,8 @@ def title(*_, **kwargs):
 
 dash.register_page(
     __name__,
-    path="/training/type",
-    path_template="/training/type/<song_title>",
+    path=PAGE_PATH,
+    path_template=f"{PAGE_PATH}/<song_title>",
     title=title,
 )
 
@@ -36,12 +39,13 @@ def layout(song_title=None):
     song_title = unquote(song_title) if song_title else None
     return dbc.Container(
         [
+            dcc.Location(id="url-training-type", refresh=False),
             html.H5("Zone d'entraînement pour apprendre les paroles"),
             html.P(
                 "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
             ),
             get_song_dropdown_menu(
-                song_title=song_title, component_id="dropdown-song-training"
+                song_title=song_title, component_id="dropdown-song-training-type"
             ),
             html.Hr(),
             dbc.Textarea(
@@ -70,6 +74,41 @@ def layout(song_title=None):
     )
 
 
+clientside_callback(
+    """
+    function(song_title) {
+        if (song_title === null || song_title === undefined || song_title === '') {
+            document.title = "Entraînement clavier - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        } else {
+            document.title = song_title + " - Entraînement clavier - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        }
+    }
+    """,
+    Input("dropdown-song-training-type", "value"),
+)
+
+
+@callback(
+    Output("url-training-type", "pathname"),
+    Output("dropdown-song-training-type", "value"),
+    Input("dropdown-song-training-type", "value"),
+    Input("url-training-type", "pathname"),
+)
+def update_url_from_dropdown(song_title, url_pathname):
+    if song_title is None:
+        return PAGE_PATH, dash.no_update
+    len_song_prefix = len(PAGE_PATH)
+    if url_pathname[:len_song_prefix] == PAGE_PATH:
+        param = unquote(url_pathname)[len_song_prefix + 1 :]
+        if param and not song_exists(param):
+            return PAGE_PATH, None
+        if param == song_title:
+            return dash.no_update, dash.no_update
+        song_url = f"{PAGE_PATH}/{song_title}"
+        return song_url, dash.no_update
+    return dash.no_update, dash.no_update
+
+
 @callback(
     Output("collapse", "is_open"),
     [Input("collapse-button", "n_clicks")],
@@ -95,7 +134,7 @@ def toggle_collapse(nb_clicks: int, is_open: bool):
     Output("collasped-verified-lyrics", "children"),
     Output("user-lyrics-progress", "value"),
     Input("user-lyrics", "value"),
-    Input("dropdown-song-training", "value"),
+    Input("dropdown-song-training-type", "value"),
 )
 def compare_text_and_lyrics(user_text, song_title):
     """Compare user input text and known lyrics, return a comment on error or match.
