@@ -121,7 +121,7 @@ def update_url_from_dropdown(song_title, url_pathname):
     if url_pathname[:len_song_prefix] == PAGE_PATH:
         param = unquote(url_pathname)[len_song_prefix + 1 :]
         if param and not song_exists(param):
-            return f"{PAGE_PATH}", None
+            return PAGE_PATH, None
         if param == song_title:
             return dash.no_update, dash.no_update
         song_url = f"{PAGE_PATH}/{song_title}"

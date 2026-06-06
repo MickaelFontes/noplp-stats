@@ -64,18 +64,38 @@ def song(song_title=None, **_):
     """Song statistics page"""
     return render_template("dash_page_import.html", title=song_title if song_title else "Par chanson", app_dash=app.index())
 
-
+@server.route("/singer/<singer_name>")
 @server.route("/singer")
-def singer():
+def singer(singer_name=None, **_):
     """Singer statistics page"""
-    return render_template("dash_page.html", title="Par interprète")
+    return render_template("dash_page_import.html", title=singer_name if singer_name else "Par interprète", app_dash=app.index())
+
+
+@server.route("/training/type")
+@server.route("/training/type/<song_title>")
+def training_type(song_title=None, **_):
+    """Training type selection page"""
+    return render_template("dash_page_import.html", title=song_title if song_title else "Entraînement clavier", app_dash=app.index())
+
+
+@server.route("/training/yes_no")
+@server.route("/training/yes_no/<song_title>")
+def training_yes_no(song_title=None, **_):
+    """Training yes/no page"""
+    return render_template("dash_page_import.html", title=song_title if song_title else "Entraînement oui/non", app_dash=app.index())
 
 
 @server.route("/training")
 def training():
     """Training page"""
-    return render_template("dash_page.html", title="Entraînement")
+    return render_template("training.html", title="Entraînement")
 
+
+
+@server.route("/about")
+def about():
+    """About page"""
+    return render_template("about.html")
 
 if __name__ == "__main__":
     if bool(os.getenv("DASH_DEBUG", None)):
