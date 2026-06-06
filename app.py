@@ -33,19 +33,18 @@ def inject_bootstrap_assets():
     }
 
 
-@server.route("/")
-def home():
-    """Home page - Flask template with embedded Dash app"""
-    return render_template("home.html")
-
-
 @server.before_request
-@server.route("/")
 def redirect_conflicting_paths():
-    """Home page - Flask template with embedded Dash app"""
+    """Home page redirection - To override Dash redirection for "/" path"""
     if request.method == "GET" and request.path == "/":
         return render_template("home.html")
     return None
+
+
+@server.route("/")
+def home():
+    """Home page - Flask template only"""
+    return render_template("home.html")
 
 
 @server.route("/global")

@@ -24,12 +24,12 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Accueil</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == '/' %}active{% endif %}" href="{{ url_for('home') }}">Accueil</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'global_stats' %}active{% endif %}" href="{{ url_for('global_stats') }}">Global</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'category' %}active{% endif %}" href="{{ url_for('category') }}">Catégories</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'song' %}active{% endif %}" href="{{ url_for('song') }}">Chansons</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'singer' %}active{% endif %}" href="{{ url_for('singer') }}">Interprètes</a></li>
-					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'training' %}active{% endif %}" href="{{ url_for('training') }}">Entraînement</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint is in ['training', 'training_type', 'training_yes_no'] %}active{% endif %}" href="{{ url_for('training') }}">Entraînement</a></li>
 				</ul>
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 
 	<footer class="border-top bg-white">
 		<div class="container py-3 small text-center">
-			<span>NOPLP Stats • Données issues du wiki Fandom NOPLP • Open source sur GitHub</span>
+			<span>NOPLP Stats • Données issues du wiki <a href="https://n-oubliez-pas-les-paroles.fandom.com/fr/wiki/Wiki_N%27oubliez_pas_les_paroles" target="_blank" rel="noopener noreferrer">Fandom NOPLP</a> • Open source sur <a href="https://github.com/MickaelFontes/noplp-stats" target="_blank" rel="noopener noreferrer">GitHub</a></span>
 		</div>
 	</footer>
 
