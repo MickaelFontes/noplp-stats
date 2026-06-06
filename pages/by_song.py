@@ -24,7 +24,6 @@ PAGE_PATH = "/song"
 
 
 def title(*_, **kwargs):
-    song_title = kwargs.get("song_title")
     if song_title := kwargs.get("song_title"):
         return (
             unquote(song_title)
@@ -41,12 +40,14 @@ dash.register_page(
 )
 
 
-def layout():
+def layout(song_title=None, **_):
+    song_title = unquote(song_title) if song_title else None
     first_card = dbc.Card(
         dbc.CardBody(
             [
                 html.H5("Sélectionner le titre de la chanson", className="card-title"),
                 get_song_dropdown_menu(
+                    song_title=song_title,
                     component_id="dropdown-song-by-song"
                 ),
                 html.Hr(),
@@ -103,7 +104,7 @@ clientside_callback(
         }
     }
     """,
-    Input("dropdown-song-by-song", "value"),
+    Input("dropdown-song-by-song", "value")
 )
 
 

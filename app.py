@@ -60,9 +60,9 @@ def category():
 
 @server.route("/song/<song_title>")
 @server.route("/song")
-def song(*args, **kwargs):
+def song(song_title=None, **_):
     """Song statistics page"""
-    return render_template("dash_page_import.html", title="Par chanson", app_dash=app.index())
+    return render_template("dash_page_import.html", title=song_title if song_title else "Par chanson", app_dash=app.index())
 
 
 @server.route("/singer")

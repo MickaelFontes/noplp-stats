@@ -21,7 +21,7 @@ layout = dbc.Container(
         html.P(
             "Choisissez une chanson et tapez ses paroles pour vérifier si vous les connaissez !"
         ),
-        get_song_dropdown_menu(component_id="dropdown-song-training"),
+        get_song_dropdown_menu(song_title=None, component_id="dropdown-song-training"),
         html.Hr(),
         dbc.Textarea(
             id="user-lyrics",
