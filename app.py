@@ -5,7 +5,7 @@ and registered as blueprints within this Flask app.
 """
 
 import os
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, send_file
 import dash
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 
@@ -39,6 +39,15 @@ def redirect_conflicting_paths():
     if request.method == "GET" and request.path == "/":
         return render_template("home.html")
     return None
+
+
+@server.route("/favicon.ico")
+def favicon():
+    """Serve the favicon.ico file."""
+    return send_file(
+        os.path.join(server.static_folder, "images/noplp-stats-dore-logo.ico"),
+        mimetype="image/x-icon",
+    )
 
 
 @server.route("/")
