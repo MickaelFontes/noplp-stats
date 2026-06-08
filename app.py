@@ -5,7 +5,7 @@ and registered as blueprints within this Flask app.
 """
 
 import os
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 import dash
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 
@@ -98,6 +98,11 @@ def training_type(song_title=None, **_):
         ),
         app_dash=app.index(),
     )
+
+
+@server.route("/new-training/<song_title>")
+def legacy_new_training(song_title):
+    return redirect(url_for("training_yes_no", song_title=song_title))
 
 
 @server.route("/training/yes_no")
