@@ -1,14 +1,14 @@
 """My Stats page: shows user's training history and scores."""
 from collections import defaultdict, Counter
 
-import dash
+# import dash
 import dash_bootstrap_components as dbc
 from dash import html, dcc, Input, Output, State, callback, ctx
 from dash.dependencies import ALL
 from pages.utils import return_lyrics_df
 
 
-dash.register_page(__name__, path="/my-stats", title="Mes stats - NOPLP stats - Statistiques N'oubliez pas les paroles")
+# dash.register_page(__name__, path="/my-stats", title="Mes stats - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 layout = dbc.Container([
     html.H5("Mes stats d'entraînement"),
