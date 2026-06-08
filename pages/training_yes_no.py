@@ -6,16 +6,26 @@ from urllib.parse import unquote
 
 import dash
 import dash_bootstrap_components as dbc
-from dash import Input, Output, State, callback, html, dcc
+from dash import Input, Output, State, callback, html, dcc, clientside_callback
 from pages.utils import get_song_dropdown_menu, return_lyrics_df, song_exists
 
 PAGE_PATH = "/training/yes_no"
+
+
+def title(*_, **kwargs):
+    if song_title := kwargs.get("song_title"):
+        return (
+            unquote(song_title)
+            + " - Entraînement oui-non - NOPLP stats - Statistiques N'oubliez pas les paroles"
+        )
+    return "Entraînement oui-non - NOPLP stats - Statistiques N'oubliez pas les paroles"
+
 
 dash.register_page(
     __name__,
     path=PAGE_PATH,
     path_template=PAGE_PATH + "/<song_title>",
-    title="Entraînement - NOPLP stats - Statistiques N'oubliez pas les paroles",
+    title=title,
 )
 
 INITIAL_INTRO = 3
@@ -30,7 +40,7 @@ def layout(song_title=None, **_):
             html.H5("Zone d'entraînement pour apprendre les paroles"),
             html.P("Choisissez une chanson et devinez les paroles ligne par ligne !"),
             get_song_dropdown_menu(
-                song_title, component_id="dropdown-song-new-training"
+                song_title, component_id="dropdown-song-training-yes-no"
             ),
             html.Hr(),
             dcc.Store(id="training-state", data={}),
@@ -42,6 +52,19 @@ def layout(song_title=None, **_):
         style={"marginTop": 20},
     )
 
+
+clientside_callback(
+    """
+    function(song_title) {
+        if (song_title === null || song_title === undefined || song_title === '') {
+            document.title = "Entraînement oui-non - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        } else {
+            document.title = song_title + " - Entraînement oui-non - NOPLP stats - Statistiques N'oubliez pas les paroles";
+        }
+    }
+    """,
+    Input("dropdown-song-training-yes-no", "value"),
+)
 
 # --- Helper functions ---
 
@@ -252,7 +275,7 @@ def render_final(lines, state):
 @callback(
     Output("training-state", "data"),
     Output("training-step", "children"),
-    Input("dropdown-song-new-training", "value"),
+    Input("dropdown-song-training-yes-no", "value"),
     Input("training-state", "data"),
     running=[
         (
@@ -436,14 +459,15 @@ def save_training_stats(state, stats):
     return stats
 
 
-# --- URL update callback ---
 @callback(
     Output("url-training", "pathname"),
-    Output("dropdown-song-new-training", "value"),
-    Input("dropdown-song-new-training", "value"),
+    Output("dropdown-song-training-yes-no", "value"),
+    Input("dropdown-song-training-yes-no", "value"),
     Input("url-training", "pathname"),
 )
 def update_url_from_dropdown(song_title, url_pathname):
+    if song_title is None:
+        return PAGE_PATH, dash.no_update
     len_training_prefix = len(PAGE_PATH)
     if url_pathname[:len_training_prefix] == PAGE_PATH:
         param = unquote(url_pathname)[len_training_prefix + 1 :]
