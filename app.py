@@ -13,6 +13,23 @@ server = Flask(
     __name__, template_folder="pages/templates", static_folder="pages/assets"
 )
 
+
+def do_not_register_catch_all(func):
+    """We want to avoid Dash catch-all responses with HTTP 200
+    Even for paths not registered.
+    """
+
+    def wrapper(*args, **kwargs):
+        if "<path:path>" in args:
+            return None
+        result = func(*args, **kwargs)
+        return result
+
+    return wrapper
+
+
+dash.Dash._add_url = do_not_register_catch_all(dash.Dash._add_url)
+
 app = dash.Dash(
     __name__,
     server=server,
