@@ -45,7 +45,7 @@ def redirect_conflicting_paths():
 def favicon():
     """Serve the favicon.ico file."""
     return send_file(
-        os.path.join(server.static_folder, "images/noplp-stats-dore-logo.ico"),
+        os.path.join(server.static_folder, "images/noplp-stats-argent-logo.ico"),
         mimetype="image/x-icon",
     )
 
