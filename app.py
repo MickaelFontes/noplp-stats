@@ -155,7 +155,11 @@ def training():
 @server.route("/about")
 def about():
     """About page"""
-    return render_template("about.html")
+    return render_template(
+        "dash_page_import.html",
+        title="À propos",
+        app_dash=app.index(),
+    )
 
 
 if __name__ == "__main__":

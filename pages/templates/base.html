@@ -30,6 +30,7 @@
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'song' %}active{% endif %}" href="{{ url_for('song') }}">Chansons</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'singer' %}active{% endif %}" href="{{ url_for('singer') }}">Interprètes</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint is in ['training', 'training_type', 'training_yes_no'] %}active{% endif %}" href="{{ url_for('training') }}">Entraînement</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">À propos</a></li>
 				</ul>
 			</div>
 		</div>
