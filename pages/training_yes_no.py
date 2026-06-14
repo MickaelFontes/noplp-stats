@@ -134,22 +134,24 @@ def render_guess_line(line, step, intro_count, state, is_intro=False):
 
     if is_intro:
         return dbc.Card(
-            [
-                html.H2(display_line, style=style),
-                html.Div(
-                    [
-                        dbc.Button(
-                            "Suivant",
-                            id={"type": "reveal-btn", "index": step},
-                            n_clicks=0,
-                            color="primary",
-                            className="mt-3",
-                        )
-                    ],
-                    className="d-flex justify-content-center",
-                ),
-            ],
-            body=True,
+            dbc.CardBody(
+                [
+                    html.H2(display_line, style=style),
+                    html.Div(
+                        [
+                            dbc.Button(
+                                "Suivant",
+                                id={"type": "reveal-btn", "index": step},
+                                n_clicks=0,
+                                color="primary",
+                                className="mt-3",
+                            )
+                        ],
+                        className="d-flex justify-content-center",
+                    ),
+                ],
+                class_name="pt-3 p-2 p-lg-3",
+            )
         )
 
     if not bool(state.get("revealed")):
@@ -186,17 +188,21 @@ def render_guess_line(line, step, intro_count, state, is_intro=False):
             )
 
         return dbc.Card(
-            [
-                html.H2(masked, style=style),
-                html.Div(
-                    [
-                        html.Div(left, className="d-flex"),
-                        html.Div(right_btns, className="d-flex justify-content-end"),
-                    ],
-                    className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center",
-                ),
-            ],
-            body=True,
+            dbc.CardBody(
+                [
+                    html.H2(masked, style=style),
+                    html.Div(
+                        [
+                            html.Div(left, className="d-flex"),
+                            html.Div(
+                                right_btns, className="d-flex justify-content-end"
+                            ),
+                        ],
+                        className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center",
+                    ),
+                ],
+                class_name="pt-3 pt-3 p-2 p-lg-3",
+            )
         )
 
     left = []
@@ -211,35 +217,37 @@ def render_guess_line(line, step, intro_count, state, is_intro=False):
         )
 
     return dbc.Card(
-        [
-            html.H2(display_line, style=style),
-            html.Div(
-                [
-                    html.Div(left, className="d-flex"),
-                    html.Div(
-                        [
-                            dbc.Button(
-                                "Non",
-                                id={"type": "dont-know-btn", "index": step},
-                                n_clicks=0,
-                                color="danger",
-                                className="me-2 flex-shrink-0",
-                            ),
-                            dbc.Button(
-                                "Oui",
-                                id={"type": "know-btn", "index": step},
-                                n_clicks=0,
-                                color="success",
-                                className="flex-shrink-0",
-                            ),
-                        ],
-                        className="d-flex justify-content-end",
-                    ),
-                ],
-                className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center",
-            ),
-        ],
-        body=True,
+        dbc.CardBody(
+            [
+                html.H2(display_line, style=style),
+                html.Div(
+                    [
+                        html.Div(left, className="d-flex"),
+                        html.Div(
+                            [
+                                dbc.Button(
+                                    "Non",
+                                    id={"type": "dont-know-btn", "index": step},
+                                    n_clicks=0,
+                                    color="danger",
+                                    className="me-2 flex-shrink-0",
+                                ),
+                                dbc.Button(
+                                    "Oui",
+                                    id={"type": "know-btn", "index": step},
+                                    n_clicks=0,
+                                    color="success",
+                                    className="flex-shrink-0",
+                                ),
+                            ],
+                            className="d-flex justify-content-end",
+                        ),
+                    ],
+                    className="mt-3 d-flex justify-content-between flex-wrap gap-2 align-items-center",
+                ),
+            ],
+            class_name="pt-3 pt-3 p-2 p-lg-3",
+        )
     )
 
 
