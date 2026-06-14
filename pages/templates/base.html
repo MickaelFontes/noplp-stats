@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}NOPLP stats - Statistiques N'oubliez pas les paroles{% endblock %}</title>
+	<link href="{{ bootstrap_css.href }}" rel="{{ bootstrap_css.rel }}" integrity="{{ bootstrap_css.integrity }}" crossorigin="{{ bootstrap_css.crossorigin }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/components.css') }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/icon.css') }}">
+	<style>
+		body { background: #f7f8fb; color: #1f2937; }
+		main { min-height: calc(100vh - 180px); }
+		.hero-card { background: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%); border: 1px solid #dbe4ff; }
+		.section-card { background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06); }
+		footer { color: #6b7280; }
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand fw-semibold" href="{{ url_for('home') }}">NOPLP Stats</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Accueil</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'global_stats' %}active{% endif %}" href="{{ url_for('global_stats') }}">Global</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'category' %}active{% endif %}" href="{{ url_for('category') }}">Catégories</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'song' %}active{% endif %}" href="{{ url_for('song') }}">Chansons</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'singer' %}active{% endif %}" href="{{ url_for('singer') }}">Interprètes</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint is in ['training', 'training_type', 'training_yes_no'] %}active{% endif %}" href="{{ url_for('training') }}">Entraînement</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">À propos</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main class="container py-4 px-0 py-lg-5">
+		{% block content %}{% endblock %}
+	</main>
+
+	<footer class="border-top bg-white">
+		<div class="container py-3 small text-center">
+			<span>NOPLP Stats • Données issues du wiki <a href="https://n-oubliez-pas-les-paroles.fandom.com/fr/wiki/Wiki_N%27oubliez_pas_les_paroles" target="_blank" rel="noopener noreferrer">Fandom NOPLP</a> • Open source sur <a href="https://github.com/MickaelFontes/noplp-stats" target="_blank" rel="noopener noreferrer">GitHub</a> • Données du 22/05/2026</span>
+		</div>
+	</footer>
+
+	<script src="{{ bootstrap_js.src }}" integrity="{{ bootstrap_js.integrity }}" crossorigin="{{ bootstrap_js.crossorigin }}"></script>
+</body>
+</html>

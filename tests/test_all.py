@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
-from app import app as noplp_app
 from tests.conftest import measure_until_dash_ready, record_timing_result
 
 logger = logging.getLogger(__name__)
@@ -13,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def test_all_pages(browser, live_server, request):
     routes = [
-        ("/", "NOPLP stats - Statistiques N'oubliez pas les paroles"),
+        ("/", "Accueil - NOPLP stats - Statistiques N'oubliez pas les paroles"),
         ("/global", "Global - NOPLP stats - Statistiques N'oubliez pas les paroles"),
         (
             "/category",
@@ -33,8 +32,6 @@ def test_all_pages(browser, live_server, request):
         ),
     ]
 
-    assert noplp_app.title == "NOPLP stats - Statistiques N'oubliez pas les paroles"
-
     per_route_timings = []
 
     for path, expected_title in routes:
@@ -53,7 +50,7 @@ def test_all_pages(browser, live_server, request):
         )
 
         WebDriverWait(browser, 10).until(ec.title_is(expected_title))
-        assert browser.find_element(By.ID, "navbar-toggler")
+        assert browser.find_element(By.CLASS_NAME, "navbar-toggler")
 
         per_route_timings.append(
             {

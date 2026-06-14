@@ -18,7 +18,7 @@ from pages.utils import (
     get_points_options,
 )
 
-dash.register_page(__name__, path="/category", title="Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles")
+dash.register_page(__name__, path="/category/", title="Par catégorie - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 layout = dbc.Container(
     [
@@ -48,11 +48,12 @@ layout = dbc.Container(
                 ),
             ]
         ),
-        dcc.Graph(id="sorted-graph"),
-        html.Div("Nombre de chansons à afficher"),
-        get_nb_songs_slider(),
+        dcc.Graph(id="sorted-graph", className="sorted-graph-category"),
+        html.Div("Nombre de chansons à afficher", id="nb-songs-category-to-display"),
+        get_nb_songs_slider(suffix="-category"),
         get_date_range_object(prefix_component_id="category-"),
         html.Div(
+            id="title-category-stats"
             "Statistiques de couverture des catégories avec la sélection actuelle:",
             style={"marginTop": 20},
         ),
@@ -100,7 +101,7 @@ def update_options_category(category):
     Input("category-year_slider", "value"),
     Input("category-selector", "value"),
     Input("points-selector", "value"),
-    Input("nb-songs", "value"),
+    Input("nb-songs-category", "value"),
 )
 def update_figure2(date_range, category_value, points_selector, nb_songs):
     """Update global ranking graph on selected categories.
@@ -132,8 +133,11 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
         fig2 = px.histogram(data_frame=graph2_df, x="name", y="date")
     list_songs = graph2_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
-    fig2.update_layout(height=500, xaxis={"categoryorder": "total descending", "title": "Chanson"},
-                       yaxis={"title": "Nombre d'apparitions"})
+    fig2.update_layout(
+        height=500,
+        xaxis={"categoryorder": "total descending", "title": "Chanson"},
+        yaxis={"title": "Nombre d'apparitions"},
+    )
     return fig2, out_child, to_store
 
 
@@ -141,7 +145,7 @@ def update_figure2(date_range, category_value, points_selector, nb_songs):
     Output("download-category", "data"),
     Input("btn-category-songs", "n_clicks"),
     Input("store-category-top-songs", "data"),
-    Input("nb-songs", "value"),
+    Input("nb-songs-category", "value"),
     Input("category-year_slider", "value"),
     Input("category-selector", "value"),
     Input("points-selector", "value"),

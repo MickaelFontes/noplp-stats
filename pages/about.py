@@ -4,7 +4,11 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import dcc
 
-dash.register_page(__name__, path="/", title="NOPLP stats - Statistiques N'oubliez pas les paroles")
+dash.register_page(
+    __name__,
+    path="/about",
+    title="À propos - NOPLP stats - Statistiques N'oubliez pas les paroles",
+)
 
 homepage_markdown = """
 ## Présentation

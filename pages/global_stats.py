@@ -20,7 +20,7 @@ from pages.utils import (
     return_coverage_figure,
 )
 
-dash.register_page(__name__, path="/global", title="Global - NOPLP stats - Statistiques N'oubliez pas les paroles")
+dash.register_page(__name__, path="/global/", title="Global - NOPLP stats - Statistiques N'oubliez pas les paroles")
 
 layout = dbc.Container(
     [
@@ -70,9 +70,12 @@ def update_figure(date_range, nb_songs):
     graph_df = filter_top_songs(graph_df, nb_songs)
     to_store = graph_df.to_csv(index=False, sep=";")
     fig = px.histogram(data_frame=graph_df, x="name", y="date", color="category")
-    fig.update_layout(height=500, xaxis={"categoryorder": "total descending",
-                      "title": "Chanson"}, yaxis={"title": "Nombre d'apparitions"},
-                      legend={"title": {"text": "Catégorie"}})
+    fig.update_layout(
+        height=500,
+        xaxis={"categoryorder": "total descending", "title": "Chanson"},
+        yaxis={"title": "Nombre d'apparitions"},
+        legend={"title": {"text": "Catégorie"}},
+    )
     list_songs = graph_df["name"].to_list()
     out_child = compare_to_global(date_range, list_songs)
     return fig, out_child, to_store

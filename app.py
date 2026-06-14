@@ -1,134 +1,161 @@
-"""Application file for noplp-stats"""
+"""Main Flask application for noplp-stats
+
+This is the main website. Dash apps are initialized with server=False
+and registered as blueprints within this Flask app.
+"""
 
 import os
-
+from flask import Flask, redirect, render_template, url_for, send_file
 import dash
-import dash_bootstrap_components as dbc
-from dash import Dash, html, Output, Input, State
-from pages.bottom import bottom
+from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 
-app = Dash(
+server = Flask(
+    __name__, template_folder="pages/templates", static_folder="pages/assets"
+)
+
+
+def do_not_register_urls(func):
+    """We want to avoid Dash catch-all responses with HTTP 200
+    or root page interception.
+    """
+
+    def wrapper(*args, **kwargs):
+        intercepted_pages = ("<path:path>", "")
+        if any(forbidden in args for forbidden in intercepted_pages):
+            return None
+        result = func(*args, **kwargs)
+        return result
+
+    return wrapper
+
+
+dash.Dash._add_url = do_not_register_urls(dash.Dash._add_url)
+
+app = dash.Dash(
     __name__,
-    use_pages=True,
+    server=server,
+    url_base_pathname="/",
+    index_string="{%app_entry%}\n{%config%}\n{%scripts%}\n{%renderer%}",
     suppress_callback_exceptions=True,
-    external_stylesheets=[
-        {
-            "href": dbc.themes.BOOTSTRAP,
-            "rel": "stylesheet",
-            "integrity": "sha256-oxqX0LQclbvrsJt8IymkxnISn4Np2Wy2rY9jjoQlDEg=",
-            "crossorigin": "anonymous",
-        }
-    ],
-    title="NOPLP stats - Statistiques N'oubliez pas les paroles",
+    use_pages=True,
     update_title=None,
-    assets_folder="pages/assets",
 )
 
 
-server = app.server
-app.title = "NOPLP stats - Statistiques N'oubliez pas les paroles"
-app._base_url = "https://noplp-stats.fr"
-# To still have debug control, behind gunicorn, using DASH_DEBUG environment variable.
-app.enable_dev_tools(debug=bool(os.getenv("DASH_DEBUG", None)))
+@server.context_processor
+def inject_bootstrap_assets():
+    """Expose shared Bootstrap assets to Jinja templates."""
+    return {
+        "bootstrap_css": BOOTSTRAP_CSS,
+        "bootstrap_js": BOOTSTRAP_JS,
+    }
 
-app.layout = html.Div(
-    [
-        dbc.Navbar(
-            dbc.Container(
-                [
-                    dbc.NavbarBrand("NOPLP Stats", href="/"),
-                    dbc.NavbarToggler(id="navbar-toggler"),
-                    dbc.Collapse(
-                        dbc.Nav(
-                            [
-                                dbc.NavLink(
-                                    "Accueil",
-                                    href="/",
-                                    active="exact",
-                                    id="nav-accueil",
-                                ),
-                                dbc.NavLink(
-                                    "Global",
-                                    href="/global",
-                                    active="exact",
-                                    id="nav-global",
-                                ),
-                                dbc.NavLink(
-                                    "Par catégorie",
-                                    href="/category",
-                                    active="exact",
-                                    id="nav-category",
-                                ),
-                                dbc.NavLink(
-                                    "Par chanson",
-                                    href="/song",
-                                    active="partial",
-                                    id="nav-song",
-                                ),
-                                dbc.NavLink(
-                                    "Par interprète",
-                                    href="/singer",
-                                    active="partial",
-                                    id="nav-singer",
-                                ),
-                                dbc.NavLink(
-                                    "Entraînement",
-                                    href="/training",
-                                    active="exact",
-                                    id="nav-training",
-                                ),
-                            ],
-                            className="ml-auto",
-                            navbar=True,
-                        ),
-                        id="navbar-collapse",
-                        is_open=False,
-                        navbar=True,
-                    ),
-                ]
-            ),
-            color="primary",
-            dark=True,
+
+@server.route("/favicon.ico")
+def favicon():
+    """Serve the favicon.ico file."""
+    return send_file(
+        os.path.join(server.static_folder, "images/noplp-stats-argent-logo.ico"),
+        mimetype="image/x-icon",
+    )
+
+
+@server.route("/")
+def home():
+    """Home page - Flask template only"""
+    return render_template("home.html")
+
+
+@server.route("/global")
+def global_stats():
+    """Global statistics page served by Dash."""
+    return render_template(
+        "dash_page_import.html", title="Global", app_dash=app.index()
+    )
+
+
+@server.route("/category")
+def category():
+    """Category statistics page"""
+    return render_template(
+        "dash_page_import.html", title="Par catégorie", app_dash=app.index()
+    )
+
+
+@server.route("/song/<song_title>")
+@server.route("/song")
+def song(song_title=None, **_):
+    """Song statistics page"""
+    return render_template(
+        "dash_page_import.html",
+        title=song_title if song_title else "Par chanson",
+        app_dash=app.index(),
+    )
+
+
+@server.route("/singer/<singer_name>")
+@server.route("/singer")
+def singer(singer_name=None, **_):
+    """Singer statistics page"""
+    return render_template(
+        "dash_page_import.html",
+        title=singer_name if singer_name else "Par interprète",
+        app_dash=app.index(),
+    )
+
+
+@server.route("/training/type")
+@server.route("/training/type/<song_title>")
+def training_type(song_title=None, **_):
+    """Training type selection page"""
+    return render_template(
+        "dash_page_import.html",
+        title=(
+            song_title + " - Entraînement clavier"
+            if song_title
+            else "Entraînement clavier"
         ),
-        dash.page_container,
-        html.Div(id="blank-output"),
-        bottom,
-    ]
-)
+        app_dash=app.index(),
+    )
 
 
-# Callback to toggle/collapse navbar on toggler click or navlink click
-@app.callback(
-    Output("navbar-collapse", "is_open"),
-    [
-        Input("navbar-toggler", "n_clicks"),
-        Input("nav-accueil", "n_clicks"),
-        Input("nav-global", "n_clicks"),
-        Input("nav-category", "n_clicks"),
-        Input("nav-song", "n_clicks"),
-        Input("nav-singer", "n_clicks"),
-        Input("nav-training", "n_clicks"),
-    ],
-    [State("navbar-collapse", "is_open")],
-)
-def toggle_navbar(
-    _n_toggler,
-    _n_accueil,
-    _n_global,
-    _n_category,
-    _n_song,
-    _n_singer,
-    _n_training,
-    is_open,
-):
-    ctx = dash.callback_context
-    if not ctx.triggered:
-        return is_open
-    if ctx.triggered[0]["prop_id"].split(".")[0] == "navbar-toggler":
-        return not is_open
-    # If any navlink is clicked, close the navbar (only matters on mobile)
-    return False
+@server.route("/new-training/<song_title>")
+def legacy_new_training(song_title):
+    return redirect(url_for("training_yes_no", song_title=song_title))
+
+
+@server.route("/training/yes_no")
+@server.route("/training/yes_no/<song_title>")
+def training_yes_no(song_title=None, **_):
+    """Training yes/no page"""
+    return render_template(
+        "dash_page_import.html",
+        title=(
+            song_title + " - Entraînement oui/non"
+            if song_title
+            else "Entraînement oui/non"
+        ),
+        app_dash=app.index(),
+    )
+
+
+@server.route("/training")
+def training():
+    """Training page"""
+    return render_template("training.html", title="Entraînement")
+
+
+@server.route("/about")
+def about():
+    """About page"""
+    return render_template(
+        "dash_page_import.html",
+        title="À propos",
+        app_dash=app.index(),
+    )
 
 
 if __name__ == "__main__":
-    app.run(port="8080", debug=None)
+    if bool(os.getenv("DASH_DEBUG", None)):
+        app.enable_dev_tools(debug=True, dev_tools_ui=True)
+    server.run(port=8080, debug=bool(os.getenv("DASH_DEBUG", None)))
