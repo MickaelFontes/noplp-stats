@@ -5,7 +5,7 @@ and registered as blueprints within this Flask app.
 """
 
 import os
-from flask import Flask, redirect, render_template, request, url_for, send_file
+from flask import Flask, redirect, render_template, url_for, send_file
 import dash
 from pages.bootstrap import BOOTSTRAP_CSS, BOOTSTRAP_JS
 
@@ -14,13 +14,14 @@ server = Flask(
 )
 
 
-def do_not_register_catch_all(func):
+def do_not_register_urls(func):
     """We want to avoid Dash catch-all responses with HTTP 200
-    Even for paths not registered.
+    or root page interception.
     """
 
     def wrapper(*args, **kwargs):
-        if "<path:path>" in args:
+        intercepted_pages = ("<path:path>", "")
+        if any(forbidden in args for forbidden in intercepted_pages):
             return None
         result = func(*args, **kwargs)
         return result
@@ -28,7 +29,7 @@ def do_not_register_catch_all(func):
     return wrapper
 
 
-dash.Dash._add_url = do_not_register_catch_all(dash.Dash._add_url)
+dash.Dash._add_url = do_not_register_urls(dash.Dash._add_url)
 
 app = dash.Dash(
     __name__,
@@ -48,14 +49,6 @@ def inject_bootstrap_assets():
         "bootstrap_css": BOOTSTRAP_CSS,
         "bootstrap_js": BOOTSTRAP_JS,
     }
-
-
-@server.before_request
-def redirect_conflicting_paths():
-    """Home page redirection - To override Dash redirection for "/" path"""
-    if request.method == "GET" and request.path == "/":
-        return render_template("home.html")
-    return None
 
 
 @server.route("/favicon.ico")

@@ -24,7 +24,7 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link {% if request.endpoint == '/' %}active{% endif %}" href="{{ url_for('home') }}">Accueil</a></li>
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Accueil</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'global_stats' %}active{% endif %}" href="{{ url_for('global_stats') }}">Global</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'category' %}active{% endif %}" href="{{ url_for('category') }}">Catégories</a></li>
 					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'song' %}active{% endif %}" href="{{ url_for('song') }}">Chansons</a></li>
