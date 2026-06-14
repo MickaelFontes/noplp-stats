@@ -7,7 +7,7 @@ from dash import dcc
 dash.register_page(
     __name__,
     path="/about",
-    title="NOPLP stats - Statistiques N'oubliez pas les paroles",
+    title="À propos - NOPLP stats - Statistiques N'oubliez pas les paroles",
 )
 
 homepage_markdown = """
