@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "noplp-stats"
-version = "0.1.0"
+version = "2.0.0"
 description = "Data visualization of statistics about the TV show NOPLP."
 authors = ["Mickaël Fontès <81414455+MickaelFontes@users.noreply.github.com>"]
 license = "MIT"
