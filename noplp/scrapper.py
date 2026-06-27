@@ -83,7 +83,9 @@ class Scrapper:
         for attempt in range(1, 4):
             try:
                 async with self._ratelimit:
-                    async with session.get(Scrapper.API_PAGE_ENDPOINT + page) as response:
+                    async with session.get(
+                        Scrapper.API_PAGE_ENDPOINT + page
+                    ) as response:
                         if (status_code := response.status) == 200:
                             text = await response.text()
                             self._data = json.loads(text)
@@ -152,7 +154,11 @@ class Scrapper:
             raise ScrapperProcessingSinger("data property empty.")
 
         # Extract singer from the source field
-        if (regex_search := re.search(r"(?:Auteur|Interprète)\w*\s{0,1}:\s{0,1}(.*)", source)) is not None:
+        if (
+            regex_search := re.search(
+                r"(?:Auteur|Interprète)\w*\s{0,1}:\s{0,1}(.*)", source
+            )
+        ) is not None:
             singer = regex_search.group(1)
             # discard potential following brackets
             singer = re.search(r"([^\[]*)", singer).group(1)
@@ -193,9 +199,11 @@ class Scrapper:
 
             def replace_line(matchobj):
                 i = int(matchobj.group(2))
-                string_multiplied = (matchobj.group(1) + matchobj.group(3)) + (
-                    i - 1
-                ) * ("\n" + matchobj.group(1) + matchobj.group(3))
+                string_multiplied = (
+                    matchobj.group(1).strip() + " " + matchobj.group(3).strip()
+                ) + (i - 1) * (
+                    "\n" + matchobj.group(1).strip() + " " + matchobj.group(3).strip()
+                )
                 return string_multiplied
 
             find_multiply = re.sub(
@@ -212,7 +220,9 @@ class Scrapper:
             def replace_paragraph(matchobj):
                 i = int(matchobj.group(1))
                 string_multiplied = (
-                    matchobj.group(2) + (i - 1) * ("\n" + matchobj.group(2)) + "\n\n"
+                    matchobj.group(2).strip()
+                    + (i - 1) * ("\n" + matchobj.group(2).strip())
+                    + "\n\n"
                 )
                 return string_multiplied
 
@@ -332,7 +342,7 @@ class Scrapper:
         regex_known_categories = re.search(
             r"(Même chanson|Maestro|Chanson piégée|Chanson à trou|Tirée|Chanson mots imposés)",
             line,
-            flags=re.IGNORECASE
+            flags=re.IGNORECASE,
         )
         if regex_known_categories:
             points_text = regex_known_categories.group(1)
@@ -343,7 +353,9 @@ class Scrapper:
         if regex_mots := re.search(r"(\d+)\s{0,5}mot", line, flags=re.IGNORECASE):
             nb_mots = int(regex_mots.group(1))
             return "Mots", nb_mots
-        if regex_money := re.search(r"(\d*\s{0,2}\d+)\s{0,5}€", line, flags=re.IGNORECASE):
+        if regex_money := re.search(
+            r"(\d*\s{0,2}\d+)\s{0,5}€", line, flags=re.IGNORECASE
+        ):
             gain = regex_money.group(1)
             gain = re.sub(r"[^\d]", "", gain)
             gain = int(gain)
