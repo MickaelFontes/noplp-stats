@@ -229,10 +229,14 @@ class Scrapper:
             find_multiply_p = re.sub(
                 r"^[' ]{,5}\(.{,2}[x*X].{,2}([0-9]+).{,2}\)[' ]{,4}$\n([\s\S]*?)(?:\n\n)",
                 replace_paragraph,
-                text,
+                text + "\n\n",
                 flags=re.MULTILINE,
             )
-            return find_multiply_p
+            return (
+                find_multiply_p
+                if find_multiply_p[-1:-3:-1] != "\n\n"
+                else find_multiply_p[:-2]
+            )
 
         def process_raw_lyrics(lyrics):
             """Expand repititions patterns in lyrics."""
