@@ -9,7 +9,9 @@ def compare_diff():
     diff_output = get_git_diff_output()
     lines = diff_output.splitlines()[4:]
     added_lines, removed_lines = parse_diff_lines(lines)
-    updated_songs, new_songs, removed_songs = categorize_songs(added_lines, removed_lines)
+    updated_songs, new_songs, removed_songs = categorize_songs(
+        added_lines, removed_lines
+    )
     print_song_changes(updated_songs, new_songs, removed_songs)
 
 
@@ -18,6 +20,7 @@ def get_git_diff_output():
         [
             "git",
             "diff",
+            "-w",
             "origin/main:data/db_lyrics.csv",
             "origin/update-noplp-database:data/db_lyrics.csv",
             "-U0",
