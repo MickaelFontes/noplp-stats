@@ -137,6 +137,8 @@ async def individual_song_scrap(
     else:
         # print(f"'{title}' is a GOOD song page.")
         all_songs.append(song)
+    finally:
+        await session.close()
     return None
 
 
