@@ -105,8 +105,8 @@ jobs:
 
             const commentChunks = smartSplitComment(commentBody, MAX_LENGTH);
 
-            // Get all comments on the PR
-            const {data: comments} = await github.rest.issues.listComments({
+            // Get all comments on the PR, not just the first page.
+            const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: process.env.PR_NUMBER,
