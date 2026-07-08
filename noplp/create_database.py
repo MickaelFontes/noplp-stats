@@ -44,24 +44,23 @@ async def global_scrapping(test: bool) -> pd.DataFrame:
         full_page_list.remove("Les feuilles mortes")
 
     # Scrapping all.
-    session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30))
-    tasks = []
-    if test:
-        full_page_list = sample(full_page_list, 150)
-        full_page_list += [
-            "2 be 3",
-            "Je sais pas",
-            "Pour que tu m'aimes encore (Céline Dion)",
-        ]
-        full_page_list = list(set(full_page_list))
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
+        tasks = []
+        if test:
+            full_page_list = sample(full_page_list, 150)
+            full_page_list += [
+                "2 be 3",
+                "Je sais pas",
+                "Pour que tu m'aimes encore (Céline Dion)",
+            ]
+            full_page_list = list(set(full_page_list))
 
-    for page in full_page_list:
-        task = asyncio.create_task(
-            individual_song_scrap(scrap, page, session, all_songs)
-        )
-        tasks.append(task)
-    await asyncio.gather(*tasks)
-    await session.close()
+        for page in full_page_list:
+            task = asyncio.create_task(
+                individual_song_scrap(scrap, page, session, all_songs)
+            )
+            tasks.append(task)
+        await asyncio.gather(*tasks)
 
     # Saving scrapped data.
     real_songs = []
@@ -137,8 +136,6 @@ async def individual_song_scrap(
     else:
         # print(f"'{title}' is a GOOD song page.")
         all_songs.append(song)
-    finally:
-        await session.close()
     return None
 
 
