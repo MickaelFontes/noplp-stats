@@ -92,7 +92,7 @@ class Scrapper:
                             break
                         # record non-200 as an error message to possibly retry
                         last_exc = f"name: {response.url} ; {status_code}" + \
-                        f"\nHeaders: {response.headers}\nBody: {await response.text()}"
+                                   f"\nHeaders: {response.headers}\nBody: {await response.text()}"
             except aiohttp.ClientError as e:
                 last_exc = str(e)
 
