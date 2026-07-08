@@ -37,7 +37,7 @@ class Scrapper:
     def __init__(
         self,
         singer_required: bool = False,
-        ratelimit: AsyncLimiter = AsyncLimiter(1, 0.01),
+        ratelimit: AsyncLimiter = AsyncLimiter(1, 0.03),
     ) -> None:
         self._title = ""
         self._data = {}
@@ -91,7 +91,8 @@ class Scrapper:
                             self._data = json.loads(text)
                             break
                         # record non-200 as an error message to possibly retry
-                        last_exc = f"name: {response.url} ; {status_code}"
+                        last_exc = f"name: {response.url} ; {status_code}" + \
+                                   f"\nHeaders: {response.headers}\nBody: {await response.text()}"
             except aiohttp.ClientError as e:
                 last_exc = str(e)
 
