@@ -1,4 +1,4 @@
-FROM python:3.14-slim@sha256:cea0e6040540fb2b965b6e7fb5ffa00871e632eef63719f0ea54bca189ce14a6 AS builder
+FROM python:3.14-slim@sha256:ce40764625a4ff50df3548277632e7f96c4e77fe75fa848aae9885476e7df5a4 AS builder
 
 # --- Install Poetry ---
 ARG POETRY_VERSION=2.4.1
@@ -27,7 +27,7 @@ RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
 # Now let's build the runtime image from the builder.
 #   We'll just copy the env and the PATH reference.
-FROM python:3.14-slim@sha256:cea0e6040540fb2b965b6e7fb5ffa00871e632eef63719f0ea54bca189ce14a6 AS runtime
+FROM python:3.14-slim@sha256:ce40764625a4ff50df3548277632e7f96c4e77fe75fa848aae9885476e7df5a4 AS runtime
 
 ENV VIRTUAL_ENV=/app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
